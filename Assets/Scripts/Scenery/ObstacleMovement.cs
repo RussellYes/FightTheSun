@@ -18,11 +18,29 @@ public class ObstacleMovement : MonoBehaviour
     private void Update()
     {
         // Move the obstacle along the -y axis using levelSpeed and the speed multiplier
-        if (playerStatsManager != null)
-        {
+        
             // Calculate the speed with mass
-            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * obstacleSpeedMultiplier;
+            float movementSpeed = (playerStatsManager.PlayerThrust / (playerStatsManager.PlayerMass + 0.1f)) * obstacleSpeedMultiplier;
             transform.Translate(Vector3.down * movementSpeed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Check if the collided object is the WorldLowerBarrier
+        if (collision.CompareTag("WorldLowerBarrier"))
+        {
+            SelfDestruct();
         }
+    }
+
+    private void SelfDestruct()
+    {
+        Debug.Log("Obstacle collided with WorldLowerBarrier. Self-destructing.");
+
+        // Disable the collider to prevent further interactions
+        GetComponent<Collider2D>().enabled = false;
+
+        // Destroy the obstacle
+        Destroy(gameObject);
     }
 }

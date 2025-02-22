@@ -20,11 +20,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKeyDown)
-        {
-            Debug.Log("A key was pressed.");
-        }
-
         // Handle input for lane switching
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
@@ -41,9 +36,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Calculate the speed with mass
         float calculatedSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass);
-
-        // Debug the calculated speed and target position
-        Debug.Log($"Calculated Speed: {calculatedSpeed}, Target Position: {targetPosition}");
 
         // Smoothly move the player to the target position
         transform.position = Vector3.Lerp(transform.position, targetPosition, calculatedSpeed * Time.deltaTime);

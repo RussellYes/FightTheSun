@@ -9,7 +9,7 @@ public class PlayerStatsManager : MonoBehaviour
         public float progressNormalized;
     }
 
-    // Update the event to use the custom EventArgs
+    // Declare the event
     public static event EventHandler<OnCurrentHullChangedEventArgs> OnCurrentHullChanged;
 
     [SerializeField] private GameManager gameManager;
@@ -29,6 +29,10 @@ public class PlayerStatsManager : MonoBehaviour
         // Subscribe to events
         Cockpit.OnCockpitMassChanged += HandleMassChange;
         Cockpit.OnCockpitThrustChanged += HandleThrustChange;
+
+        // Subscribe to Hull events
+        Hull.OnHullMaxChanged += HandlePlayerHullMaxChange;
+        Hull.OnCurrentHullChanged += HandlePlayerCurrentHullChange;
     }
 
     private void OnDisable()
@@ -36,6 +40,10 @@ public class PlayerStatsManager : MonoBehaviour
         // Unsubscribe from events
         Cockpit.OnCockpitMassChanged -= HandleMassChange;
         Cockpit.OnCockpitThrustChanged -= HandleThrustChange;
+
+        // Unsubscribe from Hull events
+        Hull.OnHullMaxChanged -= HandlePlayerHullMaxChange;
+        Hull.OnCurrentHullChanged -= HandlePlayerCurrentHullChange;
     }
 
     private void Update()
@@ -79,13 +87,13 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void HandlePlayerHullMaxChange(float hullMax)
     {
-        playerHullMax += hullMax;
+        playerHullMax = hullMax;
         Debug.Log("Total hullMax Updated: " + playerHullMax);
     }
 
     private void HandlePlayerCurrentHullChange(float currentHull)
     {
-        playerCurrentHull += currentHull;
+        playerCurrentHull = currentHull;
         Debug.Log("Total CurrentHull Updated: " + playerCurrentHull);
 
         // Calculate normalized progress and trigger the event
