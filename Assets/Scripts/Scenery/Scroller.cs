@@ -22,7 +22,7 @@ public class Scroller : MonoBehaviour
 
     private void Update()
     {
-        _y = (playerStatsManager.PlayerThrust / (playerStatsManager.PlayerMass + 0.1f)) * backgroundSpeedMultiplier;
+        _y = (playerStatsManager.PlayerThrust / (playerStatsManager.PlayerMass + 0.001f)) * backgroundSpeedMultiplier;
         _x = 0;
         _img.uvRect = new Rect(_img.uvRect.position + new Vector2(_x, _y) * Time.deltaTime, _img.uvRect.size);
     }

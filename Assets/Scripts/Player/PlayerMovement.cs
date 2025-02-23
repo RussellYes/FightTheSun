@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -6,6 +7,30 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float laneDistance; // Distance between lanes
     private int targetLane = 2; // Start in the middle lane (lane 3)
+    private float playerHorizontalSpeedMultiplier = 1.5f;
+
+    private Button leftButton;
+    private Button rightButton;
+
+    private void Awake()
+    {
+        // Find the buttons by their tags or names
+        leftButton = GameObject.Find("LeftButton").GetComponent<Button>();
+        rightButton = GameObject.Find("RightButton").GetComponent<Button>();
+
+
+        // Ensure buttons are found
+        if (leftButton == null || rightButton == null)
+        {
+            Debug.LogError("LeftButton or RightButton not found in the scene.");
+            return;
+        }
+
+        // Add listeners to the buttons
+        leftButton.onClick.AddListener(MoveLeft);
+        rightButton.onClick.AddListener(MoveRight);
+
+    }
 
     private void Start()
     {
@@ -18,27 +43,24 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+
     void Update()
     {
-        // Handle input for lane switching
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            MoveRight();
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            MoveLeft();
-        }
-
         // Calculate the target position based on the target lane
         Vector3 targetPosition = transform.position;
         targetPosition.x = (targetLane - 2) * laneDistance; // Adjust x position based on lane
 
-        // Calculate the speed with mass
-        float calculatedSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass);
+        if (playerStatsManager.PlayerMass > 0)
+        {
+            // Calculate the speed with mass
+            float calculatedSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * playerHorizontalSpeedMultiplier;
 
-        // Smoothly move the player to the target position
-        transform.position = Vector3.Lerp(transform.position, targetPosition, calculatedSpeed * Time.deltaTime);
+            // Smoothly move the player to the target position
+            transform.position = Vector3.Lerp(transform.position, targetPosition, calculatedSpeed * Time.deltaTime);
+        }
+
+        
     }
 
     void MoveRight()
@@ -54,4 +76,8 @@ public class PlayerMovement : MonoBehaviour
         targetLane = Mathf.Max(targetLane - 1, 0);
         Debug.Log($"Moved Left. Current Lane: {targetLane}");
     }
+
+
+
+
 }

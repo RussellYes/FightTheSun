@@ -4,22 +4,67 @@ using UnityEngine.UI;
 
 public class ProgressBarUI : MonoBehaviour
 {
-    private PlayerStatsManager playerStatsManager;
+    [SerializeField] private bool isHullBar;
+    [SerializeField] private bool isThrustBar;
+    [SerializeField] private bool isCheckpointBar;
+
     [SerializeField] private Image barImage;
 
     private void Start()
     {
-        playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
-        PlayerStatsManager.OnCurrentHullChanged += PlayerStatsManager_OnCurrentHullChanged;
+        // Subscribe to events
+        if (isHullBar)
+        {
+            PlayerStatsManager.OnCurrentHullChanged += PlayerStatsManager_OnCurrentHullChanged;
+        }
+        if (isThrustBar)
+        {
+            PlayerStatsManager.OnCurrentThrustChanged += PlayerStatsManager_OnCurrentThrustChanged;
+        }
+        if (isCheckpointBar)
+        {
+            PlayerStatsManager.OnCheckpointProgressChanged += PlayerStatsManager_OnCheckpointProgressChanged;
+        }
     }
 
     private void OnDisable()
     {
-        PlayerStatsManager.OnCurrentHullChanged -= PlayerStatsManager_OnCurrentHullChanged;
+        // Unsubscribe from events
+        if (isHullBar)
+        {
+            PlayerStatsManager.OnCurrentHullChanged -= PlayerStatsManager_OnCurrentHullChanged;
+        }
+        if (isThrustBar)
+        {
+            PlayerStatsManager.OnCurrentThrustChanged -= PlayerStatsManager_OnCurrentThrustChanged;
+        }
+        if (isCheckpointBar)
+        {
+            PlayerStatsManager.OnCheckpointProgressChanged -= PlayerStatsManager_OnCheckpointProgressChanged;
+        }
     }
 
     private void PlayerStatsManager_OnCurrentHullChanged(object sender, PlayerStatsManager.OnCurrentHullChangedEventArgs e)
     {
-        barImage.fillAmount = e.progressNormalized;
+        if (isHullBar)
+        {
+            barImage.fillAmount = e.progressNormalized;
+        }
+    }
+
+    private void PlayerStatsManager_OnCurrentThrustChanged(object sender, PlayerStatsManager.OnCurrentThrustChangedEventArgs e)
+    {
+        if (isThrustBar)
+        {
+            barImage.fillAmount = e.progressNormalized;
+        }
+    }
+
+    private void PlayerStatsManager_OnCheckpointProgressChanged(object sender, PlayerStatsManager.OnCheckpointProgressChangedEventArgs e)
+    {
+        if (isCheckpointBar)
+        {
+            barImage.fillAmount = e.progressNormalized;
+        }
     }
 }

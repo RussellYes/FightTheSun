@@ -19,9 +19,13 @@ public class ObstacleMovement : MonoBehaviour
     {
         // Move the obstacle along the -y axis using levelSpeed and the speed multiplier
         
-            // Calculate the speed with mass
-            float movementSpeed = (playerStatsManager.PlayerThrust / (playerStatsManager.PlayerMass + 0.1f)) * obstacleSpeedMultiplier;
+        // Calculate the speed with mass
+        if (playerStatsManager.PlayerMass > 0)
+        {
+            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * obstacleSpeedMultiplier;
             transform.Translate(Vector3.down * movementSpeed * Time.deltaTime);
+        }
+            
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
