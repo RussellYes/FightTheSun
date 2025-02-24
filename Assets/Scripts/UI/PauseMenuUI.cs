@@ -61,7 +61,7 @@ public class PauseMenuUI : MonoBehaviour
 
     private void Start()
     {
-        music
+
 
         // Initialize slider values to current volumes
         if (musicVolumeSlider != null)
