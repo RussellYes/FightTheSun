@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6179345374534429898}
   - component: {fileID: 5269332973143883290}
-  - component: {fileID: 2156760109146772271}
   - component: {fileID: 8439935636705642384}
   - component: {fileID: 5544145954538607779}
+  - component: {fileID: 2156760109146772271}
   - component: {fileID: 5315082625886215520}
   - component: {fileID: 7420420393730608464}
   - component: {fileID: 7621813240348470625}
+  - component: {fileID: 6667080288700926913}
   m_Layer: 7
   m_Name: Obstacle3
   m_TagString: Untagged
@@ -90,19 +91,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2156760109146772271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c13ac27a4aef5ef4b87ffaa4e48af737, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstacleSpeedMultiplier: 1
 --- !u!61 &8439935636705642384
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -175,6 +163,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2156760109146772271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301909746815339928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac27a4aef5ef4b87ffaa4e48af737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 6667080288700926913}
+  obstacleSpeedMultiplier: 1
 --- !u!114 &5315082625886215520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b4ca5c50a214440ba3a53e10394880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacle: {fileID: 6667080288700926913}
   health: 3
 --- !u!114 &7420420393730608464
 MonoBehaviour:
@@ -217,3 +220,16 @@ MonoBehaviour:
   spawnLocation: {fileID: 6179345374534429898}
   timeBetweenSpawning: 1
   minimumSpawnTime: 0
+--- !u!114 &6667080288700926913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301909746815339928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4800cbfece51f4f4bb36bd96b81d575b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointValue: 3

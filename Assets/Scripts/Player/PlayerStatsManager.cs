@@ -165,23 +165,6 @@ public class PlayerStatsManager : MonoBehaviour
         }
     }
 
-    private void HandlePlayerDeath()
-    {
-        // Set current hull to 0 when the player dies
-        playerCurrentHull = 0;
-
-        // Trigger the hull change event to update the UI
-        if (playerHullMax > 0)
-        {
-            float progressNormalized = playerCurrentHull / playerHullMax;
-            OnCurrentHullChanged?.Invoke(this, new OnCurrentHullChangedEventArgs { progressNormalized = progressNormalized });
-        }
-        else
-        {
-            Debug.LogWarning("playerHullMax is 0. Cannot calculate progressNormalized.");
-        }
-    }
-
     public void ChangeHealth(float amount)
     {
         playerCurrentHull += amount;
@@ -192,13 +175,17 @@ public class PlayerStatsManager : MonoBehaviour
 
         if (playerCurrentHull <= 0)
         {
+            Debug.Log("hull <= 0 triggering Die()");
+            playerCurrentHull = 0;
             Die();
         }
     }
 
     private void Die()
     {
-        Debug.Log("Player has died.");
+        Debug.Log("Player has died. Calling EndGame(false).");
+
+        gameManager.EndGame(false);
 
         // Destroy the player GameObject
         PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
@@ -206,9 +193,8 @@ public class PlayerStatsManager : MonoBehaviour
         {
             Destroy(playerMovement.gameObject);
         }
+       
 
-        // Trigger player death event (if needed)
-        // PlayerHealth.OnPlayerDeath?.Invoke();
     }
 
     // Update distance traveled and trigger checkpoint progress event
@@ -221,10 +207,12 @@ public class PlayerStatsManager : MonoBehaviour
         {
             float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
             OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
-        }
-        else
-        {
-            Debug.LogWarning("Goal is 0. Cannot calculate checkpoint progress.");
+
+            // Check if the goal has been reached
+            if (distanceTraveled >= gameManager.Goal)
+            {
+                gameManager.EndGame(true);
+            }
         }
     }
 }

@@ -7,11 +7,14 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
-    guid: d40f4b4b38b0940499008c6d8eae3d33
+    guid: 464d346ca4be5a142b5649062a5dce51
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 4d5bd96bff0786b4d81b3ce7250e29dd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RampageScene.unity
     guid: ac256920a3dfdcc46954486caeadbbc0
+  - enabled: 1
+    path: Assets/Scenes/MissionAlphaScene.unity
+    guid: ea8a93a365e055e4298f498cb03b42e2
   m_configObjects: {}

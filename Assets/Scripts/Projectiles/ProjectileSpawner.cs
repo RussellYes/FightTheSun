@@ -21,14 +21,14 @@ public class ProjectileSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.StopProjectiles += TurnOffProjectiles;
-        GameManager.StartProjectiles += TurnOnProjectiles;
+        GameManager.StopSpawning += TurnOffProjectiles;
+        GameManager.StartSpawning += TurnOnProjectiles;
     }
 
     private void OnDisable()
     {
-        GameManager.StopProjectiles -= TurnOffProjectiles;
-        GameManager.StartProjectiles -= TurnOnProjectiles;
+        GameManager.StopSpawning -= TurnOffProjectiles;
+        GameManager.StartSpawning -= TurnOnProjectiles;
     }
 
     private void Update()

@@ -9,7 +9,7 @@ public static class Loader
     {
         MainMenuScene,
         LoadingScene,
-        RampageScene,
+        MissionAlphaScene,
     }
 
     private static Scene targetScene;
