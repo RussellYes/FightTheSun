@@ -118,6 +118,10 @@ public class GameManager : MonoBehaviour
         {
             isPaused = true;
 
+            MusicManager.Instance.PauseMusic();
+            MusicManager.Instance.MuteMusic(true);
+            SFXManager.Instance.MuteSFX(true);
+
             // Show the pause menu
             pauseMenuUI.gameObject.SetActive(true);
 
@@ -132,6 +136,10 @@ public class GameManager : MonoBehaviour
         {
             isPaused = false;
 
+            MusicManager.Instance.ResumeMusic();
+            MusicManager.Instance.MuteMusic(false);
+            SFXManager.Instance.MuteSFX(false);
+
             // Resume the game time
             Time.timeScale = 1;
 
@@ -139,4 +147,8 @@ public class GameManager : MonoBehaviour
             pauseMenuUI.gameObject.SetActive(false);
         }
     }
+
+
+
+
 }

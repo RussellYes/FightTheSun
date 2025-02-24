@@ -19,6 +19,8 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private Color winColor;
     [SerializeField] private Color loseColor;
 
+
+
     private void Awake()
     {
         scoreManager = FindAnyObjectByType<ScoreManager>();
