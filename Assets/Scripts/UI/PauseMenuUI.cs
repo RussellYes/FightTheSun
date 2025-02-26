@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+//I think many menus should pause the game. 
+//Should return to this script and write a more generic pause menu script, and seperate scripts for the different levels.
+
 public class PauseMenuUI : MonoBehaviour
 {
     [SerializeField] private Button unpauseButton;
