@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance { get; private set; }
+
     private PlayerStatsManager playerStatsManager;
 
     [SerializeField] private float laneDistance; // Distance between lanes
@@ -14,6 +16,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         // Find the buttons by their tags or names
         leftButton = GameObject.Find("LeftButton").GetComponent<Button>();
         rightButton = GameObject.Find("RightButton").GetComponent<Button>();

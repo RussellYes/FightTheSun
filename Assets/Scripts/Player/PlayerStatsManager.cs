@@ -73,6 +73,13 @@ public class PlayerStatsManager : MonoBehaviour
         // Subscribe to throttle events
         throttleUpButton.onClick.AddListener(() => ThrottleChange(0.25f)); // Increase throttle by 0.25
         throttleDownButton.onClick.AddListener(() => ThrottleChange(-0.25f)); // Decrease throttle by 0.25
+        GameManager.ChangeThrottleEvent += GameManager_ChangeThrottleEvent;
+
+    }
+
+    private void GameManager_ChangeThrottleEvent(float throttleChange)
+    {
+        ThrottleChange(throttleChange);
     }
 
     private void OnDisable()
@@ -88,6 +95,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Unsubscribe from throttle events
         throttleUpButton.onClick.RemoveAllListeners();
         throttleDownButton.onClick.RemoveAllListeners();
+        GameManager.ChangeThrottleEvent -= GameManager_ChangeThrottleEvent;
     }
 
     private void Update()
@@ -128,12 +136,10 @@ public class PlayerStatsManager : MonoBehaviour
         if (effectiveThrust <= 0 && isMoving)
         {
             isMoving = false;
-            gameManager.StopSpawningTrigger();
         }
         else if (effectiveThrust > 0 && !isMoving)
         {
             isMoving = true;
-            gameManager.StartSpawningTrigger();
         }
 
         Debug.Log("Total Thrust Updated: " + effectiveThrust);
@@ -203,16 +209,20 @@ public class PlayerStatsManager : MonoBehaviour
         distanceTraveled += distance;
 
         // Calculate progress toward the goal
-        if (gameManager.Goal > 0)
+        if (GameManager.Instance.IsGoalActive)
         {
-            float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
-            OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
-
-            // Check if the goal has been reached
-            if (distanceTraveled >= gameManager.Goal)
+            if (gameManager.Goal > 0)
             {
-                gameManager.EndGame(true);
+                float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
+                OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
+
+                // Check if the goal has been reached
+                if (distanceTraveled >= gameManager.Goal)
+                {
+                    gameManager.EndGame(true);
+                }
             }
         }
+        
     }
 }

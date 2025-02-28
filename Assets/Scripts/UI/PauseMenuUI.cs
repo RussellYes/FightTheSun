@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 //I think many menus should pause the game. 
 //Should return to this script and write a more generic pause menu script, and seperate scripts for the different levels.
@@ -47,7 +48,7 @@ public class PauseMenuUI : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
 
         unpauseButton.onClick.AddListener(() => {
-            gameManager.UnpauseGame();
+            gameManager.SetState(GameState.Paused);
         });
 
         // Set up slider listeners

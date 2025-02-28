@@ -1,16 +1,15 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DashboardScoreText : MonoBehaviour
 {
+    private GameManager gameManager;
     private ScoreManager scoreManager;
 
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI dashboardScoreText;
     [SerializeField] private TextMeshProUGUI obstaclesDestroyedText;
-
-    private float elapsedTime = 0f;
-    private bool isGameRunning = true;
 
     private void OnEnable()
     {
@@ -30,25 +29,17 @@ public class DashboardScoreText : MonoBehaviour
     {
         // Initialize the UI elements
         scoreManager = FindObjectOfType<ScoreManager>();
+        gameManager = FindObjectOfType<GameManager>();
         if (scoreManager != null)
         {
             UpdateScoreText(scoreManager.GetScore());
             UpdateObstaclesDestroyedText(scoreManager.KilledByPlayerCount());
         }
-
-        // Start the timer
-        elapsedTime = 0f;
-        isGameRunning = true;
     }
 
     private void Update()
     {
-        if (isGameRunning)
-        {
-            // Update the elapsed time
-            elapsedTime += Time.deltaTime;
-            UpdateTimeText(elapsedTime);
-        }
+            UpdateTimeText(gameManager.GameTime);
     }
 
     private void UpdateTimeText(float timeInSeconds)
@@ -90,8 +81,4 @@ public class DashboardScoreText : MonoBehaviour
         }
     }
 
-    public void StopTimer()
-    {
-        isGameRunning = false;
-    }
 }
