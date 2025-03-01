@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     public static event SpawningAction StopSpawning;
     public static event SpawningAction StartSpawning;
 
-    [SerializeField] private GameObject shipHUDUI;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private Button pauseButton;
 
@@ -58,23 +57,20 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
 
         pauseButton.onClick.AddListener(() => {
             SetState(GameState.Paused);
         });
+
+
     }
 
     private void Start()
     {
         scoreManager = FindAnyObjectByType<ScoreManager>();
 
-
-        SetState(GameState.Playing);
-        if (CurrentState != GameState.StartDialogue)
-        {
-            SetState(GameState.StartDialogue);
-        }
+        // Log the initial state
+        Debug.Log("Initial GameState: " + GameManager.Instance.CurrentState.ToString());
 
         endConditionsUI.SetActive(false);
         pauseMenuUI.SetActive(false);
@@ -82,6 +78,9 @@ public class GameManager : MonoBehaviour
 
         // Set the current mission (e.g., from a mission selection menu or level loader)
         CurrentMission = 1; // Replace with dynamic mission number if needed
+
+        // Explicitly set the state to StartDialogue to trigger HandleStateChange
+        SetState(GameState.StartDialogue);
     }
 
     private void Update()
@@ -95,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     public enum GameState
     {
+        None,           // State 0: No state set    
         StartDialogue,  // State 1: Show dialogue boxes at the beginning
         Playing,        // State 2: Normal gameplay
         DialogueDuringPlay, // State 3: Show dialogue boxes during gameplay
@@ -157,16 +157,12 @@ public class GameManager : MonoBehaviour
         // Stop goal progress
         StopGoalProgress();
 
-        //Hide Ship HUD
-        shipHUDUI.SetActive(false);
-
         // Show dialogue boxes
-        DialogueManager.Instance.ShowDialogue("StartDialogue");
+        DialogueManager.Instance.MissionDialogue();
     }
 
     private void HandlePlaying()
     {
-        shipHUDUI.SetActive(true);
 
         // Unause the game time
         Time.timeScale = 1;
@@ -191,7 +187,6 @@ public class GameManager : MonoBehaviour
 
     private void HandleDialogueDuringPlay()
     {
-        shipHUDUI.SetActive(true);
         // Unause the game time
         Time.timeScale = 1;
         isPaused = false;
@@ -254,7 +249,6 @@ public class GameManager : MonoBehaviour
 
     private void HandleEndDialogue()
     {
-        shipHUDUI.SetActive(false);
 
         isPaused = false;
 
@@ -268,7 +262,7 @@ public class GameManager : MonoBehaviour
         StopGoalProgress();
 
         // Show dialogue boxes
-        DialogueManager.Instance.ShowDialogue("EndDialogue");
+        DialogueManager.Instance.MissionDialogue();
     }
 
     private void HandleEndUI()

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using static GameManager;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -11,13 +12,17 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject dialogueBoxUI;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Button continueStartDialogueButton;
+    private float dialogueCount = 0f;
 
     [Header("Mission 1 - Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
     [SerializeField] private GameObject shipHUDUI;
+    [SerializeField] private GameObject shipUIBackground;
     [SerializeField] private GameObject hullMeter;
-    [SerializeField] private GameObject rightButton;
-    [SerializeField] private GameObject leftButton;
+    [SerializeField] private GameObject rightButtonObject;
+    [SerializeField] private Button rightButton;
+    [SerializeField] private GameObject leftButtonObject;
+    [SerializeField] private Button leftButton;
     [SerializeField] private GameObject speedMeter;
     [SerializeField] private GameObject throttleUp;
     [SerializeField] private GameObject throttleDown;
@@ -25,7 +30,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject scoreMeter;
     [SerializeField] private GameObject pauseButton;
 
-    private float dialogueCount = 0f;
     private GameObject currentArrowInstance;
     private bool waitingForButtonPress = false;
 
@@ -39,52 +43,38 @@ public class DialogueManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+
     }
 
     private void Start()
     {
-        continueStartDialogueButton.onClick.AddListener(() => {
+        continueStartDialogueButton.onClick.AddListener(() =>
+        {
             MissionDialogue();
         });
     }
 
-    public void ShowDialogue(string dialogueKey)
-    {
-        // Example: Load dialogue text based on the key
-        dialogueText.text = GetDialogueText(dialogueKey);
-        dialogueBoxUI.SetActive(true);
-    }
-
     public void ShowDialogueTimed(string dialogueKey, float time)
     {
-        dialogueText.text = GetDialogueText(dialogueKey);
+        dialogueText.text = (dialogueKey);
         dialogueBoxUI.SetActive(true);
         Invoke("HideDialogue", time);
     }
 
     public void HideDialogue()
     {
-        dialogueCount = 0;
-        GameManager.Instance.SetState(GameState.Playing);
         dialogueBoxUI.SetActive(false);
     }
 
-    private string GetDialogueText(string key)
-    {
-        // Replace this with your actual dialogue loading logic
-        switch (key)
-        {
-            case "StartDialogue":
-                return "Welcome to the game!";
-            case "EndDialogue":
-                return "Thanks for playing!";
-            default:
-                return "Dialogue not found.";
-        }
-    }
 
-    private void MissionDialogue()
+    public void MissionDialogue()
     {
+        Debug.Log("Dialogue Count = " + dialogueCount);
+
+        // Debug log to verify the current mission
+        Debug.Log("Current Mission = " + GameManager.Instance.CurrentMission);
+
         switch (GameManager.Instance.CurrentMission)
         {
             case 1:
@@ -98,17 +88,21 @@ public class DialogueManager : MonoBehaviour
                 break;
             default:
                 HideDialogue();
+                Debug.LogWarning("Current Mission is not set or invalid. Defaulting to Mission 1.");
+                Mission1(); // Default to Mission 1 if CurrentMission is not set
                 break;
         }
     }
 
     private void Mission1()
     {
-        ClearArrow();
+        Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
+        
         shipHUDUI.SetActive(true);
+        shipUIBackground.SetActive(false);
         hullMeter.SetActive(false);
-        rightButton.SetActive(false);
-        leftButton.SetActive(false);
+        rightButtonObject.SetActive(false);
+        leftButtonObject.SetActive(false);
         speedMeter.SetActive(false);
         throttleUp.SetActive(false);
         throttleDown.SetActive(false);
@@ -118,28 +112,61 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueCount == 0)
         {
+            dialogueBoxUI.SetActive(true);
             dialogueCount++;
             dialogueText.text = "Good morning pilot! Welcome to your new ship";
         }
         else if (dialogueCount == 1)
         {
-            dialogueText.text = "Oh no! An astroid. Let's dodge the astroid with these controls.";
+            dialogueBoxUI.SetActive(true);
 
-            Vector3 xOffset = new Vector3(100, 0, 0);
-            Vector3 yOffset = new Vector3(0, 200, 0);
-            currentArrowInstance =  Instantiate(highLightArrowPrefab, leftButton.transform.position + xOffset + yOffset, Quaternion.identity);
+            continueStartDialogueButton.interactable = false; // Disable the button
+
+
+            dialogueText.text = "Oh no! An asteroid. Let's dodge the asteroid with these controls.";
+
+            //Show some ShipUI
+            shipUIBackground.SetActive(true);
+            leftButtonObject.SetActive(true);
+            rightButtonObject.SetActive(true);
+
+            // Add listeners to the buttons
+            leftButton.onClick.AddListener(LeftRightButtonPushed);
+            rightButton.onClick.AddListener(LeftRightButtonPushed);
+
+            // Get the RectTransform of the leftButton
+            RectTransform leftButtonRect = leftButton.GetComponent<RectTransform>();
+
+            // Apply offsets directly (no need for position conversion)
+            Vector3 xOffset = new Vector3(16, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 60, 0); // Adjust these values as needed
+            Vector3 arrowPosition = leftButtonRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, leftButtonRect.parent);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+
             waitingForButtonPress = true;
         }
         else if (dialogueCount == 2)
         {
-            dialogueCount = 0;
-            dialogueText.text = "Great work! Keep flying to the checkpoit.";
+            dialogueBoxUI.SetActive(true);
+            continueStartDialogueButton.interactable = true; // Enable the button
+            dialogueCount = 3;
+            dialogueText.text = "Look out!. More asteroid incoming.";
+        }
+        else if (dialogueCount == 3)
+        {
+            dialogueBoxUI.SetActive(false);
+            GameManager.Instance.SetState(GameState.Playing);
         }
     }
 
     private void Mission2()
     {
-        ClearArrow();
+
         if (dialogueCount == 0)
         {
             dialogueCount++;
@@ -154,7 +181,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Mission3()
     {
-        ClearArrow();
+
         if (dialogueCount == 0)
         {
             dialogueCount++;
@@ -167,12 +194,17 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void ClearArrow()
+    private void LeftRightButtonPushed()
     {
-
-        if (currentArrowInstance != null)
+        if (waitingForButtonPress)
         {
-            Destroy(highLightArrowPrefab);
+            if (currentArrowInstance != null)
+            {
+                Destroy(currentArrowInstance);
+            }
+            waitingForButtonPress = false;
+            dialogueCount++;
+            MissionDialogue();
         }
     }
 
