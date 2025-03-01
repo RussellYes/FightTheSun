@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public static event SpawningAction StopSpawning;
     public static event SpawningAction StartSpawning;
 
-    [SerializeField] private GameObject ShipHUDUI;
+    [SerializeField] private GameObject shipHUDUI;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private Button pauseButton;
 
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
 
     // Track the current mission number
-    private int currentMission;
+    public int CurrentMission { get; private set; } // Make CurrentMission public
 
 
 
@@ -75,15 +75,13 @@ public class GameManager : MonoBehaviour
         {
             SetState(GameState.StartDialogue);
         }
-           
 
-
-            endConditionsUI.SetActive(false);
+        endConditionsUI.SetActive(false);
         pauseMenuUI.SetActive(false);
         gameTime = 0f; // Initialize game time
 
         // Set the current mission (e.g., from a mission selection menu or level loader)
-        currentMission = 1; // Replace with dynamic mission number if needed
+        CurrentMission = 1; // Replace with dynamic mission number if needed
     }
 
     private void Update()
@@ -99,9 +97,10 @@ public class GameManager : MonoBehaviour
     {
         StartDialogue,  // State 1: Show dialogue boxes at the beginning
         Playing,        // State 2: Normal gameplay
-        Paused,         // State 3: Paused (e.g., when settings menu is open)
-        EndDialogue,    // State 4: Show dialogue boxes at the end
-        EndUI           // State 5: End UI active, game paused
+        DialogueDuringPlay, // State 3: Show dialogue boxes during gameplay
+        Paused,         // State 4: Paused (e.g., when settings menu is open)
+        EndDialogue,    // State 5: Show dialogue boxes at the end
+        EndUI           // State 6: End UI active, game paused
     }
 
     public void SetState(GameState newState)
@@ -131,6 +130,9 @@ public class GameManager : MonoBehaviour
             case GameState.Paused:
                 HandlePaused();
                 break;
+            case GameState.DialogueDuringPlay:
+                HandleDialogueDuringPlay();
+                break;
             case GameState.EndDialogue:
                 HandleEndDialogue();
                 break;
@@ -156,7 +158,7 @@ public class GameManager : MonoBehaviour
         StopGoalProgress();
 
         //Hide Ship HUD
-        ShipHUDUI.SetActive(false);
+        shipHUDUI.SetActive(false);
 
         // Show dialogue boxes
         DialogueManager.Instance.ShowDialogue("StartDialogue");
@@ -164,7 +166,7 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlaying()
     {
-        ShipHUDUI.SetActive(true);
+        shipHUDUI.SetActive(true);
 
         // Unause the game time
         Time.timeScale = 1;
@@ -187,6 +189,26 @@ public class GameManager : MonoBehaviour
         pauseMenuUI.gameObject.SetActive(false);
     }
 
+    private void HandleDialogueDuringPlay()
+    {
+        shipHUDUI.SetActive(true);
+        // Unause the game time
+        Time.timeScale = 1;
+        isPaused = false;
+        // Set player speed to 100%
+        ChangeThrottleEvent?.Invoke(1f);
+        // Start spawners
+        StartSpawning?.Invoke();
+        // Start goal progress
+        StartGoalProgress();
+        MusicManager.Instance.ResumeMusic();
+        MusicManager.Instance.MuteMusic(false);
+        SFXManager.Instance.MuteSFX(false);
+        pauseMenuUI.gameObject.SetActive(false);
+
+        // Show dialogue boxes
+        DialogueManager.Instance.ShowDialogueTimed("StartDialogue", 5.0f);
+    }
     private void HandlePaused()
     {
         isPaused = true;
@@ -232,7 +254,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleEndDialogue()
     {
-        ShipHUDUI.SetActive(false);
+        shipHUDUI.SetActive(false);
 
         isPaused = false;
 
@@ -290,7 +312,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
 
         // Save the high score, best time, and obstacles destroyed for the current mission
-        SaveMissionData(currentMission, scoreManager.GetScore(), gameTime, scoreManager.KilledByPlayerCount());
+        SaveMissionData(CurrentMission, scoreManager.GetScore(), gameTime, scoreManager.KilledByPlayerCount());
     }
 
     private void SaveMissionData(int missionNumber, int score, float time, int obstaclesDestroyed)
