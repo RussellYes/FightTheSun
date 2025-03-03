@@ -6,6 +6,7 @@ using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
+    private GameManager gameManager;
     public static DialogueManager Instance;
     public static UnityEvent SpawnSingleSingleEvent = new UnityEvent();
 
@@ -16,12 +17,18 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Button continueStartDialogueButton;
     private float dialogueCount = 0f;
 
+    [Header("Planets")]
+    [SerializeField] private GameObject planetSpawnPosition;
+    [SerializeField] private GameObject planet1;
+
     [Header("Mission 1 - Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
 
     [SerializeField] private Button rightButton;
     [SerializeField] private Button leftButton;
     [SerializeField] private GameObject hullMeterObject;
+
+    
 
 
     private GameObject currentArrowInstance;
@@ -43,6 +50,8 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameManager.Instance;
+
         continueStartDialogueButton.onClick.AddListener(() =>
         {
             MissionDialogue();
@@ -99,13 +108,22 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 1)
         {
             StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+
+            dialogueCount++;
+            dialogueText.text = "Let's fly to the flagship. It's 5 checkpoints away.";
+        }
+
+        else if (dialogueCount == 2)
+        {
+            StartCoroutine(FadeInDialogueBox());
 
             continueStartDialogueButton.interactable = false; // Disable the button
 
 
             dialogueText.text = "Oh no! An asteroid. Let's dodge the asteroid with these controls.";
 
-            shipUIManager.Mission1_1();
+            shipUIManager.Mission1_2();
 
             // Add listeners to the buttons
             leftButton.onClick.AddListener(LeftRightButtonPushed);
@@ -129,35 +147,35 @@ public class DialogueManager : MonoBehaviour
 
             waitingForButtonPress = true;
         }
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 3)
         {
-            shipUIManager.Mission1_2();
+            shipUIManager.Mission1_3();
 
             StartCoroutine(FadeInDialogueBox());
 
             continueStartDialogueButton.interactable = true; // Enable the button
 
-            dialogueCount = 3;
+            dialogueCount++;
             dialogueText.text = "Look out!. More asteroids incoming.";
-        }
-        else if (dialogueCount == 3)
-        {
-            dialogueCount = 4;
-
-            StartCoroutine(FadeOutDialogueBox(0f));
-
-            shipUIManager.Mission1_3();
-
-            GameManager.Instance.SetState(GameManager.GameState.Playing);
         }
         else if (dialogueCount == 4)
         {
-            dialogueCount = 0;
+            dialogueCount++;
+
+            StartCoroutine(FadeOutDialogueBox(0f));
+
+            shipUIManager.Mission1_4();
+
+            GameManager.Instance.SetState(GameManager.GameState.Playing);
+        }
+        else if (dialogueCount == 5)
+        {
+            dialogueCount++;
 
             StartCoroutine(FadeInDialogueBox());
             dialogueText.text = "Let's stay in one piece. Don't damage the ship's hull";
 
-            shipUIManager.Mission1_4();
+            shipUIManager.Mission1_5();
 
             // Get the RectTransform of the leftButton
             RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
@@ -174,7 +192,20 @@ public class DialogueManager : MonoBehaviour
 
             StartCoroutine(DestroyArrow(4f));
         }
+        else if (dialogueCount == 6)
+        {
+            StartCoroutine(EndDialogueScene());
 
+            dialogueCount++;
+
+        }
+        else if (dialogueCount == 7)
+        {
+            dialogueCount = 0;
+
+            //Trigger end
+            gameManager.EndGame(true);
+        }
     }
 
     private void Mission2()
@@ -283,5 +314,20 @@ public class DialogueManager : MonoBehaviour
             Destroy(currentArrowInstance);
         }
     }
+
+    IEnumerator EndDialogueScene()
+    {
+        Instantiate(planet1, planetSpawnPosition.transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(3f);
+
+        continueStartDialogueButton.interactable = true; // Enable the button
+        StartCoroutine(FadeInDialogueBox());
+        dialogueText.text = "You've got skills. We arrived at the checkpoint safely.";
+
+
+    }
+
+
 
 }

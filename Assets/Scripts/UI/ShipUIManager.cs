@@ -31,14 +31,6 @@ public class ShipUIManager : MonoBehaviour
         scoreMeter.SetActive(false);
     }
 
-    public void Mission1_1()
-    {
-        //Show some ShipUI
-        shipUIBackground.SetActive(true);
-        leftButtonObject.SetActive(true);
-        rightButtonObject.SetActive(true);
-    }
-
     public void Mission1_2()
     {
         //Show some ShipUI
@@ -49,13 +41,21 @@ public class ShipUIManager : MonoBehaviour
 
     public void Mission1_3()
     {
+        //Show some ShipUI
+        shipUIBackground.SetActive(true);
+        leftButtonObject.SetActive(true);
+        rightButtonObject.SetActive(true);
+    }
+
+    public void Mission1_4()
+    {
         shipUIBackground.SetActive(true);
         rightButtonObject.SetActive(true);
         leftButtonObject.SetActive(true);
         checkpointUI.SetActive(true);
         scoreMeter.SetActive(true);
     }
-    public void Mission1_4()
+    public void Mission1_5()
     {
         shipUIBackground.SetActive(true);
         rightButtonObject.SetActive(true);

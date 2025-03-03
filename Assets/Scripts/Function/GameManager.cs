@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
@@ -221,7 +222,7 @@ public class GameManager : MonoBehaviour
         StopGoalProgress();
         if (!isPaused)
         {
-            
+
 
 
 
@@ -245,17 +246,23 @@ public class GameManager : MonoBehaviour
 
     private void HandleEndDialogue()
     {
-
         isPaused = false;
-
-        // Set player speed to 25%
-        ChangeThrottleEvent?.Invoke(-1f);
 
         // Stop spawners
         StopSpawning?.Invoke();
 
         // Stop goal progress
         StopGoalProgress();
+
+        StartCoroutine(WaitForEndDialogue());
+    }
+
+    IEnumerator WaitForEndDialogue()
+    {
+        yield return new WaitForSeconds(3);
+
+        // Set player speed to 25%
+        ChangeThrottleEvent?.Invoke(-1f);
 
         // Show dialogue boxes
         DialogueManager.Instance.MissionDialogue();

@@ -230,10 +230,12 @@ public class PlayerStatsManager : MonoBehaviour
                 // Check if the goal has been reached
                 if (distanceTraveled >= gameManager.Goal)
                 {
-                    gameManager.EndGame(true);
+                    gameManager.SetState(GameState.EndDialogue);
                 }
             }
         }
         
     }
+
+
 }
