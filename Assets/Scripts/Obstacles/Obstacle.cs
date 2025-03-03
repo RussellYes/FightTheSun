@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Obstacle : MonoBehaviour
 {
@@ -8,11 +9,41 @@ public class Obstacle : MonoBehaviour
     public static event Action<bool, int> ObstacleExitsSceneEvent;
 
     [SerializeField] private int pointValue; // Points awarded if killed by the player
+    [SerializeField] private GameObject visualWarning;
+    [SerializeField] private float visualWarningTimer = 3f;
+    private bool isWarningActive = true;
+
 
     private void Start()
     {
         // Notify that this obstacle has entered the scene
         ObstacleEntersSceneEvent?.Invoke();
+
+        visualWarning.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (visualWarning != null)
+        {
+            if (isWarningActive)
+            {
+                VisualWarningTimer();
+            }
+        }
+
+    }
+
+    private void VisualWarningTimer()
+    {
+        visualWarningTimer -= Time.deltaTime;
+
+        if (visualWarningTimer <= 0)
+        {
+            isWarningActive = false;
+            Debug.Log("visualWarning.SetActive(false)");
+            visualWarning.SetActive(false);
+        }
     }
 
     public void Die(bool isKilledByPlayer)

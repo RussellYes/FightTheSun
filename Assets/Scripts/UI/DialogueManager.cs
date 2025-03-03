@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static GameManager;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
+using UnityEngine.Events;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
+    public static UnityEvent SpawnSingleSingleEvent = new UnityEvent();
+
+    [SerializeField] private ShipUIManager shipUIManager;
 
     [SerializeField] private GameObject dialogueBoxUI;
     [SerializeField] private TextMeshProUGUI dialogueText;
@@ -16,19 +18,11 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Mission 1 - Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
-    [SerializeField] private GameObject shipHUDUI;
-    [SerializeField] private GameObject shipUIBackground;
-    [SerializeField] private GameObject hullMeter;
-    [SerializeField] private GameObject rightButtonObject;
+
     [SerializeField] private Button rightButton;
-    [SerializeField] private GameObject leftButtonObject;
     [SerializeField] private Button leftButton;
-    [SerializeField] private GameObject speedMeter;
-    [SerializeField] private GameObject throttleUp;
-    [SerializeField] private GameObject throttleDown;
-    [SerializeField] private GameObject checkpointUI;
-    [SerializeField] private GameObject scoreMeter;
-    [SerializeField] private GameObject pauseButton;
+    [SerializeField] private GameObject hullMeterObject;
+
 
     private GameObject currentArrowInstance;
     private bool waitingForButtonPress = false;
@@ -53,13 +47,6 @@ public class DialogueManager : MonoBehaviour
         {
             MissionDialogue();
         });
-    }
-
-    public void ShowDialogueTimed(string dialogueKey, float time)
-    {
-        dialogueText.text = (dialogueKey);
-        dialogueBoxUI.SetActive(true);
-        Invoke("HideDialogue", time);
     }
 
     public void HideDialogue()
@@ -97,17 +84,8 @@ public class DialogueManager : MonoBehaviour
     private void Mission1()
     {
         Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
-        
-        shipHUDUI.SetActive(true);
-        shipUIBackground.SetActive(false);
-        hullMeter.SetActive(false);
-        rightButtonObject.SetActive(false);
-        leftButtonObject.SetActive(false);
-        speedMeter.SetActive(false);
-        throttleUp.SetActive(false);
-        throttleDown.SetActive(false);
-        checkpointUI.SetActive(false);
-        scoreMeter.SetActive(false);
+
+        shipUIManager.Mission1All();
 
 
         if (dialogueCount == 0)
@@ -125,10 +103,7 @@ public class DialogueManager : MonoBehaviour
 
             dialogueText.text = "Oh no! An asteroid. Let's dodge the asteroid with these controls.";
 
-            //Show some ShipUI
-            shipUIBackground.SetActive(true);
-            leftButtonObject.SetActive(true);
-            rightButtonObject.SetActive(true);
+            shipUIManager.Mission1_1();
 
             // Add listeners to the buttons
             leftButton.onClick.AddListener(LeftRightButtonPushed);
@@ -145,6 +120,8 @@ public class DialogueManager : MonoBehaviour
             // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
             currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, leftButtonRect.parent);
 
+            SpawnSingleSingleEvent?.Invoke();
+
             // Ensure the arrow is rendered in front by setting its sibling index
             currentArrowInstance.transform.SetAsLastSibling();
 
@@ -152,16 +129,45 @@ public class DialogueManager : MonoBehaviour
         }
         else if (dialogueCount == 2)
         {
+            shipUIManager.Mission1_2();
+
             dialogueBoxUI.SetActive(true);
             continueStartDialogueButton.interactable = true; // Enable the button
+
             dialogueCount = 3;
-            dialogueText.text = "Look out!. More asteroid incoming.";
+            dialogueText.text = "Look out!. More asteroids incoming.";
         }
         else if (dialogueCount == 3)
         {
+            dialogueCount = 4;
+
             dialogueBoxUI.SetActive(false);
-            GameManager.Instance.SetState(GameState.Playing);
+
+            shipUIManager.Mission1_3();
+
+            GameManager.Instance.SetState(GameManager.GameState.Playing);
         }
+        else if (dialogueCount == 4)
+        {
+            dialogueCount = 0;
+
+            dialogueBoxUI.SetActive(true);
+            dialogueText.text = "Let's stay in one piece. Don't damage the ship's hull";
+
+            // Get the RectTransform of the leftButton
+            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
+
+            // Apply offsets directly (no need for position conversion)
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 60, 0); // Adjust these values as needed
+            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullMeterObjectRect.parent);
+
+            StartCoroutine(FadeShipUI(4f));
+        }
+
     }
 
     private void Mission2()
@@ -208,4 +214,37 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void HideDialogueUI()
+    {
+
+
+    }
+
+    IEnumerator FadeShipUI(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        CanvasGroup canvasGroup = dialogueBoxUI.GetComponent<CanvasGroup>();
+        float fadeDuration = 0.5f; // Duration of the fade in seconds
+        float elapsedTime = 0f;
+
+        if (canvasGroup != null)
+        {
+            // Fade out the dialogue box
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+                yield return null;
+            }
+
+            // Ensure the alpha is set to 0 at the end
+            canvasGroup.alpha = 0f;
+
+            dialogueBoxUI.SetActive(false);
+            GameManager.Instance.SetState(GameManager.GameState.Playing);
+        }
+
+
+    }
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class PlayerStatsManager : MonoBehaviour
 {
@@ -103,6 +104,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Update distance traveled based on player's speed
         if (isMoving)
         {
+            Debug.Log("PlayerStatsManager_Update_if (isMoving)");
             float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
             UpdateDistanceTraveled(distanceThisFrame);
         }
@@ -207,14 +209,22 @@ public class PlayerStatsManager : MonoBehaviour
     private void UpdateDistanceTraveled(float distance)
     {
         distanceTraveled += distance;
+        Debug.Log("PlayerStatsManager_UpdateDistanceTraveled");
 
         // Calculate progress toward the goal
         if (GameManager.Instance.IsGoalActive)
         {
+            Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
             if (gameManager.Goal > 0)
             {
+                Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
                 float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
                 OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
+
+                if (distanceTraveled == (gameManager.Goal / 2))
+                {
+                    gameManager.SetState(GameState.DialogueDuringPlay);
+                }
 
                 // Check if the goal has been reached
                 if (distanceTraveled >= gameManager.Goal)

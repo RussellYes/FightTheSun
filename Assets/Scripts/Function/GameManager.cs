@@ -89,7 +89,6 @@ public class GameManager : MonoBehaviour
         {
             gameTime += Time.deltaTime; // Increment game time
         }
-        
     }
 
     public enum GameState
@@ -163,7 +162,6 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlaying()
     {
-
         // Unause the game time
         Time.timeScale = 1;
 
@@ -190,8 +188,7 @@ public class GameManager : MonoBehaviour
         // Unause the game time
         Time.timeScale = 1;
         isPaused = false;
-        // Set player speed to 100%
-        ChangeThrottleEvent?.Invoke(1f);
+
         // Start spawners
         StartSpawning?.Invoke();
         // Start goal progress
@@ -202,7 +199,7 @@ public class GameManager : MonoBehaviour
         pauseMenuUI.gameObject.SetActive(false);
 
         // Show dialogue boxes
-        DialogueManager.Instance.ShowDialogueTimed("StartDialogue", 5.0f);
+        DialogueManager.Instance.MissionDialogue();
     }
     private void HandlePaused()
     {
