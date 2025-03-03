@@ -102,7 +102,7 @@ public class PlayerStatsManager : MonoBehaviour
     private void Update()
     {
         // Update distance traveled based on player's speed
-        if (isMoving)
+        if (isMoving && GameManager.Instance.IsGoalActive)
         {
             Debug.Log("PlayerStatsManager_Update_if (isMoving)");
             float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time

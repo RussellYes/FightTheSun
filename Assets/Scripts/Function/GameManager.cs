@@ -191,8 +191,7 @@ public class GameManager : MonoBehaviour
 
         // Start spawners
         StartSpawning?.Invoke();
-        // Start goal progress
-        StartGoalProgress();
+
         MusicManager.Instance.ResumeMusic();
         MusicManager.Instance.MuteMusic(false);
         SFXManager.Instance.MuteSFX(false);

@@ -12,6 +12,11 @@ public class ProgressBarUI : MonoBehaviour
 
     private void Start()
     {
+
+    }
+
+    private void OnEnable()
+    {
         // Subscribe to events
         if (isHullBar)
         {
@@ -62,6 +67,7 @@ public class ProgressBarUI : MonoBehaviour
 
     private void PlayerStatsManager_OnCheckpointProgressChanged(object sender, PlayerStatsManager.OnCheckpointProgressChangedEventArgs e)
     {
+        Debug.Log("ProgressBarUI_PlayerStatsManager_OnCheckpointProgressChanged");
         if (isCheckpointBar)
         {
             barImage.fillAmount = e.progressNormalized;

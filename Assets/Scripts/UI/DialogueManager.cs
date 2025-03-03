@@ -214,11 +214,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void HideDialogueUI()
-    {
-
-
-    }
 
     IEnumerator FadeShipUI(float waitTime)
     {
