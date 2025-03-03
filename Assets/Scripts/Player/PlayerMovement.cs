@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement Instance { get; private set; }
 
     private PlayerStatsManager playerStatsManager;
+    private SFXManager sFXManager;
 
     [SerializeField] private float laneDistance; // Distance between lanes
     private int targetLane = 2; // Start in the middle lane (lane 3)
@@ -13,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Button leftButton;
     private Button rightButton;
+
+    [SerializeField] private AudioClip[] thrusterSounds;
 
     private void Awake()
     {
@@ -24,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        
         // Find the buttons by their tags or names
         leftButton = GameObject.Find("LeftButton").GetComponent<Button>();
         rightButton = GameObject.Find("RightButton").GetComponent<Button>();
@@ -46,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
+        sFXManager = FindAnyObjectByType<SFXManager>();
 
         // Debug to ensure PlayerStatsManager is found
         if (playerStatsManager == null)
@@ -79,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
         // Move to the right lane, but don't go beyond the rightmost lane (lane 4)
         targetLane = Mathf.Min(targetLane + 1, 4);
         Debug.Log($"Moved Right. Current Lane: {targetLane}");
+
+        sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
 
     void MoveLeft()
@@ -86,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
         // Move to the left lane, but don't go beyond the leftmost lane (lane 0)
         targetLane = Mathf.Max(targetLane - 1, 0);
         Debug.Log($"Moved Left. Current Lane: {targetLane}");
+
+        sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
 
 

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - WorldLowerBarrier
+  - WorldTopScreenBarrier
   layers:
   - Default
   - TransparentFX

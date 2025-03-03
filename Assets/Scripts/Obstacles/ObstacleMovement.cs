@@ -3,6 +3,7 @@ using UnityEngine;
 public class ObstacleMovement : MonoBehaviour
 {
     private PlayerStatsManager playerStatsManager;
+    private SFXManager sFXManager;
 
     [SerializeField] private Obstacle obstacle;
     [SerializeField] private float obstacleSpeedMultiplier; // Speed multiplier for obstacles
@@ -11,6 +12,8 @@ public class ObstacleMovement : MonoBehaviour
     private float rotationSpeed;
 
     [SerializeField] private Transform verticalWarning;
+
+    [SerializeField] private AudioClip[] EntranceSounds;
 
 
     private void Start()
@@ -21,6 +24,7 @@ public class ObstacleMovement : MonoBehaviour
         {
             Debug.LogError("PlayerStatsManager not found in the scene!");
         }
+        
 
         rotationSpeed = Random.Range(rotationSpeedMin, rotationSpeedMax);
     }
@@ -47,6 +51,12 @@ public class ObstacleMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("WorldTopScreenBarrier"))
+        {
+            sFXManager = FindAnyObjectByType<SFXManager>();
+            sFXManager.PlaySFX(EntranceSounds[Random.Range(0, EntranceSounds.Length)]);
+        }
+
         // Check if the collided object is the WorldLowerBarrier
         if (collision.CompareTag("WorldLowerBarrier"))
         {

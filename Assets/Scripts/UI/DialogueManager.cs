@@ -51,7 +51,7 @@ public class DialogueManager : MonoBehaviour
 
     public void HideDialogue()
     {
-        dialogueBoxUI.SetActive(false);
+        StartCoroutine(FadeOutDialogueBox(0f));
     }
 
 
@@ -90,13 +90,15 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueCount == 0)
         {
-            dialogueBoxUI.SetActive(true);
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+
             dialogueCount++;
             dialogueText.text = "Good morning pilot! Welcome to your new ship";
         }
         else if (dialogueCount == 1)
         {
-            dialogueBoxUI.SetActive(true);
+            StartCoroutine(FadeInDialogueBox());
 
             continueStartDialogueButton.interactable = false; // Disable the button
 
@@ -131,7 +133,8 @@ public class DialogueManager : MonoBehaviour
         {
             shipUIManager.Mission1_2();
 
-            dialogueBoxUI.SetActive(true);
+            StartCoroutine(FadeInDialogueBox());
+
             continueStartDialogueButton.interactable = true; // Enable the button
 
             dialogueCount = 3;
@@ -141,7 +144,7 @@ public class DialogueManager : MonoBehaviour
         {
             dialogueCount = 4;
 
-            dialogueBoxUI.SetActive(false);
+            StartCoroutine(FadeOutDialogueBox(0f));
 
             shipUIManager.Mission1_3();
 
@@ -151,8 +154,10 @@ public class DialogueManager : MonoBehaviour
         {
             dialogueCount = 0;
 
-            dialogueBoxUI.SetActive(true);
+            StartCoroutine(FadeInDialogueBox());
             dialogueText.text = "Let's stay in one piece. Don't damage the ship's hull";
+
+            shipUIManager.Mission1_4();
 
             // Get the RectTransform of the leftButton
             RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
@@ -165,7 +170,9 @@ public class DialogueManager : MonoBehaviour
             // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
             currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullMeterObjectRect.parent);
 
-            StartCoroutine(FadeShipUI(4f));
+            StartCoroutine(FadeOutDialogueBox(4f));
+
+            StartCoroutine(DestroyArrow(4f));
         }
 
     }
@@ -214,13 +221,38 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-
-    IEnumerator FadeShipUI(float waitTime)
+    IEnumerator FadeInDialogueBox()
     {
-        yield return new WaitForSeconds(waitTime);
+        continueStartDialogueButton.interactable = false;
+        dialogueBoxUI.SetActive(true);
 
         CanvasGroup canvasGroup = dialogueBoxUI.GetComponent<CanvasGroup>();
-        float fadeDuration = 0.5f; // Duration of the fade in seconds
+        float fadeDuration = 0.2f; // Duration of the fade in seconds
+        float elapsedTime = 0f;
+
+        if (canvasGroup != null)
+        {
+            // Fade out the dialogue box
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+                yield return null;
+            }
+
+            // Ensure the alpha is set to 1 at the end
+            canvasGroup.alpha = 1f;                       
+        }
+    }
+
+    IEnumerator FadeOutDialogueBox(float waitTime)
+    {
+        continueStartDialogueButton.interactable = false;
+
+        yield return new WaitForSeconds(waitTime);             
+
+        CanvasGroup canvasGroup = dialogueBoxUI.GetComponent<CanvasGroup>();
+        float fadeDuration = 0.2f; // Duration of the fade in seconds
         float elapsedTime = 0f;
 
         if (canvasGroup != null)
@@ -236,10 +268,20 @@ public class DialogueManager : MonoBehaviour
             // Ensure the alpha is set to 0 at the end
             canvasGroup.alpha = 0f;
 
+            continueStartDialogueButton.interactable = true;
             dialogueBoxUI.SetActive(false);
             GameManager.Instance.SetState(GameManager.GameState.Playing);
         }
-
-
     }
+
+    IEnumerator DestroyArrow(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        if (currentArrowInstance != null)
+        {
+            Destroy(currentArrowInstance);
+        }
+    }
+
 }

@@ -55,6 +55,15 @@ public class ShipUIManager : MonoBehaviour
         checkpointUI.SetActive(true);
         scoreMeter.SetActive(true);
     }
+    public void Mission1_4()
+    {
+        shipUIBackground.SetActive(true);
+        rightButtonObject.SetActive(true);
+        leftButtonObject.SetActive(true);
+        checkpointUI.SetActive(true);
+        scoreMeter.SetActive(true);
+        hullMeter.SetActive(true);
+    }
 
 
 

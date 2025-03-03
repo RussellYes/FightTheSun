@@ -220,12 +220,13 @@ public class PlayerStatsManager : MonoBehaviour
                 Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
                 float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
                 OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
-
-                if (distanceTraveled == (gameManager.Goal / 2))
+                
+                if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f)
                 {
+                    Debug.Log("gameManager.Goal / 2");
                     gameManager.SetState(GameState.DialogueDuringPlay);
                 }
-
+                
                 // Check if the goal has been reached
                 if (distanceTraveled >= gameManager.Goal)
                 {

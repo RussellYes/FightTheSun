@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         // Prevent setting the same state repeatedly
         if (CurrentState == newState)
         {
-            Debug.LogWarning($"Already in state: {newState}");
+            Debug.Log($"Already in state: {newState}");
             return;
         }
 
