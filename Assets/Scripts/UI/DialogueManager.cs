@@ -133,8 +133,8 @@ public class DialogueManager : MonoBehaviour
             RectTransform leftButtonRect = leftButton.GetComponent<RectTransform>();
 
             // Apply offsets directly (no need for position conversion)
-            Vector3 xOffset = new Vector3(16, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 60, 0); // Adjust these values as needed
+            Vector3 xOffset = new Vector3(30, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 160, 0); // Adjust these values as needed
             Vector3 arrowPosition = leftButtonRect.position + xOffset + yOffset;
 
             // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
@@ -182,7 +182,7 @@ public class DialogueManager : MonoBehaviour
 
             // Apply offsets directly (no need for position conversion)
             Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 60, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 160, 0); // Adjust these values as needed
             Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
 
             // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
@@ -202,7 +202,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 7)
         {
             dialogueCount = 0;
-
+            dialogueBoxUI.SetActive(false);
             //Trigger end
             gameManager.EndGame(true);
         }
@@ -321,9 +321,9 @@ public class DialogueManager : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        continueStartDialogueButton.interactable = true; // Enable the button
         StartCoroutine(FadeInDialogueBox());
         dialogueText.text = "You've got skills. We arrived at the checkpoint safely.";
+        continueStartDialogueButton.interactable = true; // Enable the button
 
 
     }

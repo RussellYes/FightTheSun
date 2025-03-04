@@ -29,6 +29,7 @@ public class ShipUIManager : MonoBehaviour
         throttleDown.SetActive(false);
         checkpointUI.SetActive(false);
         scoreMeter.SetActive(false);
+        pauseButton.SetActive(false);
     }
 
     public void Mission1_2()
@@ -37,6 +38,7 @@ public class ShipUIManager : MonoBehaviour
         shipUIBackground.SetActive(true);
         leftButtonObject.SetActive(true);
         rightButtonObject.SetActive(true);
+        pauseButton.SetActive(true);
     }
 
     public void Mission1_3()
@@ -45,6 +47,7 @@ public class ShipUIManager : MonoBehaviour
         shipUIBackground.SetActive(true);
         leftButtonObject.SetActive(true);
         rightButtonObject.SetActive(true);
+        pauseButton.SetActive(true);
     }
 
     public void Mission1_4()
@@ -54,6 +57,7 @@ public class ShipUIManager : MonoBehaviour
         leftButtonObject.SetActive(true);
         checkpointUI.SetActive(true);
         scoreMeter.SetActive(true);
+        pauseButton.SetActive(true);
     }
     public void Mission1_5()
     {
@@ -63,6 +67,7 @@ public class ShipUIManager : MonoBehaviour
         checkpointUI.SetActive(true);
         scoreMeter.SetActive(true);
         hullMeter.SetActive(true);
+        pauseButton.SetActive(true);
     }
 
 
@@ -79,5 +84,6 @@ public class ShipUIManager : MonoBehaviour
         throttleDown.SetActive(true);
         checkpointUI.SetActive(true);
         scoreMeter.SetActive(true);
+        pauseButton.SetActive(true);
     }
 }
