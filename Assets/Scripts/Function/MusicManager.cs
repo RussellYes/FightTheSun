@@ -1,5 +1,6 @@
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class MusicManager : MonoBehaviour
 
     private AudioSource musicSource;
     private float musicVolume = 1f; // Default volume
+
+    // Array to hold music clips for each scene
+    public AudioClip[] sceneMusicClips;
 
     public float GetMusicVolume()
     {
@@ -26,6 +30,18 @@ public class MusicManager : MonoBehaviour
         }
 
         musicSource = GetComponent<AudioSource>();
+
+        // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if the scene index is within the bounds of the array
+        if (scene.buildIndex < sceneMusicClips.Length)
+        {
+            PlayMusic(sceneMusicClips[scene.buildIndex]);
+        }
     }
 
     private void Start()
@@ -60,5 +76,11 @@ public class MusicManager : MonoBehaviour
     public void ResumeMusic()
     {
         musicSource.UnPause();
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from the sceneLoaded event when the object is destroyed
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

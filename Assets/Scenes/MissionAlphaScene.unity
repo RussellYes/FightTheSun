@@ -2108,6 +2108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c49cb547c3968d4089802f542bce1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneMusicClips: []
 --- !u!1 &570400308
 GameObject:
   m_ObjectHideFlags: 0
@@ -7386,7 +7387,7 @@ GameObject:
   - component: {fileID: 2070927627}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7708,6 +7709,10 @@ PrefabInstance:
     - target: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: m_Name
       value: PlayerShipCockpit
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3842667927939262502, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}

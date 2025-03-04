@@ -4,7 +4,7 @@ using UnityEngine.VFX;
 
 public class Obstacle : MonoBehaviour
 {
-    // Define events for obstacle entering and exiting the scene
+     // Define events for obstacle entering and exiting the scene
     public static event Action ObstacleEntersSceneEvent;
     public static event Action<bool, int> ObstacleExitsSceneEvent;
 

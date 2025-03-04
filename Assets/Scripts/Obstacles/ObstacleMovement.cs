@@ -13,8 +13,9 @@ public class ObstacleMovement : MonoBehaviour
 
     [SerializeField] private Transform verticalWarning;
 
-    [SerializeField] private AudioClip[] EntranceSounds;
-
+    [SerializeField] private AudioClip[] entranceSounds;
+    [SerializeField] private AudioClip[] collisionSound;
+    [SerializeField] private ParticleSystem collisionParticles;
 
     private void Start()
     {
@@ -54,13 +55,21 @@ public class ObstacleMovement : MonoBehaviour
         if (collision.CompareTag("WorldTopScreenBarrier"))
         {
             sFXManager = FindAnyObjectByType<SFXManager>();
-            sFXManager.PlaySFX(EntranceSounds[Random.Range(0, EntranceSounds.Length)]);
+            sFXManager.PlaySFX(entranceSounds[Random.Range(0, entranceSounds.Length)]);
         }
 
         // Check if the collided object is the WorldLowerBarrier
         if (collision.CompareTag("WorldLowerBarrier"))
         {
             SelfDestruct();
+        }
+
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log("Obstacle collided with Player.");
+            sFXManager = FindAnyObjectByType<SFXManager>();
+            sFXManager.PlaySFX(collisionSound[Random.Range(0, collisionSound.Length)]);
+            Instantiate(collisionParticles, transform.position, Quaternion.identity);
         }
     }
 
