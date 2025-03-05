@@ -133,8 +133,8 @@ public class DialogueManager : MonoBehaviour
             RectTransform leftButtonRect = leftButton.GetComponent<RectTransform>();
 
             // Apply offsets directly (no need for position conversion)
-            Vector3 xOffset = new Vector3(30, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 160, 0); // Adjust these values as needed
+            Vector3 xOffset = new Vector3(20, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 80, 0); // Adjust these values as needed
             Vector3 arrowPosition = leftButtonRect.position + xOffset + yOffset;
 
             // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
