@@ -1,4 +1,5 @@
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,6 +31,18 @@ public class MusicManager : MonoBehaviour
         }
 
         musicSource = GetComponent<AudioSource>();
+        if (musicSource == null)
+        {
+            Debug.Log("MusicManager: No AudioSource found on the GameObject.");
+
+            // Ensure the AudioSource is enabled
+            musicSource.enabled = true;
+
+            musicSource = GetComponent<AudioSource>();
+        }
+
+        // Ensure the AudioSource is enabled
+        musicSource.enabled = true;
 
         // Subscribe to the sceneLoaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -42,6 +55,10 @@ public class MusicManager : MonoBehaviour
         {
             PlayMusic(sceneMusicClips[scene.buildIndex]);
         }
+        else
+        {
+            Debug.LogWarning($"No music clip found for scene index {scene.buildIndex}.");
+        }
     }
 
     private void Start()
@@ -51,6 +68,12 @@ public class MusicManager : MonoBehaviour
 
     public void PlayMusic(AudioClip musicClip)
     {
+        if (musicClip == null)
+        {
+            Debug.LogWarning("MusicManager: Attempted to play a null audio clip.");
+            return;
+        }
+
         if (musicSource.isPlaying && musicSource.clip == musicClip) return;
 
         musicSource.clip = musicClip;

@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private AudioClip[] thrusterSounds;
 
+    private Quaternion targetRotation; // Target rotation for smooth interpolation
+    private float yAxisRotationSpeed = 1f; // Rotation speed on the Y-axis
     private void Awake()
     {
         if (Instance == null)
@@ -56,6 +58,9 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("PlayerStatsManager not found in the scene.");
         }
+
+        // Initialize target rotation to the current rotation
+        targetRotation = transform.rotation;
     }
 
 
@@ -73,9 +78,15 @@ public class PlayerMovement : MonoBehaviour
 
             // Smoothly move the player to the target position
             transform.position = Vector3.Lerp(transform.position, targetPosition, calculatedSpeed * Time.deltaTime);
-        }
 
-        
+            // Check if the player has reached the target position
+            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            {
+                targetRotation = Quaternion.Euler(0, 0, 0); // Reset rotation to 0 degrees on Y-axis
+            }
+        }
+        // Smoothly interpolate the rotation towards the target rotation
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, yAxisRotationSpeed * Time.deltaTime);
     }
 
     void MoveRight()
@@ -83,6 +94,9 @@ public class PlayerMovement : MonoBehaviour
         // Move to the right lane, but don't go beyond the rightmost lane (lane 4)
         targetLane = Mathf.Min(targetLane + 1, 4);
         Debug.Log($"Moved Right. Current Lane: {targetLane}");
+
+        // Rotate the player 45 degrees on the Y-axis
+        transform.rotation = Quaternion.Euler(0, 45, 0);
 
         sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
@@ -93,10 +107,9 @@ public class PlayerMovement : MonoBehaviour
         targetLane = Mathf.Max(targetLane - 1, 0);
         Debug.Log($"Moved Left. Current Lane: {targetLane}");
 
+        // Rotate the player -45 degrees on the Y-axis
+        transform.rotation = Quaternion.Euler(0, -45, 0);
+
         sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
-
-
-
-
 }

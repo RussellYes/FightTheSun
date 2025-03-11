@@ -24,7 +24,18 @@ public class SFXManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // Initialize the AudioSource component
         sfxSource = GetComponent<AudioSource>();
+        if (sfxSource == null)
+        {
+            Debug.LogError("SFXManager: No AudioSource found on the GameObject.");
+            sfxSource = gameObject.AddComponent<AudioSource>(); // Add AudioSource if missing
+        }
+
+        // Ensure the AudioSource is enabled
+        sfxSource.enabled = true;
+
+        Debug.Log("SFXManager: Initialized in Awake.");
     }
 
     private void Start()
