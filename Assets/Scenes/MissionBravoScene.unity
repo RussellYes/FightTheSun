@@ -932,7 +932,7 @@ RectTransform:
   m_Father: {fileID: 2111655664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1816,7 +1816,7 @@ RectTransform:
   m_Father: {fileID: 537971605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 60, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4123,7 +4123,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1149905137
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4171,7 +4171,7 @@ MonoBehaviour:
   scoreText: {fileID: 1442450520}
   obstaclesDestroyedText: {fileID: 872047102}
   timeText: {fileID: 570400310}
-  pauseColor: {r: 0.63815653, g: 0.5696867, b: 0.6981132, a: 0.5803922}
+  pauseColor: {r: 0.63815653, g: 0.5696867, b: 0.6981132, a: 0.78431374}
   musicVolumeSlider: {fileID: 1462989960}
   sFXVolumeSlider: {fileID: 1884640360}
   xMusicIcon: {fileID: 1927443303}
@@ -4669,7 +4669,7 @@ RectTransform:
   m_Father: {fileID: 304847373}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 60, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6064,8 +6064,8 @@ RectTransform:
   m_Children:
   - {fileID: 1283017129}
   - {fileID: 1962615855}
-  - {fileID: 1149905137}
   - {fileID: 2093201284}
+  - {fileID: 1149905137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7109,7 +7109,7 @@ RectTransform:
   m_Father: {fileID: 1777960209}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

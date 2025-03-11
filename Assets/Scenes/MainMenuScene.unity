@@ -10860,15 +10860,15 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1378624424}
-  - {fileID: 13513817}
-  - {fileID: 160868893}
-  - {fileID: 602128769}
+  - {fileID: 925457106}
   - {fileID: 843824555}
   - {fileID: 1068056863}
+  - {fileID: 13513817}
   - {fileID: 1796573366}
+  - {fileID: 160868893}
   - {fileID: 41482558}
+  - {fileID: 602128769}
   - {fileID: 1780510518}
-  - {fileID: 925457106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -16498,7 +16498,7 @@ GameObject:
   - component: {fileID: 1015753001}
   - component: {fileID: 1015753000}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainMenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23263,7 +23263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc4a625a81c1424c8e06f940be06d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playButton: {fileID: 13513818}
+  playMission1Button: {fileID: 13513818}
+  playMission2Button: {fileID: 160868894}
   quitButton: {fileID: 1398318686}
 --- !u!1 &1796573365
 GameObject:

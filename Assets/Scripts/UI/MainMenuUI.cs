@@ -7,13 +7,19 @@ using UnityEngine.UI;
 public class MainMenuUI : MonoBehaviour
 {
 
-    [SerializeField] private Button playButton;
+    [SerializeField] private Button playMission1Button;
+    [SerializeField] private Button playMission2Button;
     [SerializeField] private Button quitButton;
 
     private void Awake()
     {
-        playButton.onClick.AddListener(() =>{
+        playMission1Button.onClick.AddListener(() =>{
             Loader.Load(Loader.Scene.MissionAlphaScene);
+            Debug.Log("Loading Scene");
+        });  
+        
+        playMission2Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.MissionBravoScene);
             Debug.Log("Loading Scene");
         });        
         

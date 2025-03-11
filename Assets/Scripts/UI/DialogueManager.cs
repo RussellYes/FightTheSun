@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -45,7 +46,8 @@ public class DialogueManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-
+        // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
@@ -58,11 +60,19 @@ public class DialogueManager : MonoBehaviour
         });
     }
 
-    public void HideDialogue()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(FadeOutDialogueBox(0f));
+        // Reset dialogue count when a new scene is loaded
+        dialogueCount = 0;
+
+        Debug.Log($"New scene loaded: {scene.name}. Dialogue count reset.");
     }
 
+    private void OnDestroy()
+    {
+        // Unsubscribe from the sceneLoaded event when the object is destroyed
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     public void MissionDialogue()
     {
@@ -210,16 +220,26 @@ public class DialogueManager : MonoBehaviour
 
     private void Mission2()
     {
+        shipUIManager.Mission2All();
 
         if (dialogueCount == 0)
         {
             dialogueCount++;
-            dialogueText.text = "Mission 2 dialogue here";
+
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+
+            dialogueText.text = "Ahhh!";
+            return;
         }
-        if (dialogueCount == 1)
+        else if (dialogueCount == 1)
         {
-            dialogueCount = 0;
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+            Debug.Log($"ContinueStartDialogueButton interactable = {continueStartDialogueButton.interactable}");
+            dialogueCount++;
             dialogueText.text = "Mission 2 dialogue here";
+            return;
         }
     }
 
@@ -254,6 +274,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    public void HideDialogue()
+    {
+        StartCoroutine(FadeOutDialogueBox(0f));
+    }
     IEnumerator FadeInDialogueBox()
     {
         continueStartDialogueButton.interactable = false;

@@ -17,7 +17,19 @@ public class ShipUIManager : MonoBehaviour
     [SerializeField] private GameObject scoreMeter;
     [SerializeField] private GameObject pauseButton;
 
-
+    public void TurnOnShipUI()
+    {
+        shipUIBackground.SetActive(true);
+        hullMeter.SetActive(true);
+        rightButtonObject.SetActive(true);
+        leftButtonObject.SetActive(true);
+        speedMeter.SetActive(true);
+        throttleUp.SetActive(true);
+        throttleDown.SetActive(true);
+        checkpointUI.SetActive(true);
+        scoreMeter.SetActive(true);
+        pauseButton.SetActive(true);
+    }
     public void Mission1All()
     {
         shipUIBackground.SetActive(false);
@@ -70,20 +82,20 @@ public class ShipUIManager : MonoBehaviour
         pauseButton.SetActive(true);
     }
 
-
-
-
-    public void TurnOnShipUI()
+    public void Mission2All()
     {
         shipUIBackground.SetActive(true);
-        hullMeter.SetActive(true);
         rightButtonObject.SetActive(true);
         leftButtonObject.SetActive(true);
-        speedMeter.SetActive(true);
-        throttleUp.SetActive(true);
-        throttleDown.SetActive(true);
+        speedMeter.SetActive(false);
+        throttleUp.SetActive(false);
+        throttleDown.SetActive(false);
         checkpointUI.SetActive(true);
         scoreMeter.SetActive(true);
+        hullMeter.SetActive(true);
         pauseButton.SetActive(true);
     }
+
+
+
 }

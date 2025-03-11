@@ -77,8 +77,8 @@ public class GameManager : MonoBehaviour
         pauseMenuUI.SetActive(false);
         gameTime = 0f; // Initialize game time
 
-        // Set the current mission (e.g., from a mission selection menu or level loader)
-        CurrentMission = 1; // Replace with dynamic mission number if needed
+        // Set the current mission based on the scene
+        SetMissionBasedOnScene();
 
         // Explicitly set the state to StartDialogue to trigger HandleStateChange
         SetState(GameState.StartDialogue);
@@ -90,6 +90,35 @@ public class GameManager : MonoBehaviour
         {
             gameTime += Time.deltaTime; // Increment game time
         }
+    }
+
+    private void SetMissionBasedOnScene()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        // Map scene indices to missions
+        switch (currentSceneIndex)
+        {
+            case 2: // MissionAlphaScene corresponds to Mission 1
+                CurrentMission = 1;
+                break;
+            case 3: // MissionBravoScene corresponds to Mission 2
+                CurrentMission = 2;
+                break;
+            case 4: // MissionCharlieScene corresponds to Mission 3
+                CurrentMission = 3;
+                break;
+            default:
+                // Suppress warning for non-mission scenes (e.g., MainMenuScene, LoadingScene)
+                if (currentSceneIndex != 0 && currentSceneIndex != 1)
+                {
+                    Debug.LogWarning($"No mission mapped for scene index {currentSceneIndex}. Defaulting to Mission 1.");
+                }
+                CurrentMission = 1;
+                break;
+        }
+
+        Debug.Log($"Scene {currentSceneIndex} loaded. Current Mission set to {CurrentMission}.");
     }
 
     public enum GameState

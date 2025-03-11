@@ -10,6 +10,8 @@ public static class Loader
         MainMenuScene,
         LoadingScene,
         MissionAlphaScene,
+        MissionBravoScene,
+        MissionCharlieScene,
     }
 
     private static Scene targetScene;
