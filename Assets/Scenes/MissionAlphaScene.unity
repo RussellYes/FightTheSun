@@ -3247,6 +3247,7 @@ MonoBehaviour:
   endConditionsUI: {fileID: 1962615854}
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1306762019}
+  unpauseButton: {fileID: 1007728397}
   goal: 100
 --- !u!4 &901461633
 Transform:
@@ -4171,7 +4172,7 @@ MonoBehaviour:
   scoreText: {fileID: 1442450520}
   obstaclesDestroyedText: {fileID: 872047102}
   timeText: {fileID: 570400310}
-  pauseColor: {r: 0.63815653, g: 0.5696867, b: 0.6981132, a: 0.5803922}
+  pauseColor: {r: 0.63815653, g: 0.5696867, b: 0.6981132, a: 0.78431374}
   musicVolumeSlider: {fileID: 1462989960}
   sFXVolumeSlider: {fileID: 1884640360}
   xMusicIcon: {fileID: 1927443303}
@@ -6064,8 +6065,8 @@ RectTransform:
   m_Children:
   - {fileID: 1283017129}
   - {fileID: 1962615855}
-  - {fileID: 1149905137}
   - {fileID: 2093201284}
+  - {fileID: 1149905137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

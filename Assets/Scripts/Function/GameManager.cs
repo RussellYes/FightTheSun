@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private Button pauseButton;
+    [SerializeField] private Button unpauseButton;
 
     private bool isPaused = false;
 
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float goal; // Distance to the goal
     private bool isGoalActive = false;
+
+    private GameState previousState; // Track the state before pausing
 
     // Public read-only property
     public bool IsGoalActive => isGoalActive;
@@ -62,6 +65,29 @@ public class GameManager : MonoBehaviour
         pauseButton.onClick.AddListener(() => {
             SetState(GameState.Paused);
         });
+        unpauseButton.onClick.AddListener(() =>
+        {
+            pauseMenuUI.SetActive(false);
+            Time.timeScale = 1;
+            isPaused = false;
+
+            MusicManager.Instance.PauseMusic();
+            MusicManager.Instance.MuteMusic(true);
+            SFXManager.Instance.MuteSFX(true);
+
+            /*
+            Debug.Log("Unpause button clicked");
+            // Default to Playing if the previous state is invalid
+            if (previousState == GameState.Paused || previousState == GameState.None)
+            {
+                Debug.LogWarning("Invalid previous state.");
+            }
+            else
+            {
+                SetState(previousState);
+            }
+            */
+        });
 
 
     }
@@ -74,8 +100,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Initial GameState: " + GameManager.Instance.CurrentState.ToString());
 
         endConditionsUI.SetActive(false);
-        pauseMenuUI.SetActive(false);
-        gameTime = 0f; // Initialize game time
 
         // Set the current mission based on the scene
         SetMissionBasedOnScene();
@@ -139,6 +163,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"Already in state: {newState}");
             return;
+        }
+
+        // Store the previous state before transitioning to Paused
+        if (newState == GameState.Paused)
+        {
+            previousState = CurrentState;
+            Debug.Log($"Stored previous state: {previousState}");
         }
 
         Debug.Log($"Transitioning from {CurrentState} to {newState}");
@@ -215,7 +246,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleDialogueDuringPlay()
     {
-        // Unause the game time
+        // Unpause the game time
         Time.timeScale = 1;
         isPaused = false;
 
@@ -249,28 +280,6 @@ public class GameManager : MonoBehaviour
 
         // Stop goal progress
         StopGoalProgress();
-        if (!isPaused)
-        {
-
-
-
-
-
-
-        }
-        /*
-        if (isPaused)
-        {
-            isPaused = false;
-            MusicManager.Instance.ResumeMusic();
-            MusicManager.Instance.MuteMusic(false);
-            SFXManager.Instance.MuteSFX(false);
-            // Resume the game time
-            Time.timeScale = 1;
-            // Hide the pause menu
-            pauseMenuUI.gameObject.SetActive(false);
-        }
-        */
     }
 
     private void HandleEndDialogue()
