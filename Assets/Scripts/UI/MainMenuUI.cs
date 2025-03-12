@@ -5,86 +5,42 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private Image mainMenuBackground;
-    [SerializeField] private Color pauseColor;
 
     [SerializeField] private Button playMission1Button;
     [SerializeField] private Button playMission2Button;
-    [SerializeField] private Button playMission3Button;
     [SerializeField] private Button quitButton;
-    [SerializeField] private Button continueButton;
-    [SerializeField] private Button mainMenuButton;
-
-    [Header("Volume Controls")]
-    [SerializeField] private Slider musicVolumeSlider;
-    [SerializeField] private Slider sFXVolumeSlider;
-
-    [Header("Icons")]
-    [SerializeField] private GameObject xMusicIcon; // Icon for muted music
-    [SerializeField] private GameObject xSFXIcon;   // Icon for muted SFX
-
-    [Header("Audio Clips")]
-    [SerializeField] private AudioClip sliderSFX; // Sound effect to play when adjusting the SFX slider
-    [SerializeField] private AudioClip musicPreview; // Music clip to play when adjusting the music slider
-
-    private bool isMenuOpen; // Track whether the main menu is open
 
     private void Awake()
     {
-        playMission1Button.onClick.AddListener(() => {
+        playMission1Button.onClick.AddListener(() =>{
             Loader.Load(Loader.Scene.MissionAlphaScene);
             Debug.Log("Loading Scene");
-        });
-
-        playMission2Button.onClick.AddListener(() => {
+        });  
+        
+        playMission2Button.onClick.AddListener(() =>{
             Loader.Load(Loader.Scene.MissionBravoScene);
             Debug.Log("Loading Scene");
-        });
-
-        playMission3Button.onClick.AddListener(() => {
-            Loader.Load(Loader.Scene.MissionCharlieScene);
-            Debug.Log("Loading Scene");
-        });
-
-        mainMenuButton.onClick.AddListener(() => {
-            OpenMenu();
-        });
-
-        continueButton.onClick.AddListener(() => {
-            CloseMenu();
-        });
-
-        quitButton.onClick.AddListener(() => {
+        });        
+        
+        quitButton.onClick.AddListener(() =>{
             Debug.Log("Quit");
             Application.Quit();
         });
-
-        // Set up slider listeners
-        if (musicVolumeSlider != null)
-        {
-            musicVolumeSlider.onValueChanged.AddListener(SetMusicVolume);
-        }
-
-        if (sFXVolumeSlider != null)
-        {
-            sFXVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
-        }
 
         Time.timeScale = 1f;
     }
 
     private void Start()
     {
-        // Initialize slider values to current volumes
+        // Initialize slider values to current volumes without triggering mute logic
         if (musicVolumeSlider != null)
         {
-            musicVolumeSlider.value = MusicManager.Instance.GetMusicVolume();
+            musicVolumeSlider.SetValueWithoutNotify(MusicManager.Instance.GetMusicVolume());
         }
 
         if (sFXVolumeSlider != null)
         {
-            sFXVolumeSlider.value = SFXManager.Instance.GetSFXVolume();
+            sFXVolumeSlider.SetValueWithoutNotify(SFXManager.Instance.GetSFXVolume());
         }
 
         // Initialize icon states based on current volumes
@@ -105,12 +61,6 @@ public class MainMenuUI : MonoBehaviour
         // Mute music and SFX when the menu is opened
         MusicManager.Instance.MuteMusic(true);
         SFXManager.Instance.MuteSFX(true);
-
-        // Play the settings menu music
-        if (musicPreview != null)
-        {
-            MusicManager.Instance.PlayMusic(musicPreview);
-        }
     }
 
     private void CloseMenu()
@@ -121,9 +71,6 @@ public class MainMenuUI : MonoBehaviour
         // Unmute music and SFX when the menu is closed
         MusicManager.Instance.MuteMusic(false);
         SFXManager.Instance.MuteSFX(false);
-
-        // Explicitly resume the scene music
-        MusicManager.Instance.ResumeMusic();
     }
 
     public void SetMusicVolume(float volume)
@@ -141,7 +88,7 @@ public class MainMenuUI : MonoBehaviour
         // Play a preview of the music when adjusting the slider
         if (musicPreview != null)
         {
-            MusicManager.Instance.PlayMusic(musicPreview); 
+            MusicManager.Instance.PlayMusic(musicPreview);
         }
 
         // Re-mute music if the menu is still open
