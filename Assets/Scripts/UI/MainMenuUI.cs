@@ -55,10 +55,23 @@ public class MainMenuUI : MonoBehaviour
             Debug.Log("continueButton.onClick");
             CloseMenu();
         });
-        quitButton.onClick.AddListener(() =>{
+        quitButton.onClick.AddListener(() =>
+        {
             Debug.Log("Quit");
             Application.Quit();
         });
+
+        // Set up slider listeners
+        if (musicVolumeSlider != null)
+        {
+            musicVolumeSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
+
+        if (sFXVolumeSlider != null)
+        {
+            sFXVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
+        }
+
 
         Time.timeScale = 1f;
     }
