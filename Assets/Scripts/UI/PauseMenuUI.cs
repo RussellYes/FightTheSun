@@ -45,12 +45,6 @@ public class PauseMenuUI : MonoBehaviour
             Debug.Log("Loading Scene");
         });
 
-        gameManager = FindAnyObjectByType<GameManager>();
-
-        unpauseButton.onClick.AddListener(() => {
-            gameManager.SetState(GameState.Paused);
-        });
-
         // Set up slider listeners
         if (musicVolumeSlider != null)
         {
@@ -111,6 +105,12 @@ public class PauseMenuUI : MonoBehaviour
         int minutes = Mathf.FloorToInt(gameManager.GameTime / 60);
         int seconds = Mathf.FloorToInt(gameManager.GameTime % 60);
         timeText.text = $"Time: {minutes:00}:{seconds:00}";
+
+        // Play the pause menu music
+        if (musicPreview != null)
+        {
+            MusicManager.Instance.PlayMusic(musicPreview);
+        }
     }
 
     public void SetMusicVolume(float volume)
@@ -141,6 +141,7 @@ public class PauseMenuUI : MonoBehaviour
     private IEnumerator ReMuteMusicAfterDelay()
     {
         yield return new WaitForSecondsRealtime(0.1f); // Wait for a short delay
+
         if (isPaused)
         {
             MusicManager.Instance.MuteMusic(true);
@@ -175,6 +176,7 @@ public class PauseMenuUI : MonoBehaviour
     private IEnumerator ReMuteSFXAfterDelay()
     {
         yield return new WaitForSecondsRealtime(0.1f); // Wait for a short delay
+
         if (isPaused)
         {
             SFXManager.Instance.MuteSFX(true);

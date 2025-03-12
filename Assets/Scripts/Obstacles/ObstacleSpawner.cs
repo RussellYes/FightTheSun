@@ -22,7 +22,7 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private Transform spawnLocation; // Changed to Transform for easier position access
     [SerializeField] private float laneDistance; // Distance between lanes
     [SerializeField] private float timeBetweenSpawning;
-    private float minimumSpawnTime;
+    private float minimumSpawnTime = 1f;
     private float spawnTimer;
 
     private void Start()

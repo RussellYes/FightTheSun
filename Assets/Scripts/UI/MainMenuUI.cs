@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -77,15 +76,15 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
-        // Initialize slider values to current volumes without triggering mute logic
+        // Initialize slider values to current volumes
         if (musicVolumeSlider != null)
         {
-            musicVolumeSlider.SetValueWithoutNotify(MusicManager.Instance.GetMusicVolume());
+            musicVolumeSlider.value = MusicManager.Instance.GetMusicVolume();
         }
 
         if (sFXVolumeSlider != null)
         {
-            sFXVolumeSlider.SetValueWithoutNotify(SFXManager.Instance.GetSFXVolume());
+            sFXVolumeSlider.value = SFXManager.Instance.GetSFXVolume();
         }
 
         // Initialize icon states based on current volumes
@@ -106,6 +105,12 @@ public class MainMenuUI : MonoBehaviour
         // Mute music and SFX when the menu is opened
         MusicManager.Instance.MuteMusic(true);
         SFXManager.Instance.MuteSFX(true);
+
+        // Play the settings menu music
+        if (musicPreview != null)
+        {
+            MusicManager.Instance.PlayMusic(musicPreview);
+        }
     }
 
     private void CloseMenu()
@@ -116,6 +121,9 @@ public class MainMenuUI : MonoBehaviour
         // Unmute music and SFX when the menu is closed
         MusicManager.Instance.MuteMusic(false);
         SFXManager.Instance.MuteSFX(false);
+
+        // Explicitly resume the scene music
+        MusicManager.Instance.ResumeMusic();
     }
 
     public void SetMusicVolume(float volume)
@@ -133,7 +141,7 @@ public class MainMenuUI : MonoBehaviour
         // Play a preview of the music when adjusting the slider
         if (musicPreview != null)
         {
-            MusicManager.Instance.PlayMusic(musicPreview);
+            MusicManager.Instance.PlayMusic(musicPreview); 
         }
 
         // Re-mute music if the menu is still open

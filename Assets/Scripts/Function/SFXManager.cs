@@ -35,9 +35,12 @@ public class SFXManager : MonoBehaviour
         // Ensure the AudioSource is enabled
         sfxSource.enabled = true;
 
+        // Load saved SFX volume
+        sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f); // Default to 1 if no saved value exists
+        sfxSource.volume = sfxVolume;
+
         Debug.Log("SFXManager: Initialized in Awake.");
     }
-
     private void Start()
     {
         MuteSFX(false);

@@ -26,14 +26,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button unpauseButton;
 
-    private bool isPaused = false;
-
     private float gameTime;
 
     [SerializeField] private float goal; // Distance to the goal
     private bool isGoalActive = false;
-
-    private GameState previousState; // Track the state before pausing
 
     // Public read-only property
     public bool IsGoalActive => isGoalActive;
@@ -63,30 +59,10 @@ public class GameManager : MonoBehaviour
         }
 
         pauseButton.onClick.AddListener(() => {
-            SetState(GameState.Paused);
+            HandlePaused();
         });
-        unpauseButton.onClick.AddListener(() =>
-        {
-            pauseMenuUI.SetActive(false);
-            Time.timeScale = 1;
-            isPaused = false;
-
-            MusicManager.Instance.PauseMusic();
-            MusicManager.Instance.MuteMusic(true);
-            SFXManager.Instance.MuteSFX(true);
-
-            /*
-            Debug.Log("Unpause button clicked");
-            // Default to Playing if the previous state is invalid
-            if (previousState == GameState.Paused || previousState == GameState.None)
-            {
-                Debug.LogWarning("Invalid previous state.");
-            }
-            else
-            {
-                SetState(previousState);
-            }
-            */
+        unpauseButton.onClick.AddListener(() => {
+            HandleUnpaused();
         });
 
 
@@ -151,7 +127,6 @@ public class GameManager : MonoBehaviour
         StartDialogue,  // State 1: Show dialogue boxes at the beginning
         Playing,        // State 2: Normal gameplay
         DialogueDuringPlay, // State 3: Show dialogue boxes during gameplay
-        Paused,         // State 4: Paused (e.g., when settings menu is open)
         EndDialogue,    // State 5: Show dialogue boxes at the end
         EndUI           // State 6: End UI active, game paused
     }
@@ -163,13 +138,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"Already in state: {newState}");
             return;
-        }
-
-        // Store the previous state before transitioning to Paused
-        if (newState == GameState.Paused)
-        {
-            previousState = CurrentState;
-            Debug.Log($"Stored previous state: {previousState}");
         }
 
         Debug.Log($"Transitioning from {CurrentState} to {newState}");
@@ -187,9 +155,6 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 HandlePlaying();
                 break;
-            case GameState.Paused:
-                HandlePaused();
-                break;
             case GameState.DialogueDuringPlay:
                 HandleDialogueDuringPlay();
                 break;
@@ -206,7 +171,6 @@ public class GameManager : MonoBehaviour
     {
         // Unause the game time
         Time.timeScale = 1;
-        isPaused = false;
 
         // Set player speed to 25%
         ChangeThrottleEvent?.Invoke(-0.75f);
@@ -225,8 +189,6 @@ public class GameManager : MonoBehaviour
     {
         // Unause the game time
         Time.timeScale = 1;
-
-        isPaused = false;
 
         // Set player speed to 100%
         ChangeThrottleEvent?.Invoke(1f);
@@ -248,7 +210,6 @@ public class GameManager : MonoBehaviour
     {
         // Unpause the game time
         Time.timeScale = 1;
-        isPaused = false;
 
         // Start spawners
         StartSpawning?.Invoke();
@@ -263,8 +224,6 @@ public class GameManager : MonoBehaviour
     }
     private void HandlePaused()
     {
-        isPaused = true;
-
         MusicManager.Instance.PauseMusic();
         MusicManager.Instance.MuteMusic(true);
         SFXManager.Instance.MuteSFX(true);
@@ -282,10 +241,27 @@ public class GameManager : MonoBehaviour
         StopGoalProgress();
     }
 
+    private void HandleUnpaused()
+    {
+        MusicManager.Instance.ResumeMusic();
+        MusicManager.Instance.MuteMusic(false);
+        SFXManager.Instance.MuteSFX(false);
+
+        // Show the pause menu
+        pauseMenuUI.gameObject.SetActive(false);
+
+        // Pause the game time
+        Time.timeScale = 1;
+
+        // Stop spawners
+        StartSpawning?.Invoke();
+
+        // Stop goal progress
+        StartGoalProgress();
+    }
+
     private void HandleEndDialogue()
     {
-        isPaused = false;
-
         // Stop spawners
         StopSpawning?.Invoke();
 
@@ -308,8 +284,6 @@ public class GameManager : MonoBehaviour
 
     private void HandleEndUI()
     {
-        isPaused = true;
-
         // Stop spawners
         StopSpawning?.Invoke();
 
