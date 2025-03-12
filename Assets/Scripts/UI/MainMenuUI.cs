@@ -5,10 +5,34 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
-
+    [Header("Planets")]
     [SerializeField] private Button playMission1Button;
     [SerializeField] private Button playMission2Button;
+    [SerializeField] private Button playMission3Button;
+
+    [Header("Settings")]
+    [SerializeField] private Button openSettingButton;
+    [SerializeField] private Button continueButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private Color pauseColor;
+    [SerializeField] private Image mainMenuBackground;
+
+
+    [Header("Volume Controls")]
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private Slider sFXVolumeSlider;
+
+    [Header("Icons")]
+    [SerializeField] private GameObject xMusicIcon; // Icon for muted music
+    [SerializeField] private GameObject xSFXIcon;   // Icon for muted SFX
+
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip sliderSFX; // Sound effect to play when adjusting the SFX slider
+    [SerializeField] private AudioClip musicPreview; // Music clip to play when adjusting the music slider
+
+    private bool isMenuOpen;
+
 
     private void Awake()
     {
@@ -20,8 +44,16 @@ public class MainMenuUI : MonoBehaviour
         playMission2Button.onClick.AddListener(() =>{
             Loader.Load(Loader.Scene.MissionBravoScene);
             Debug.Log("Loading Scene");
-        });        
-        
+        });
+
+        openSettingButton.onClick.AddListener(() =>{
+            Debug.Log("openSettingButton.onClick");
+            OpenMenu();
+        });
+        continueButton.onClick.AddListener(() =>{
+            Debug.Log("continueButton.onClick");
+            CloseMenu();
+        });
         quitButton.onClick.AddListener(() =>{
             Debug.Log("Quit");
             Application.Quit();
@@ -49,13 +81,13 @@ public class MainMenuUI : MonoBehaviour
 
         // Ensure the menu is closed on start
         isMenuOpen = false;
-        mainMenu.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     private void OpenMenu()
     {
         isMenuOpen = true; // Menu is now open
-        mainMenu.SetActive(true);
+        settingsMenu.SetActive(true);
         mainMenuBackground.color = pauseColor;
 
         // Mute music and SFX when the menu is opened
@@ -66,7 +98,7 @@ public class MainMenuUI : MonoBehaviour
     private void CloseMenu()
     {
         isMenuOpen = false; // Menu is now closed
-        mainMenu.SetActive(false);
+        settingsMenu.SetActive(false);
 
         // Unmute music and SFX when the menu is closed
         MusicManager.Instance.MuteMusic(false);

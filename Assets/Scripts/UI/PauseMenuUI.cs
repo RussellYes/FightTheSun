@@ -10,6 +10,8 @@ using static GameManager;
 
 public class PauseMenuUI : MonoBehaviour
 {
+    public static PauseMenuUI Instance; // Singleton instance
+
     [SerializeField] private Button unpauseButton;
     [SerializeField] private Button homeButton;
 
@@ -34,11 +36,23 @@ public class PauseMenuUI : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip sliderSFX; // Sound effect to play when adjusting the SFX slider
     [SerializeField] private AudioClip musicPreview; // Music clip to play when adjusting the music slider
+    private AudioClip originalMusicClip; // Track the original music clip
 
     private bool isPaused; // Track whether the game is paused
 
     private void Awake()
     {
+        // Singleton pattern
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // Set up button listeners
         homeButton.onClick.AddListener(() => {
             Loader.Load(Loader.Scene.MainMenuScene);
@@ -84,7 +98,11 @@ public class PauseMenuUI : MonoBehaviour
     {
         isPaused = true; // Game is paused
 
+        // Store the original music clip
+        originalMusicClip = MusicManager.Instance.GetCurrentClip();
+
         // Mute music and SFX immediately when the pause menu is enabled
+        MusicManager.Instance.PauseMusic();
         MusicManager.Instance.MuteMusic(true);
         SFXManager.Instance.MuteSFX(true);
 
@@ -113,6 +131,10 @@ public class PauseMenuUI : MonoBehaviour
         }
     }
 
+    public AudioClip GetOriginalMusicClip()
+    {
+        return originalMusicClip;
+    }
     public void SetMusicVolume(float volume)
     {
         // Temporarily unmute Music if paused

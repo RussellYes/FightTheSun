@@ -243,7 +243,16 @@ public class GameManager : MonoBehaviour
 
     private void HandleUnpaused()
     {
-        MusicManager.Instance.ResumeMusic();
+        // Stop the sample music and resume the original music
+        MusicManager.Instance.StopMusic();
+
+        // Get the original music clip from PauseMenuUI
+        AudioClip originalMusicClip = PauseMenuUI.Instance.GetOriginalMusicClip();
+        if (originalMusicClip != null)
+        {
+            MusicManager.Instance.PlayMusic(originalMusicClip);
+        }
+
         MusicManager.Instance.MuteMusic(false);
         SFXManager.Instance.MuteSFX(false);
 

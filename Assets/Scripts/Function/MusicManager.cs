@@ -98,6 +98,19 @@ public class MusicManager : MonoBehaviour
         musicSource.PlayOneShot(testClip);
     }
 
+    public AudioClip GetCurrentClip()
+    {
+        return musicSource.clip;
+    }
+
+    public void ResumeOriginalMusic(AudioClip originalClip)
+    {
+        if (originalClip != null)
+        {
+            musicSource.clip = originalClip;
+            musicSource.Play();
+        }
+    }
     public void StopMusic()
     {
         if (musicSource.isPlaying)
