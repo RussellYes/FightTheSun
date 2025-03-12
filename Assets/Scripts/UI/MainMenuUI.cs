@@ -30,6 +30,7 @@ public class MainMenuUI : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip sliderSFX; // Sound effect to play when adjusting the SFX slider
     [SerializeField] private AudioClip musicPreview; // Music clip to play when adjusting the music slider
+    private AudioClip originalMusicClip; // Track the original music clip
 
     private bool isMenuOpen;
 
@@ -90,13 +91,32 @@ public class MainMenuUI : MonoBehaviour
         settingsMenu.SetActive(true);
         mainMenuBackground.color = pauseColor;
 
+        // Store the original music clip
+        originalMusicClip = MusicManager.Instance.GetCurrentClip();
+
         // Mute music and SFX when the menu is opened
+        MusicManager.Instance.PauseMusic();
         MusicManager.Instance.MuteMusic(true);
         SFXManager.Instance.MuteSFX(true);
+
+        // Play the setting menu music
+        if (musicPreview != null)
+        {
+            MusicManager.Instance.PlayMusic(musicPreview);
+        }
     }
 
     private void CloseMenu()
     {
+        // Stop the sample music and resume the original music
+        MusicManager.Instance.StopMusic();
+
+        // Get the original music clip
+        if (originalMusicClip != null)
+        {
+            MusicManager.Instance.PlayMusic(originalMusicClip);
+        }
+
         isMenuOpen = false; // Menu is now closed
         settingsMenu.SetActive(false);
 
