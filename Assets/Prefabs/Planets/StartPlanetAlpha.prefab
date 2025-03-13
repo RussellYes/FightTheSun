@@ -177,9 +177,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3177638910942867495}
-  - component: {fileID: 1877548792662587986}
+  - component: {fileID: 5061511280995850045}
   m_Layer: 0
-  m_Name: PlanetAlpha
+  m_Name: StartPlanetAlpha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,7 +202,7 @@ Transform:
   - {fileID: 7997923488826157332}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1877548792662587986
+--- !u!114 &5061511280995850045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5599978935364366169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2853aa576478104a913a7d7cad8f867, type: 3}
+  m_Script: {fileID: 11500000, guid: 15697e1f88e9d4e4c99b1b1ca97c8efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   planetVisual: {fileID: 2354550298258233476}
