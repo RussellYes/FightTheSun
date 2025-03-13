@@ -281,21 +281,57 @@ public class DialogueManager : MonoBehaviour
             gameManager.EndGame(true);
         }
     }
-
+    
     private void Mission3()
     {
+        shipUIManager.Mission2All();
 
         if (dialogueCount == 0)
         {
             dialogueCount++;
-            dialogueText.text = "Mission 3 dialogue here";
+
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+
+            dialogueText.text = "Life in space moves fast. And if you're slow, buy upgrades.";
+
+
+            return;
         }
-        if (dialogueCount == 1)
+        else if (dialogueCount == 1)
+        {
+            dialogueCount++;
+            StartCoroutine(FadeOutDialogueBox(0f));
+            GameManager.Instance.SetState(GameManager.GameState.Playing);
+            return;
+        }
+        else if (dialogueCount == 2)
+        {
+            dialogueCount++;
+
+            StartCoroutine(FadeInDialogueBox());
+            dialogueText.text = "There's no problem we can't buy our way out of.";
+
+            StartCoroutine(FadeOutDialogueBox(4f));
+        }
+        else if (dialogueCount == 3)
+        {
+            string endText = "Planet Charlie's volcanos make the air toxic. Only mutated plants survive.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount++;
+
+        }
+        else if (dialogueCount == 4)
         {
             dialogueCount = 0;
-            dialogueText.text = "Mission 3 dialogue here";
+            dialogueBoxUI.SetActive(false);
+            //Trigger end
+            gameManager.EndGame(true);
         }
     }
+
+
 
     private void LeftRightButtonPushed()
     {

@@ -10,16 +10,16 @@ public class Obstacle : MonoBehaviour
 
     [SerializeField] private int pointValue; // Points awarded if killed by the player
     [SerializeField] private GameObject visualWarning;
+    [SerializeField] private SpriteRenderer warningSpriteRenderer;
+    [SerializeField] private Color visualWarningColor;
     [SerializeField] private float visualWarningTimer = 3f;
     private bool isWarningActive = true;
 
 
     private void Start()
     {
-        // Notify that this obstacle has entered the scene
-        ObstacleEntersSceneEvent?.Invoke();
-
-        visualWarning.SetActive(true);
+        // Set the initial color of the visualWarning
+        warningSpriteRenderer.color = visualWarningColor;
     }
 
     private void Update()

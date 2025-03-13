@@ -21,7 +21,8 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private GameObject[] obstacles;
     [SerializeField] private Transform spawnLocation; // Changed to Transform for easier position access
     [SerializeField] private float laneDistance; // Distance between lanes
-    [SerializeField] private float timeBetweenSpawning;
+    [SerializeField] private float timeBetweenSpawningMin;
+    [SerializeField] private float timeBetweenSpawningMax;
     private float minimumSpawnTime = 1f;
     private float spawnTimer;
 
@@ -30,7 +31,7 @@ public class ObstacleSpawner : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
 
         isSpawnerOn = true;
-        spawnTimer = timeBetweenSpawning;
+        spawnTimer = timeBetweenSpawningMin;
     }
 
     private void OnEnable()
@@ -73,7 +74,7 @@ public class ObstacleSpawner : MonoBehaviour
             if (spawnTimer <= 0)
             {
                 SpawnObstacle();
-                spawnTimer = timeBetweenSpawning;
+                spawnTimer = Random.Range(timeBetweenSpawningMin, timeBetweenSpawningMax);
             }
         }
     }
@@ -157,11 +158,11 @@ public class ObstacleSpawner : MonoBehaviour
 
     public void ChangeTimeBetweenSpawning(float amt)
     {
-        timeBetweenSpawning += amt;
+        timeBetweenSpawningMax += amt;
 
-        if (timeBetweenSpawning <= minimumSpawnTime)
+        if (timeBetweenSpawningMax <= minimumSpawnTime)
         {
-            timeBetweenSpawning = minimumSpawnTime;
+            timeBetweenSpawningMax = minimumSpawnTime;
         }
     }
 }

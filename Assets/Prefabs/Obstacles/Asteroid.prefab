@@ -178,6 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointValue: 1
   visualWarning: {fileID: 2504786687601365788}
+  warningSpriteRenderer: {fileID: 0}
+  visualWarningColor: {r: 0, g: 0, b: 0, a: 0}
   visualWarningTimer: 2
 --- !u!1 &6378483834228950434
 GameObject:
@@ -310,6 +312,18 @@ PrefabInstance:
     - target: {fileID: 2636804050139320298, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
+      propertyPath: m_Color.b
+      value: 0.20425417
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
+      propertyPath: m_Color.g
+      value: 0.51504934
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8490566
       objectReference: {fileID: 0}
     - target: {fileID: 5306327406010088055, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Name

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
-  m_Name: AsteroidLarge
+  m_Name: AsteroidFast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1297581618196513488}
   - {fileID: 5762032200503551617}
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2529052306193900648}
-  obstacleSpeedMultiplier: 0.5
+  obstacleSpeedMultiplier: 1.5
   rotationSpeedMin: -80
   rotationSpeedMax: 80
   verticalWarning: {fileID: 5762032200503551617}
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2529052306193900648}
-  health: 50
+  health: 6
 --- !u!114 &-4505411848051596897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21cfbc12b4a41584bb314b33d783c5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 5
 --- !u!114 &2529052306193900648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,15 +315,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Color.b
-      value: 0.25178
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Color.g
-      value: 0.50313723
+      value: 0.4787879
       objectReference: {fileID: 0}
     - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Color.r
-      value: 0.7735849
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5306327406010088055, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Name

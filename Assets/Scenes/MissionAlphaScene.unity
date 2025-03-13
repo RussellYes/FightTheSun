@@ -1207,7 +1207,8 @@ MonoBehaviour:
   - {fileID: 4301909746815339928, guid: 65254347c253a4a428ea98dbc97eea3f, type: 3}
   spawnLocation: {fileID: 266272661}
   laneDistance: 1
-  timeBetweenSpawning: 2
+  timeBetweenSpawningMin: 2
+  timeBetweenSpawningMax: 2.2
 --- !u!4 &266272661
 Transform:
   m_ObjectHideFlags: 0

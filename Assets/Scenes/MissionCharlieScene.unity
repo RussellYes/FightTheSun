@@ -1181,7 +1181,7 @@ GameObject:
   - component: {fileID: 266272661}
   - component: {fileID: 266272660}
   m_Layer: 0
-  m_Name: ObstacleSpawner
+  m_Name: ObstacleSpawner1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3009,63 +3009,6 @@ MonoBehaviour:
   isThrustBar: 1
   isCheckpointBar: 0
   barImage: {fileID: 273460927}
---- !u!1001 &847437040
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5599978935364366169, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_Name
-      value: StartPlanetAlpha
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
 --- !u!1 &865686818
 GameObject:
   m_ObjectHideFlags: 0
@@ -3308,7 +3251,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1306762019}
   unpauseButton: {fileID: 1007728397}
-  goal: 150
+  goal: 200
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0
@@ -5850,6 +5793,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473313954}
   m_CullTransparentMesh: 1
+--- !u!1001 &1483716991
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599978935364366169, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_Name
+      value: StartPlanetBravo
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
 --- !u!1 &1543882998
 GameObject:
   m_ObjectHideFlags: 0
@@ -6355,7 +6355,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1170700450}
   continueStartDialogueButton: {fileID: 1196658908}
   planetSpawnPosition: {fileID: 595514689}
-  planet1: {fileID: 5599978935364366169, guid: f2dc74e2fec5973488345b0a2e05bdad, type: 3}
+  planet1: {fileID: 5599978935364366169, guid: 24b72f39683a9e649b87ad87d846afa5, type: 3}
   highLightArrowPrefab: {fileID: 1695043484928530785, guid: f00596f1c243fde42afb5e80239647b3, type: 3}
   rightButton: {fileID: 498544391}
   leftButton: {fileID: 1161083273}
@@ -7529,6 +7529,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2027269706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2027269708}
+  - component: {fileID: 2027269707}
+  m_Layer: 0
+  m_Name: ObstacleSpawner2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2027269707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027269706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d2eeafb78db74d9da89891d2134a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSpawnSingleObstacleSingleLocation: 1
+  isSpawnSingleObstacleRandomLocation: 0
+  isSpawnRandomObstacleSingleLocation: 0
+  isSpawnRandomObstacleRandomLocation: 0
+  obstacles:
+  - {fileID: 4301909746815339928, guid: 65254347c253a4a428ea98dbc97eea3f, type: 3}
+  spawnLocation: {fileID: 2027269708}
+  laneDistance: 1
+  timeBetweenSpawningMin: 4
+  timeBetweenSpawningMax: 4.1
+--- !u!4 &2027269708
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027269706}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2070927626
 GameObject:
   m_ObjectHideFlags: 0
@@ -7887,6 +7941,7 @@ SceneRoots:
   - {fileID: 2012527356}
   - {fileID: 1697156286}
   - {fileID: 266272661}
+  - {fileID: 2027269708}
   - {fileID: 1820443498}
   - {fileID: 1622874796}
   - {fileID: 1176018520}
@@ -7900,4 +7955,4 @@ SceneRoots:
   - {fileID: 4676963}
   - {fileID: 1742534193}
   - {fileID: 271984891}
-  - {fileID: 847437040}
+  - {fileID: 1483716991}
