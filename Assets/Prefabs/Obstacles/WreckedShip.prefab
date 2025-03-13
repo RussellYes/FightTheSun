@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
-  m_Name: Asteroid
+  m_Name: WreckedShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,14 +129,12 @@ MonoBehaviour:
   rotationSpeedMax: 80
   verticalWarning: {fileID: 5762032200503551617}
   entranceSounds:
-  - {fileID: 8300000, guid: 65927a1f2ca6bcc40a5817fa561e6ef0, type: 3}
-  - {fileID: 8300000, guid: 566a04d7c9a1dc549aa5d56b88f6c785, type: 3}
-  - {fileID: 8300000, guid: 3b5690b3013d4dd4ea9502ba1c066010, type: 3}
+  - {fileID: 8300000, guid: e77d2d4783fdd714e807cdbeef9352c3, type: 3}
+  - {fileID: 8300000, guid: 0292d948986d8bc47a8cd92d7b031df2, type: 3}
+  - {fileID: 8300000, guid: 779302b786bc5dd449fceac05bf12c21, type: 3}
   collisionSound:
-  - {fileID: 8300000, guid: 96f103f795d0a6245869563708fb8366, type: 3}
-  - {fileID: 8300000, guid: 25549d0ebde93084f844aa4499982089, type: 3}
-  - {fileID: 8300000, guid: 1debd04dff0b66240b7452aab6a18ee8, type: 3}
-  collisionParticles: {fileID: 1517886618772211621, guid: a4455e0a17801714883181b3e95e8029, type: 3}
+  - {fileID: 8300000, guid: 93ab8d3def5c65343860f875281c246f, type: 3}
+  collisionParticles: {fileID: 1517886618772211621, guid: 7d82addf884bc4c41be1ae7f7eba0760, type: 3}
 --- !u!114 &238012368465338199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2529052306193900648}
-  health: 10
+  health: 1
 --- !u!114 &-4505411848051596897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21cfbc12b4a41584bb314b33d783c5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 3
+  damage: -2
 --- !u!114 &2529052306193900648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +177,7 @@ MonoBehaviour:
   pointValue: 1
   visualWarning: {fileID: 2504786687601365788}
   warningSpriteRenderer: {fileID: 2477320292511290396}
-  visualWarningColor: {r: 1, g: 0.5840552, b: 0.21226418, a: 1}
+  visualWarningColor: {r: 0.15267888, g: 0.6886792, b: 0.23764896, a: 1}
   visualWarningTimer: 2
 --- !u!1 &6378483834228950434
 GameObject:
@@ -254,8 +252,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 52c860d8e3c74634c8ed2b94ffca4cb0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 19694baf467d00046a2cdab1941c4bbd, type: 3}
+  m_Color: {r: 0.01600071, g: 0.4056604, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

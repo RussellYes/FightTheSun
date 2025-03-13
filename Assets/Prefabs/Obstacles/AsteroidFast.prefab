@@ -178,8 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointValue: 1
   visualWarning: {fileID: 2504786687601365788}
-  warningSpriteRenderer: {fileID: 0}
-  visualWarningColor: {r: 0, g: 0, b: 0, a: 0}
+  warningSpriteRenderer: {fileID: 2477320292511290396}
+  visualWarningColor: {r: 1, g: 0.5456855, b: 0.1462264, a: 1}
   visualWarningTimer: 2
 --- !u!1 &6378483834228950434
 GameObject:
@@ -315,11 +315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Color.g
-      value: 0.4787879
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Color.r
@@ -338,6 +338,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
+--- !u!212 &2477320292511290396 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
+  m_PrefabInstance: {fileID: 7737490450344175979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2504786687601365788 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5306327406010088055, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}

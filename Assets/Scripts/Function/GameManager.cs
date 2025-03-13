@@ -108,6 +108,12 @@ public class GameManager : MonoBehaviour
             case 4: // MissionCharlieScene corresponds to Mission 3
                 CurrentMission = 3;
                 break;
+            case 5: // MissionCharlieScene corresponds to Mission 3
+                CurrentMission = 4;
+                break;
+            case 6: // MissionCharlieScene corresponds to Mission 3
+                CurrentMission = 5;
+                break;
             default:
                 // Suppress warning for non-mission scenes (e.g., MainMenuScene, LoadingScene)
                 if (currentSceneIndex != 0 && currentSceneIndex != 1)

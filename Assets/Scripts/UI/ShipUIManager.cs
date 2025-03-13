@@ -96,6 +96,11 @@ public class ShipUIManager : MonoBehaviour
         pauseButton.SetActive(true);
     }
 
-
+    public void Mission4_1()
+    {
+        throttleUp.SetActive(true);
+        throttleDown.SetActive(true);
+        speedMeter.SetActive(true);
+    }
 
 }

@@ -18,6 +18,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Button continueStartDialogueButton;
     private float dialogueCount = 0f;
 
+    [SerializeField] private GameObject healthPrefab;
+
     [Header("Planets")]
     [SerializeField] private GameObject planetSpawnPosition;
     [SerializeField] private GameObject planet1;
@@ -317,13 +319,14 @@ public class DialogueManager : MonoBehaviour
 
             StartCoroutine(FadeInDialogueBox());
             continueStartDialogueButton.interactable = false;
-            dialogueText.text = "Fail, and the company keeps your earnings.";
+            dialogueText.text = "Repair the hull with scrap metal from our company's wrecked ships.";
+            Instantiate (healthPrefab, planetSpawnPosition.transform.position, Quaternion.identity);
 
             StartCoroutine(FadeOutDialogueBox(4f));
         }
         else if (dialogueCount == 3)
         {
-            string endText = "And remeber, there's no problem we can't buy our way out of.";
+            string endText = "Wreck your ship and the company keeps your earnings.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount++;
@@ -359,6 +362,8 @@ public class DialogueManager : MonoBehaviour
             continueStartDialogueButton.interactable = false;
             dialogueText.text = "We can change speed with these controls";
 
+            shipUIManager.Mission4_1();
+
             // Get the RectTransform of the leftButton
             RectTransform leftButtonRect = leftButton.GetComponent<RectTransform>();
 
@@ -371,11 +376,15 @@ public class DialogueManager : MonoBehaviour
             currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, leftButtonRect.parent);
 
             StartCoroutine(FadeOutDialogueBox(4f));
+
+            StartCoroutine(DestroyArrow(4f));
             return;
         }
         else if (dialogueCount == 2)
         {
             dialogueCount++;
+
+            shipUIManager.Mission4_1();
 
             StartCoroutine(FadeInDialogueBox());
             continueStartDialogueButton.interactable = false;
@@ -385,6 +394,8 @@ public class DialogueManager : MonoBehaviour
         }
         else if (dialogueCount == 3)
         {
+            shipUIManager.Mission4_1();
+
             string endText = "Beautiful sights but we wont land. These first four planets have poison atmospheres.";
             StartCoroutine(EndDialogueScene(endText));
 
