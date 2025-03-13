@@ -9,8 +9,12 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button playMission1Button;
     [SerializeField] private Button playMission2Button;
     [SerializeField] private Button playMission3Button;
+    [SerializeField] private Button playMission4Button;
+    [SerializeField] private Button playMission5Button;
 
     [Header("Settings")]
+    [SerializeField] private Button upButton;
+    [SerializeField] private Button downButton;
     [SerializeField] private Button openSettingButton;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button quitButton;
@@ -34,19 +38,41 @@ public class MainMenuUI : MonoBehaviour
 
     private bool isMenuOpen;
 
+    // Screen movement variables
+    private float screenHeight = 10f;
+    private float minYPosition = 0f;
+    private float maxYPosition = 40;
 
     private void Awake()
     {
         playMission1Button.onClick.AddListener(() =>{
             Loader.Load(Loader.Scene.MissionAlphaScene);
-            Debug.Log("Loading Scene");
         });  
         
         playMission2Button.onClick.AddListener(() =>{
             Loader.Load(Loader.Scene.MissionBravoScene);
-            Debug.Log("Loading Scene");
+        });
+        
+        playMission3Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.MissionCharlieScene);
+        });
+        
+        playMission4Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.MissionDeltaScene);;
+        });
+        
+        playMission5Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.MissionFlagshipScene);
         });
 
+        upButton.onClick.AddListener(() =>{
+            MoveScreenUp();
+        });
+        
+        downButton.onClick.AddListener(() =>{
+            MoveScreenDown();
+        });
+        
         openSettingButton.onClick.AddListener(() =>{
             Debug.Log("openSettingButton.onClick");
             OpenMenu();
@@ -218,5 +244,22 @@ public class MainMenuUI : MonoBehaviour
     {
         // Enable the icon if volume is 0, otherwise disable it
         xSFXIcon.SetActive(SFXManager.Instance.GetSFXVolume() == 0);
+    }
+
+    private void MoveScreenUp()
+    {
+        //move screen up the height of the screen. Do not go above a maximum value
+        // Move the camera up by the height of the screen
+        Vector3 newPosition = Camera.main.transform.position + Vector3.up * screenHeight;
+        newPosition.y = Mathf.Clamp(newPosition.y, minYPosition, maxYPosition);
+        Camera.main.transform.position = newPosition;
+    }
+
+    private void MoveScreenDown()
+    {
+        //move screen down the height of the screen. Do not go below a minimum value
+        Vector3 newPosition = Camera.main.transform.position + Vector3.down * screenHeight;
+        newPosition.y = Mathf.Clamp(newPosition.y, minYPosition, maxYPosition);
+        Camera.main.transform.position = newPosition;
     }
 }

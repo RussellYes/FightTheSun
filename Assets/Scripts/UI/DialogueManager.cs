@@ -92,6 +92,12 @@ public class DialogueManager : MonoBehaviour
             case 3:
                 Mission3();
                 break;
+            case 4:
+                Mission4();
+                break;
+            case 5:
+                Mission5();
+                break;
             default:
                 HideDialogue();
                 Debug.LogWarning("Current Mission is not set or invalid. Defaulting to Mission 1.");
@@ -293,7 +299,119 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeInDialogueBox());
             continueStartDialogueButton.interactable = true;
 
-            dialogueText.text = "Life in space moves fast. And if you're slow, buy upgrades.";
+            dialogueText.text = "You get paid at the end of each mission.";
+
+
+            return;
+        }
+        else if (dialogueCount == 1)
+        {
+            dialogueCount++;
+            StartCoroutine(FadeOutDialogueBox(0f));
+            GameManager.Instance.SetState(GameManager.GameState.Playing);
+            return;
+        }
+        else if (dialogueCount == 2)
+        {
+            dialogueCount++;
+
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = false;
+            dialogueText.text = "Fail, and the company keeps your earnings.";
+
+            StartCoroutine(FadeOutDialogueBox(4f));
+        }
+        else if (dialogueCount == 3)
+        {
+            string endText = "And remeber, there's no problem we can't buy our way out of.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount++;
+
+        }
+        else if (dialogueCount == 4)
+        {
+            dialogueCount = 0;
+            dialogueBoxUI.SetActive(false);
+            //Trigger end
+            gameManager.EndGame(true);
+        }
+    }
+    
+    private void Mission4()
+    {
+        shipUIManager.Mission2All();
+
+        if (dialogueCount == 0)
+        {
+            dialogueCount++;
+
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+
+            dialogueText.text = "Ready for more? The next lesson is speed control.";
+            return;
+        }
+        else if (dialogueCount == 1)
+        {
+            dialogueCount++;
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = false;
+            dialogueText.text = "We can change speed with these controls";
+
+            // Get the RectTransform of the leftButton
+            RectTransform leftButtonRect = leftButton.GetComponent<RectTransform>();
+
+            // Apply offsets directly (no need for position conversion)
+            Vector3 xOffset = new Vector3(100, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 80, 0); // Adjust these values as needed
+            Vector3 arrowPosition = leftButtonRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, leftButtonRect.parent);
+
+            StartCoroutine(FadeOutDialogueBox(4f));
+            return;
+        }
+        else if (dialogueCount == 2)
+        {
+            dialogueCount++;
+
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = false;
+            dialogueText.text = "Life in space moves fast. If you're slow, buy upgrades.";
+
+            StartCoroutine(FadeOutDialogueBox(4f));
+        }
+        else if (dialogueCount == 3)
+        {
+            string endText = "Beautiful sights but we wont land. These first four planets have poison atmospheres.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount++;
+
+        }
+        else if (dialogueCount == 4)
+        {
+            dialogueCount = 0;
+            dialogueBoxUI.SetActive(false);
+            //Trigger end
+            gameManager.EndGame(true);
+        }
+    }
+    
+    private void Mission5()
+    {
+        shipUIManager.Mission2All();
+
+        if (dialogueCount == 0)
+        {
+            dialogueCount++;
+
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+
+            dialogueText.text = "Life in space moves fast. If you're slow, buy upgrades.";
 
 
             return;

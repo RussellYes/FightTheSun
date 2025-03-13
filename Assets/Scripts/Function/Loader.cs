@@ -12,6 +12,8 @@ public static class Loader
         MissionAlphaScene,
         MissionBravoScene,
         MissionCharlieScene,
+        MissionDeltaScene,
+        MissionFlagshipScene,
     }
 
     private static Scene targetScene;
