@@ -1200,10 +1200,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSpawnSingleObstacleSingleLocation: 0
-  isSpawnSingleObstacleRandomLocation: 1
+  isSpawnSingleObstacleRandomLocation: 0
   isSpawnRandomObstacleSingleLocation: 0
-  isSpawnRandomObstacleRandomLocation: 0
+  isSpawnRandomObstacleRandomLocation: 1
   obstacles:
+  - {fileID: 4301909746815339928, guid: 513b5d32e150c224a9b1b95ba0ba105a, type: 3}
+  - {fileID: 4301909746815339928, guid: 65254347c253a4a428ea98dbc97eea3f, type: 3}
   - {fileID: 4301909746815339928, guid: 65254347c253a4a428ea98dbc97eea3f, type: 3}
   spawnLocation: {fileID: 266272661}
   laneDistance: 1
@@ -3248,7 +3250,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1306762019}
   unpauseButton: {fileID: 1007728397}
-  goal: 100
+  goal: 150
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0

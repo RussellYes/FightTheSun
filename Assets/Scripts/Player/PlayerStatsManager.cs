@@ -76,6 +76,10 @@ public class PlayerStatsManager : MonoBehaviour
         throttleDownButton.onClick.AddListener(() => ThrottleChange(-0.25f)); // Decrease throttle by 0.25
         GameManager.ChangeThrottleEvent += GameManager_ChangeThrottleEvent;
 
+        //Set goal progress. Should be zero.
+        float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
+        UpdateDistanceTraveled(distanceThisFrame);
+
     }
 
     private void GameManager_ChangeThrottleEvent(float throttleChange)

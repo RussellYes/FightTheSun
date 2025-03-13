@@ -113,7 +113,7 @@ public class DialogueManager : MonoBehaviour
             continueStartDialogueButton.interactable = true;
 
             dialogueCount++;
-            dialogueText.text = "Good morning pilot! Welcome to your new ship";
+            dialogueText.text = "Welcome to captain training. I'm Emma, your trainer.";
         }
         else if (dialogueCount == 1)
         {
@@ -130,8 +130,7 @@ public class DialogueManager : MonoBehaviour
 
             continueStartDialogueButton.interactable = false; // Disable the button
 
-
-            dialogueText.text = "Oh no! An asteroid. Let's dodge the asteroid with these controls.";
+            dialogueText.text = "Asteroid! Quick, let's dodge the asteroid with these controls.";
 
             shipUIManager.Mission1_2();
 
@@ -166,7 +165,7 @@ public class DialogueManager : MonoBehaviour
             continueStartDialogueButton.interactable = true; // Enable the button
 
             dialogueCount++;
-            dialogueText.text = "Look out!. More asteroids incoming.";
+            dialogueText.text = "Time to prove yourself. More asteroids incoming.";
         }
         else if (dialogueCount == 4)
         {
@@ -183,7 +182,7 @@ public class DialogueManager : MonoBehaviour
             dialogueCount++;
 
             StartCoroutine(FadeInDialogueBox());
-            dialogueText.text = "Let's stay in one piece. Don't damage the ship's hull";
+            dialogueText.text = "Let's stay in one piece. Protect the ship's hull";
 
             shipUIManager.Mission1_5();
 
@@ -204,7 +203,8 @@ public class DialogueManager : MonoBehaviour
         }
         else if (dialogueCount == 6)
         {
-            StartCoroutine(EndDialogueScene());
+            string endText = "You've got skills. We arrived at the checkpoint safely.";
+            StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount++;
 
@@ -229,17 +229,56 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeInDialogueBox());
             continueStartDialogueButton.interactable = true;
 
-            dialogueText.text = "Ahhh!";
+            dialogueText.text = "Trainees who reach the flagship get to captain their own ship.";
+
+
             return;
         }
         else if (dialogueCount == 1)
         {
-            StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
-            Debug.Log($"ContinueStartDialogueButton interactable = {continueStartDialogueButton.interactable}");
             dialogueCount++;
-            dialogueText.text = "Mission 2 dialogue here";
+            StartCoroutine(FadeOutDialogueBox(0f));
+            GameManager.Instance.SetState(GameManager.GameState.Playing);
             return;
+        }
+        else if (dialogueCount == 2)
+        {
+            dialogueCount++;
+
+            StartCoroutine(FadeInDialogueBox());
+            dialogueText.text = "Look! This meter shows our progress to the checkpoint.";
+
+            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(100, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
+
+            // Define the z axis rotation
+            Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, hullMeterObjectRect.parent);
+
+            StartCoroutine(FadeOutDialogueBox(4f));
+
+            StartCoroutine(DestroyArrow(4f));
+        }
+        else if (dialogueCount == 3)
+        {
+            string endText = "The asteroids have claimed countless lives, but you survived.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount++;
+
+        }
+        else if (dialogueCount == 4)
+        {
+            dialogueCount = 0;
+            dialogueBoxUI.SetActive(false);
+            //Trigger end
+            gameManager.EndGame(true);
         }
     }
 
@@ -341,14 +380,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    IEnumerator EndDialogueScene()
+    IEnumerator EndDialogueScene(string endText)
     {
         Instantiate(planet1, planetSpawnPosition.transform.position, Quaternion.identity);
 
         yield return new WaitForSeconds(3f);
 
         StartCoroutine(FadeInDialogueBox());
-        dialogueText.text = "You've got skills. We arrived at the checkpoint safely.";
+        dialogueText.text = endText;
         continueStartDialogueButton.interactable = true; // Enable the button
 
 
