@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
   m_Name: Asteroid
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
   visualWarning: {fileID: 2504786687601365788}
   warningSpriteRenderer: {fileID: 2477320292511290396}
   visualWarningColor: {r: 1, g: 0.5840552, b: 0.21226418, a: 1}
-  visualWarningTimer: 2
+  visualWarningTimer: 1.5
 --- !u!1 &6378483834228950434
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WorldLowerBarrier
   - WorldTopScreenBarrier
+  - Obstacle
   layers:
   - Default
   - TransparentFX

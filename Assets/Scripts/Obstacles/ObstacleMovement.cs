@@ -59,12 +59,12 @@ public class ObstacleMovement : MonoBehaviour
         }
 
         // Check if the collided object is the WorldLowerBarrier
-        if (collision.CompareTag("WorldLowerBarrier"))
+        else if (collision.CompareTag("WorldLowerBarrier"))
         {
             SelfDestruct();
         }
 
-        if (collision.CompareTag("Player"))
+        else if (collision.CompareTag("Player"))
         {
             Debug.Log("Obstacle collided with Player.");
             sFXManager = FindAnyObjectByType<SFXManager>();
