@@ -413,7 +413,7 @@ public class DialogueManager : MonoBehaviour
     
     private void Mission5()
     {
-        shipUIManager.Mission2All();
+        shipUIManager.Mission5All();
 
         if (dialogueCount == 0)
         {
@@ -422,36 +422,49 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeInDialogueBox());
             continueStartDialogueButton.interactable = true;
 
-            dialogueText.text = "Life in space moves fast. If you're slow, buy upgrades.";
+            dialogueText.text = "The outer asteroid belt is the most chaotic.";
 
 
             return;
         }
-        else if (dialogueCount == 1)
+        if (dialogueCount == 1)
+        {
+            dialogueCount++;
+
+            StartCoroutine(FadeInDialogueBox());
+            continueStartDialogueButton.interactable = true;
+
+            dialogueText.text = "Rocks are all that's left of the iron planet";
+
+
+            return;
+        }
+        else if (dialogueCount == 2)
         {
             dialogueCount++;
             StartCoroutine(FadeOutDialogueBox(0f));
             GameManager.Instance.SetState(GameManager.GameState.Playing);
             return;
         }
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 3)
         {
             dialogueCount++;
 
             StartCoroutine(FadeInDialogueBox());
-            dialogueText.text = "There's no problem we can't buy our way out of.";
+            dialogueText.text = "You've got this! We're almost at the Flagship.";
 
             StartCoroutine(FadeOutDialogueBox(4f));
         }
-        else if (dialogueCount == 3)
+        else if (dialogueCount == 4)
         {
-            string endText = "Planet Charlie's volcanos make the air toxic. Only mutated plants survive.";
+            StartCoroutine(FadeInDialogueBox());
+            string endText = "We're alive! Unitl I face another new trainee.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount++;
 
         }
-        else if (dialogueCount == 4)
+        else if (dialogueCount == 5)
         {
             dialogueCount = 0;
             dialogueBoxUI.SetActive(false);

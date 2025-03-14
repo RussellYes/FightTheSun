@@ -103,4 +103,20 @@ public class ShipUIManager : MonoBehaviour
         speedMeter.SetActive(true);
     }
 
+    public void Mission5All()
+    {
+        shipUIBackground.SetActive(true);
+        rightButtonObject.SetActive(true);
+        leftButtonObject.SetActive(true);
+        speedMeter.SetActive(true);
+        throttleUp.SetActive(true);
+        throttleDown.SetActive(true);
+        checkpointUI.SetActive(true);
+        scoreMeter.SetActive(true);
+        hullMeter.SetActive(true);
+        pauseButton.SetActive(true);
+    }
+
+
+
 }
