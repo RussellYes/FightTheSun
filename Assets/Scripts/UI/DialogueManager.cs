@@ -434,7 +434,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeInDialogueBox());
             continueStartDialogueButton.interactable = true;
 
-            dialogueText.text = "Rocks are all that's left of the iron planet";
+            dialogueText.text = "Rocks are all that's left of a destroyed planet";
 
 
             return;
@@ -458,7 +458,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             StartCoroutine(FadeInDialogueBox());
-            string endText = "We're alive! Unitl I face another new trainee.";
+            string endText = "We're alive! Thanks for not crashing this time.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount++;

@@ -195,8 +195,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3115927565508693955}
   - {fileID: 7997923488826157332}
@@ -215,5 +215,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetVisual: {fileID: 2354550298258233476}
-  planetRotationSpeedMin: 3
-  planetRotationSpeedMax: 7
+  planetRotationSpeedMin: 0
+  planetRotationSpeedMax: 0
