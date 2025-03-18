@@ -4,9 +4,12 @@ using TMPro;
 using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static event Action StartGameCountdownEvent;
+
     private GameManager gameManager;
     public static DialogueManager Instance;
     public static UnityEvent SpawnSingleSingleEvent = new UnityEvent();
@@ -15,31 +18,23 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] private GameObject dialogueBoxUI;
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private float dialogueTimer = 4f;
     [SerializeField] private Button continueStartDialogueButton;
     private float dialogueCount = 0f;
 
     [Header("Mission Title")]
     [SerializeField] private TextMeshProUGUI missionTitleText;
 
-
-    [SerializeField] private GameObject healthPrefab;
-
     [Header("Planets")]
     [SerializeField] private GameObject planetSpawnPosition;
     [SerializeField] private GameObject planet1;
 
-    [Header("Mission 1 - Dashboard Controls")]
+    [Header("Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
-
-    [SerializeField] private Button rightButton;
-    [SerializeField] private Button leftButton;
     [SerializeField] private GameObject hullMeterObject;
-
-    
-
+    [SerializeField] private GameObject healthPrefab;
 
     private GameObject currentArrowInstance;
-    private bool waitingForButtonPress = false;
 
     private void Awake()
     {
@@ -131,79 +126,62 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
 
-        shipUIManager.Mission1All();
+        shipUIManager.TurnOnShipUI();
 
 
         if (dialogueCount == 0)
         {
+            missionTitleText.text = "Mission 1: Learn to drive.";
+
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+            StartCoroutine(StartGameCountdown(dialogueTimer)); //Start game countdown
+            
+            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
+            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullMeterObjectRect.parent);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            //DestroyArrow(dialogueTimer);
+
+            // Spawn 1 asteroid
+            SpawnSingleSingleEvent?.Invoke();
 
             dialogueCount++;
-            dialogueText.text = "Welcome to captain training. I'm Emma, your trainer.";
+            dialogueText.text = "Asteroid! Move with these buttons.";
         }
         else if (dialogueCount == 1)
         {
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
-            dialogueText.text = "Let's fly to the flagship. It's 5 checkpoints away.";
+            dialogueText.text = "Time to prove yourself. More asteroids incoming.";
         }
 
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-
-            continueStartDialogueButton.interactable = false; // Disable the button
-
-            dialogueText.text = "Asteroid! Quick, let's dodge the asteroid with these controls.";
-
-            shipUIManager.Mission1_2();
-
-            // Add listeners to the buttons
-            leftButton.onClick.AddListener(LeftRightButtonPushed);
-            rightButton.onClick.AddListener(LeftRightButtonPushed);
-
-            // Get the RectTransform of the leftButton
-            RectTransform leftButtonRect = leftButton.GetComponent<RectTransform>();
-
-            // Apply offsets directly (no need for position conversion)
-            Vector3 xOffset = new Vector3(20, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 80, 0); // Adjust these values as needed
-            Vector3 arrowPosition = leftButtonRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, leftButtonRect.parent);
-
-            SpawnSingleSingleEvent?.Invoke();
-
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-
-            waitingForButtonPress = true;
-        }
-        else if (dialogueCount == 3)
-        {
-            shipUIManager.Mission1_3();
-
-            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             continueStartDialogueButton.interactable = true; // Enable the button
 
-            dialogueCount++;
-            dialogueText.text = "Time to prove yourself. More asteroids incoming.";
+            string endText = "You've got skills. We arrived at the checkpoint safely.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount = 0;
+            dialogueBoxUI.SetActive(false);
+            //Trigger end
+            gameManager.EndGame(true);
         }
-        else if (dialogueCount == 4)
-        {
-            dialogueCount++;
 
-            StartCoroutine(FadeOutDialogueBox(0f));
-
-            shipUIManager.Mission1_4();
-
-            GameManager.Instance.SetState(GameManager.GameState.Playing);
-        }
         else if (dialogueCount == 5)
         {
             dialogueCount++;
@@ -228,21 +206,8 @@ public class DialogueManager : MonoBehaviour
 
             StartCoroutine(DestroyArrow(4f));
         }
-        else if (dialogueCount == 6)
-        {
-            string endText = "You've got skills. We arrived at the checkpoint safely.";
-            StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount++;
 
-        }
-        else if (dialogueCount == 7)
-        {
-            dialogueCount = 0;
-            dialogueBoxUI.SetActive(false);
-            //Trigger end
-            gameManager.EndGame(true);
-        }
     }
 
     private void Mission2()
@@ -384,10 +349,10 @@ public class DialogueManager : MonoBehaviour
             shipUIManager.Mission4_1();
 
             // Get the RectTransform of the leftButton
-            RectTransform leftButtonRect = leftButton.GetComponent<RectTransform>();
+            RectTransform leftButtonRect = hullMeterObject.GetComponent<RectTransform>();
 
             // Apply offsets directly (no need for position conversion)
-            Vector3 xOffset = new Vector3(100, 0, 0); // Adjust these values as needed
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
             Vector3 yOffset = new Vector3(0, 80, 0); // Adjust these values as needed
             Vector3 arrowPosition = leftButtonRect.position + xOffset + yOffset;
 
@@ -516,21 +481,28 @@ public class DialogueManager : MonoBehaviour
     {
 
     }
-    private void LeftRightButtonPushed()
-    {
-        Debug.Log("Left or Right Button Pushed");
 
-        if (waitingForButtonPress)
+    IEnumerator StartGameCountdown(float waitTime)
+    {
+        Debug.Log("DialogueManager - StartGameCountdown");
+        //Send an event to countdown
+        //StartGameCountdownEvent?.Invoke(); // Trigger the event
+
+        if (StartGameCountdownEvent != null)
         {
-            if (currentArrowInstance != null)
-            {
-                Destroy(currentArrowInstance);
-            }
-            waitingForButtonPress = false;
-            dialogueCount++;
-            MissionDialogue();
+            Debug.Log("DialogueManager: Invoking StartGameCountdownEvent");
+            StartGameCountdownEvent.Invoke();
         }
+        else
+        {
+            Debug.LogWarning("DialogueManager: StartGameCountdownEvent is null");
+        }
+
+        //Wait, then start the game
+        yield return new WaitForSeconds(waitTime);
+        GameManager.Instance.SetState(GameManager.GameState.Playing);        
     }
+
 
     public void HideDialogue()
     {
@@ -538,7 +510,6 @@ public class DialogueManager : MonoBehaviour
     }
     IEnumerator FadeInDialogueBox()
     {
-        continueStartDialogueButton.interactable = false;
         dialogueBoxUI.SetActive(true);
 
         CanvasGroup canvasGroup = dialogueBoxUI.GetComponent<CanvasGroup>();
@@ -583,15 +554,14 @@ public class DialogueManager : MonoBehaviour
             // Ensure the alpha is set to 0 at the end
             canvasGroup.alpha = 0f;
 
-            continueStartDialogueButton.interactable = true;
             dialogueBoxUI.SetActive(false);
-            GameManager.Instance.SetState(GameManager.GameState.Playing);
         }
     }
 
     IEnumerator DestroyArrow(float time)
     {
         yield return new WaitForSeconds(time);
+        Debug.Log("Destroying arrow");
 
         if (currentArrowInstance != null)
         {

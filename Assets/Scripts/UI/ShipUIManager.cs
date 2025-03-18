@@ -30,7 +30,7 @@ public class ShipUIManager : MonoBehaviour
         scoreMeter.SetActive(true);
         pauseButton.SetActive(true);
     }
-    public void Mission1All()
+    public void TurnOffShipUI()
     {
         shipUIBackground.SetActive(false);
         hullMeter.SetActive(false);
