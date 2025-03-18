@@ -18,6 +18,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Button continueStartDialogueButton;
     private float dialogueCount = 0f;
 
+    [Header("Mission Title")]
+    [SerializeField] private TextMeshProUGUI missionTitleText;
+
+
     [SerializeField] private GameObject healthPrefab;
 
     [Header("Planets")]
@@ -99,6 +103,21 @@ public class DialogueManager : MonoBehaviour
                 break;
             case 5:
                 Mission5();
+                break;
+            case 6:
+                Mission6();
+                break;
+            case 7:
+                Mission7();
+                break;
+            case 8:
+                Mission8();
+                break;
+            case 9:
+                Mission9();
+                break;
+            case 10:
+                Mission10();
                 break;
             default:
                 HideDialogue();
@@ -473,8 +492,30 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void Mission6()
+    {
 
+    }
 
+    private void Mission7()
+    {
+
+    }
+
+    private void Mission8()
+    {
+
+    }
+
+    private void Mission9()
+    {
+
+    }
+
+    private void Mission10()
+    {
+
+    }
     private void LeftRightButtonPushed()
     {
         Debug.Log("Left or Right Button Pushed");
