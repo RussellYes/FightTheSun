@@ -22,8 +22,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Button continueStartDialogueButton;
     private float dialogueCount = 0f;
 
-    [Header("Mission Title")]
+    [Header("Mission Title / Countdown")]
     [SerializeField] private TextMeshProUGUI missionTitleText;
+    [SerializeField] private TextMeshProUGUI countdownText;
 
     [Header("Planets")]
     [SerializeField] private GameObject planetSpawnPosition;
@@ -125,9 +126,7 @@ public class DialogueManager : MonoBehaviour
     private void Mission1()
     {
         Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
-
         shipUIManager.TurnOnShipUI();
-
 
         if (dialogueCount == 0)
         {
@@ -135,8 +134,9 @@ public class DialogueManager : MonoBehaviour
 
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
-            StartCoroutine(StartGameCountdown(dialogueTimer)); //Start game countdown
-            
+            StartCoroutine(StartGameCountdown()); 
+            StartCoroutine(DelayedStartActions1()); 
+
             RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
 
             // Apply offsets directly
@@ -149,10 +149,7 @@ public class DialogueManager : MonoBehaviour
 
             // Ensure the arrow is rendered in front by setting its sibling index
             currentArrowInstance.transform.SetAsLastSibling();
-            //DestroyArrow(dialogueTimer);
-
-            // Spawn 1 asteroid
-            SpawnSingleSingleEvent?.Invoke();
+            DestroyArrow(dialogueTimer);
 
             dialogueCount++;
             dialogueText.text = "Asteroid! Move with these buttons.";
@@ -482,27 +479,11 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-    IEnumerator StartGameCountdown(float waitTime)
+    IEnumerator StartGameCountdown()
     {
-        Debug.Log("DialogueManager - StartGameCountdown");
-        //Send an event to countdown
-        //StartGameCountdownEvent?.Invoke(); // Trigger the event
-
-        if (StartGameCountdownEvent != null)
-        {
-            Debug.Log("DialogueManager: Invoking StartGameCountdownEvent");
-            StartGameCountdownEvent.Invoke();
-        }
-        else
-        {
-            Debug.LogWarning("DialogueManager: StartGameCountdownEvent is null");
-        }
-
-        //Wait, then start the game
-        yield return new WaitForSeconds(waitTime);
-        GameManager.Instance.SetState(GameManager.GameState.Playing);        
+        yield return new WaitForSeconds(0.1f); // Wait for one frame to ensure all scripts are enabled and subscribed
+        StartGameCountdownEvent?.Invoke();
     }
-
 
     public void HideDialogue()
     {
@@ -558,6 +539,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    IEnumerator DelayedStartActions1()
+    {
+        yield return new WaitForSeconds(3f);
+        // Spawn 1 asteroid
+        SpawnSingleSingleEvent?.Invoke();
+    }
     IEnumerator DestroyArrow(float time)
     {
         yield return new WaitForSeconds(time);
