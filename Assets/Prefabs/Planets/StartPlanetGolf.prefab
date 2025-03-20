@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7997923488826157332}
   - component: {fileID: 324723945398792793}
   m_Layer: 0
-  m_Name: PlanetDeltaVisual
+  m_Name: PlanetVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4baf5244b3f75e844aa61bbd8871a7dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84215b49a9d317f409677f72cd795b3b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

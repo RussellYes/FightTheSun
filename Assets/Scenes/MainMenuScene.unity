@@ -25955,7 +25955,6 @@ GameObject:
   - component: {fileID: 2110798693}
   - component: {fileID: 2110798696}
   - component: {fileID: 2110798695}
-  - component: {fileID: 2110798694}
   - component: {fileID: 2110798697}
   m_Layer: 0
   m_Name: SunAnimation
@@ -25979,20 +25978,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1400566340}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2110798694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110798692}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d2a4b2a7b459494980917d9319d5d3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationDuration: 10
-  rotationAxis: {x: 0, y: 0, z: 1}
 --- !u!95 &2110798695
 Animator:
   serializedVersion: 5

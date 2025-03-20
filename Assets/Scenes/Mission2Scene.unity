@@ -1175,6 +1175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 747d2eeafb78db74d9da89891d2134a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSpawnSpecial1: 0
+  isSpawnBoss1: 0
+  isSpawnBoss2: 0
   isSpawnSingleObstacleSingleLocation: 0
   isSpawnSingleObstacleRandomLocation: 0
   isSpawnRandomObstacleSingleLocation: 0
@@ -2668,7 +2671,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1402465126}
   unpauseButton: {fileID: 1007728397}
-  goal: 150
+  goal: 50
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0
@@ -6227,12 +6230,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 259865138}
+  - {fileID: 1332962860}
+  - {fileID: 2116307122}
   - {fileID: 1962615855}
   - {fileID: 2093201284}
   - {fileID: 1149905137}
-  - {fileID: 2116307122}
-  - {fileID: 1332962860}
-  - {fileID: 259865138}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6752,11 +6755,13 @@ MonoBehaviour:
   missionTitleText: {fileID: 1332962861}
   countdownText: {fileID: 259865141}
   planetSpawnPosition: {fileID: 595514689}
-  planet1: {fileID: 5599978935364366169, guid: f2dc74e2fec5973488345b0a2e05bdad, type: 3}
+  planet1: {fileID: 5599978935364366169, guid: 42c87d89326b1cd42b394befcdcde2f5, type: 3}
   highLightArrowPrefab: {fileID: 1695043484928530785, guid: f00596f1c243fde42afb5e80239647b3, type: 3}
   hullMeterObject: {fileID: 717941178}
   healthPrefab: {fileID: 4301909746815339928, guid: 8327a60abca002d43837e0706b4e52b1, type: 3}
   thrusterMeterObject: {fileID: 798516318}
+  missleButtonObject: {fileID: 0}
+  clawButtonObject: {fileID: 0}
 --- !u!1 &1773229942
 GameObject:
   m_ObjectHideFlags: 0

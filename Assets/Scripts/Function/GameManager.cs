@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float goal; // Distance to the goal
     private bool isGoalActive = false;
+    private bool isBossBattle = false;
 
     // Public read-only property
     public bool IsGoalActive => isGoalActive;
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isGoalActive)
+        if (isGoalActive || isBossBattle)
         {
             gameTime += Time.deltaTime; // Increment game time
         }
@@ -99,20 +100,35 @@ public class GameManager : MonoBehaviour
         // Map scene indices to missions
         switch (currentSceneIndex)
         {
-            case 2: // MissionAlphaScene corresponds to Mission 1
+            case 2: // Mission1Scene corresponds to Mission 1
                 CurrentMission = 1;
                 break;
-            case 3: // MissionBravoScene corresponds to Mission 2
+            case 3: // Mission2Scene corresponds to Mission 2
                 CurrentMission = 2;
                 break;
-            case 4: // MissionCharlieScene corresponds to Mission 3
+            case 4: // Mission3Scene corresponds to Mission 3
                 CurrentMission = 3;
                 break;
-            case 5: // MissionCharlieScene corresponds to Mission 3
+            case 5: // Mission4Scene corresponds to Mission 4
                 CurrentMission = 4;
                 break;
-            case 6: // MissionCharlieScene corresponds to Mission 3
+            case 6: // Mission5Scene corresponds to Mission 5
                 CurrentMission = 5;
+                break;
+            case 7: // Mission6Scene corresponds to Mission 6
+                CurrentMission = 6;
+                break;
+            case 8: // Mission7Scene corresponds to Mission 7
+                CurrentMission = 7;
+                break;
+            case 9: // Mission8Scene corresponds to Mission 8
+                CurrentMission = 8;
+                break;
+            case 10: // Mission9Scene corresponds to Mission 9
+                CurrentMission = 9;
+                break;
+            case 11: // Mission10Scene corresponds to Mission 10
+                CurrentMission = 10;
                 break;
             default:
                 // Suppress warning for non-mission scenes (e.g., MainMenuScene, LoadingScene)
@@ -283,6 +299,9 @@ public class GameManager : MonoBehaviour
     {
         // Stop spawners
         StopSpawning?.Invoke();
+
+        isBossBattle = true;
+
         // Stop goal progress
         StopGoalProgress();
     }
@@ -291,6 +310,8 @@ public class GameManager : MonoBehaviour
     {
         // Stop spawners
         StopSpawning?.Invoke();
+
+        isBossBattle = false;
 
         // Stop goal progress
         StopGoalProgress();
@@ -313,6 +334,8 @@ public class GameManager : MonoBehaviour
     {
         // Stop spawners
         StopSpawning?.Invoke();
+
+
 
         // Stop goal progress
         StopGoalProgress();

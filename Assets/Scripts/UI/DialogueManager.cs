@@ -190,7 +190,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             Debug.Log("DialogueManager - Mission 1 - Dialogue Count 2");
-            string endText = "You've got skills. We arrived at the checkpoint safely.";
+            string endText = "Great flying. You're at the first planet.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
@@ -256,7 +256,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
-            string endText = "You've got skills. We arrived at the flagship safely.";
+            string endText = "You've got skills. We arrived at the space station safely.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
@@ -532,9 +532,6 @@ public class DialogueManager : MonoBehaviour
 
             dialogueCount++;
             dialogueText.text = "What will you say when you find the Champ?";
-
-            StartCoroutine(DelayedSpawnActions1());
-            GameManager.Instance.SetState(GameState.BossBattle);
         }
 
         else if (dialogueCount == 2)
