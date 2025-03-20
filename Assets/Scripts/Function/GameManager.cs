@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
         StartDialogue,  // State 1: Show dialogue boxes at the beginning
         Playing,        // State 2: Normal gameplay
         DialogueDuringPlay, // State 3: Show dialogue boxes during gameplay
+        BossBattle,     // State 4: Boss battle
         EndDialogue,    // State 5: Show dialogue boxes at the end
         EndUI           // State 6: End UI active, game paused
     }
@@ -163,6 +164,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.DialogueDuringPlay:
                 HandleDialogueDuringPlay();
+                break;
+            case GameState.BossBattle:
+                HandleBossBattle();
                 break;
             case GameState.EndDialogue:
                 HandleEndDialogue();
@@ -273,6 +277,14 @@ public class GameManager : MonoBehaviour
 
         // Stop goal progress
         StartGoalProgress();
+    }
+
+    private void HandleBossBattle()
+    {
+        // Stop spawners
+        StopSpawning?.Invoke();
+        // Stop goal progress
+        StopGoalProgress();
     }
 
     private void HandleEndDialogue()

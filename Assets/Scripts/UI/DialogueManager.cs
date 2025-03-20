@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System;
+using static GameManager;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class DialogueManager : MonoBehaviour
 
     private GameManager gameManager;
     public static DialogueManager Instance;
-    public static UnityEvent SpawnSingleSingleEvent = new UnityEvent();
+    public static UnityEvent SpawnSpecialEvent = new UnityEvent();
 
     [SerializeField] private ShipUIManager shipUIManager;
 
@@ -34,6 +35,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject highLightArrowPrefab;
     [SerializeField] private GameObject hullMeterObject;
     [SerializeField] private GameObject healthPrefab;
+    [SerializeField] private GameObject thrusterMeterObject;
+    [SerializeField] private GameObject missleButtonObject;
+    [SerializeField] private GameObject clawButtonObject;
 
     private GameObject currentArrowInstance;
 
@@ -68,6 +72,11 @@ public class DialogueManager : MonoBehaviour
         dialogueCount = 0;
 
         Debug.Log($"New scene loaded: {scene.name}. Dialogue count reset.");
+    }
+
+    private void OnEnable()
+    {
+        Obstacle.BossDefeatedEvent += MissionDialogue;
     }
 
     private void OnDestroy()
@@ -131,12 +140,12 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueCount == 0)
         {
-            missionTitleText.text = "Mission 1: Learn to drive";
+            missionTitleText.text = "Mission 1: Learn To Drive";
 
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown()); 
-            StartCoroutine(DelayedStartActions1()); 
+            StartCoroutine(DelayedSpawnActions1()); 
 
             RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
 
@@ -188,277 +197,392 @@ public class DialogueManager : MonoBehaviour
         }
 
     }
-
     private void Mission2()
     {
-        shipUIManager.Mission2All();
+        Debug.Log("Mission 2 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
         if (dialogueCount == 0)
         {
-            dialogueCount++;
+            missionTitleText.text = "Mission 2: Speed Control";
 
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown()); 
 
-            dialogueText.text = "Trainees who reach the flagship get to captain their own ship.";
+            RectTransform thrusterMeterObjectRect = thrusterMeterObject.GetComponent<RectTransform>();
 
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
+            Vector3 arrowPosition = thrusterMeterObjectRect.position + xOffset + yOffset;
 
-            return;
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, thrusterMeterObjectRect.parent);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+
+            dialogueCount++;
+            dialogueText.text = "We can change speed with these controls";
         }
         else if (dialogueCount == 1)
         {
-            dialogueCount++;
-            StartCoroutine(FadeOutDialogueBox(0f));
-            GameManager.Instance.SetState(GameManager.GameState.Playing);
-            return;
-        }
-        else if (dialogueCount == 2)
-        {
-            dialogueCount++;
-
             StartCoroutine(FadeInDialogueBox());
-            dialogueText.text = "Look! This meter shows our progress to the checkpoint.";
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
-            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
+            RectTransform thrusterMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
 
             // Apply offsets directly
-            Vector3 xOffset = new Vector3(100, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
+            Vector3 xOffset = new Vector3(20, 150, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 arrowPosition = thrusterMeterObjectRect.position + xOffset + yOffset;
 
             // Define the z axis rotation
             Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
 
             // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, hullMeterObjectRect.parent);
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, thrusterMeterObjectRect.parent);
 
-            StartCoroutine(FadeOutDialogueBox(4f));
-
-            StartCoroutine(DestroyArrow(4f));
-        }
-        else if (dialogueCount == 3)
-        {
-            string endText = "The asteroids have claimed countless lives, but you survived.";
-            StartCoroutine(EndDialogueScene(endText));
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
 
             dialogueCount++;
-
+            dialogueText.text = "Look! This meter shows the progress to our checkpoint.";
         }
-        else if (dialogueCount == 4)
+
+        else if (dialogueCount == 2)
         {
+            Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
+            string endText = "You've got skills. We arrived at the flagship safely.";
+            StartCoroutine(EndDialogueScene(endText));
+
             dialogueCount = 0;
-            dialogueBoxUI.SetActive(false);
-            //Trigger end
-            gameManager.EndGame(true);
         }
     }
     
     private void Mission3()
     {
-        shipUIManager.Mission2All();
+        Debug.Log("Mission 3 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
         if (dialogueCount == 0)
         {
-            dialogueCount++;
+            missionTitleText.text = "Mission 3: Fixing For Trouble";
 
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
+            StartCoroutine(DelayedSpawnActions1());
 
-            dialogueText.text = "You get paid at the end of each mission.";
-
-
-            return;
+            dialogueCount++;
+            dialogueText.text = "Collect Shipwrecks to repair your ship";
         }
         else if (dialogueCount == 1)
         {
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+
             dialogueCount++;
-            StartCoroutine(FadeOutDialogueBox(0f));
-            GameManager.Instance.SetState(GameManager.GameState.Playing);
-            return;
+            dialogueText.text = "Shipwreck scrap is sold and you get paid";
         }
+
         else if (dialogueCount == 2)
         {
-            dialogueCount++;
-
-            StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = false;
-            dialogueText.text = "Repair the hull with scrap metal from our company's wrecked ships.";
-            Instantiate (healthPrefab, planetSpawnPosition.transform.position, Quaternion.identity);
-
-            StartCoroutine(FadeOutDialogueBox(4f));
-        }
-        else if (dialogueCount == 3)
-        {
-            string endText = "Wreck your ship and the company keeps your earnings.";
+            Debug.Log("DialogueManager - Mission 3 - Dialogue Count 2");
+            string endText = "Life moves fast. If you're slow, buy upgrades.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount++;
-
-        }
-        else if (dialogueCount == 4)
-        {
             dialogueCount = 0;
-            dialogueBoxUI.SetActive(false);
-            //Trigger end
-            gameManager.EndGame(true);
         }
     }
     
     private void Mission4()
     {
-        shipUIManager.Mission2All();
+        Debug.Log("Mission 4 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
         if (dialogueCount == 0)
         {
-            dialogueCount++;
+            missionTitleText.text = "Mission 4: Trouble Finds You";
 
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
+            StartCoroutine(DelayedSpawnActions1());
 
-            dialogueText.text = "Ready for more? The next lesson is speed control.";
-            return;
+            dialogueCount++;
+            dialogueText.text = "Not everyone is friendly in space.";
         }
         else if (dialogueCount == 1)
         {
-            dialogueCount++;
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = false;
-            dialogueText.text = "We can change speed with these controls";
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
-            shipUIManager.Mission4_1();
-
-            // Get the RectTransform of the leftButton
-            RectTransform leftButtonRect = hullMeterObject.GetComponent<RectTransform>();
-
-            // Apply offsets directly (no need for position conversion)
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 80, 0); // Adjust these values as needed
-            Vector3 arrowPosition = leftButtonRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, leftButtonRect.parent);
-
-            StartCoroutine(FadeOutDialogueBox(4f));
-
-            StartCoroutine(DestroyArrow(4f));
-            return;
+            dialogueCount++;
+            dialogueText.text = "Hostile ships are eager to meet us.";
         }
+
         else if (dialogueCount == 2)
         {
-            dialogueCount++;
-
-            shipUIManager.Mission4_1();
-
-            StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = false;
-            dialogueText.text = "Life in space moves fast. If you're slow, buy upgrades.";
-
-            StartCoroutine(FadeOutDialogueBox(4f));
-        }
-        else if (dialogueCount == 3)
-        {
-            shipUIManager.Mission4_1();
-
-            string endText = "Beautiful sights but we wont land. These first four planets have poison atmospheres.";
+            Debug.Log("DialogueManager - Mission 4 - Dialogue Count 2");
+            string endText = "A big gold ship draws attention.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount++;
-
-        }
-        else if (dialogueCount == 4)
-        {
             dialogueCount = 0;
-            dialogueBoxUI.SetActive(false);
-            //Trigger end
-            gameManager.EndGame(true);
         }
     }
     
     private void Mission5()
     {
-        shipUIManager.Mission5All();
+        Debug.Log("Mission 5 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
         if (dialogueCount == 0)
         {
-            dialogueCount++;
+            missionTitleText.text = "Mission 5: Gold Digger";
 
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
 
-            dialogueText.text = "The outer asteroid belt is the most chaotic.";
+            dialogueCount++;
+            dialogueText.text = "The mining missle uncovers ore.";
 
+            RectTransform missleButtonObjectRect = missleButtonObject.GetComponent<RectTransform>();
 
-            return;
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
+            Vector3 arrowPosition = missleButtonObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, missleButtonObjectRect.parent);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
         }
-        if (dialogueCount == 1)
+        else if (dialogueCount == 1)
         {
-            dialogueCount++;
-
             StartCoroutine(FadeInDialogueBox());
-            continueStartDialogueButton.interactable = true;
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
-            dialogueText.text = "Rocks are all that's left of a destroyed planet";
+            dialogueCount++;
+            dialogueText.text = "The claw picks up ore.";
 
+            RectTransform clawButtonObjectRect = clawButtonObject.GetComponent<RectTransform>();
 
-            return;
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
+            Vector3 arrowPosition = clawButtonObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, clawButtonObjectRect.parent);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
         }
+
         else if (dialogueCount == 2)
         {
-            dialogueCount++;
-            StartCoroutine(FadeOutDialogueBox(0f));
-            GameManager.Instance.SetState(GameManager.GameState.Playing);
-            return;
-        }
-        else if (dialogueCount == 3)
-        {
-            dialogueCount++;
-
-            StartCoroutine(FadeInDialogueBox());
-            dialogueText.text = "You've got this! We're almost at the Flagship.";
-
-            StartCoroutine(FadeOutDialogueBox(4f));
-        }
-        else if (dialogueCount == 4)
-        {
-            StartCoroutine(FadeInDialogueBox());
-            string endText = "We're alive! Thanks for not crashing this time.";
+            Debug.Log("DialogueManager - Mission 5 - Dialogue Count 2");
+            string endText = "We need that ore for crafting upgrades.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount++;
-
-        }
-        else if (dialogueCount == 5)
-        {
             dialogueCount = 0;
-            dialogueBoxUI.SetActive(false);
-            //Trigger end
-            gameManager.EndGame(true);
         }
     }
 
     private void Mission6()
     {
+        Debug.Log("Mission 6 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
+        if (dialogueCount == 0)
+        {
+            missionTitleText.text = "Mission 6: A Really Big Rock";
+
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
+
+            dialogueCount++;
+            dialogueText.text = "Pirates guard the ore in this area";
+        }
+        else if (dialogueCount == 1)
+        {
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+
+            dialogueCount++;
+            dialogueText.text = "There is something VERY big coming your way.";
+
+            StartCoroutine(DelayedSpawnActions1());
+            GameManager.Instance.SetState(GameState.BossBattle);
+        }
+
+        else if (dialogueCount == 2)
+        {
+            Debug.Log("DialogueManager - Mission 6 - Dialogue Count 2");
+            string endText = "What a fortune!";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount = 0;
+        }
     }
 
     private void Mission7()
     {
+        Debug.Log("Mission 7 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
+        if (dialogueCount == 0)
+        {
+            missionTitleText.text = "Mission 7: Feel The Heat";
+
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
+
+            dialogueCount++;
+            dialogueText.text = "Radiation from the Sun is heating up the ship.";
+        }
+        else if (dialogueCount == 1)
+        {
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+
+            dialogueCount++;
+            dialogueText.text = "It's getting hotter closer to the Sun.";
+
+            StartCoroutine(DelayedSpawnActions1());
+            GameManager.Instance.SetState(GameState.BossBattle);
+        }
+
+        else if (dialogueCount == 2)
+        {
+            Debug.Log("DialogueManager - Mission 7 - Dialogue Count 2");
+            string endText = "How can we possibly survive?";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount = 0;
+        }
     }
 
     private void Mission8()
     {
+        Debug.Log("Mission 8 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
+        if (dialogueCount == 0)
+        {
+            missionTitleText.text = "Mission 8: VIP Treatment";
+
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
+
+            dialogueCount++;
+            dialogueText.text = "This area shows multiple distress signals.";
+        }
+        else if (dialogueCount == 1)
+        {
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+
+            dialogueCount++;
+            dialogueText.text = "Why are the Champ's employees in escape pods?";
+        }
+
+        else if (dialogueCount == 2)
+        {
+            Debug.Log("DialogueManager - Mission 8 - Dialogue Count 2");
+            string endText = "The Champ jettisoned people who disagreed with his plan.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount = 0;
+        }
     }
 
     private void Mission9()
     {
+        Debug.Log("Mission 9 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
+        if (dialogueCount == 0)
+        {
+            missionTitleText.text = "Mission 9: Comic Chaos";
+
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
+
+            dialogueCount++;
+            dialogueText.text = "Here comes maddness.";
+        }
+        else if (dialogueCount == 1)
+        {
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+
+            dialogueCount++;
+            dialogueText.text = "What will you say when you find the Champ?";
+
+            StartCoroutine(DelayedSpawnActions1());
+            GameManager.Instance.SetState(GameState.BossBattle);
+        }
+
+        else if (dialogueCount == 2)
+        {
+            Debug.Log("DialogueManager - Mission 9 - Dialogue Count 2");
+            string endText = "Thank you for flying. We're all cheering for you at home.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount = 0;
+        }
     }
 
     private void Mission10()
     {
+        Debug.Log("Mission 10 Dialogue Count = " + dialogueCount);
+        shipUIManager.TurnOnShipUI();
 
+        if (dialogueCount == 0)
+        {
+            missionTitleText.text = "Mission 10: Pirate King";
+
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+            StartCoroutine(StartGameCountdown());
+
+            dialogueCount++;
+            dialogueText.text = "You've angered pirates. They're sending their whole fleet.";
+        }
+        else if (dialogueCount == 1)
+        {
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+
+            dialogueCount++;
+            dialogueText.text = "There is something VERY VERY big coming your way.";
+
+            StartCoroutine(DelayedSpawnActions1());
+            GameManager.Instance.SetState(GameState.BossBattle);
+        }
+
+        else if (dialogueCount == 2)
+        {
+            Debug.Log("DialogueManager - Mission 10 - Dialogue Count 2");
+            string endText = "Our hero! You reached the Sun.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount = 0;
+        }
     }
 
     IEnumerator StartGameCountdown()
@@ -521,11 +645,11 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    IEnumerator DelayedStartActions1()
+    IEnumerator DelayedSpawnActions1()
     {
         yield return new WaitForSeconds(3f);
-        // Spawn 1 asteroid
-        SpawnSingleSingleEvent?.Invoke();
+        // Spawn 1 obstacle
+        SpawnSpecialEvent?.Invoke();
     }
     IEnumerator DestroyArrow(float time)
     {

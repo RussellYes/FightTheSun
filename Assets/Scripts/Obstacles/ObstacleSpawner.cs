@@ -9,6 +9,9 @@ public class ObstacleSpawner : MonoBehaviour
 
 
     [Header("Spawner type")]
+    [SerializeField] private bool isSpawnSpecial1;
+    [SerializeField] private bool isSpawnBoss1;
+    [SerializeField] private bool isSpawnBoss2;
     [SerializeField] private bool isSpawnSingleObstacleSingleLocation;
     [SerializeField] private bool isSpawnSingleObstacleRandomLocation;
     [SerializeField] private bool isSpawnRandomObstacleSingleLocation;
@@ -38,14 +41,14 @@ public class ObstacleSpawner : MonoBehaviour
     {
         GameManager.StopSpawning += TurnOffSpawner;
         GameManager.StartSpawning += TurnOnSpawner;
-        DialogueManager.SpawnSingleSingleEvent.AddListener(SpawnSingleObstacleSingleLocation);
+        DialogueManager.SpawnSpecialEvent.AddListener(SpawnSpecial);
     }
 
     private void OnDisable()
     {
         GameManager.StopSpawning -= TurnOffSpawner;
         GameManager.StartSpawning -= TurnOnSpawner;
-        DialogueManager.SpawnSingleSingleEvent.RemoveListener(SpawnSingleObstacleSingleLocation);
+        DialogueManager.SpawnSpecialEvent.RemoveListener(SpawnSpecial);
     }
 
     private void Update()
@@ -99,8 +102,40 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    private void SpawnSpecial()
+    {
+        if (isSpawnSpecial1)
+        {
+            // Select the first obstacle from the array
+            GameObject obstacleToSpawn = obstacles[0];
+
+            // Instantiate the obstacle at the calculated position
+            Instantiate(obstacleToSpawn, spawnLocation.position, Quaternion.identity);
+        }
+        if (isSpawnBoss1)
+        {
+            // Select the first obstacle from the array
+            GameObject obstacleToSpawn = obstacles[0];
+
+            // Instantiate the obstacle at the calculated position
+            Instantiate(obstacleToSpawn, spawnLocation.position, Quaternion.identity);
+        }
+        if (isSpawnBoss2)
+        {
+            // Select the first obstacle from the array
+            GameObject obstacleToSpawn = obstacles[0];
+
+            // Instantiate the obstacle at the calculated position
+            Instantiate(obstacleToSpawn, spawnLocation.position, Quaternion.identity);
+        }
+    }
+    
     private void SpawnSingleObstacleSingleLocation()
     {
+        if (isSpawnSpecial1)
+        {
+            SpawnSingleObstacleSingleLocation();
+        }
         // Select the first obstacle from the array
         GameObject obstacleToSpawn = obstacles[0];
 

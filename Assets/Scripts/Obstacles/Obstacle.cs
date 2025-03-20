@@ -1,12 +1,16 @@
 using System;
 using UnityEngine;
 using UnityEngine.VFX;
+using static GameManager;
 
 public class Obstacle : MonoBehaviour
 {
      // Define events for obstacle entering and exiting the scene
     public static event Action ObstacleEntersSceneEvent;
+    public static event Action BossDefeatedEvent;
     public static event Action<bool, int> ObstacleExitsSceneEvent;
+
+    [SerializeField] private bool isBossObstacle;
 
     [SerializeField] private int pointValue; // Points awarded if killed by the player
     [SerializeField] private GameObject visualWarning;
@@ -50,6 +54,11 @@ public class Obstacle : MonoBehaviour
     {
         // Notify that this obstacle is exiting the scene
         ObstacleExitsSceneEvent?.Invoke(isKilledByPlayer, pointValue);
+
+        if (isBossObstacle)
+        {
+            BossDefeatedEvent?.Invoke();
+        }
 
         // Destroy the obstacle GameObject
         Destroy(gameObject);

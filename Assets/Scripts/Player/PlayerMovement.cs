@@ -98,6 +98,10 @@ public class PlayerMovement : MonoBehaviour
         // Rotate the player 45 degrees on the Y-axis
         transform.rotation = Quaternion.Euler(0, 45, 0);
 
+        if (sFXManager == null)
+        {
+            sFXManager = FindAnyObjectByType<SFXManager>();
+        }
         sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
 
@@ -110,6 +114,10 @@ public class PlayerMovement : MonoBehaviour
         // Rotate the player -45 degrees on the Y-axis
         transform.rotation = Quaternion.Euler(0, -45, 0);
 
+        if (sFXManager == null)
+        {
+            sFXManager = FindAnyObjectByType<SFXManager>();
+        }
         sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
 }

@@ -63,6 +63,7 @@ public class GameCountdown : MonoBehaviour
 
             if (isCountdownSoundPlayed == false)
             {
+                sFXManager = FindAnyObjectByType<SFXManager>();
                 sFXManager.PlaySFX(countdownFirstSound);
                 isCountdownSoundPlayed = true;
             }
