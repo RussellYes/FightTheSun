@@ -35,8 +35,8 @@ public class PlayerStatsManager : MonoBehaviour
     [SerializeField] private float playerThrust;
 
     private float throttle = 1;
-    [SerializeField] private Button throttleDownButton;
     [SerializeField] private Button throttleUpButton;
+    [SerializeField] private Button throttleDownButton;
 
     private bool isMoving = true;
     [SerializeField] private float playerHullMax;

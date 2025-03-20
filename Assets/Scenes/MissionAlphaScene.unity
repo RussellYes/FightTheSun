@@ -3396,8 +3396,8 @@ MonoBehaviour:
   gameManager: {fileID: 901461632}
   playerMass: 0
   playerThrust: 0
-  throttleDownButton: {fileID: 1802926419}
-  throttleUpButton: {fileID: 609163117}
+  throttleUpButton: {fileID: 1802926419}
+  throttleDownButton: {fileID: 609163117}
   playerHullMax: 0
   playerCurrentHull: 0
 --- !u!4 &969290465
@@ -4399,12 +4399,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
-  m_fontSizeMax: 40
+  m_fontSizeMax: 100
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -5009,9 +5009,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipUIBackground: {fileID: 1164385685}
+  hullHolder: {fileID: 564092289}
   hullMeter: {fileID: 862850038}
   rightButtonObject: {fileID: 1161489209}
   leftButtonObject: {fileID: 1559315857}
+  thrusterHolder: {fileID: 2143767936}
   speedMeter: {fileID: 594535131}
   throttleUp: {fileID: 1802926415}
   throttleDown: {fileID: 609163113}
@@ -7379,7 +7381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2093201284
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7966,7 +7968,8 @@ MonoBehaviour:
   countdownTime: 4
   countdownText: {fileID: 6182458372824552981}
   scaleDuration: 0.5
-  countdownSound: {fileID: 8300000, guid: 4fbe1e710935d644db883342ca8441ff, type: 3}
+  countdownFirstSound: {fileID: 8300000, guid: 4fbe1e710935d644db883342ca8441ff, type: 3}
+  countdownFinalSound: {fileID: 8300000, guid: fe7561ac173a57c4ca6de328ab975220, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -283,18 +283,18 @@ public class GameManager : MonoBehaviour
         // Stop goal progress
         StopGoalProgress();
 
-        StartCoroutine(WaitForEndDialogue());
+        StartCoroutine(WaitToClearPlayArea());
     }
 
-    IEnumerator WaitForEndDialogue()
+    IEnumerator WaitToClearPlayArea()
     {
-        yield return new WaitForSeconds(3);
+        //Wait for a few seconds to let the game area clear obstacles
+        yield return new WaitForSeconds(2);
+
+        DialogueManager.Instance.MissionDialogue();
 
         // Set player speed to 25%
         ChangeThrottleEvent?.Invoke(-1f);
-
-        // Show dialogue boxes
-        DialogueManager.Instance.MissionDialogue();
     }
 
     private void HandleEndUI()
@@ -307,8 +307,6 @@ public class GameManager : MonoBehaviour
 
         // Show end UI
         endConditionsUI.SetActive(true); // Activate the end conditions UI GameObject
-
-
     }
 
     private void StopGoalProgress()

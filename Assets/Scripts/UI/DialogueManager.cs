@@ -127,13 +127,14 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
         shipUIManager.TurnOnShipUI();
+        shipUIManager.Mission1_1();
 
         if (dialogueCount == 0)
         {
-            missionTitleText.text = "Mission 1: Learn to drive.";
+            missionTitleText.text = "Mission 1: Learn to drive";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown()); 
             StartCoroutine(DelayedStartActions1()); 
 
@@ -149,7 +150,7 @@ public class DialogueManager : MonoBehaviour
 
             // Ensure the arrow is rendered in front by setting its sibling index
             currentArrowInstance.transform.SetAsLastSibling();
-            DestroyArrow(dialogueTimer);
+            StartCoroutine(DestroyArrow(dialogueTimer));
 
             dialogueCount++;
             dialogueText.text = "Asteroid! Move with these buttons.";
@@ -159,51 +160,32 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
+            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
+            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullMeterObjectRect.parent);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+
             dialogueCount++;
-            dialogueText.text = "Time to prove yourself. More asteroids incoming.";
+            dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
         }
 
         else if (dialogueCount == 2)
         {
-            StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
-
-            continueStartDialogueButton.interactable = true; // Enable the button
-
+            Debug.Log("DialogueManager - Mission 1 - Dialogue Count 2");
             string endText = "You've got skills. We arrived at the checkpoint safely.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            dialogueBoxUI.SetActive(false);
-            //Trigger end
-            gameManager.EndGame(true);
         }
-
-        else if (dialogueCount == 5)
-        {
-            dialogueCount++;
-
-            StartCoroutine(FadeInDialogueBox());
-            dialogueText.text = "Let's stay in one piece. Protect the ship's hull";
-
-            shipUIManager.Mission1_5();
-
-            // Get the RectTransform of the leftButton
-            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
-
-            // Apply offsets directly (no need for position conversion)
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 80, 0); // Adjust these values as needed
-            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab and set its parent to the same canvas as the leftButton
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullMeterObjectRect.parent);
-
-            StartCoroutine(FadeOutDialogueBox(4f));
-
-            StartCoroutine(DestroyArrow(4f));
-        }
-
 
     }
 
@@ -547,6 +529,7 @@ public class DialogueManager : MonoBehaviour
     }
     IEnumerator DestroyArrow(float time)
     {
+        Debug.Log("Destroying arrow wait");
         yield return new WaitForSeconds(time);
         Debug.Log("Destroying arrow");
 
@@ -558,13 +541,21 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator EndDialogueScene(string endText)
     {
+        Debug.Log("DialogueManager - End Dialogue Scene");
+        gameManager.SetState(GameManager.GameState.EndDialogue);
+
         Instantiate(planet1, planetSpawnPosition.transform.position, Quaternion.identity);
 
         yield return new WaitForSeconds(3f);
 
         StartCoroutine(FadeInDialogueBox());
         dialogueText.text = endText;
-        continueStartDialogueButton.interactable = true; // Enable the button
+        StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+
+        yield return new WaitForSeconds(dialogueTimer + 1f);
+
+        //Trigger end
+        gameManager.EndGame(true);
 
 
     }

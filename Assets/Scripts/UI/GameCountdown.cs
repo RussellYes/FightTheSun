@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using static GameManager;
 
 public class GameCountdown : MonoBehaviour
 {
@@ -123,5 +124,6 @@ public class GameCountdown : MonoBehaviour
         yield return new WaitForSeconds(1f);
         countdownText.enabled = false;
         isCountdownSoundPlayed = false;
+        GameManager.Instance.SetState(GameState.Playing);
     }
 }
