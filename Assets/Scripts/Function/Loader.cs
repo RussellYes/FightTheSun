@@ -9,11 +9,16 @@ public static class Loader
     {
         MainMenuScene,
         LoadingScene,
-        MissionAlphaScene,
-        MissionBravoScene,
-        MissionCharlieScene,
-        MissionDeltaScene,
-        MissionFlagshipScene,
+        Mission1Scene,
+        Mission2Scene,
+        Mission3Scene,
+        Mission4Scene,
+        Mission5Scene,
+        Mission6Scene,
+        Mission7Scene,
+        Mission8Scene,
+        Mission9Scene,
+        Mission10Scene,
     }
 
     private static Scene targetScene;

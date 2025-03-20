@@ -11,6 +11,11 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button playMission3Button;
     [SerializeField] private Button playMission4Button;
     [SerializeField] private Button playMission5Button;
+    [SerializeField] private Button playMission6Button;
+    [SerializeField] private Button playMission7Button;
+    [SerializeField] private Button playMission8Button;
+    [SerializeField] private Button playMission9Button;
+    [SerializeField] private Button playMission10Button;
 
     [Header("Settings")]
     [SerializeField] private Button upButton;
@@ -46,23 +51,43 @@ public class MainMenuUI : MonoBehaviour
     private void Awake()
     {
         playMission1Button.onClick.AddListener(() =>{
-            Loader.Load(Loader.Scene.MissionAlphaScene);
+            Loader.Load(Loader.Scene.Mission1Scene);
         });  
         
         playMission2Button.onClick.AddListener(() =>{
-            Loader.Load(Loader.Scene.MissionBravoScene);
+            Loader.Load(Loader.Scene.Mission2Scene);
         });
         
         playMission3Button.onClick.AddListener(() =>{
-            Loader.Load(Loader.Scene.MissionCharlieScene);
+            Loader.Load(Loader.Scene.Mission3Scene);
         });
         
         playMission4Button.onClick.AddListener(() =>{
-            Loader.Load(Loader.Scene.MissionDeltaScene);;
+            Loader.Load(Loader.Scene.Mission4Scene);;
         });
         
         playMission5Button.onClick.AddListener(() =>{
-            Loader.Load(Loader.Scene.MissionFlagshipScene);
+            Loader.Load(Loader.Scene.Mission5Scene);
+        });
+        
+        playMission6Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.Mission6Scene);
+        });  
+        
+        playMission7Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.Mission7Scene);
+        });
+        
+        playMission8Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.Mission8Scene);
+        });
+        
+        playMission9Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.Mission9Scene);;
+        });
+        
+        playMission10Button.onClick.AddListener(() =>{
+            Loader.Load(Loader.Scene.Mission10Scene);
         });
 
         upButton.onClick.AddListener(() =>{
