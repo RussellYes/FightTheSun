@@ -51,6 +51,7 @@ public class MusicManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"Music clip found for scene index {scene.buildIndex}.");
         // Check if the scene index is within the bounds of the array
         if (scene.buildIndex < sceneMusicClips.Length && sceneMusicClips[scene.buildIndex] != null)
         {

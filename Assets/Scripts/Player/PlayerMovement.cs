@@ -48,6 +48,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        ObstacleMovement.gravityWaveEvent += RandomMove;
+        ObstacleMovement.gravityWellEvent += RandomMove;
+    }
+
+    private void OnDisable()
+    {
+        ObstacleMovement.gravityWaveEvent -= RandomMove;
+        ObstacleMovement.gravityWellEvent -= RandomMove;
+    }
+
     private void Start()
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
@@ -89,7 +101,20 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, yAxisRotationSpeed * Time.deltaTime);
     }
 
-    void MoveRight()
+    private void RandomMove()
+    {
+        // Randomly move left or right
+        if (Random.value > 0.5f)
+        {
+            MoveLeft();
+        }
+        else
+        {
+            MoveRight();
+        }
+    }
+
+    private void MoveRight()
     {
         // Move to the right lane, but don't go beyond the rightmost lane (lane 4)
         targetLane = Mathf.Min(targetLane + 1, 4);
@@ -105,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
         sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
 
-    void MoveLeft()
+    private void MoveLeft()
     {
         // Move to the left lane, but don't go beyond the leftmost lane (lane 0)
         targetLane = Mathf.Max(targetLane - 1, 0);

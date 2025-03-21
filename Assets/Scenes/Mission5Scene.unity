@@ -2321,63 +2321,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798516318}
   m_CullTransparentMesh: 1
---- !u!1001 &847437040
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177638910942867495, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5599978935364366169, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
-      propertyPath: m_Name
-      value: StartPlanetAlpha
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5b66c5ae8a54ef147ba78992c547028c, type: 3}
 --- !u!1 &865686818
 GameObject:
   m_ObjectHideFlags: 0
@@ -4515,6 +4458,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290176788}
   m_CullTransparentMesh: 1
+--- !u!1001 &1300202330
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177638910942867495, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599978935364366169, guid: db76aa2fc21562345bdf38238457c835, type: 3}
+      propertyPath: m_Name
+      value: StartPlanetCharlie
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: db76aa2fc21562345bdf38238457c835, type: 3}
 --- !u!1 &1324137874
 GameObject:
   m_ObjectHideFlags: 0
@@ -6290,8 +6290,8 @@ RectTransform:
   - {fileID: 259865138}
   - {fileID: 1332962860}
   - {fileID: 2116307122}
-  - {fileID: 1962615855}
   - {fileID: 2093201284}
+  - {fileID: 1962615855}
   - {fileID: 1149905137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6334,7 +6334,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e872dc136a21b8847b1fe714cf027034, type: 3}
   - {fileID: 8300000, guid: e872dc136a21b8847b1fe714cf027034, type: 3}
   - {fileID: 8300000, guid: 529d8db74ee4a2a4eb848cd334be11d2, type: 3}
-  - {fileID: 8300000, guid: c50c04d8de03ee940814a46cddd89074, type: 3}
+  - {fileID: 8300000, guid: ac52f2d61da042a4c8538d5172b0f9c0, type: 3}
   - {fileID: 8300000, guid: 36a3cc88b9f6b63478dac2311380680d, type: 3}
   - {fileID: 8300000, guid: 7641877d0d2cc5f40a40b24cf47df198, type: 3}
   - {fileID: 8300000, guid: 3dcc2b096a5f1704285630b57e19d24d, type: 3}
@@ -6812,7 +6812,7 @@ MonoBehaviour:
   missionTitleText: {fileID: 1332962861}
   countdownText: {fileID: 259865141}
   planetSpawnPosition: {fileID: 595514689}
-  planet1: {fileID: 5599978935364366169, guid: f2dc74e2fec5973488345b0a2e05bdad, type: 3}
+  planet1: {fileID: 5599978935364366169, guid: f65f84bbfd4bdad49a9f43a74364a14d, type: 3}
   highLightArrowPrefab: {fileID: 1695043484928530785, guid: f00596f1c243fde42afb5e80239647b3, type: 3}
   hullMeterObject: {fileID: 717941178}
   healthPrefab: {fileID: 4301909746815339928, guid: 8327a60abca002d43837e0706b4e52b1, type: 3}
@@ -8157,5 +8157,5 @@ SceneRoots:
   - {fileID: 969290465}
   - {fileID: 4676963}
   - {fileID: 1742534193}
-  - {fileID: 847437040}
+  - {fileID: 1300202330}
   - {fileID: 1652220296}

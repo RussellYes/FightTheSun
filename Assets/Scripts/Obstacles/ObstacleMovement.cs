@@ -1,9 +1,23 @@
+using System;
 using UnityEngine;
 
 public class ObstacleMovement : MonoBehaviour
 {
     private PlayerStatsManager playerStatsManager;
     private SFXManager sFXManager;
+
+    public static event Action gravityWaveEvent;
+    public static event Action gravityWellEvent;
+    public static event Action<float> turbulanceEvent;
+
+    [Header("Obstacle Type")]
+
+    [SerializeField] private bool isGravityWave;
+    [SerializeField] private bool isGravityWell;
+    [SerializeField] private bool isTurbulance;
+
+
+    [Header("Obstacle Settings")]
 
     [SerializeField] private Obstacle obstacle;
     [SerializeField] private float obstacleSpeedMultiplier; // Speed multiplier for obstacles
@@ -27,7 +41,7 @@ public class ObstacleMovement : MonoBehaviour
         }
         
 
-        rotationSpeed = Random.Range(rotationSpeedMin, rotationSpeedMax);
+        rotationSpeed = UnityEngine.Random.Range(rotationSpeedMin, rotationSpeedMax);
     }
 
     private void Update()
@@ -38,7 +52,7 @@ public class ObstacleMovement : MonoBehaviour
             // Rotate the obstacle around the Z-axis
             transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
 
-            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * obstacleSpeedMultiplier;
+            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * (obstacleSpeedMultiplier * UnityEngine.Random.Range(0.9f, 1f));
             transform.Translate(Vector3.down * movementSpeed * Time.deltaTime, Space.World);
 
             // Ensure the vertical warning always faces downward (in the direction of movement)
@@ -54,8 +68,11 @@ public class ObstacleMovement : MonoBehaviour
     {
         if (collision.CompareTag("WorldTopScreenBarrier"))
         {
-            sFXManager = FindAnyObjectByType<SFXManager>();
-            sFXManager.PlaySFX(entranceSounds[Random.Range(0, entranceSounds.Length)]);
+            if (entranceSounds.Length > 0)
+            {
+                sFXManager = FindAnyObjectByType<SFXManager>();
+                sFXManager.PlaySFX(entranceSounds[UnityEngine.Random.Range(0, entranceSounds.Length)]);
+            }
         }
 
         // Check if the collided object is the WorldLowerBarrier
@@ -68,8 +85,45 @@ public class ObstacleMovement : MonoBehaviour
         {
             Debug.Log("Obstacle collided with Player.");
             sFXManager = FindAnyObjectByType<SFXManager>();
-            sFXManager.PlaySFX(collisionSound[Random.Range(0, collisionSound.Length)]);
-            Instantiate(collisionParticles, transform.position, Quaternion.identity);
+            sFXManager.PlaySFX(collisionSound[UnityEngine.Random.Range(0, collisionSound.Length)]);
+            if (collisionParticles != null)
+            {
+                ParticleSystem particles = Instantiate(collisionParticles, transform.position, Quaternion.identity);
+
+                //coroutine to make the particles follow the obstacle's movement
+                StartCoroutine(FollowParentMovement(particles.transform));
+            }
+
+            if (isGravityWave)
+            {
+                gravityWaveEvent?.Invoke();
+            }
+            if (isGravityWell)
+            {
+                gravityWellEvent?.Invoke();
+            }
+            if (isTurbulance)
+            {
+                float turbulanceAmt = UnityEngine.Random.Range(-0.1f, -0.3f);
+                turbulanceEvent?.Invoke(turbulanceAmt);
+            }
+
+        }
+    }
+
+    private System.Collections.IEnumerator FollowParentMovement(Transform particlesTransform)
+    {
+        // Store the initial offset between the obstacle and the particles
+        Vector3 offset = particlesTransform.position - transform.position;
+
+        // Update the particles' position every frame while the parent exists
+        while (this != null) // Check if the parent still exists
+        {
+            // Update the particles' position to match the parent's position plus the offset
+            particlesTransform.position = transform.position + offset;
+
+            // Wait for the next frame
+            yield return null;
         }
     }
 

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 using static GameManager;
@@ -12,16 +13,21 @@ public class Obstacle : MonoBehaviour
 
     [SerializeField] private bool isBossObstacle;
 
+    [SerializeField] private Sprite[] obstacleSprites; // Array of sprites for the obstacle
+    [SerializeField] private SpriteRenderer obstacleRenderer; // Renderer component for the obstacle
     [SerializeField] private int pointValue; // Points awarded if killed by the player
     [SerializeField] private GameObject visualWarning;
     [SerializeField] private SpriteRenderer warningSpriteRenderer;
     [SerializeField] private Color visualWarningColor;
     [SerializeField] private float visualWarningTimer = 3f;
+    
     private bool isWarningActive = true;
 
 
     private void Start()
     {
+        AssignRandomSprite();
+
         // Set the initial color of the visualWarning
         warningSpriteRenderer.color = visualWarningColor;
     }
@@ -36,6 +42,20 @@ public class Obstacle : MonoBehaviour
             }
         }
 
+    }
+
+    private void AssignRandomSprite()
+    {
+        // Check if the obstacleRenderer and obstacleSprites array are valid
+        if (obstacleRenderer != null && obstacleSprites.Length > 0)
+        {
+            // Assign a random sprite from the obstacleSprites array
+            obstacleRenderer.sprite = obstacleSprites[UnityEngine.Random.Range(0, obstacleSprites.Length)];
+        }
+        else
+        {
+            Debug.LogWarning("Obstacle: No SpriteRenderer or obstacleSprites found.");
+        }
     }
 
     private void VisualWarningTimer()
