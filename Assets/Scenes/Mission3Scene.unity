@@ -6487,11 +6487,12 @@ MonoBehaviour:
   isSpawnBoss1: 0
   isSpawnBoss2: 0
   isSpawnSingleObstacleSingleLocation: 0
-  isSpawnSingleObstacleRandomLocation: 1
+  isSpawnSingleObstacleRandomLocation: 0
   isSpawnRandomObstacleSingleLocation: 0
-  isSpawnRandomObstacleRandomLocation: 0
+  isSpawnRandomObstacleRandomLocation: 1
   obstacles:
   - {fileID: 4301909746815339928, guid: 0b5ac6c4f1a49a64ca5ae34ca60bfa0f, type: 3}
+  - {fileID: 4301909746815339928, guid: 1318f553289a27e4a9e437e94b187581, type: 3}
   spawnLocation: {fileID: 1673520996}
   laneDistance: 1
   timeBetweenSpawningMin: 6
@@ -7792,8 +7793,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 2
 --- !u!114 &2070927628
 MonoBehaviour:
   m_ObjectHideFlags: 0

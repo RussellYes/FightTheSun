@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,13 +52,13 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         ObstacleMovement.gravityWaveEvent += RandomMove;
-        ObstacleMovement.gravityWellEvent += RandomMove;
+        ObstacleMovement.gravityWellEvent += MoveCloser;
     }
 
     private void OnDisable()
     {
         ObstacleMovement.gravityWaveEvent -= RandomMove;
-        ObstacleMovement.gravityWellEvent -= RandomMove;
+        ObstacleMovement.gravityWellEvent -= MoveCloser;
     }
 
     private void Start()
@@ -99,6 +100,18 @@ public class PlayerMovement : MonoBehaviour
         }
         // Smoothly interpolate the rotation towards the target rotation
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, yAxisRotationSpeed * Time.deltaTime);
+    }
+
+    private void MoveCloser(Vector3 obstaclePosition)
+    {
+        if (obstaclePosition.x > transform.position.x)
+        {
+            MoveRight();
+        }
+        else
+        {
+            MoveLeft();
+        }
     }
 
     private void RandomMove()

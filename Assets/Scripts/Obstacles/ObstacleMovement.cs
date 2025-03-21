@@ -7,7 +7,7 @@ public class ObstacleMovement : MonoBehaviour
     private SFXManager sFXManager;
 
     public static event Action gravityWaveEvent;
-    public static event Action gravityWellEvent;
+    public static event Action<Vector3> gravityWellEvent;
     public static event Action<float> turbulanceEvent;
 
     [Header("Obstacle Type")]
@@ -100,7 +100,7 @@ public class ObstacleMovement : MonoBehaviour
             }
             if (isGravityWell)
             {
-                gravityWellEvent?.Invoke();
+                gravityWellEvent?.Invoke(transform.position);
             }
             if (isTurbulance)
             {
