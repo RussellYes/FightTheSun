@@ -71,7 +71,10 @@ public class ObstacleMovement : MonoBehaviour
             if (entranceSounds.Length > 0)
             {
                 sFXManager = FindAnyObjectByType<SFXManager>();
-                sFXManager.PlaySFX(entranceSounds[UnityEngine.Random.Range(0, entranceSounds.Length)]);
+                if (sFXManager != null && collisionSound.Length > 0)
+                {
+                    sFXManager.PlaySFX(entranceSounds[UnityEngine.Random.Range(0, entranceSounds.Length)]);
+                }
             }
         }
 
@@ -85,7 +88,11 @@ public class ObstacleMovement : MonoBehaviour
         {
             Debug.Log("Obstacle collided with Player.");
             sFXManager = FindAnyObjectByType<SFXManager>();
-            sFXManager.PlaySFX(collisionSound[UnityEngine.Random.Range(0, collisionSound.Length)]);
+            if (sFXManager != null && collisionSound.Length > 0)
+            {
+                sFXManager.PlaySFX(collisionSound[UnityEngine.Random.Range(0, collisionSound.Length)]);
+            }
+
             if (collisionParticles != null)
             {
                 ParticleSystem particles = Instantiate(collisionParticles, transform.position, Quaternion.identity);

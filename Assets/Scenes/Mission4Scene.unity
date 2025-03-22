@@ -476,11 +476,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 37737749}
   m_CullTransparentMesh: 1
---- !u!1 &39485226 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-  m_PrefabInstance: {fileID: 5190793161351063163}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &64943689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,7 +1788,7 @@ GameObject:
   - component: {fileID: 593369764}
   - component: {fileID: 593369763}
   m_Layer: 0
-  m_Name: ObstacleSpawner (1)
+  m_Name: ObstacleSpawnerHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2321,6 +2316,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798516318}
   m_CullTransparentMesh: 1
+--- !u!1 &810809446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 810809448}
+  - component: {fileID: 810809447}
+  m_Layer: 0
+  m_Name: ObstacleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &810809447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810809446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d2eeafb78db74d9da89891d2134a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSpawnSpecial1: 0
+  isSpawnBoss1: 0
+  isSpawnBoss2: 0
+  isSpawnSingleObstacleSingleLocation: 0
+  isSpawnSingleObstacleRandomLocation: 0
+  isSpawnRandomObstacleSingleLocation: 0
+  isSpawnRandomObstacleRandomLocation: 1
+  obstacles:
+  - {fileID: 4301909746815339928, guid: 667d99e39bd351d459a862cd422c497b, type: 3}
+  spawnLocation: {fileID: 810809448}
+  laneDistance: 1
+  timeBetweenSpawningMin: 6
+  timeBetweenSpawningMax: 9
+--- !u!4 &810809448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810809446}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &865686818
 GameObject:
   m_ObjectHideFlags: 0
@@ -2671,7 +2723,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1402465126}
   unpauseButton: {fileID: 1007728397}
-  goal: 50
+  goal: 300
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0
@@ -6449,6 +6501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartPlanetBravo
       objectReference: {fileID: 0}
+    - target: {fileID: 5599978935364366169, guid: 50cbf55b2e71e8b48ae20f2575566a35, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7153,6 +7209,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862322035}
   m_CullTransparentMesh: 1
+--- !u!1 &1874679401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1874679403}
+  - component: {fileID: 1874679402}
+  m_Layer: 0
+  m_Name: ObstacleSpawnerHealth (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1874679402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874679401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d2eeafb78db74d9da89891d2134a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSpawnSpecial1: 0
+  isSpawnBoss1: 0
+  isSpawnBoss2: 0
+  isSpawnSingleObstacleSingleLocation: 0
+  isSpawnSingleObstacleRandomLocation: 1
+  isSpawnRandomObstacleSingleLocation: 0
+  isSpawnRandomObstacleRandomLocation: 0
+  obstacles:
+  - {fileID: 4301909746815339928, guid: 81f640645e19ec74096f5df7b15718cd, type: 3}
+  spawnLocation: {fileID: 1874679403}
+  laneDistance: 1
+  timeBetweenSpawningMin: 4
+  timeBetweenSpawningMax: 7
+--- !u!4 &1874679403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874679401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1884640358
 GameObject:
   m_ObjectHideFlags: 0
@@ -8030,19 +8143,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 621849578115041076, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
   m_PrefabInstance: {fileID: 5190793161351063163}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2498249836710071340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 39485226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 142a51f122f77624e8bd32c036260f88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hullMax: 10
 --- !u!1001 &5190793161351063163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8051,14 +8151,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2070927629}
     m_Modifications:
-    - target: {fileID: 493707157449197476, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 493707157449197476, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: thrust
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 621849578115041076, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8099,42 +8191,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1466205022586335097, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0ae401c0d23867c40856b152bf91e939, type: 3}
-    - target: {fileID: 1466205022586335097, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1466205022586335097, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1466205022586335097, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1841760046531602050, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: damage
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: m_Name
       value: PlayerShipCockpit
       objectReference: {fileID: 0}
-    - target: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3842667927939262502, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 2498249836710071340}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -8145,7 +8209,9 @@ SceneRoots:
   - {fileID: 2012527356}
   - {fileID: 1697156286}
   - {fileID: 266272661}
+  - {fileID: 810809448}
   - {fileID: 593369764}
+  - {fileID: 1874679403}
   - {fileID: 1820443498}
   - {fileID: 1622874796}
   - {fileID: 1176018520}

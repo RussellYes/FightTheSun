@@ -116,13 +116,13 @@ GameObject:
   m_Component:
   - component: {fileID: 621849578115041076}
   - component: {fileID: 6649838543239065212}
-  - component: {fileID: 3842667927939262502}
+  - component: {fileID: 2238221983638291148}
   - component: {fileID: 1841760046531602050}
   - component: {fileID: 4417073988888255732}
   - component: {fileID: 493707157449197476}
   m_Layer: 0
   m_Name: PlayerShipCockpit
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,7 +180,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
---- !u!114 &3842667927939262502
+--- !u!114 &2238221983638291148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,11 +189,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6053377252775434496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b4ca5c50a214440ba3a53e10394880, type: 3}
+  m_Script: {fileID: 11500000, guid: 142a51f122f77624e8bd32c036260f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle: {fileID: 0}
-  health: 10
+  hullMax: 10
 --- !u!114 &1841760046531602050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass: 1
-  thrust: 0
+  thrust: 4
 --- !u!1 &7425809737866517621
 GameObject:
   m_ObjectHideFlags: 0

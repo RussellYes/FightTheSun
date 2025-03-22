@@ -3352,6 +3352,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047578960}
   m_CullTransparentMesh: 1
+--- !u!1 &1091046759
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091046761}
+  - component: {fileID: 1091046760}
+  m_Layer: 0
+  m_Name: ObstacleSpawnerHealth (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1091046760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091046759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d2eeafb78db74d9da89891d2134a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSpawnSpecial1: 0
+  isSpawnBoss1: 0
+  isSpawnBoss2: 0
+  isSpawnSingleObstacleSingleLocation: 0
+  isSpawnSingleObstacleRandomLocation: 1
+  isSpawnRandomObstacleSingleLocation: 0
+  isSpawnRandomObstacleRandomLocation: 0
+  obstacles:
+  - {fileID: 4301909746815339928, guid: 81f640645e19ec74096f5df7b15718cd, type: 3}
+  spawnLocation: {fileID: 1091046761}
+  laneDistance: 1
+  timeBetweenSpawningMin: 4
+  timeBetweenSpawningMax: 7
+--- !u!4 &1091046761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091046759}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1139280010
 GameObject:
   m_ObjectHideFlags: 0
@@ -8263,6 +8320,7 @@ SceneRoots:
   - {fileID: 593369764}
   - {fileID: 803721245}
   - {fileID: 1673520996}
+  - {fileID: 1091046761}
   - {fileID: 1820443498}
   - {fileID: 1622874796}
   - {fileID: 1176018520}
