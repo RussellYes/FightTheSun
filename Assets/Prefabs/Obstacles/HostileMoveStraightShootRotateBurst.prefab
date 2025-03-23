@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
-  m_Name: HostileMoveStraightShootRotate
+  m_Name: HostileMoveStraightShootRotateBurst
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -46,6 +46,11 @@ public class ObstacleMovement : MonoBehaviour
 
     private void Update()
     {
+        if (playerStatsManager == null)
+        {
+            Debug.Log("ObstacleMovement Update playerStatsManager == null");
+            return;
+        }
         // Move the obstacle along the -y axis using levelSpeed and the speed multiplier
         if (playerStatsManager.PlayerMass > 0)
         {

@@ -1180,11 +1180,11 @@ MonoBehaviour:
   obstacles:
   - {fileID: 4301909746815339928, guid: 513b5d32e150c224a9b1b95ba0ba105a, type: 3}
   - {fileID: 4301909746815339928, guid: 65254347c253a4a428ea98dbc97eea3f, type: 3}
-  - {fileID: 4301909746815339928, guid: 65254347c253a4a428ea98dbc97eea3f, type: 3}
+  - {fileID: 4301909746815339928, guid: 9173a7d9d3176384a809a4ebd9c5b806, type: 3}
   spawnLocation: {fileID: 266272661}
   laneDistance: 1
-  timeBetweenSpawningMin: 2
-  timeBetweenSpawningMax: 3
+  timeBetweenSpawningMin: 5
+  timeBetweenSpawningMax: 8
 --- !u!4 &266272661
 Transform:
   m_ObjectHideFlags: 0
@@ -2354,10 +2354,13 @@ MonoBehaviour:
   isSpawnRandomObstacleRandomLocation: 1
   obstacles:
   - {fileID: 4301909746815339928, guid: 667d99e39bd351d459a862cd422c497b, type: 3}
+  - {fileID: 4301909746815339928, guid: 511f2fba9c5466f4ba4f7f2411da0c95, type: 3}
+  - {fileID: 4301909746815339928, guid: 5831c28b8557e90478cb5d922c3f0cf9, type: 3}
+  - {fileID: 4301909746815339928, guid: 1c9ce42daab142547b4afebb50751a4d, type: 3}
   spawnLocation: {fileID: 810809448}
   laneDistance: 1
-  timeBetweenSpawningMin: 6
-  timeBetweenSpawningMax: 9
+  timeBetweenSpawningMin: 3
+  timeBetweenSpawningMax: 6
 --- !u!4 &810809448
 Transform:
   m_ObjectHideFlags: 0

@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
-  m_Name: HostileMoveStraightShootRotate
+  m_Name: HostileMoveStraightShootStraight
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 2647846136512851944}
   - component: {fileID: 8953650117739024082}
   m_Layer: 7
-  m_Name: Visual
+  m_Name: VisualShooter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -364,8 +364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6761ea8adfcef14fb263d9e2fc87288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStraightShooter: 0
-  canTargetPlayer: 1
+  isStraightShooter: 1
+  canTargetPlayer: 0
   shotRange: 1.5
   reloadTime: 1
   bulletPreFab: {fileID: 9116417187101513141, guid: 5c9e4d508f6f2284b834f0a731852337, type: 3}
