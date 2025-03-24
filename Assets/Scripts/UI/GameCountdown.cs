@@ -8,8 +8,6 @@ using static GameManager;
 
 public class GameCountdown : MonoBehaviour
 {
-    public static event Action countdownNoise;
-
     private SFXManager sFXManager;
 
     [SerializeField] private float countdownTime = 4f; // Serialized field for countdown time

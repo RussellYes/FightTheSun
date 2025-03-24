@@ -134,7 +134,7 @@ MonoBehaviour:
   rotationSpeedMax: 0
   verticalWarning: {fileID: 5762032200503551617}
   entranceSounds: []
-  collisionSound:
+  collisionSounds:
   - {fileID: 8300000, guid: 5deb603211fe2da4a9e2f7f2e907e605, type: 3}
   - {fileID: 8300000, guid: 3bb9fb649cddfb742ba0a03772e0e538, type: 3}
   collisionParticles: {fileID: 1517886618772211621, guid: ce44c3f45dfd96547a5c3657d995dc18, type: 3}

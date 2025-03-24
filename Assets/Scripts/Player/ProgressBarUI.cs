@@ -67,7 +67,7 @@ public class ProgressBarUI : MonoBehaviour
 
     private void PlayerStatsManager_OnCheckpointProgressChanged(object sender, PlayerStatsManager.OnCheckpointProgressChangedEventArgs e)
     {
-        Debug.Log("ProgressBarUI_PlayerStatsManager_OnCheckpointProgressChanged");
+        //Debug.Log("ProgressBarUI_PlayerStatsManager_OnCheckpointProgressChanged");
         if (isCheckpointBar)
         {
             barImage.fillAmount = e.progressNormalized;

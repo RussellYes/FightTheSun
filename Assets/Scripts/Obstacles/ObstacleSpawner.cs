@@ -29,6 +29,18 @@ public class ObstacleSpawner : MonoBehaviour
     private float minimumSpawnTime = 1f;
     private float spawnTimer;
 
+    [Header("SpawnerEventGroups")]
+    [SerializeField] private bool isSpawnEventGroup1;
+    [SerializeField] private bool isSpawnEventGroup2;
+    [SerializeField] private bool isSpawnEventGroup3;
+    [SerializeField] private bool isSpawnEventGroup4;
+    [SerializeField] private bool isSpawnEventGroup5;
+    [SerializeField] private GameObject group1Prefab;
+    [SerializeField] private GameObject group2Prefab;
+    [SerializeField] private GameObject group3Prefab;
+    [SerializeField] private GameObject group4Prefab;
+    [SerializeField] private GameObject group5Prefab;
+
     private void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
@@ -42,6 +54,11 @@ public class ObstacleSpawner : MonoBehaviour
         GameManager.StopSpawning += TurnOffSpawner;
         GameManager.StartSpawning += TurnOnSpawner;
         DialogueManager.SpawnSpecialEvent.AddListener(SpawnSpecial);
+        Boss.SpawnEventGroup1 += EventGroup1;
+        Boss.SpawnEventGroup2 += EventGroup2;
+        Boss.SpawnEventGroup3 += EventGroup3;
+        Boss.SpawnEventGroup4 += EventGroup4;
+        Boss.SpawnEventGroup5 += EventGroup5;
     }
 
     private void OnDisable()
@@ -49,6 +66,11 @@ public class ObstacleSpawner : MonoBehaviour
         GameManager.StopSpawning -= TurnOffSpawner;
         GameManager.StartSpawning -= TurnOnSpawner;
         DialogueManager.SpawnSpecialEvent.RemoveListener(SpawnSpecial);
+        Boss.SpawnEventGroup1 -= EventGroup1;
+        Boss.SpawnEventGroup2 -= EventGroup2;
+        Boss.SpawnEventGroup3 -= EventGroup3;
+        Boss.SpawnEventGroup4 -= EventGroup4;
+        Boss.SpawnEventGroup5 -= EventGroup5;
     }
 
     private void Update()
@@ -200,4 +222,41 @@ public class ObstacleSpawner : MonoBehaviour
             timeBetweenSpawningMax = minimumSpawnTime;
         }
     }
+
+    private void EventGroup1()
+    {
+        if (isSpawnEventGroup1 && group1Prefab != null)
+        {
+            Instantiate(group1Prefab, spawnLocation.position, Quaternion.identity);
+        }
+    }
+    private void EventGroup2()
+    {
+        if (isSpawnEventGroup2 && group2Prefab != null)
+        {
+            Instantiate(group2Prefab, spawnLocation.position, Quaternion.identity);
+        }
+    }
+    private void EventGroup3()
+    {
+        if (isSpawnEventGroup3 && group3Prefab != null)
+        {
+            Instantiate(group3Prefab, spawnLocation.position, Quaternion.identity);
+        }
+    }
+    private void EventGroup4()
+    {
+        if (isSpawnEventGroup4 && group4Prefab != null)
+        {
+            Instantiate(group4Prefab, spawnLocation.position, Quaternion.identity);
+        }
+    }
+    private void EventGroup5()
+    {
+        if (isSpawnEventGroup5 && group5Prefab != null)
+        {
+            Instantiate(group5Prefab, spawnLocation.position, Quaternion.identity);
+        }
+    }
+
 }

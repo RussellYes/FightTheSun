@@ -36,6 +36,8 @@ public class Obstacle : MonoBehaviour
         {
             transform.Rotate(0, 0, 180);
         }
+
+        ObstacleEntersSceneEvent?.Invoke();
     }
 
     private void Update()
@@ -84,6 +86,7 @@ public class Obstacle : MonoBehaviour
         if (isBossObstacle)
         {
             BossDefeatedEvent?.Invoke();
+            return;
         }
 
         // Destroy the obstacle GameObject

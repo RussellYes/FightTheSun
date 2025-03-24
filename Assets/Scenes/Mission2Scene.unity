@@ -1888,6 +1888,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 614394355}
   m_CullTransparentMesh: 1
+--- !u!1 &658865714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 658865716}
+  - component: {fileID: 658865715}
+  m_Layer: 0
+  m_Name: PlanetEndPosition2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &658865715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658865714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18177556f9774f4b9a5bd01b2b6c0fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &658865716
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658865714}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &662507856
 GameObject:
   m_ObjectHideFlags: 0
@@ -6813,6 +6857,8 @@ MonoBehaviour:
   countdownText: {fileID: 259865141}
   planetSpawnPosition: {fileID: 595514689}
   planet1: {fileID: 5599978935364366169, guid: 42c87d89326b1cd42b394befcdcde2f5, type: 3}
+  boss1: {fileID: 0}
+  boss2: {fileID: 0}
   highLightArrowPrefab: {fileID: 1695043484928530785, guid: f00596f1c243fde42afb5e80239647b3, type: 3}
   hullMeterObject: {fileID: 717941178}
   healthPrefab: {fileID: 4301909746815339928, guid: 8327a60abca002d43837e0706b4e52b1, type: 3}
@@ -7648,50 +7694,6 @@ MonoBehaviour:
   timeText: {fileID: 1324137876}
   winColor: {r: 0.39409044, g: 0.6792453, b: 0.4157478, a: 1}
   loseColor: {r: 0.4056604, g: 0.1014151, b: 0.1014151, a: 1}
---- !u!1 &2012527354
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2012527356}
-  - component: {fileID: 2012527355}
-  m_Layer: 0
-  m_Name: PlanetEndPosition2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2012527355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2012527354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a18177556f9774f4b9a5bd01b2b6c0fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &2012527356
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2012527354}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2070927626
 GameObject:
   m_ObjectHideFlags: 0
@@ -8199,7 +8201,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 595514690}
   - {fileID: 1422844285}
-  - {fileID: 2012527356}
+  - {fileID: 658865716}
   - {fileID: 1697156286}
   - {fileID: 266272661}
   - {fileID: 1889684747}

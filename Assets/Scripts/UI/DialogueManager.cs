@@ -31,6 +31,11 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject planetSpawnPosition;
     [SerializeField] private GameObject planet1;
 
+    [Header("Boss")]
+
+    [SerializeField] private GameObject boss1;
+    [SerializeField] private GameObject boss2;
+
     [Header("Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
     [SerializeField] private GameObject hullMeterObject;
@@ -77,6 +82,11 @@ public class DialogueManager : MonoBehaviour
     private void OnEnable()
     {
         Obstacle.BossDefeatedEvent += MissionDialogue;
+    }
+
+    private void OnDisable()
+    {
+        Obstacle.BossDefeatedEvent -= MissionDialogue;
     }
 
     private void OnDestroy()
@@ -416,19 +426,23 @@ public class DialogueManager : MonoBehaviour
         }
         else if (dialogueCount == 1)
         {
+            Debug.Log("Spawning boss at position: " + planetSpawnPosition.transform.position);
+            Debug.Log("DialogueManager Mission6 DialogueCount1");
+
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
             dialogueText.text = "There is something VERY big coming your way.";
 
-            StartCoroutine(DelayedSpawnActions1());
             GameManager.Instance.SetState(GameState.BossBattle);
+
+            Instantiate(boss1, planetSpawnPosition.transform.position, Quaternion.identity);
         }
 
         else if (dialogueCount == 2)
         {
-            Debug.Log("DialogueManager - Mission 6 - Dialogue Count 2");
+            Debug.Log("DialogueManager Mission6 Dialogue Count2");
             string endText = "What a fortune!";
             StartCoroutine(EndDialogueScene(endText));
 
@@ -459,9 +473,6 @@ public class DialogueManager : MonoBehaviour
 
             dialogueCount++;
             dialogueText.text = "It's getting hotter closer to the Sun.";
-
-            StartCoroutine(DelayedSpawnActions1());
-            GameManager.Instance.SetState(GameState.BossBattle);
         }
 
         else if (dialogueCount == 2)
@@ -562,14 +573,18 @@ public class DialogueManager : MonoBehaviour
         }
         else if (dialogueCount == 1)
         {
+            Debug.Log("Spawning boss at position: " + planetSpawnPosition.transform.position);
+            Debug.Log("DialogueManager Mission10 DialogueCount1");
+
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
             dialogueText.text = "There is something VERY VERY big coming your way.";
 
-            StartCoroutine(DelayedSpawnActions1());
             GameManager.Instance.SetState(GameState.BossBattle);
+
+            Instantiate(boss2, planetSpawnPosition.transform.position, Quaternion.identity);
         }
 
         else if (dialogueCount == 2)
@@ -580,7 +595,9 @@ public class DialogueManager : MonoBehaviour
 
             dialogueCount = 0;
         }
+
     }
+
 
     IEnumerator StartGameCountdown()
     {
@@ -677,9 +694,9 @@ public class DialogueManager : MonoBehaviour
 
         //Trigger end
         gameManager.EndGame(true);
-
-
     }
+
+
 
 
 

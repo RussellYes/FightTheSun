@@ -132,7 +132,7 @@ MonoBehaviour:
   rotationSpeedMax: 80
   verticalWarning: {fileID: 5762032200503551617}
   entranceSounds: []
-  collisionSound:
+  collisionSounds:
   - {fileID: 8300000, guid: 080ac45ce70baf24895720ffa34f14db, type: 3}
   collisionParticles: {fileID: 1517886618772211621, guid: f87b5b5e117fcab4dae6802acfc83c92, type: 3}
 --- !u!114 &238012368465338199

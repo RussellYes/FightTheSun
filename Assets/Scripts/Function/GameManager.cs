@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     private bool isGoalActive = false;
     private bool isBossBattle = false;
 
+
+
     // Public read-only property
     public bool IsGoalActive => isGoalActive;
 
@@ -83,6 +85,18 @@ public class GameManager : MonoBehaviour
 
         // Explicitly set the state to StartDialogue to trigger HandleStateChange
         SetState(GameState.StartDialogue);
+    }
+
+    private void OnEnable()
+    {
+        Boss.StartSpawnersEvent += StartSpawners;
+        Boss.StopSpawnersEvent += StopSpawners;
+    }
+
+    private void OnDisable()
+    {
+        Boss.StartSpawnersEvent -= StartSpawners;
+        Boss.StopSpawnersEvent -= StopSpawners;
     }
 
     private void Update()
@@ -213,6 +227,7 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlaying()
     {
+        Debug.Log("GameManager HandlePlaying");
         // Unause the game time
         Time.timeScale = 1;
 
@@ -297,6 +312,8 @@ public class GameManager : MonoBehaviour
 
     private void HandleBossBattle()
     {
+        Debug.Log("GameManager HandleBossBattle");
+
         // Stop spawners
         StopSpawning?.Invoke();
 
@@ -400,4 +417,16 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.Save(); // Save the data
     }
+
+    private void StartSpawners()
+    {
+        StartSpawning?.Invoke();  
+    }
+
+    private void StopSpawners()
+    {
+        StopSpawning?.Invoke();
+    }
+
+
 }

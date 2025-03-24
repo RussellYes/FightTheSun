@@ -43,6 +43,7 @@ public class PlayerStatsManager : MonoBehaviour
     [SerializeField] private float playerCurrentHull;
 
     private float distanceTraveled = 0; // Track distance traveled
+    private bool isProgressHalfway = false;
 
     // Public properties
     public float PlayerThrust => playerThrust * throttle; // Effective thrust is scaled by throttle
@@ -215,24 +216,25 @@ public class PlayerStatsManager : MonoBehaviour
     private void UpdateDistanceTraveled(float distance)
     {
         distanceTraveled += distance;
-        Debug.Log("PlayerStatsManager_UpdateDistanceTraveled");
+        //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled");
 
         // Calculate progress toward the goal
         if (GameManager.Instance.IsGoalActive)
         {
-            Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
+            //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
             if (gameManager.Goal > 0)
             {
-                Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
+                //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
                 float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
                 OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
                 
-                if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f)
+                if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f && !isProgressHalfway)
                 {
-                    Debug.Log("gameManager.Goal / 2");
+                    isProgressHalfway = true;
+                    //Debug.Log("gameManager.Goal / 2");
                     gameManager.SetState(GameState.DialogueDuringPlay);
                 }
-                
+
                 // Check if the goal has been reached
                 if (distanceTraveled >= gameManager.Goal)
                 {

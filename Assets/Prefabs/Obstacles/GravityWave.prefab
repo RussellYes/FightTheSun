@@ -131,7 +131,7 @@ MonoBehaviour:
   rotationSpeedMax: 80
   verticalWarning: {fileID: 5762032200503551617}
   entranceSounds: []
-  collisionSound:
+  collisionSounds:
   - {fileID: 8300000, guid: 9b98cae636d49094b8a66b06f0fe959c, type: 3}
   collisionParticles: {fileID: 1517886618772211621, guid: 5b669224c410ac94997ccb5286835456, type: 3}
 --- !u!114 &-4505411848051596897
@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBossObstacle: 0
+  isFlipped: 0
   obstacleSprites:
   - {fileID: 21300000, guid: bbd2206adea38da40a30d20992f945ef, type: 3}
   obstacleRenderer: {fileID: 2647846136512851944}

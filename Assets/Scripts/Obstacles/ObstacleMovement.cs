@@ -28,7 +28,7 @@ public class ObstacleMovement : MonoBehaviour
     [SerializeField] private Transform verticalWarning;
 
     [SerializeField] private AudioClip[] entranceSounds;
-    [SerializeField] private AudioClip[] collisionSound;
+    [SerializeField] private AudioClip[] collisionSounds;
     [SerializeField] private ParticleSystem collisionParticles;
 
     private void Start()
@@ -76,7 +76,7 @@ public class ObstacleMovement : MonoBehaviour
             if (entranceSounds.Length > 0)
             {
                 sFXManager = FindAnyObjectByType<SFXManager>();
-                if (sFXManager != null && collisionSound.Length > 0)
+                if (sFXManager != null && entranceSounds.Length > 0)
                 {
                     sFXManager.PlaySFX(entranceSounds[UnityEngine.Random.Range(0, entranceSounds.Length)]);
                 }
@@ -93,9 +93,9 @@ public class ObstacleMovement : MonoBehaviour
         {
             Debug.Log("Obstacle collided with Player.");
             sFXManager = FindAnyObjectByType<SFXManager>();
-            if (sFXManager != null && collisionSound.Length > 0)
+            if (sFXManager != null && collisionSounds.Length > 0)
             {
-                sFXManager.PlaySFX(collisionSound[UnityEngine.Random.Range(0, collisionSound.Length)]);
+                sFXManager.PlaySFX(collisionSounds[UnityEngine.Random.Range(0, collisionSounds.Length)]);
             }
 
             if (collisionParticles != null)
