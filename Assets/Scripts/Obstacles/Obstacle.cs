@@ -12,6 +12,7 @@ public class Obstacle : MonoBehaviour
     public static event Action<bool, int> ObstacleExitsSceneEvent;
 
     [SerializeField] private bool isBossObstacle;
+    [SerializeField] private bool isFlipped;
 
     [SerializeField] private Sprite[] obstacleSprites; // Array of sprites for the obstacle
     [SerializeField] private SpriteRenderer obstacleRenderer; // Renderer component for the obstacle
@@ -30,6 +31,11 @@ public class Obstacle : MonoBehaviour
 
         // Set the initial color of the visualWarning
         warningSpriteRenderer.color = visualWarningColor;
+
+        if (isFlipped)
+        {
+            transform.Rotate(0, 0, 180);
+        }
     }
 
     private void Update()

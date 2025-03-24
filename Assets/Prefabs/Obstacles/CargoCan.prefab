@@ -133,8 +133,8 @@ MonoBehaviour:
   verticalWarning: {fileID: 5762032200503551617}
   entranceSounds: []
   collisionSound:
-  - {fileID: 8300000, guid: c11c21dac7b8ee749a23a82512440c84, type: 3}
-  collisionParticles: {fileID: 1517886618772211621, guid: 7d82addf884bc4c41be1ae7f7eba0760, type: 3}
+  - {fileID: 8300000, guid: 080ac45ce70baf24895720ffa34f14db, type: 3}
+  collisionParticles: {fileID: 1517886618772211621, guid: f87b5b5e117fcab4dae6802acfc83c92, type: 3}
 --- !u!114 &238012368465338199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBossObstacle: 0
+  isFlipped: 0
   obstacleSprites:
   - {fileID: 21300000, guid: 329c77e91968a6b4bb3bf6e9a43db618, type: 3}
   obstacleRenderer: {fileID: 2647846136512851944}

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,7 +45,7 @@ public class Shoot : MonoBehaviour
             return;
         }
 
-        if (canTargetPlayer && target != null)
+        if (canTarget && target != null)
         {
             Debug.Log("Shoot Update - Shoot at target");
             RotateTowardsTarget();

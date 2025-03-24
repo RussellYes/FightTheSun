@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class HostileShoot : MonoBehaviour
 {
+    private SFXManager sFXManager;
+
     [SerializeField] private bool isStraightShooter;
     [SerializeField] private bool canTargetPlayer;
     [SerializeField] private bool isShootingBurst;
@@ -21,12 +24,17 @@ public class HostileShoot : MonoBehaviour
 
     [SerializeField] private float rotationSpeed = 1000f; // Speed of rotation in degrees per second
 
+    [SerializeField] private Animator cannonAnim;
+    [SerializeField] private AudioClip[] cannonSounds;
+
     private Transform target;
 
     private void Start()
     {
         Debug.Log("Shoot Start");
         reloadCountdownTime = 0.3f;
+
+        sFXManager = FindAnyObjectByType<SFXManager>();
     }
 
     private void Update()
@@ -120,6 +128,25 @@ public class HostileShoot : MonoBehaviour
 
                 GameObject bullet = Instantiate(bulletPreFab, transform.position, Quaternion.identity);
                 bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+
+                // Play cannon animation
+                if (cannonAnim != null)
+                {
+                    Debug.Log("Cannon animation");
+                    cannonAnim.SetTrigger("cannonTrigger");
+                }
+
+                //Play cannon SFX
+                if (sFXManager == null)
+                {
+                    Debug.Log("SFX Manager not found");
+                    sFXManager = FindAnyObjectByType<SFXManager>();
+                }
+                if (sFXManager != null && cannonSounds.Length > 0)
+                {
+                    Debug.Log("Cannon SFX");
+                    sFXManager.PlaySFX(cannonSounds[UnityEngine.Random.Range(0, cannonSounds.Length)]);
+                }
             }
             if (isShootingBurst) // Prevent overlapping bursts
             {
@@ -147,10 +174,29 @@ public class HostileShoot : MonoBehaviour
                 reloadCountdownTime = reloadTime;
 
                 // Define the direction for straight shooting
-                Vector2 direction = -transform.up;
+                Vector2 direction = transform.up;
 
                 GameObject bullet = Instantiate(bulletPreFab, transform.position, Quaternion.identity);
                 bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+
+                // Play cannon animation
+                if (cannonAnim != null)
+                {
+                    Debug.Log("Cannon animation");
+                    cannonAnim.SetTrigger("cannonTrigger");
+                }
+
+                //Play cannon SFX
+                if (sFXManager == null)
+                {
+                    Debug.Log("SFX Manager not found");
+                    sFXManager = FindAnyObjectByType<SFXManager>();
+                }
+                if (sFXManager != null && cannonSounds.Length > 0)
+                {
+                    Debug.Log("Cannon SFX");
+                    sFXManager.PlaySFX(cannonSounds[UnityEngine.Random.Range(0, cannonSounds.Length)]);
+                }
             }
             if (isShootingBurst) // Prevent overlapping bursts
             {
@@ -174,6 +220,25 @@ public class HostileShoot : MonoBehaviour
             // Instantiate and shoot a bullet
             GameObject bullet = Instantiate(bulletPreFab, transform.position, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+
+            // Play cannon animation
+            if (cannonAnim != null)
+            {
+                Debug.Log("Cannon animation");
+                cannonAnim.SetTrigger("cannonTrigger");
+            }
+
+            // Play cannon SFX
+            if (sFXManager == null)
+            {
+                Debug.Log("SFX Manager not found");
+                sFXManager = FindAnyObjectByType<SFXManager>();
+            }
+            if (sFXManager != null && cannonSounds.Length > 0)
+            {
+                Debug.Log("Cannon SFX");
+                sFXManager.PlaySFX(cannonSounds[UnityEngine.Random.Range(0, cannonSounds.Length)]);
+            }
 
             yield return new WaitForSeconds(burstDelay); // Wait before the next shot
         }
