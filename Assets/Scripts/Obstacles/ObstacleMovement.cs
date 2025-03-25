@@ -128,8 +128,8 @@ public class ObstacleMovement : MonoBehaviour
         // Store the initial offset between the obstacle and the particles
         Vector3 offset = particlesTransform.position - transform.position;
 
-        // Update the particles' position every frame while the parent exists
-        while (this != null) // Check if the parent still exists
+        // Update the particles' position every frame while both objects exist
+        while (this != null && particlesTransform != null)
         {
             // Update the particles' position to match the parent's position plus the offset
             particlesTransform.position = transform.position + offset;
@@ -142,6 +142,9 @@ public class ObstacleMovement : MonoBehaviour
     private void SelfDestruct()
     {
         Debug.Log("Obstacle collided with WorldLowerBarrier. Self-destructing.");
+
+        // Stop all coroutines to prevent any further updates
+        StopAllCoroutines();
 
         // Disable the collider to prevent further interactions
         GetComponent<Collider2D>().enabled = false;

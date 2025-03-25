@@ -54,6 +54,10 @@ public class SFXManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxVolume = Mathf.Clamp01(volume);
+        sfxSource.volume = sfxVolume;
+        // Save the SFX volume to PlayerPrefs
+        PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+        PlayerPrefs.Save(); // Ensure the data is saved immediately
     }
 
     public void MuteSFX(bool mute)

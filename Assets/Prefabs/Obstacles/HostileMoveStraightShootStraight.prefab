@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGravityWave: 0
-  isGravityWell: 1
+  isGravityWell: 0
   isTurbulance: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 1.5

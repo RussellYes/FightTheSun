@@ -81,13 +81,13 @@ public class ObstacleSpawner : MonoBehaviour
     private void TurnOffSpawner()
     {
         isSpawnerOn = false;
-        Debug.Log("Spawners are off");
+        //Debug.Log("Spawners are off");
     }
 
     private void TurnOnSpawner()
     {
         isSpawnerOn = true;
-        Debug.Log("Spawners are on");
+        //Debug.Log("Spawners are on");
     }
 
     private void TimerForSpawning()
@@ -154,6 +154,7 @@ public class ObstacleSpawner : MonoBehaviour
     
     private void SpawnSingleObstacleSingleLocation()
     {
+        Debug.Log("SpawnSingleObstacleSingleLocation");
         if (isSpawnSpecial1)
         {
             SpawnSingleObstacleSingleLocation();

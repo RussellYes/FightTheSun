@@ -303,11 +303,15 @@ public class GameManager : MonoBehaviour
         // Pause the game time
         Time.timeScale = 1;
 
-        // Stop spawners
-        StartSpawning?.Invoke();
+        if (CurrentState != GameState.BossBattle)
+        {
+            // Stop spawners
+            StartSpawning?.Invoke();
 
-        // Stop goal progress
-        StartGoalProgress();
+            // Stop goal progress
+            StartGoalProgress();
+        }
+
     }
 
     private void HandleBossBattle()

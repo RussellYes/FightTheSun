@@ -19,41 +19,39 @@ public class Boss : MonoBehaviour
     [SerializeField] private bool isBoss1;
     [SerializeField] private bool isBoss2;
 
-
     [Header("Movement")]
     private float startingMovementSpeed = 2;
     private PlanetEndPosition planetEndPosition;
-    private Vector3 startPosition; // Store the starting position of the planet
-    private float journeyLength; // Total distance between start and end positions
+    private Vector3 startPosition;
+    private float journeyLength;
     private float startTime;
     private bool isMovingAtStart = true;
 
-    private bool isAttacking = false;
-    private bool isDefending= false;
+    private bool isAttackTrigger = false;
+    private bool isDefenceTrigger = false;
+    private bool isAttacking = false; // New flag to prevent overlapping attacks
 
     [Header("Attack")]
-    [SerializeField] private float attackTime = 6f;
+    [SerializeField] private float attackTime = 10f;
     [SerializeField] private float defenceTime = 6f;
     [SerializeField] private int attackCount;
     [SerializeField] private int attackSequence = 0;
+    [SerializeField] private GameObject turret1;
+    [SerializeField] private GameObject turret2;
 
     [Header("Destruction")]
     [SerializeField] private AudioClip destructionSound;
     [SerializeField] private ParticleSystem destructionParticles;
 
-
     private void Start()
     {
         planetEndPosition = FindAnyObjectByType<PlanetEndPosition>();
-
-        // Store the starting position of the planet
         startPosition = transform.position;
-
-        // Calculate the total distance between the start and end positions
         journeyLength = Vector3.Distance(startPosition, planetEndPosition.transform.position);
-
-        // Record the start time
         startTime = Time.time;
+
+        if (turret1) turret1.SetActive(false);
+        if (turret2) turret2.SetActive(false);
     }
 
     private void OnEnable()
@@ -70,198 +68,195 @@ public class Boss : MonoBehaviour
     {
         MovePlanetAtStart();
 
-        BattleMode();
+        if (!isAttacking) // Only check battle mode if not currently attacking
+        {
+            BattleMode();
+        }
     }
 
     private void MovePlanetAtStart()
     {
         if (isMovingAtStart)
         {
-            // Calculate the fraction of the journey completed
             float distanceCovered = (Time.time - startTime) * startingMovementSpeed;
             float fractionOfJourney = distanceCovered / journeyLength;
-
-            // Smoothly interpolate between the start and end positions
             transform.position = Vector3.Lerp(startPosition, planetEndPosition.transform.position, fractionOfJourney);
 
-            // Optional: Stop moving once the planet reaches the end position
             if (fractionOfJourney >= 1f)
             {
-                // Disable further movment
                 isMovingAtStart = false;
-                isAttacking = true;
+                isAttackTrigger = true;
             }
         }
-
     }
 
     private void BattleMode()
     {
         if (isBoss1)
         {
-            if (!isMovingAtStart && isAttacking)
+            if (!isMovingAtStart && isAttackTrigger)
             {
                 StartCoroutine(Attack1());
             }
-            if (!isMovingAtStart && isDefending)
+            if (!isMovingAtStart && isDefenceTrigger)
             {
                 StartCoroutine(Defend());
             }
         }
 
-        if (isBoss2)
+        if (isBoss2 && !isMovingAtStart)
         {
-            if (!isMovingAtStart && isAttacking)
+            if (isDefenceTrigger)
             {
-                if (attackTime <= 0)
+                Debug.Log("Boss2: Starting Defence");
+                StartCoroutine(Defend());
+            }
+            else if (isAttackTrigger && !isAttacking)
+            {
+                switch (attackSequence)
                 {
-                    StartCoroutine(Defend());
-                    attackSequence = 0;
+                    case 0:
+                        StartCoroutine(ExecuteAttackSequence(Attack2()));
+                        break;
+                    case 1:
+                        StartCoroutine(ExecuteAttackSequence(Attack3()));
+                        break;
+                    case 2:
+                        StartCoroutine(ExecuteAttackSequence(Attack4()));
+                        break;
+                    case 3:
+                        StartCoroutine(ExecuteAttackSequence(Attack5()));
+                        break;
                 }
-                if (attackSequence == 0)
-                {
-                    attackSequence++;
-                    StartCoroutine(Attack2());
-                }
-                if (attackSequence == 1)
-                {
-                    attackSequence++;
-                    StartCoroutine(Attack3());
-                }
-                if (attackSequence == 2)
-                {
-                    attackSequence++;
-                    StartCoroutine(Attack4());
-                }
-                if (attackSequence == 3)
-                {
-                    attackSequence++;
-                    StartCoroutine(Attack2());
-                }
-                if (attackSequence >= 4)
-                {
-                    attackSequence++;
-                    int rollTheDice = UnityEngine.Random.Range(0, 3);
-                    if(rollTheDice == 0)
-                    {
-                        StartCoroutine(Attack2());
-                    }
-                    if(rollTheDice == 1)
-                    {
-                        StartCoroutine(Attack3());
-                    }
-                    if(rollTheDice == 2)
-                    {
-                        StartCoroutine(Attack4());
-                    }
-                }
-
             }
         }
+    }
 
+    // New wrapper coroutine to manage attack sequence state
+    IEnumerator ExecuteAttackSequence(IEnumerator attackCoroutine)
+    {
+        isAttacking = true;
+        yield return StartCoroutine(attackCoroutine);
+        isAttacking = false;
     }
 
     IEnumerator Attack1()
     {
-        isAttacking = false;
-        Debug.Log("Boss Attack1");
-        // Code for boss attack
+        isAttackTrigger = false;
+        Debug.Log("Boss1: Attack1 Started");
         StartSpawnersEvent?.Invoke();
         yield return new WaitForSeconds(attackTime);
-        isDefending = true;
+        isDefenceTrigger = true;
+        Debug.Log("Boss1: Attack1 Complete");
     }
 
     IEnumerator Attack2()
     {
-        isAttacking = false;
-        Debug.Log("Boss Attack2");
-
-        attackCount = 3;
-        for (int i = 0; i < attackCount; i++)
-        {
-            //Event to spawn enemies
-            SpawnEventGroup1?.Invoke();
-            yield return new WaitForSeconds(0.1f);
-            SpawnEventGroup3?.Invoke();
-            yield return new WaitForSeconds(0.4f);
-            SpawnEventGroup2?.Invoke();
-            yield return new WaitForSeconds(0.1f);
-            SpawnEventGroup4?.Invoke();
-        }
-        yield return new WaitForSeconds(attackTime);
-        isAttacking = true;
-        if (isBoss2)
-        {
-            attackTime--;
-        }
-    }
-
-    IEnumerator Attack3()
-    {
-        isAttacking = false;
-        Debug.Log("Boss Attack3");
+        isAttackTrigger = false;
+        Debug.Log("Boss2: Attack2 Started");
 
         attackCount = 2;
         for (int i = 0; i < attackCount; i++)
         {
-            //Event to spawn enemies
+            SpawnEventGroup1?.Invoke();
+            yield return new WaitForSeconds(0.5f);
+            SpawnEventGroup3?.Invoke();
+            yield return new WaitForSeconds(3f);
+            SpawnEventGroup2?.Invoke();
+            yield return new WaitForSeconds(0.5f);
+            SpawnEventGroup4?.Invoke();
+        }
+        yield return new WaitForSeconds(attackTime);
+
+        attackSequence = 1; // Next will be Attack3
+        isAttackTrigger = true;
+        Debug.Log("Boss2: Attack2 Complete");
+    }
+
+    IEnumerator Attack3()
+    {
+        isAttackTrigger = false;
+        Debug.Log("Boss2: Attack3 Started");
+
+        attackCount = 2;
+        for (int i = 0; i < attackCount; i++)
+        {
             SpawnEventGroup5?.Invoke();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(1f);
             SpawnEventGroup5?.Invoke();
         }
         yield return new WaitForSeconds(attackTime);
-        isAttacking = true;
-        if (isBoss2)
-        {
-            attackTime--;
-        }
+
+        attackSequence = 2; // Next will be Attack4
+        isAttackTrigger = true;
+        Debug.Log("Boss2: Attack3 Complete");
     }
 
     IEnumerator Attack4()
     {
-        isAttacking = false;
-        Debug.Log("Boss Attack4");
-
-        attackCount = 8;
-
-        int rollTheDice = UnityEngine.Random.Range(0, 3);
+        isAttackTrigger = false;
+        Debug.Log("Boss2: Attack4 Started");
+        attackCount = 2;
         for (int i = 0; i < attackCount; i++)
         {
+            if (turret1) turret1.SetActive(true);
+            if (turret2) turret2.SetActive(true);
+            yield return new WaitForSeconds(6);
+            if (turret1) turret1.SetActive(false);
+            if (turret2) turret2.SetActive(false);
+        }
+        yield return new WaitForSeconds(attackTime);
+
+        attackSequence = 3; // Next will be Attack5
+        isAttackTrigger = true;
+        Debug.Log("Boss2: Attack4 Complete");
+    }
+
+    IEnumerator Attack5()
+    {
+        isAttackTrigger = false;
+        Debug.Log("Boss2: Attack5 Started");
+
+        attackCount = 2;
+        int rollTheDice = UnityEngine.Random.Range(0, 3);
+
+        for (int i = 0; i < attackCount; i++)
+        {
+            yield return new WaitForSeconds(1f);
             if (rollTheDice == 0)
             {
                 SpawnEventGroup1?.Invoke();
             }
-            if (rollTheDice == 1)
+            else if (rollTheDice == 1)
             {
                 SpawnEventGroup2?.Invoke();
             }
-            if (rollTheDice == 2)
+            else
             {
                 SpawnEventGroup5?.Invoke();
             }
-
-            yield return new WaitForSeconds(attackTime);
-            isAttacking = true;
-            if (isBoss2)
-            {
-                attackTime--;
-            }
         }
+        yield return new WaitForSeconds(attackTime);
+
+        attackSequence = 0; // Reset sequence for next cycle
+        isDefenceTrigger = true; // Next will be Defence
+        Debug.Log("Boss2: Attack5 Complete");
     }
 
     IEnumerator Defend()
     {
-        isDefending = false;
-        Debug.Log("Boss1 Defend");
-        // Code for boss defense
+        isDefenceTrigger = false;
+        Debug.Log("Boss: Defence Started");
         StopSpawnersEvent?.Invoke();
         yield return new WaitForSeconds(defenceTime);
-        isAttacking = true;
+
+        attackSequence = 0;
+        isAttackTrigger = true;
+        Debug.Log("Boss: Defence Complete");
     }
 
     private void Destruction()
     {
-        // SFX
         if (destructionSound != null)
         {
             sFXManager = FindAnyObjectByType<SFXManager>();
@@ -270,38 +265,25 @@ public class Boss : MonoBehaviour
                 sFXManager.PlaySFX(destructionSound);
             }
         }
-        // Instantiate particles
+
         if (destructionParticles != null)
         {
             ParticleSystem particles = Instantiate(destructionParticles, transform.position, Quaternion.identity);
-
-            //coroutine to make the particles follow the obstacle's movement
             StartCoroutine(FollowParentMovement(particles.transform));
         }
-        // Trigger play
+
         GameManager.Instance.SetState(GameManager.GameState.Playing);
-        // Destroy boss
-        Debug.Log("Boss1: Destroyed");
+        Debug.Log("Boss: Destroyed");
         Destroy(gameObject);
     }
 
-    private System.Collections.IEnumerator FollowParentMovement(Transform particlesTransform)
+    private IEnumerator FollowParentMovement(Transform particlesTransform)
     {
-        // Store the initial offset between the obstacle and the particles
         Vector3 offset = particlesTransform.position - transform.position;
-
-        // Update the particles' position every frame while the parent exists
-        while (this != null) // Check if the parent still exists
+        while (this != null)
         {
-            // Update the particles' position to match the parent's position plus the offset
             particlesTransform.position = transform.position + offset;
-
-            // Wait for the next frame
             yield return null;
         }
     }
-
-
-
 }
-

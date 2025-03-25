@@ -10,9 +10,28 @@ public class Bullet : MonoBehaviour
     [SerializeField] private ParticleSystem collisionParticles;
     [SerializeField] private AudioClip[] bulletImpactSounds;
 
+    private float countdown = 5f;
+
     private void Start()
     {
         sFXManager = FindAnyObjectByType<SFXManager>();
+    }
+
+    private void Update()
+    {
+        TimedSelfDestruct();
+    }
+
+    private void TimedSelfDestruct()
+    {
+        if (countdown > 0)
+        {
+            countdown -= Time.deltaTime;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
