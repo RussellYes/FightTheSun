@@ -45,9 +45,13 @@ public class PlayerStatsManager : MonoBehaviour
     private float distanceTraveled = 0; // Track distance traveled
     private bool isProgressHalfway = false;
 
+    private float miningSkill;
+
+
     // Public properties
     public float PlayerThrust => playerThrust * throttle; // Effective thrust is scaled by throttle
     public float PlayerMass => playerMass;
+    public float MiningSkill => miningSkill;
 
     private void Awake()
     {

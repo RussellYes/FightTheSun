@@ -390,7 +390,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
 
         // Save the high score, best time, and obstacles destroyed for the current mission
-        SaveMissionData(CurrentMission, scoreManager.GetScore(), gameTime, scoreManager.KilledByPlayerCount());
+        SaveMissionData(CurrentMission, scoreManager.GetMoney(), gameTime, scoreManager.KilledByPlayerCount());
     }
 
     private void SaveMissionData(int missionNumber, int score, float time, int obstaclesDestroyed)

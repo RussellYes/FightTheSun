@@ -32,7 +32,7 @@ public class DashboardScoreText : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         if (scoreManager != null)
         {
-            UpdateScoreText(scoreManager.GetScore());
+            UpdateScoreText(scoreManager.GetMoney());
             UpdateObstaclesDestroyedText(scoreManager.KilledByPlayerCount());
         }
     }
