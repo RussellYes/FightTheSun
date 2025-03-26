@@ -8,16 +8,32 @@ public class ScoreManager : MonoBehaviour
     private int killedByPlayerCount;
     private int currentObstaclesInScene;
     public int money = 0;
+    public int levelMoney = 0;
     private float metal;
+    private float levelMetal;
     private float rareMetal;
+    private float LevelRareMetal;
 
     // Define events for score changes and obstacles destroyed by the player
-    public static event Action<int> OnScoreChanged;
+    public static event Action<int> OnLevelMoneyChanged;
+    public static event Action<int> OnMoneyChanged;
+    public static event Action<float> OnMetalChanged;
+    public static event Action<float> OnLevelMetalChanged;
+    public static event Action<float> OnRareMetalChanged;
+    public static event Action<float> OnLevelRareMetalChanged;
+
     public static event Action<int> OnObstaclesDestroyedByPlayerChanged;
 
     private void Awake()
     {
         LoadData();
+    }
+
+    private void Start()
+    {
+        levelMoney = 0;
+        levelMetal = 0;
+        LevelRareMetal = 0;
     }
 
     private void OnEnable()
@@ -51,7 +67,7 @@ public class ScoreManager : MonoBehaviour
         if (isKilledByPlayer)
         {
             killedByPlayerCount++;
-            ChangeMoney(pointValue);
+            ChangeLevelMoney(pointValue);
             Debug.Log($"Money updated: {money}");
 
             // Trigger the obstacles destroyed by player event
@@ -61,17 +77,47 @@ public class ScoreManager : MonoBehaviour
 
     private void OnPlayerGainsLoot(float metalGained, float rareMetalGained)
     {
-        metal += metalGained;
-        rareMetal += rareMetalGained;
-        SaveData();
+        ChangeLevelMetal(metalGained);
+        ChangeLevelRareMetal(rareMetalGained);
     }
 
     private void ChangeMoney(int points)
     {
         money += points;
 
-        // Trigger the score change event
-        OnScoreChanged?.Invoke(money);
+        // Trigger the money change event
+        OnMoneyChanged?.Invoke(money);
+        SaveData();
+    }
+    private void ChangeLevelMoney(int points)
+    {
+        levelMoney += points;
+
+        // Trigger the levelMoney change event
+        OnLevelMoneyChanged?.Invoke(levelMoney);
+    }
+    private void ChangeMetal(float points)
+    {
+        metal += points;
+
+        OnMetalChanged?.Invoke(metal);
+        SaveData();
+    }
+    private void ChangeLevelMetal(float points)
+    {
+        levelMetal += points;
+        OnLevelMetalChanged?.Invoke(levelMetal);
+    }
+    private void ChangeRareMetal(float points)
+    {
+        rareMetal += points;
+        OnRareMetalChanged?.Invoke(rareMetal);
+        SaveData();
+    }
+    private void ChangeLevelRareMetal(float points)
+    {
+        LevelRareMetal += points;
+        OnLevelRareMetalChanged?.Invoke(LevelRareMetal);
     }
 
     public float GetMetal()

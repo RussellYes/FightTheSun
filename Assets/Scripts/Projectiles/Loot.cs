@@ -13,32 +13,18 @@ public class Loot : MonoBehaviour
     private float metal;
     private float rareMetal;
 
-    [SerializeField] private float lootRotationSpeedMin;
-    [SerializeField] private float lootRotationSpeedMax;
-    private float lootRotationSpeed;
+    [SerializeField] private Sprite metalImage;
+    [SerializeField] private Sprite rareMetalImage;
+    [SerializeField] private SpriteRenderer lootImageRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         playerStatsManager = FindObjectOfType<PlayerStatsManager>();
-        SetRotation();
+
         SetLootValues();
-    }
-    private void Update()
-    {
-        RotateSelf();
-    }
 
-    private void SetRotation()
-    {
-        // Initialize rotation speed with a random direction (-1 or +1)
-        int randomDirection = UnityEngine.Random.Range(0, 2) * 2 - 1; // Generates -1 or +1
-        lootRotationSpeed = UnityEngine.Random.Range(lootRotationSpeedMin, lootRotationSpeedMax) * randomDirection;
-    }
 
-    private void RotateSelf()
-    {
-        transform.Rotate(Vector3.forward * lootRotationSpeed * Time.deltaTime, Space.World);
     }
 
     private void SetLootValues()
@@ -47,10 +33,12 @@ public class Loot : MonoBehaviour
         if (rollTheDice > 95)
         {
             rareMetal = playerStatsManager.MiningSkill / UnityEngine.Random.Range (1f, 11f);
+            lootImageRenderer.sprite = rareMetalImage;
         }
-        else
+        else if (rollTheDice <= 95)
         {
             metal = playerStatsManager.MiningSkill / UnityEngine.Random.Range(1f, 6f);
+            lootImageRenderer.sprite = metalImage;
         }
     }
 

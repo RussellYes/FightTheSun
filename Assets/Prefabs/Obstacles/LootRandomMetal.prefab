@@ -12,12 +12,10 @@ GameObject:
   - component: {fileID: 6573171121537117768}
   - component: {fileID: 2874394255055508190}
   - component: {fileID: 2156760109146772271}
-  - component: {fileID: 238012368465338199}
-  - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
-  - component: {fileID: -3177561148092236761}
+  - component: {fileID: 6006304755362702936}
   m_Layer: 7
-  m_Name: Asteroid
+  m_Name: LootRandomMetal
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,44 +125,18 @@ MonoBehaviour:
   isGravityWave: 0
   isGravityWell: 0
   isTurbulance: 0
+  isLoot: 1
   obstacle: {fileID: 2529052306193900648}
-  obstacleSpeedMultiplier: 1
-  rotationSpeedMin: -80
-  rotationSpeedMax: 80
+  obstacleSpeedMultiplier: 0.2
+  rotationSpeedMin: 10
+  rotationSpeedMax: 20
   verticalWarning: {fileID: 5762032200503551617}
   entranceSounds: []
   collisionSounds:
-  - {fileID: 8300000, guid: 96f103f795d0a6245869563708fb8366, type: 3}
-  - {fileID: 8300000, guid: 25549d0ebde93084f844aa4499982089, type: 3}
-  - {fileID: 8300000, guid: 1debd04dff0b66240b7452aab6a18ee8, type: 3}
-  collisionParticles: {fileID: 1517886618772211621, guid: a4455e0a17801714883181b3e95e8029, type: 3}
---- !u!114 &238012368465338199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b4ca5c50a214440ba3a53e10394880, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstacle: {fileID: 2529052306193900648}
-  health: 10
---- !u!114 &-4505411848051596897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21cfbc12b4a41584bb314b33d783c5d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 3
+  - {fileID: 8300000, guid: 97710fe9b8d9d9d48b1cff0581b3f53b, type: 3}
+  - {fileID: 8300000, guid: 7c2b43c9f6887c14397e045fb39479ef, type: 3}
+  - {fileID: 8300000, guid: ccc2b70627f4570499eb66c2f9dd6d48, type: 3}
+  collisionParticles: {fileID: 1517886618772211621, guid: b6259fb14c9b4bf4fa9bd78179b514dd, type: 3}
 --- !u!114 &2529052306193900648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,16 +152,14 @@ MonoBehaviour:
   isBossObstacle: 0
   isFlipped: 0
   obstacleSprites:
-  - {fileID: 21300000, guid: 52c860d8e3c74634c8ed2b94ffca4cb0, type: 3}
-  - {fileID: 21300000, guid: b967956f5c6ea1a44882359b17d70fdb, type: 3}
-  - {fileID: 21300000, guid: 9df0998a922861b44bc8ce1e5d4c9f01, type: 3}
+  - {fileID: 0}
   obstacleRenderer: {fileID: 2647846136512851944}
   pointValue: 1
   visualWarning: {fileID: 2504786687601365788}
   warningSpriteRenderer: {fileID: 2477320292511290396}
-  visualWarningColor: {r: 1, g: 0.5840552, b: 0.21226418, a: 1}
+  visualWarningColor: {r: 0.36862746, g: 0.6156863, b: 0.6901961, a: 1}
   visualWarningTimer: 1.5
---- !u!114 &-3177561148092236761
+--- !u!114 &6006304755362702936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,11 +168,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4301909746815339928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd19f72b0b1835641a52d286325cb5ff, type: 3}
+  m_Script: {fileID: 11500000, guid: e8b3074a5de5a744996865cc94afcc90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootPrefab:
-  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
+  metalImage: {fileID: 21300000, guid: 019f9e044f150e14b817dab47300954e, type: 3}
+  rareMetalImage: {fileID: 21300000, guid: 1e64bfb1a0d416647b6aa269d3eeb12d, type: 3}
+  lootImageRenderer: {fileID: 2647846136512851944}
 --- !u!1 &6378483834228950434
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6179345374534429898}
@@ -276,7 +247,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 52c860d8e3c74634c8ed2b94ffca4cb0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 019f9e044f150e14b817dab47300954e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

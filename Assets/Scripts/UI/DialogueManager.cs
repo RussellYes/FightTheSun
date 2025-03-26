@@ -361,19 +361,23 @@ public class DialogueManager : MonoBehaviour
             dialogueCount++;
             dialogueText.text = "The mining missle uncovers ore.";
 
-            RectTransform missleButtonObjectRect = missleButtonObject.GetComponent<RectTransform>();
+            if (missleButtonObject != null)
+            {
+                RectTransform missleButtonObjectRect = missleButtonObject.GetComponent<RectTransform>();
 
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
-            Vector3 arrowPosition = missleButtonObjectRect.position + xOffset + yOffset;
+                // Apply offsets directly
+                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+                Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
+                Vector3 arrowPosition = missleButtonObjectRect.position + xOffset + yOffset;
 
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, missleButtonObjectRect.parent);
+                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, missleButtonObjectRect.parent);
 
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
+                // Ensure the arrow is rendered in front by setting its sibling index
+                currentArrowInstance.transform.SetAsLastSibling();
+                StartCoroutine(DestroyArrow(dialogueTimer));
+            }
+
         }
         else if (dialogueCount == 1)
         {
@@ -381,21 +385,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
-            dialogueText.text = "The claw picks up ore.";
-
-            RectTransform clawButtonObjectRect = clawButtonObject.GetComponent<RectTransform>();
-
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
-            Vector3 arrowPosition = clawButtonObjectRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, clawButtonObjectRect.parent);
-
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
+            dialogueText.text = "Increase your mining skill for better loot.";
         }
 
         else if (dialogueCount == 2)

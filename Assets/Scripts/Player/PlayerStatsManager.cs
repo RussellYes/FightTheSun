@@ -45,7 +45,7 @@ public class PlayerStatsManager : MonoBehaviour
     private float distanceTraveled = 0; // Track distance traveled
     private bool isProgressHalfway = false;
 
-    private float miningSkill;
+    private float miningSkill = 1;
 
 
     // Public properties

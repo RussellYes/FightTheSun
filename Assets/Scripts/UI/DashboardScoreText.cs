@@ -14,14 +14,14 @@ public class DashboardScoreText : MonoBehaviour
     private void OnEnable()
     {
         // Subscribe to score and obstacles destroyed events
-        ScoreManager.OnScoreChanged += UpdateScoreText;
+        ScoreManager.OnLevelMoneyChanged += UpdateScoreText;
         ScoreManager.OnObstaclesDestroyedByPlayerChanged += UpdateObstaclesDestroyedText;
     }
 
     private void OnDisable()
     {
         // Unsubscribe from events
-        ScoreManager.OnScoreChanged -= UpdateScoreText;
+        ScoreManager.OnLevelMoneyChanged -= UpdateScoreText;
         ScoreManager.OnObstaclesDestroyedByPlayerChanged -= UpdateObstaclesDestroyedText;
     }
 

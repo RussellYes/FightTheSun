@@ -15,6 +15,7 @@ public class ObstacleMovement : MonoBehaviour
     [SerializeField] private bool isGravityWave;
     [SerializeField] private bool isGravityWell;
     [SerializeField] private bool isTurbulance;
+    [SerializeField] private bool isLoot;
 
 
     [Header("Obstacle Settings")]
@@ -119,7 +120,10 @@ public class ObstacleMovement : MonoBehaviour
                 float turbulanceAmt = UnityEngine.Random.Range(-0.1f, -0.3f);
                 turbulanceEvent?.Invoke(turbulanceAmt);
             }
-
+            if (isLoot)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
