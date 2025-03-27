@@ -364,7 +364,7 @@ public class GameManager : MonoBehaviour
         // Show end UI
         endConditionsUI.SetActive(true); // Activate the end conditions UI GameObject
 
-        GameManagerEndGameEvent?.Invoke;
+        GameManagerEndGameEvent?.Invoke();
     }
 
     private void StopGoalProgress()

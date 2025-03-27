@@ -29,6 +29,11 @@ public class PlayerStatsManager : MonoBehaviour
     public static event EventHandler<OnCurrentThrustChangedEventArgs> OnCurrentThrustChanged;
     public static event EventHandler<OnCheckpointProgressChangedEventArgs> OnCheckpointProgressChanged;
 
+    public static event Action PlayerHull100Percent;
+    public static event Action PlayerHull75Percent;
+    public static event Action PlayerHull50Percent;
+    public static event Action PlayerHull25Percent;
+
     [SerializeField] private GameManager gameManager;
 
     [SerializeField] private float playerMass;
@@ -178,9 +183,26 @@ public class PlayerStatsManager : MonoBehaviour
             float progressNormalized = playerCurrentHull / playerHullMax;
             OnCurrentHullChanged?.Invoke(this, new OnCurrentHullChangedEventArgs { progressNormalized = progressNormalized });
         }
-        else
-        {
+        if (playerHullMax == 0)
+            {
             Debug.LogWarning("playerHullMax is 0. Cannot calculate progressNormalized.");
+        }
+
+        if (playerCurrentHull >= playerHullMax * 0.75f)
+        {
+            PlayerHull100Percent?.Invoke();
+        }
+        if (playerCurrentHull < 0.75f && playerCurrentHull >= playerHullMax * 0.5f)
+        {
+            PlayerHull75Percent?.Invoke();
+        }
+        if (playerCurrentHull < 0.5f && playerCurrentHull >= playerHullMax * 0.25f)
+        {
+            PlayerHull50Percent?.Invoke();
+        }
+        if (playerCurrentHull < playerHullMax * 0.25f)
+        {
+            PlayerHull25Percent?.Invoke();
         }
     }
 

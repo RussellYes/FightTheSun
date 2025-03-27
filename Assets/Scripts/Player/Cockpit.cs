@@ -3,13 +3,37 @@ using UnityEngine;
 
 public class Cockpit : MonoBehaviour
 {
-    [SerializeField] private float mass;
-    [SerializeField] private float thrust;
-
     // Define the event
     public static event Action<float> OnCockpitMassChanged;
     public static event Action<float> OnCockpitThrustChanged;
 
+    [Header("Cockpit Settings")]
+    [SerializeField] private float mass;
+    [SerializeField] private float thrust;
+
+    [Header("Visuals")]
+    [SerializeField] private SpriteRenderer hullSpriteRenderer;
+    [SerializeField] private Sprite hull100;
+    [SerializeField] private Sprite hull75;
+    [SerializeField] private Sprite hull50;
+    [SerializeField] private Sprite hull25;
+
+
+    private void OnEnable()
+    {
+        PlayerStatsManager.PlayerHull100Percent += Visual100;
+        PlayerStatsManager.PlayerHull75Percent += Visual75;
+        PlayerStatsManager.PlayerHull50Percent += Visual50;
+        PlayerStatsManager.PlayerHull25Percent += Visual25;
+    }
+
+    private void OnDisable()
+    {
+        PlayerStatsManager.PlayerHull100Percent -= Visual100;
+        PlayerStatsManager.PlayerHull75Percent -= Visual75;
+        PlayerStatsManager.PlayerHull50Percent -= Visual50;
+        PlayerStatsManager.PlayerHull25Percent -= Visual25;
+    }
 
     private void Start()
     {
@@ -26,4 +50,24 @@ public class Cockpit : MonoBehaviour
         // Invoke the event to subtract thrust
         OnCockpitThrustChanged?.Invoke(-thrust);
     }
+
+    private void Visual100()
+    {
+        hullSpriteRenderer.sprite = hull100;
+    }
+    private void Visual75()
+    {
+        hullSpriteRenderer.sprite = hull75;
+    }
+    private void Visual50()
+    {
+        hullSpriteRenderer.sprite = hull50;
+    }
+    private void Visual25()
+    {
+        hullSpriteRenderer.sprite = hull25;
+    }
+
+
+
 }
