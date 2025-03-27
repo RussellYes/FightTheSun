@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public static event SpawningAction StopSpawning;
     public static event SpawningAction StartSpawning;
 
+    public static event Action GameManagerEndGameEvent;
+
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button unpauseButton;
@@ -356,13 +358,13 @@ public class GameManager : MonoBehaviour
         // Stop spawners
         StopSpawning?.Invoke();
 
-
-
         // Stop goal progress
         StopGoalProgress();
 
         // Show end UI
         endConditionsUI.SetActive(true); // Activate the end conditions UI GameObject
+
+        GameManagerEndGameEvent?.Invoke;
     }
 
     private void StopGoalProgress()

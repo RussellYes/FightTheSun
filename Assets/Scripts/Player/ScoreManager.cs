@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class ScoreManager : MonoBehaviour
@@ -26,6 +27,8 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         LoadData();
     }
 
@@ -42,6 +45,7 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleEntersSceneEvent += OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent += OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent += OnPlayerGainsLoot;
+        GameManager.GameManagerEndGameEvent += SaveData;
     }
 
     private void OnDisable()
@@ -50,6 +54,21 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleEntersSceneEvent -= OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent -= OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent -= OnPlayerGainsLoot;
+        GameManager.GameManagerEndGameEvent -= SaveDataAtEndOfLevel;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {;
+        // Check if the scene index is within the bounds of the array
+        if (scene.buildIndex == 0)
+        {
+            LoadData();
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager did not load scene");
+        }
     }
 
     private void OnObstacleEntersScene()
@@ -87,7 +106,6 @@ public class ScoreManager : MonoBehaviour
 
         // Trigger the money change event
         OnMoneyChanged?.Invoke(money);
-        SaveData();
     }
     private void ChangeLevelMoney(int points)
     {
@@ -101,7 +119,7 @@ public class ScoreManager : MonoBehaviour
         metal += points;
 
         OnMetalChanged?.Invoke(metal);
-        SaveData();
+
     }
     private void ChangeLevelMetal(float points)
     {
@@ -112,7 +130,7 @@ public class ScoreManager : MonoBehaviour
     {
         rareMetal += points;
         OnRareMetalChanged?.Invoke(rareMetal);
-        SaveData();
+
     }
     private void ChangeLevelRareMetal(float points)
     {
@@ -138,6 +156,15 @@ public class ScoreManager : MonoBehaviour
     public int KilledByPlayerCount()
     {
         return killedByPlayerCount;
+    }
+
+    private void SaveDataAtEndOfLevel()
+    {
+        LoadData();
+        ChangeMoney(levelMoney);
+        ChangeMetal(levelMetal);
+        ChangeRareMetal(LevelRareMetal);
+        SaveData();
     }
 
     private void SaveData()
