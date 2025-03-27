@@ -65,10 +65,6 @@ public class ScoreManager : MonoBehaviour
         {
             LoadData();
         }
-        else
-        {
-            Debug.LogWarning("ScoreManager did not load scene");
-        }
     }
 
     private void OnObstacleEntersScene()

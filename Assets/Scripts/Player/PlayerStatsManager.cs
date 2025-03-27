@@ -187,23 +187,6 @@ public class PlayerStatsManager : MonoBehaviour
             {
             Debug.LogWarning("playerHullMax is 0. Cannot calculate progressNormalized.");
         }
-
-        if (playerCurrentHull >= playerHullMax * 0.75f)
-        {
-            PlayerHull100Percent?.Invoke();
-        }
-        if (playerCurrentHull < 0.75f && playerCurrentHull >= playerHullMax * 0.5f)
-        {
-            PlayerHull75Percent?.Invoke();
-        }
-        if (playerCurrentHull < 0.5f && playerCurrentHull >= playerHullMax * 0.25f)
-        {
-            PlayerHull50Percent?.Invoke();
-        }
-        if (playerCurrentHull < playerHullMax * 0.25f)
-        {
-            PlayerHull25Percent?.Invoke();
-        }
     }
 
     public void ChangeHealth(float amount)
@@ -214,6 +197,26 @@ public class PlayerStatsManager : MonoBehaviour
         // Trigger event for current hull change
         OnCurrentHullChanged?.Invoke(this, new OnCurrentHullChangedEventArgs { progressNormalized = playerCurrentHull / playerHullMax });
 
+        if (playerCurrentHull >= playerHullMax * 0.75f)
+        {
+            Debug.Log("Hull 100% (75%-100%");
+            PlayerHull100Percent?.Invoke();
+        }
+        else if (playerCurrentHull < playerHullMax * 0.75f && playerCurrentHull >= playerHullMax * 0.5f)
+        {
+            Debug.Log("Hull 75% (50%-75%");
+            PlayerHull75Percent?.Invoke();
+        }
+        else if (playerCurrentHull < playerHullMax * 0.5f && playerCurrentHull >= playerHullMax * 0.25f)
+        {
+            Debug.Log("Hull 50% (25%-50%)");
+            PlayerHull50Percent?.Invoke();
+        }
+        else if (playerCurrentHull < playerHullMax * 0.25f)
+        {
+            Debug.Log("Hull 25% (0%-25%)");
+            PlayerHull25Percent?.Invoke();
+        }
         if (playerCurrentHull <= 0)
         {
             Debug.Log("hull <= 0 triggering Die()");
