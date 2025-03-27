@@ -352,7 +352,7 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueCount == 0)
         {
-            missionTitleText.text = "Mission 5: Gold Digger";
+            missionTitleText.text = "Mission 5: It's Mine";
 
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
