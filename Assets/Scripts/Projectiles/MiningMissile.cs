@@ -1,34 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections; // Required for IEnumerator
 
 public class MiningMissile : MonoBehaviour
 {
     private SFXManager sFXManager;
+    private Rigidbody2D rb;
+    private float accelerationTimer = 0f;
+    private float initialSpeed;
+    private float targetSpeed;
 
+    [Header("Visual Effects")]
     [SerializeField] private ParticleSystem collisionParticles;
+
+    [Header("Audio")]
     [SerializeField] private AudioClip[] miningMissleStandardImpactSounds;
     [SerializeField] private AudioClip[] miningMissleAsteroidImpactSounds;
 
-    private float countdown = 5f;
+    [Header("Timing")]
+    [SerializeField] private float countdown = 20f;
+    [SerializeField] private float accelerationDuration = 1f;
 
     private void Start()
     {
-        sFXManager = FindAnyObjectByType<SFXManager>();
+        sFXManager = FindObjectOfType<SFXManager>();
+        rb = GetComponent<Rigidbody2D>();
+
+        // Initialize speed parameters
+        targetSpeed = rb.velocity.magnitude;
+        initialSpeed = targetSpeed * 0.25f;
+        rb.velocity = rb.velocity.normalized * initialSpeed;
     }
 
     private void Update()
     {
         TimedSelfDestruct();
+        AccelerateMissile();
+    }
+
+    private void AccelerateMissile()
+    {
+        if (accelerationTimer < accelerationDuration)
+        {
+            accelerationTimer += Time.deltaTime;
+            float currentSpeed = Mathf.Lerp(initialSpeed, targetSpeed, accelerationTimer / accelerationDuration);
+            rb.velocity = rb.velocity.normalized * currentSpeed;
+        }
     }
 
     private void TimedSelfDestruct()
     {
-        if (countdown > 0)
-        {
-            countdown -= Time.deltaTime;
-        }
-        else
+        countdown -= Time.deltaTime;
+        if (countdown <= 0)
         {
             Destroy(gameObject);
         }
@@ -36,49 +58,41 @@ public class MiningMissile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the collided object is the WorldLowerBarrier
         if (collision.CompareTag("Obstacle"))
         {
-            SelfDestruct();
-
-            return;
+            StartCoroutine(SelfDestruct());
         }
     }
 
-
-    IEnumerator SelfDestruct()
+    private IEnumerator SelfDestruct()
     {
-        Debug.Log("miningMissle hit");
+        // Play impact effects
         if (collisionParticles != null)
         {
-            //Play miningMissle Impact SFX
-            if (sFXManager != null && miningMissleStandardImpactSounds.Length > 0)
-            {
-                sFXManager.PlaySFX(miningMissleStandardImpactSounds[UnityEngine.Random.Range(0, miningMissleStandardImpactSounds.Length)]);
-            }
-
+            PlayImpactSound();
             ParticleSystem particles = Instantiate(collisionParticles, transform.position, Quaternion.identity);
-
-            //coroutine to make the particles follow the obstacle's movement
-            StartCoroutine(FollowParentMovement(particles.transform));
+            yield return StartCoroutine(FollowParentMovement(particles.transform));
         }
+
         yield return new WaitForSeconds(0.01f);
         Destroy(gameObject);
     }
 
-
-    private System.Collections.IEnumerator FollowParentMovement(Transform particlesTransform)
+    private void PlayImpactSound()
     {
-        // Store the initial offset between the obstacle and the particles
-        Vector3 offset = particlesTransform.position - transform.position;
-
-        // Update the particles' position every frame while the parent exists
-        while (this != null) // Check if the parent still exists
+        if (sFXManager != null && miningMissleStandardImpactSounds.Length > 0)
         {
-            // Update the particles' position to match the parent's position plus the offset
-            particlesTransform.position = transform.position + offset;
+            AudioClip clip = miningMissleStandardImpactSounds[Random.Range(0, miningMissleStandardImpactSounds.Length)];
+            sFXManager.PlaySFX(clip);
+        }
+    }
 
-            // Wait for the next frame
+    private IEnumerator FollowParentMovement(Transform particlesTransform)
+    {
+        Vector3 offset = particlesTransform.position - transform.position;
+        while (this != null && particlesTransform != null)
+        {
+            particlesTransform.position = transform.position + offset;
             yield return null;
         }
     }
