@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.70980394, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c192e2c272c5b2347990fc399c8ada61, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -176,5 +176,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionParticles: {fileID: 1517886618772211621, guid: 7720af0c96e4b4f4cb994f16233dfc39, type: 3}
-  miningMissleStandardImpactSounds: []
+  flightParticles: {fileID: 1517886618772211621, guid: a9f9cea6f9e4a7c43868cc880137ac79, type: 3}
+  miningMissleStandardImpactSounds:
+  - {fileID: 8300000, guid: de764b3e10ea38d4aa1db6d3f34003d3, type: 3}
+  - {fileID: 8300000, guid: 16b73c7dfa274f44fb6196e646b29649, type: 3}
+  - {fileID: 8300000, guid: e6eb1b2560108a54f9309860469898fb, type: 3}
   miningMissleAsteroidImpactSounds: []
+  countdown: 20
+  accelerationDelay: 1
+  startSpeedPercent: 0.3
+  smokeTime: 1
+  smokeCountdown: 0

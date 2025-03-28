@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6573171121537117768}
   - component: {fileID: 2874394255055508190}
   - component: {fileID: 2156760109146772271}
-  - component: {fileID: 238012368465338199}
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
@@ -126,6 +125,7 @@ MonoBehaviour:
   isGravityWave: 0
   isGravityWell: 0
   isTurbulance: 0
+  isLoot: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 0.6
   rotationSpeedMin: -80
@@ -136,20 +136,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b20f6d4ff764370439cdf11fd8a563e8, type: 3}
   - {fileID: 8300000, guid: 6782a8a5fa60b6b4c9f7d72c69915b3e, type: 3}
   collisionParticles: {fileID: 1517886618772211621, guid: 7d82addf884bc4c41be1ae7f7eba0760, type: 3}
---- !u!114 &238012368465338199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b4ca5c50a214440ba3a53e10394880, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstacle: {fileID: 2529052306193900648}
-  health: 1
 --- !u!114 &-4505411848051596897
 MonoBehaviour:
   m_ObjectHideFlags: 0

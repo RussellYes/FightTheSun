@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 6573171121537117768}
   - component: {fileID: 2874394255055508190}
   - component: {fileID: 2156760109146772271}
-  - component: {fileID: 238012368465338199}
-  - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
   m_Name: CargoCan
@@ -126,6 +124,7 @@ MonoBehaviour:
   isGravityWave: 0
   isGravityWell: 0
   isTurbulance: 0
+  isLoot: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 0.6
   rotationSpeedMin: -80
@@ -135,33 +134,6 @@ MonoBehaviour:
   collisionSounds:
   - {fileID: 8300000, guid: 080ac45ce70baf24895720ffa34f14db, type: 3}
   collisionParticles: {fileID: 1517886618772211621, guid: f87b5b5e117fcab4dae6802acfc83c92, type: 3}
---- !u!114 &238012368465338199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b4ca5c50a214440ba3a53e10394880, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstacle: {fileID: 2529052306193900648}
-  health: 1
---- !u!114 &-4505411848051596897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21cfbc12b4a41584bb314b33d783c5d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
 --- !u!114 &2529052306193900648
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,49 +1,71 @@
 using UnityEngine;
-using System.Collections; // Required for IEnumerator
+using System.Collections;
 
 public class MiningMissile : MonoBehaviour
 {
     private SFXManager sFXManager;
     private Rigidbody2D rb;
     private float accelerationTimer = 0f;
-    private float initialSpeed;
-    private float targetSpeed;
+    private bool hasAccelerated = false;
 
     [Header("Visual Effects")]
     [SerializeField] private ParticleSystem collisionParticles;
+    [SerializeField] private ParticleSystem flightParticles;
 
     [Header("Audio")]
     [SerializeField] private AudioClip[] miningMissleStandardImpactSounds;
     [SerializeField] private AudioClip[] miningMissleAsteroidImpactSounds;
 
     [Header("Timing")]
-    [SerializeField] private float countdown = 20f;
-    [SerializeField] private float accelerationDuration = 1f;
+    [SerializeField] private float countdown;
+    [SerializeField] private float accelerationDelay;
+    [SerializeField] private float startSpeedPercent;
+    [SerializeField] private float smokeTime;
+    private float smokeCountdown;
 
     private void Start()
     {
         sFXManager = FindObjectOfType<SFXManager>();
         rb = GetComponent<Rigidbody2D>();
+        smokeCountdown = smokeTime;
 
-        // Initialize speed parameters
-        targetSpeed = rb.velocity.magnitude;
-        initialSpeed = targetSpeed * 0.25f;
-        rb.velocity = rb.velocity.normalized * initialSpeed;
+        // Apply initial slow speed (10%)
+        rb.velocity = rb.velocity * startSpeedPercent;
     }
 
     private void Update()
     {
         TimedSelfDestruct();
-        AccelerateMissile();
+        HandleAcceleration();
+        FlightParticles();
     }
 
-    private void AccelerateMissile()
+    private void HandleAcceleration()
     {
-        if (accelerationTimer < accelerationDuration)
+        if (!hasAccelerated && accelerationTimer < accelerationDelay)
         {
             accelerationTimer += Time.deltaTime;
-            float currentSpeed = Mathf.Lerp(initialSpeed, targetSpeed, accelerationTimer / accelerationDuration);
-            rb.velocity = rb.velocity.normalized * currentSpeed;
+
+            if (accelerationTimer >= accelerationDelay)
+            {
+                rb.velocity = rb.velocity / startSpeedPercent;
+                hasAccelerated = true;
+                Debug.Log("Missile accelerated to full speed!", this);
+            }
+        }
+    }
+
+    private void FlightParticles()
+    {
+        smokeCountdown -= Time.deltaTime;
+
+        if (smokeCountdown <= 0)
+        {
+            if (flightParticles != null)
+            {
+                Instantiate(flightParticles, transform.position, Quaternion.identity);
+            }
+            smokeCountdown = smokeTime;
         }
     }
 
@@ -60,21 +82,25 @@ public class MiningMissile : MonoBehaviour
     {
         if (collision.CompareTag("Obstacle"))
         {
+            Debug.Log("Missile collided with an obstacle!", this);
             StartCoroutine(SelfDestruct());
         }
     }
 
     private IEnumerator SelfDestruct()
     {
-        // Play impact effects
+        // Play effects immediately
+        PlayImpactSound();
+
         if (collisionParticles != null)
         {
-            PlayImpactSound();
             ParticleSystem particles = Instantiate(collisionParticles, transform.position, Quaternion.identity);
-            yield return StartCoroutine(FollowParentMovement(particles.transform));
+            StartCoroutine(FollowParentMovement(particles.transform));
         }
 
-        yield return new WaitForSeconds(0.01f);
+        // Wait one frame to ensure effects play
+        yield return null;
+
         Destroy(gameObject);
     }
 
@@ -90,7 +116,7 @@ public class MiningMissile : MonoBehaviour
     private IEnumerator FollowParentMovement(Transform particlesTransform)
     {
         Vector3 offset = particlesTransform.position - transform.position;
-        while (this != null && particlesTransform != null)
+        while (particlesTransform != null)
         {
             particlesTransform.position = transform.position + offset;
             yield return null;
