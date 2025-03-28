@@ -89,6 +89,7 @@ public class MiningMissile : MonoBehaviour
 
     private IEnumerator SelfDestruct()
     {
+        Debug.Log("Missile self destructing");
         // Play effects immediately
         PlayImpactSound();
 

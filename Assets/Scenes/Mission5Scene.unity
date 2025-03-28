@@ -2684,7 +2684,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1402465126}
   unpauseButton: {fileID: 1007728397}
-  goal: 50
+  goal: 100
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0
