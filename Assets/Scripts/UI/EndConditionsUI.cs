@@ -16,7 +16,8 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI obstaclesDestroyedText;
     [SerializeField] private TextMeshProUGUI timeText;
-    [SerializeField] private Color winColor;
+    [SerializeField] private Sprite winSprite;
+    [SerializeField] private Sprite loseSprite;
     [SerializeField] private Color loseColor;
 
 
@@ -58,11 +59,12 @@ public class EndConditionsUI : MonoBehaviour
             // Update the win/lose UI
             if (isWin)
             {
-                winBackground.color = winColor;
+                winBackground.sprite = winSprite;
                 winText.text = "You win";
             }
             else
             {
+                //winBackground.sprite = loseSprite; //Activate this code and remove the next line when endLose art is complete
                 winBackground.color = loseColor;
                 winText.text = "You lose";
             }

@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21cfbc12b4a41584bb314b33d783c5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 20
 --- !u!114 &5787465193228074011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,4 +186,3 @@ MonoBehaviour:
   accelerationDelay: 1
   startSpeedPercent: 0.3
   smokeTime: 1
-  smokeCountdown: 0

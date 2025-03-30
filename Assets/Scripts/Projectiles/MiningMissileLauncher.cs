@@ -6,9 +6,17 @@ public class MiningMissileLauncher : MonoBehaviour
     [SerializeField] private MiningMissile miningMissilePrefab;
 
     [Header("Firing Settings")]
-    [SerializeField] private float reloadTime = 1f;
-    [SerializeField] private float miningMissileSpeed = 5f;
-    [SerializeField] private float initialDelay = 0.5f;
+    [SerializeField] private float reloadTime;
+    [SerializeField] private float miningMissileSpeed;
+    [SerializeField] private float initialDelay;
+
+    [Header("Visuals")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite Launcher1;
+    [SerializeField] private Sprite Launcher2;
+    [SerializeField] private Sprite Launcher3;
+    [SerializeField] private Sprite Launcher4;
+    [SerializeField] private Sprite Launcher5;
 
     private float reloadCountdown;
     private int currentFireMode = 0;
@@ -17,6 +25,8 @@ public class MiningMissileLauncher : MonoBehaviour
     private void Start()
     {
         reloadCountdown = initialDelay;
+        UpdateLauncherVisual(); // Initialize visual
+        currentFireMode = 4;
     }
 
     private void Update()
@@ -46,6 +56,7 @@ public class MiningMissileLauncher : MonoBehaviour
             {
                 currentFireMode = (currentFireMode + 1) % 5;
                 Debug.Log($"Switched to Mode {currentFireMode + 1}");
+                UpdateLauncherVisual(); // Update visual immediately
                 keyPressProcessed = true;
             }
         }
@@ -55,40 +66,64 @@ public class MiningMissileLauncher : MonoBehaviour
         }
     }
 
+    private void UpdateLauncherVisual()
+    {
+        if (spriteRenderer == null)
+        {
+            Debug.LogWarning("SpriteRenderer is not assigned!");
+            return;
+        }
+
+        switch (currentFireMode)
+        {
+            case 0: spriteRenderer.sprite = Launcher1; break;
+            case 1: spriteRenderer.sprite = Launcher2; break;
+            case 2: spriteRenderer.sprite = Launcher3; break;
+            case 3: spriteRenderer.sprite = Launcher4; break;
+            case 4: spriteRenderer.sprite = Launcher5; break;
+        }
+    }
+
     private void FireMissiles()
     {
         switch (currentFireMode)
         {
-            case 0: // Single shot (0°)
-                FireMissileAtAngle(0f);
-                break;
-
-            case 1: // Dual shots (±10°)
-                FireMissileAtAngle(-10f);
-                FireMissileAtAngle(10f);
-                break;
-
-            case 2: // Triple shots (0°, ±15°)
-                FireMissileAtAngle(-15f);
-                FireMissileAtAngle(0f);
-                FireMissileAtAngle(15f);
-                break;
-
-            case 3: // Quad shots (±10°, ±25°)
-                FireMissileAtAngle(-25f);
-                FireMissileAtAngle(-10f);
-                FireMissileAtAngle(10f);
-                FireMissileAtAngle(25f);
-                break;
-
-            case 4: // Penta shots (0°, ±15°, ±30°)
-                FireMissileAtAngle(-30f);
-                FireMissileAtAngle(-15f);
-                FireMissileAtAngle(0f);
-                FireMissileAtAngle(15f);
-                FireMissileAtAngle(30f);
-                break;
+            case 0: FireMissileAtAngle(0f); break;
+            case 1: FireDualMissiles(); break;
+            case 2: FireTripleMissiles(); break;
+            case 3: FireQuadMissiles(); break;
+            case 4: FirePentaMissiles(); break;
         }
+    }
+
+    private void FireDualMissiles()
+    {
+        FireMissileAtAngle(-10f);
+        FireMissileAtAngle(10f);
+    }
+
+    private void FireTripleMissiles()
+    {
+        FireMissileAtAngle(-15f);
+        FireMissileAtAngle(0f);
+        FireMissileAtAngle(15f);
+    }
+
+    private void FireQuadMissiles()
+    {
+        FireMissileAtAngle(-25f);
+        FireMissileAtAngle(-10f);
+        FireMissileAtAngle(10f);
+        FireMissileAtAngle(25f);
+    }
+
+    private void FirePentaMissiles()
+    {
+        FireMissileAtAngle(-30f);
+        FireMissileAtAngle(-15f);
+        FireMissileAtAngle(0f);
+        FireMissileAtAngle(15f);
+        FireMissileAtAngle(30f);
     }
 
     private void FireMissileAtAngle(float angle)

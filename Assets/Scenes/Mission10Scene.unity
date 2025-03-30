@@ -2754,7 +2754,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1402465126}
   unpauseButton: {fileID: 1007728397}
-  goal: 50
+  goal: 300
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0
@@ -6270,7 +6270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd04a517848f4c49a6d34c6411c7c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
+  money: 0
+  levelMoney: 0
 --- !u!4 &1600393497
 Transform:
   m_ObjectHideFlags: 0
@@ -7680,6 +7681,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932765797}
   m_CullTransparentMesh: 1
+--- !u!1001 &1942000984
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2498249836710071334}
+    m_Modifications:
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165801354959696230, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_Name
+      value: MiningMissileLauncher
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+--- !u!4 &1942000985 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+  m_PrefabInstance: {fileID: 1942000984}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1962615854
 GameObject:
   m_ObjectHideFlags: 0
@@ -8365,7 +8428,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2238221983638291148, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: hullMax
-      value: 1000
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5991888532499921152, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: m_Name
@@ -8378,7 +8445,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3842667927939262502, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 621849578115041076, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1942000985}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
 --- !u!1 &5613256901616640030

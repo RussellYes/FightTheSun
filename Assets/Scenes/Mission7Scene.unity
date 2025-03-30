@@ -1190,6 +1190,16 @@ MonoBehaviour:
   laneDistance: 1
   timeBetweenSpawningMin: 2
   timeBetweenSpawningMax: 3
+  isSpawnEventGroup1: 0
+  isSpawnEventGroup2: 0
+  isSpawnEventGroup3: 0
+  isSpawnEventGroup4: 0
+  isSpawnEventGroup5: 0
+  group1Prefab: {fileID: 0}
+  group2Prefab: {fileID: 0}
+  group3Prefab: {fileID: 0}
+  group4Prefab: {fileID: 0}
+  group5Prefab: {fileID: 0}
 --- !u!4 &266272661
 Transform:
   m_ObjectHideFlags: 0
@@ -1824,6 +1834,16 @@ MonoBehaviour:
   laneDistance: 1
   timeBetweenSpawningMin: 6
   timeBetweenSpawningMax: 9
+  isSpawnEventGroup1: 0
+  isSpawnEventGroup2: 0
+  isSpawnEventGroup3: 0
+  isSpawnEventGroup4: 0
+  isSpawnEventGroup5: 0
+  group1Prefab: {fileID: 0}
+  group2Prefab: {fileID: 0}
+  group3Prefab: {fileID: 0}
+  group4Prefab: {fileID: 0}
+  group5Prefab: {fileID: 0}
 --- !u!4 &593369764
 Transform:
   m_ObjectHideFlags: 0
@@ -2671,7 +2691,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1402465126}
   unpauseButton: {fileID: 1007728397}
-  goal: 50
+  goal: 100
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0
@@ -6120,7 +6140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd04a517848f4c49a6d34c6411c7c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
+  money: 0
+  levelMoney: 0
 --- !u!4 &1600393497
 Transform:
   m_ObjectHideFlags: 0
@@ -6813,6 +6834,8 @@ MonoBehaviour:
   countdownText: {fileID: 259865141}
   planetSpawnPosition: {fileID: 595514689}
   planet1: {fileID: 5599978935364366169, guid: cf24fd89d9802a049b64545ad22dc73e, type: 3}
+  boss1: {fileID: 0}
+  boss2: {fileID: 0}
   highLightArrowPrefab: {fileID: 1695043484928530785, guid: f00596f1c243fde42afb5e80239647b3, type: 3}
   hullMeterObject: {fileID: 717941178}
   healthPrefab: {fileID: 4301909746815339928, guid: 8327a60abca002d43837e0706b4e52b1, type: 3}
@@ -6831,6 +6854,7 @@ GameObject:
   - component: {fileID: 1773229946}
   - component: {fileID: 1773229945}
   - component: {fileID: 1773229944}
+  - component: {fileID: 1773229947}
   m_Layer: 5
   m_Name: HomeButton
   m_TagString: Untagged
@@ -6922,8 +6946,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 7a02c4647715ca647b965af77e3f2ba7, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6940,6 +6964,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773229942}
   m_CullTransparentMesh: 1
+--- !u!114 &1773229947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773229942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: 1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1777960208
 GameObject:
   m_ObjectHideFlags: 0
@@ -7589,7 +7628,8 @@ MonoBehaviour:
   scoreText: {fileID: 132731252}
   obstaclesDestroyedText: {fileID: 1372452982}
   timeText: {fileID: 1324137876}
-  winColor: {r: 0.39409044, g: 0.6792453, b: 0.4157478, a: 1}
+  winSprite: {fileID: 21300000, guid: a4347641c222cbb4cae50957dbf73c16, type: 3}
+  loseSprite: {fileID: 0}
   loseColor: {r: 0.4056604, g: 0.1014151, b: 0.1014151, a: 1}
 --- !u!1 &2012527354
 GameObject:
