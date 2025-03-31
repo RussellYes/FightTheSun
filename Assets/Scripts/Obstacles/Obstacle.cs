@@ -80,6 +80,7 @@ public class Obstacle : MonoBehaviour
 
     public void Die(bool isKilledByPlayer)
     {
+        Debug.Log("Obstacle Die()");
         // Notify that this obstacle is exiting the scene
         ObstacleExitsSceneEvent?.Invoke(isKilledByPlayer, pointValue);
 

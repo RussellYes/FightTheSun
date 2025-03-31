@@ -1,51 +1,67 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class ScoreManager : MonoBehaviour
 {
+    // Level-specific resources (reset each level)
+    public float levelMoney = 0;
+    public float levelMetal = 0f;
+    public float levelRareMetal = 0f;
+    public float levelTime = 0f;
+    private float levelStartTime;
+    public int levelObstaclesDestroyed = 0;
+
+    // Persistent totals across all levels
+    private float totalMoney = 0;
+    private float totalMetal = 0f;
+    private float totalRareMetal = 0f;
+    public float totalTime = 0f;
+    public int totalObstaclesDestroyed = 0;
+
+    // Obstacle tracking
     private int totalObstaclesInScene;
-    private int killedByPlayerCount;
     private int currentObstaclesInScene;
-    public int money = 0;
-    public int levelMoney = 0;
-    private float metal;
-    private float levelMetal;
-    private float rareMetal;
-    private float LevelRareMetal;
 
-    // Define events for score changes and obstacles destroyed by the player
-    public static event Action<int> OnLevelMoneyChanged;
-    public static event Action<int> OnMoneyChanged;
-    public static event Action<float> OnMetalChanged;
+    // Events for UI updates
+    public static event Action<float> OnMoneyChanged;
+    public static event Action<float> OnLevelMoneyChanged;
+    public static event Action<float> OnTotalMetalChanged;
     public static event Action<float> OnLevelMetalChanged;
-    public static event Action<float> OnRareMetalChanged;
+    public static event Action<float> OnTotalRareMetalChanged;
     public static event Action<float> OnLevelRareMetalChanged;
-
     public static event Action<int> OnObstaclesDestroyedByPlayerChanged;
+    public static event Action<float> OnLevelTimeChanged;
+
+    // Public getters
+    public float GetTotalMoney() => totalMoney;
+    public float GetTotalMetal() => totalMetal;
+    public float GetTotalRareMetal() => totalRareMetal;
+    public float GetTotalTime() => totalTime;
+
+    public int GetTotalObstaclesDestroyed() => totalObstaclesDestroyed;
+    public float GetLevelMoney() => levelMoney;
+    public float GetLevelMetal() => levelMetal;
+    public float GetLevelRareMetal() => levelRareMetal;
+    public float GetLevelTime() => levelTime;
+    public int GetLevelObstaclesDestroyed() => levelObstaclesDestroyed;
+
 
     private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        LoadData();
+        LoadTotals();
     }
-
-    private void Start()
-    {
-        levelMoney = 0;
-        levelMetal = 0;
-        LevelRareMetal = 0;
-    }
-
     private void OnEnable()
     {
         // Subscribe to obstacle events
         Obstacle.ObstacleEntersSceneEvent += OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent += OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent += OnPlayerGainsLoot;
-        GameManager.GameManagerEndGameEvent += SaveData;
+        GameManager.GameManagerEndGameEvent += SaveDataAtEndOfLevel;
     }
 
     private void OnDisable()
@@ -63,7 +79,12 @@ public class ScoreManager : MonoBehaviour
         // Check if the scene index is within the bounds of the array
         if (scene.buildIndex == 0)
         {
-            LoadData();
+            LoadTotals();
+        }
+        else // New level started
+        {
+            levelStartTime = Time.time; // Record when level started
+            ResetLevelResources();
         }
     }
 
@@ -81,40 +102,91 @@ public class ScoreManager : MonoBehaviour
 
         if (isKilledByPlayer)
         {
-            killedByPlayerCount++;
+            levelObstaclesDestroyed++;
             ChangeLevelMoney(pointValue);
-            Debug.Log($"Money updated: {money}");
+            Debug.Log($"Money updated: {totalMoney}");
 
             // Trigger the obstacles destroyed by player event
-            OnObstaclesDestroyedByPlayerChanged?.Invoke(killedByPlayerCount);
+            OnObstaclesDestroyedByPlayerChanged?.Invoke(levelObstaclesDestroyed);
         }
     }
 
+    private void ResetLevelResources()
+    {
+        levelMoney = 0;
+        levelMetal = 0f;
+        levelRareMetal = 0f;
+        levelTime = 0;
+        levelObstaclesDestroyed = 0;
+        totalObstaclesInScene = 0;
+        levelObstaclesDestroyed = 0;
+        currentObstaclesInScene = 0;
+
+        // Notify UI of reset
+        OnLevelMoneyChanged?.Invoke(levelMoney);
+        OnLevelMetalChanged?.Invoke(levelMetal);
+        OnLevelRareMetalChanged?.Invoke(levelRareMetal);
+    }
+
+    public void OnKeyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("P key pressed. Resetting data.");
+            ResetData();
+        }
+    }
+
+    private void ResetData()
+    {
+        ResetLevelResources();
+
+        totalMoney = 0;
+        totalMetal = 0f;
+        totalRareMetal = 0f;
+        totalObstaclesDestroyed = 0;
+
+        // Clear all level-specific data
+        int levelCount = SceneManager.sceneCountInBuildSettings;
+        for (int i = 1; i <= levelCount - 2; i++) // Now using 1-based
+        {
+            PlayerPrefs.DeleteKey($"Level_{i}_Money");
+            PlayerPrefs.DeleteKey($"Level_{i}_Time");
+            PlayerPrefs.DeleteKey($"Level_{i}_ObstaclesDestroyed");
+        }
+
+        SaveTotals();
+
+        //Update UI
+        OnMoneyChanged?.Invoke(totalMoney);
+        OnTotalMetalChanged?.Invoke(totalMetal);
+        OnTotalRareMetalChanged?.Invoke(totalRareMetal);
+    }
     private void OnPlayerGainsLoot(float metalGained, float rareMetalGained)
     {
         ChangeLevelMetal(metalGained);
         ChangeLevelRareMetal(rareMetalGained);
     }
 
-    private void ChangeMoney(int points)
+    private void ChangeTotalMoney(float points)
     {
-        money += points;
+        totalMoney += points;
 
         // Trigger the money change event
-        OnMoneyChanged?.Invoke(money);
+        OnMoneyChanged?.Invoke(totalMoney);
     }
     private void ChangeLevelMoney(int points)
     {
-        levelMoney += points;
 
+        levelMoney += points;
+        Debug.Log($"Added {points} to levelMoney. Total: {levelMoney}");
         // Trigger the levelMoney change event
         OnLevelMoneyChanged?.Invoke(levelMoney);
     }
-    private void ChangeMetal(float points)
+    private void ChangeTotalMetal(float points)
     {
-        metal += points;
-
-        OnMetalChanged?.Invoke(metal);
+        totalMetal += points;
+        OnTotalMetalChanged?.Invoke(totalMetal);
 
     }
     private void ChangeLevelMetal(float points)
@@ -122,59 +194,71 @@ public class ScoreManager : MonoBehaviour
         levelMetal += points;
         OnLevelMetalChanged?.Invoke(levelMetal);
     }
-    private void ChangeRareMetal(float points)
+    private void ChangeTotalRareMetal(float points)
     {
-        rareMetal += points;
-        OnRareMetalChanged?.Invoke(rareMetal);
+        totalRareMetal += points;
+        OnTotalRareMetalChanged?.Invoke(totalRareMetal);
 
     }
     private void ChangeLevelRareMetal(float points)
     {
-        LevelRareMetal += points;
-        OnLevelRareMetalChanged?.Invoke(LevelRareMetal);
-    }
-
-    public float GetMetal()
-    {
-        return metal;
-    }
-
-    public float GetRareMetal()
-    {
-        return rareMetal;
-    }
-
-    public int GetMoney()
-    {
-        return money;
-    }
-
-    public int KilledByPlayerCount()
-    {
-        return killedByPlayerCount;
+        levelRareMetal += points;
+        OnLevelRareMetalChanged?.Invoke(levelRareMetal);
     }
 
     private void SaveDataAtEndOfLevel()
     {
-        LoadData();
-        ChangeMoney(levelMoney);
-        ChangeMetal(levelMetal);
-        ChangeRareMetal(LevelRareMetal);
-        SaveData();
+        Debug.Log("ScoreManager SaveDataAtEndOfLevel");
+
+        // Get current level index
+        int levelNumber = SceneManager.GetActiveScene().buildIndex;
+
+        // Only process for actual game levels (skip menu/loading screens)
+        if (levelNumber >= 1)
+        {
+            levelTime = Time.time - levelStartTime;
+
+            // FIRST save the current levelvariables to PlayerPrefs
+            PlayerPrefs.SetFloat($"Level_{levelNumber}_Time", levelTime);
+            Debug.Log($"Saved level {levelNumber} time: {levelTime}"); // Verification
+            
+            PlayerPrefs.SetFloat($"Level_{levelNumber}_Money", levelMoney);
+            Debug.Log($"Saved level {levelNumber} money: {levelMoney}"); // Verification
+
+            PlayerPrefs.SetFloat($"Level_{levelNumber}_ObstaclesDestroyed", levelObstaclesDestroyed);
+            Debug.Log($"Saved level {levelNumber} obstacles destroyed: {levelObstaclesDestroyed}"); // Verification
+
+            // Second add level progress to totals
+            ChangeTotalMoney(levelMoney);
+            ChangeTotalMetal(levelMetal);
+            ChangeTotalRareMetal(levelRareMetal);
+            totalTime += levelTime;
+            totalObstaclesDestroyed += levelObstaclesDestroyed;
+
+            float savedTime = PlayerPrefs.GetFloat($"Level_{levelNumber}_Time", -1f);
+            Debug.Log($"Verify saved time: {savedTime}");
+        }
+        SaveTotals();
     }
 
-    private void SaveData()
+    private void SaveTotals()
     {
-        PlayerPrefs.SetInt("Money", money);
-        PlayerPrefs.SetFloat("Metal", metal);
-        PlayerPrefs.SetFloat("RareMetal", rareMetal);
+        Debug.Log("ScoreManager SaveTotals");
+        PlayerPrefs.SetFloat("TotalMoney", totalMoney);
+        PlayerPrefs.SetFloat("TotalMetal", totalMetal);
+        PlayerPrefs.SetFloat("TotalRareMetal", totalRareMetal);
+        PlayerPrefs.SetFloat("TotalTime", totalTime);
+        PlayerPrefs.SetInt("TotalObstaclesDestroyed", totalObstaclesDestroyed);
         PlayerPrefs.Save();
     }
 
-    private void LoadData()
+    private void LoadTotals()
     {
-        money = PlayerPrefs.GetInt("Money", 0); // Default: 0 if not found
-        metal = PlayerPrefs.GetFloat("Metal", 0f); // Default: 0
-        rareMetal = PlayerPrefs.GetFloat("RareMetal", 0f); // Default: 0
+        Debug.Log("ScoreManager LoadTotals");
+        totalMoney = PlayerPrefs.GetFloat("TotalMoney", 0); // Default: 0 if not found
+        totalMetal = PlayerPrefs.GetFloat("TotalMetal", 0f); // Default: 0
+        totalRareMetal = PlayerPrefs.GetFloat("TotalRareMetal", 0f); // Default: 0
+        totalTime = PlayerPrefs.GetFloat("TotalTime", 0f); // Default: 0
+        totalObstaclesDestroyed = PlayerPrefs.GetInt("TotalObstaclesDestroyed", 0); // Default: 0
     }
 }

@@ -69,11 +69,11 @@ public class EndConditionsUI : MonoBehaviour
                 winText.text = "You lose";
             }
 
-            // Update the score text
-            scoreText.text = $"Score: {scoreManager.GetMoney()}";
+            // Update the money text
+            scoreText.text = $"Money: {scoreManager.GetLevelMoney()}";
 
             // Update the obstacles destroyed text
-            obstaclesDestroyedText.text = $"Destroyed: {scoreManager.KilledByPlayerCount()}";
+            obstaclesDestroyedText.text = $"Destroyed: {scoreManager.GetLevelObstaclesDestroyed()}";
 
             // Update the time text
             int minutes = Mathf.FloorToInt(gameManager.GameTime / 60);

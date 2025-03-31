@@ -8,20 +8,20 @@ public class DashboardScoreText : MonoBehaviour
     private ScoreManager scoreManager;
 
     [SerializeField] private TextMeshProUGUI timeText;
-    [SerializeField] private TextMeshProUGUI dashboardScoreText;
+    [SerializeField] private TextMeshProUGUI dashboardMoneyText;
     [SerializeField] private TextMeshProUGUI obstaclesDestroyedText;
 
     private void OnEnable()
     {
         // Subscribe to score and obstacles destroyed events
-        ScoreManager.OnLevelMoneyChanged += UpdateScoreText;
+        ScoreManager.OnLevelMoneyChanged += UpdateMoneyText;
         ScoreManager.OnObstaclesDestroyedByPlayerChanged += UpdateObstaclesDestroyedText;
     }
 
     private void OnDisable()
     {
         // Unsubscribe from events
-        ScoreManager.OnLevelMoneyChanged -= UpdateScoreText;
+        ScoreManager.OnLevelMoneyChanged -= UpdateMoneyText;
         ScoreManager.OnObstaclesDestroyedByPlayerChanged -= UpdateObstaclesDestroyedText;
     }
 
@@ -32,8 +32,8 @@ public class DashboardScoreText : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         if (scoreManager != null)
         {
-            UpdateScoreText(scoreManager.GetMoney());
-            UpdateObstaclesDestroyedText(scoreManager.KilledByPlayerCount());
+            UpdateMoneyText(scoreManager.GetLevelMoney());
+            UpdateObstaclesDestroyedText(scoreManager.GetLevelObstaclesDestroyed());
         }
     }
 
@@ -57,11 +57,11 @@ public class DashboardScoreText : MonoBehaviour
         }
     }
 
-    private void UpdateScoreText(int newScore)
+    private void UpdateMoneyText(float newScore)
     {
-        if (dashboardScoreText != null)
+        if (dashboardMoneyText != null)
         {
-            dashboardScoreText.text = $"Score: {newScore}";
+            dashboardMoneyText.text = $"Money: {newScore}";
         }
         else
         {

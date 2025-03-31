@@ -114,10 +114,10 @@ public class PauseMenuUI : MonoBehaviour
         pauseText.text = "Paused";
 
         // Update the score text
-        scoreText.text = $"Score: {scoreManager.GetMoney()}";
+        scoreText.text = $"Score: {scoreManager.GetLevelMoney()}";
 
         // Update the obstacles destroyed text
-        obstaclesDestroyedText.text = $"Destroyed: {scoreManager.KilledByPlayerCount()}";
+        obstaclesDestroyedText.text = $"Destroyed: {scoreManager.GetLevelObstaclesDestroyed()}";
 
         // Update the time text
         int minutes = Mathf.FloorToInt(gameManager.GameTime / 60);

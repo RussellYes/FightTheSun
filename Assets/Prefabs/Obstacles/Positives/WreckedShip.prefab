@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 2156760109146772271}
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
-  m_Layer: 7
+  - component: {fileID: 7743581467836203018}
+  m_Layer: 10
   m_Name: WreckedShip
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -125,7 +126,7 @@ MonoBehaviour:
   isGravityWave: 0
   isGravityWell: 0
   isTurbulance: 0
-  isLoot: 1
+  isLoot: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 0.6
   rotationSpeedMin: -80
@@ -172,6 +173,20 @@ MonoBehaviour:
   warningSpriteRenderer: {fileID: 2477320292511290396}
   visualWarningColor: {r: 0.15267888, g: 0.6886792, b: 0.23764896, a: 1}
   visualWarningTimer: 1.5
+--- !u!114 &7743581467836203018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301909746815339928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30b4ca5c50a214440ba3a53e10394880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 2529052306193900648}
+  health: 1
 --- !u!1 &6378483834228950434
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1297581618196513488}
   - component: {fileID: 2647846136512851944}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,6 +319,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3970494759414950948, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5260243122280824183, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -319,6 +338,10 @@ PrefabInstance:
     - target: {fileID: 5306327406010088055, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_Name
       value: VerticalWarning
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306327406010088055, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5306327406010088055, guid: fa2efc7cf46225b4caa2fd7bea1a4923, type: 3}
       propertyPath: m_IsActive

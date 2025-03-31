@@ -355,6 +355,8 @@ public class GameManager : MonoBehaviour
 
     private void HandleEndUI()
     {
+        Debug.Log("GameManager HandleEndUI");
+
         // Stop spawners
         StopSpawning?.Invoke();
 
@@ -379,6 +381,9 @@ public class GameManager : MonoBehaviour
     public void EndGame(bool isWin)
     {
         Debug.Log($"EndGame called with isWin = {isWin}");
+
+        SetState(GameState.EndUI);
+
         // Activate the end conditions UI
         endConditionsUI.SetActive(true);
 
@@ -390,40 +395,7 @@ public class GameManager : MonoBehaviour
 
         // Pause the game time
         Time.timeScale = 0;
-
-        // Save the high score, best time, and obstacles destroyed for the current mission
-        SaveMissionData(CurrentMission, scoreManager.GetMoney(), gameTime, scoreManager.KilledByPlayerCount());
     }
-
-    private void SaveMissionData(int missionNumber, int score, float time, int obstaclesDestroyed)
-    {
-        // Create unique keys for each mission
-        string scoreKey = $"Mission{missionNumber}BestScore";
-        string timeKey = $"Mission{missionNumber}BestTime";
-        string obstaclesKey = $"Mission{missionNumber}BestObstaclesDestroyed";
-
-        // Load existing best values
-        int bestScore = PlayerPrefs.GetInt(scoreKey, 0);
-        float bestTime = PlayerPrefs.GetFloat(timeKey, float.MaxValue);
-        int bestObstacles = PlayerPrefs.GetInt(obstaclesKey, 0);
-
-        // Update best values if the current values are better
-        if (score > bestScore)
-        {
-            PlayerPrefs.SetInt(scoreKey, score);
-        }
-        if (time < bestTime)
-        {
-            PlayerPrefs.SetFloat(timeKey, time);
-        }
-        if (obstaclesDestroyed > bestObstacles)
-        {
-            PlayerPrefs.SetInt(obstaclesKey, obstaclesDestroyed);
-        }
-
-        PlayerPrefs.Save(); // Save the data
-    }
-
     private void StartSpawners()
     {
         StartSpawning?.Invoke();  
