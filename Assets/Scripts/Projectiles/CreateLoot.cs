@@ -6,17 +6,7 @@ public class CreateLoot : MonoBehaviour
 {
     [SerializeField] private GameObject[] lootPrefab;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
-
-    private void OnDestroy()
+    public void SpawnLoot()
     {
         if (lootPrefab == null || lootPrefab.Length == 0) return;
 

@@ -122,6 +122,11 @@ public class ObstacleMovement : MonoBehaviour
             }
             if (isLoot)
             {
+                CreateLoot createLoot = GetComponent<CreateLoot>();
+                if (createLoot != null)
+                {
+                    createLoot.SpawnLoot();
+                }
                 Destroy(gameObject);
             }
         }
