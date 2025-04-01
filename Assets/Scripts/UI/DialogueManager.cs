@@ -79,16 +79,6 @@ public class DialogueManager : MonoBehaviour
         Debug.Log($"New scene loaded: {scene.name}. Dialogue count reset.");
     }
 
-    private void OnEnable()
-    {
-        Obstacle.BossDefeatedEvent += MissionDialogue;
-    }
-
-    private void OnDisable()
-    {
-        Obstacle.BossDefeatedEvent -= MissionDialogue;
-    }
-
     private void OnDestroy()
     {
         // Unsubscribe from the sceneLoaded event when the object is destroyed

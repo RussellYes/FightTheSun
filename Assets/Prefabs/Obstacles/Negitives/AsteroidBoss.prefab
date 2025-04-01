@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ff87f4a3f8519478f3859ef02231da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBoss1: 1
+  isBoss1: 0
   isBoss2: 0
   attackTime: 1
   defenceTime: 1
