@@ -2754,7 +2754,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1149905136}
   pauseButton: {fileID: 1402465126}
   unpauseButton: {fileID: 1007728397}
-  goal: 300
+  goal: 100
 --- !u!4 &901461633
 Transform:
   m_ObjectHideFlags: 0
@@ -7812,6 +7812,10 @@ MonoBehaviour:
   winSprite: {fileID: 0}
   loseSprite: {fileID: 0}
   loseColor: {r: 0.4056604, g: 0.1014151, b: 0.1014151, a: 1}
+  textMovementSfx:
+  - {fileID: 8300000, guid: 40c20bf486e110b40aa5bd06dc463264, type: 3}
+  - {fileID: 8300000, guid: 8ba640564bf5c2141a65bb68e2ed3e73, type: 3}
+  - {fileID: 8300000, guid: 10f6795eea7333e4ea4891f0d7062459, type: 3}
 --- !u!1 &2012527354
 GameObject:
   m_ObjectHideFlags: 0
