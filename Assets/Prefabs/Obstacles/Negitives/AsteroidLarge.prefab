@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 238012368465338199}
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
+  - component: {fileID: 195776074428026040}
   m_Layer: 7
   m_Name: AsteroidLarge
   m_TagString: Obstacle
@@ -126,6 +127,7 @@ MonoBehaviour:
   isGravityWave: 0
   isGravityWell: 0
   isTurbulance: 0
+  isLoot: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 0.5
   rotationSpeedMin: -80
@@ -188,6 +190,21 @@ MonoBehaviour:
   warningSpriteRenderer: {fileID: 2477320292511290396}
   visualWarningColor: {r: 1, g: 0.5615011, b: 0, a: 1}
   visualWarningTimer: 1.5
+--- !u!114 &195776074428026040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301909746815339928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd19f72b0b1835641a52d286325cb5ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootPrefab:
+  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
+  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
 --- !u!1 &6378483834228950434
 GameObject:
   m_ObjectHideFlags: 0

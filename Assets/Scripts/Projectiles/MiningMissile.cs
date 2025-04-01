@@ -21,6 +21,10 @@ public class MiningMissile : MonoBehaviour
     [SerializeField] private float accelerationDelay;
     [SerializeField] private float startSpeedPercent;
     [SerializeField] private float smokeTime;
+    [SerializeField] private float minParticleTime = 0.05f;
+    [SerializeField] private float maxParticleTime = 0.3f;
+
+
     private float smokeCountdown;
 
     private void Start()
@@ -65,7 +69,7 @@ public class MiningMissile : MonoBehaviour
             {
                 Instantiate(flightParticles, transform.position, Quaternion.identity);
             }
-            smokeCountdown = smokeTime;
+            smokeCountdown = smokeTime + Random.Range(minParticleTime, maxParticleTime);
         }
     }
 

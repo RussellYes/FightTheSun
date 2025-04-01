@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4505411848051596897}
   - component: {fileID: 2529052306193900648}
   - component: {fileID: 2779248224141722336}
-  - component: {fileID: 5073563289041788580}
+  - component: {fileID: -844957084637591047}
   m_Layer: 7
   m_Name: AsteroidBoss
   m_TagString: Obstacle
@@ -133,7 +133,7 @@ MonoBehaviour:
   isTurbulance: 0
   isLoot: 0
   obstacle: {fileID: 2529052306193900648}
-  obstacleSpeedMultiplier: 0.01
+  obstacleSpeedMultiplier: 0.02
   rotationSpeedMin: 0
   rotationSpeedMax: 0
   verticalWarning: {fileID: 5762032200503551617}
@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2529052306193900648}
-  health: 5000
+  health: 200
 --- !u!114 &-4505411848051596897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   turret2: {fileID: 0}
   destructionSound: {fileID: 8300000, guid: 1debd04dff0b66240b7452aab6a18ee8, type: 3}
   destructionParticles: {fileID: 1517886618772211621, guid: a4455e0a17801714883181b3e95e8029, type: 3}
---- !u!114 &5073563289041788580
+--- !u!114 &-844957084637591047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,12 +223,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4301909746815339928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8b3074a5de5a744996865cc94afcc90, type: 3}
+  m_Script: {fileID: 11500000, guid: bd19f72b0b1835641a52d286325cb5ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  metalImage: {fileID: 0}
-  rareMetalImage: {fileID: 0}
-  lootImageRenderer: {fileID: 0}
+  lootPrefab:
+  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
+  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
+  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
+  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
+  - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
 --- !u!1 &6378483834228950434
 GameObject:
   m_ObjectHideFlags: 0
