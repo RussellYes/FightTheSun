@@ -770,7 +770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 1723436488}
-  dashboardScoreText: {fileID: 1139280012}
+  dashboardMoneyText: {fileID: 1139280012}
   obstaclesDestroyedText: {fileID: 269189517}
 --- !u!1 &194061463
 GameObject:
@@ -6270,8 +6270,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd04a517848f4c49a6d34c6411c7c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 0
   levelMoney: 0
+  levelMetal: 0
+  levelRareMetal: 0
+  levelTime: 0
+  levelObstaclesDestroyed: 0
+  totalTime: 0
+  totalObstaclesDestroyed: 0
 --- !u!4 &1600393497
 Transform:
   m_ObjectHideFlags: 0
@@ -7804,7 +7809,8 @@ MonoBehaviour:
   scoreText: {fileID: 132731252}
   obstaclesDestroyedText: {fileID: 1372452982}
   timeText: {fileID: 1324137876}
-  winColor: {r: 0.39409044, g: 0.6792453, b: 0.4157478, a: 1}
+  winSprite: {fileID: 0}
+  loseSprite: {fileID: 0}
   loseColor: {r: 0.4056604, g: 0.1014151, b: 0.1014151, a: 1}
 --- !u!1 &2012527354
 GameObject:

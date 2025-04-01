@@ -6,12 +6,13 @@ using UnityEngine.UIElements;
 
 public class ScoreManager : MonoBehaviour
 {
+    GameManager gameManager;
+
     // Level-specific resources (reset each level)
     public float levelMoney = 0;
     public float levelMetal = 0f;
     public float levelRareMetal = 0f;
     public float levelTime = 0f;
-    private float levelStartTime;
     public int levelObstaclesDestroyed = 0;
 
     // Persistent totals across all levels
@@ -52,7 +53,7 @@ public class ScoreManager : MonoBehaviour
     private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-
+        gameManager = FindObjectOfType<GameManager>();
         LoadTotals();
     }
     private void OnEnable()
@@ -83,7 +84,6 @@ public class ScoreManager : MonoBehaviour
         }
         else // New level started
         {
-            levelStartTime = Time.time; // Record when level started
             ResetLevelResources();
         }
     }
@@ -141,7 +141,7 @@ public class ScoreManager : MonoBehaviour
     {
         ResetLevelResources();
 
-        totalMoney = 0;
+        totalMoney = 0f;
         totalMetal = 0f;
         totalRareMetal = 0f;
         totalObstaclesDestroyed = 0;
@@ -206,26 +206,46 @@ public class ScoreManager : MonoBehaviour
         OnLevelRareMetalChanged?.Invoke(levelRareMetal);
     }
 
+    private string FormatTime(float timeInSeconds)
+    {
+        int minutes = Mathf.FloorToInt(timeInSeconds / 60);
+        int seconds = Mathf.FloorToInt(timeInSeconds % 60);
+        return $"{minutes:00}:{seconds:00}";
+    }
     private void SaveDataAtEndOfLevel()
     {
         Debug.Log("ScoreManager SaveDataAtEndOfLevel");
 
         // Get current level index
-        int levelNumber = SceneManager.GetActiveScene().buildIndex;
+        int levelNumber = SceneManager.GetActiveScene().buildIndex - 1;
+        Debug.Log($"Current level number: {levelNumber} (Scene name: {SceneManager.GetActiveScene().name})");
 
         // Only process for actual game levels (skip menu/loading screens)
         if (levelNumber >= 1)
         {
-            levelTime = Time.time - levelStartTime;
+            // Debug log all level values before saving
+            Debug.Log($"Level {levelNumber} stats - " +
+                     $"Time: {levelTime}, " +
+                     $"Money: {levelMoney}, " +
+                     $"Obstacles: {levelObstaclesDestroyed}");
+
+            // Get final time from GameManager
+            if (gameManager == null)
+            {
+                gameManager = FindObjectOfType<GameManager>();
+            }
+
+            levelTime = gameManager.GameTime;
+            Debug.Log($"Final level time from GameManager: {levelTime} seconds");
 
             // FIRST save the current levelvariables to PlayerPrefs
             PlayerPrefs.SetFloat($"Level_{levelNumber}_Time", levelTime);
             Debug.Log($"Saved level {levelNumber} time: {levelTime}"); // Verification
-            
+
             PlayerPrefs.SetFloat($"Level_{levelNumber}_Money", levelMoney);
             Debug.Log($"Saved level {levelNumber} money: {levelMoney}"); // Verification
 
-            PlayerPrefs.SetFloat($"Level_{levelNumber}_ObstaclesDestroyed", levelObstaclesDestroyed);
+            PlayerPrefs.SetInt($"Level_{levelNumber}_ObstaclesDestroyed", levelObstaclesDestroyed);
             Debug.Log($"Saved level {levelNumber} obstacles destroyed: {levelObstaclesDestroyed}"); // Verification
 
             // Second add level progress to totals
@@ -237,6 +257,12 @@ public class ScoreManager : MonoBehaviour
 
             float savedTime = PlayerPrefs.GetFloat($"Level_{levelNumber}_Time", -1f);
             Debug.Log($"Verify saved time: {savedTime}");
+
+            // Verify saved data
+            Debug.Log($"Updated totals - " +
+                     $"TotalTime: {FormatTime(totalTime)}, " +
+                     $"TotalMoney: {totalMoney}, " +
+                     $"TotalObstaclesDestroyed: {totalObstaclesDestroyed}");
         }
         SaveTotals();
     }

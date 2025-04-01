@@ -703,7 +703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 1723436488}
-  dashboardMoneyText: {fileID: 0}
+  dashboardMoneyText: {fileID: 1139280012}
   obstaclesDestroyedText: {fileID: 269189517}
 --- !u!1 &194061463
 GameObject:

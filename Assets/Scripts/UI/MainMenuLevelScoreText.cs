@@ -18,6 +18,16 @@ public class MainMenuLevelScoreText : MonoBehaviour
     {
         Debug.Log("MainMenuLevelScoreText LoadLevelData");
 
+        // First verify the key exists
+        string obstacleKey = $"Level_{levelNumber}_ObstaclesDestroyed";
+
+        if (!PlayerPrefs.HasKey(obstacleKey))
+        {
+            Debug.Log($"Key not found: {obstacleKey}");
+            bestObstaclesDestroyedText.text = "Obstacles: ---";
+            return;
+        }
+
         // Load level data using ScoreManager's save format
         float levelMoney = PlayerPrefs.GetFloat($"Level_{levelNumber}_Money", 0);
         float levelTime = PlayerPrefs.GetFloat($"Level_{levelNumber}_Time", 0);
