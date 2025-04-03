@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ScoreManager : MonoBehaviour
 {
     GameManager gameManager;
+    EndConditionsUI endConditionsUI;
 
     // Level-specific resources (reset each level)
     public float levelMoney = 0;
@@ -35,6 +36,7 @@ public class ScoreManager : MonoBehaviour
     public static event Action<float> OnLevelRareMetalChanged;
     public static event Action<int> OnObstaclesDestroyedByPlayerChanged;
     public static event Action<float> OnLevelTimeChanged;
+    public static event Action SavedTotalEvent;
 
     // Public getters
     public float GetTotalMoney() => totalMoney;
@@ -54,6 +56,7 @@ public class ScoreManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         gameManager = FindObjectOfType<GameManager>();
+        endConditionsUI = FindObjectOfType<EndConditionsUI>();
         LoadTotals();
     }
     private void OnEnable()
@@ -62,7 +65,8 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleEntersSceneEvent += OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent += OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent += OnPlayerGainsLoot;
-        GameManager.GameManagerEndGameEvent += SaveDataAtEndOfLevel;
+        GameManager.EndGameDataSaveEvent += UpdateData;
+        EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveDataAtEndOfLevel;
     }
 
     private void OnDisable()
@@ -71,7 +75,8 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleEntersSceneEvent -= OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent -= OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent -= OnPlayerGainsLoot;
-        GameManager.GameManagerEndGameEvent -= SaveDataAtEndOfLevel;
+        GameManager.EndGameDataSaveEvent -= UpdateData;
+        EndConditionsUI.EndConditionUIScoreChoiceEvent -= SaveDataAtEndOfLevel;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -212,6 +217,17 @@ public class ScoreManager : MonoBehaviour
         int seconds = Mathf.FloorToInt(timeInSeconds % 60);
         return $"{minutes:00}:{seconds:00}";
     }
+
+    private void UpdateData()
+    {
+        // Add level progress to totals
+        ChangeTotalMoney(levelMoney);
+        ChangeTotalMetal(levelMetal);
+        ChangeTotalRareMetal(levelRareMetal);
+        totalTime += levelTime;
+        totalObstaclesDestroyed += levelObstaclesDestroyed;
+    }
+
     private void SaveDataAtEndOfLevel()
     {
         Debug.Log("ScoreManager SaveDataAtEndOfLevel");
@@ -248,13 +264,6 @@ public class ScoreManager : MonoBehaviour
             PlayerPrefs.SetInt($"Level_{levelNumber}_ObstaclesDestroyed", levelObstaclesDestroyed);
             Debug.Log($"Saved level {levelNumber} obstacles destroyed: {levelObstaclesDestroyed}"); // Verification
 
-            // Second add level progress to totals
-            ChangeTotalMoney(levelMoney);
-            ChangeTotalMetal(levelMetal);
-            ChangeTotalRareMetal(levelRareMetal);
-            totalTime += levelTime;
-            totalObstaclesDestroyed += levelObstaclesDestroyed;
-
             float savedTime = PlayerPrefs.GetFloat($"Level_{levelNumber}_Time", -1f);
             Debug.Log($"Verify saved time: {savedTime}");
 
@@ -276,6 +285,8 @@ public class ScoreManager : MonoBehaviour
         PlayerPrefs.SetFloat("TotalTime", totalTime);
         PlayerPrefs.SetInt("TotalObstaclesDestroyed", totalObstaclesDestroyed);
         PlayerPrefs.Save();
+
+        SavedTotalEvent?.Invoke();
     }
 
     private void LoadTotals()

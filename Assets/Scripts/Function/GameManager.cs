@@ -17,14 +17,13 @@ public class GameManager : MonoBehaviour
 
     public delegate void EndGameAction(bool isWin);
     public static event EndGameAction EndGameEvent;
+    public static event Action EndGameDataSaveEvent;
     public static event Action <float> ChangeThrottleEvent;
     [SerializeField] private GameObject endConditionsUI;
 
     public delegate void SpawningAction();
     public static event SpawningAction StopSpawning;
     public static event SpawningAction StartSpawning;
-
-    public static event Action GameManagerEndGameEvent;
 
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private Button pauseButton;
@@ -367,8 +366,6 @@ public class GameManager : MonoBehaviour
 
         // Show end UI
         endConditionsUI.SetActive(true); // Activate the end conditions UI GameObject
-
-        GameManagerEndGameEvent?.Invoke();
     }
 
     private void StopGoalProgress()
@@ -391,6 +388,7 @@ public class GameManager : MonoBehaviour
 
         // Trigger the EndGameEvent
         EndGameEvent?.Invoke(isWin);
+        EndGameDataSaveEvent?.Invoke();
 
         // Stop all spawning
         StopSpawning?.Invoke();
