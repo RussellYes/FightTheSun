@@ -1,5 +1,8 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+
+// This script controls the movement and movement triggered actions such as SFX, particles, and destruction.
 
 public class ObstacleMovement : MonoBehaviour
 {

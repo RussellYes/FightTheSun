@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// This script moves a planet visual when a level is completed.
+
 public class EndPlanet : MonoBehaviour
 {
     [Header("Movement")]

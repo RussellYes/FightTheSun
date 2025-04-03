@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// This script switches between scenes in the game after loading is complete.
+
 public static class Loader
 {
     public enum Scene

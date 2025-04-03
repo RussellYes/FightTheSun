@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
 
+// This scrpt displays saved scores for each level in the main menu.
+
 public class MainMenuLevelScoreText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI bestTimeText;

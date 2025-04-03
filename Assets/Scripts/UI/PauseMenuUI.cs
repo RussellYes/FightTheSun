@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameManager;
 
-//I think many menus should pause the game. 
-//Should return to this script and write a more generic pause menu script, and seperate scripts for the different levels.
+// This script controls the pause menu UI.
 
 public class PauseMenuUI : MonoBehaviour
 {

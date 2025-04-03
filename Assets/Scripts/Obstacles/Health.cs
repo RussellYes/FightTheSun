@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// This script stores and changes a health value for an object.
+
 public class Health : MonoBehaviour
 {
     [SerializeField] private Obstacle obstacle;
@@ -23,7 +25,7 @@ public class Health : MonoBehaviour
         health -= damage;
         Debug.Log("Health changed. Current health: " + health);
 
-        // Optional: Check if health is below zero and handle death/destruction
+        // Check if health is below zero and handle death/destruction
         if (health <= 0)
         {
             if (obstacle != null)

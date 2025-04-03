@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// This script controls the game states that trigger goals, obstacle spawning, pausing, and end UI.
+
 public class GameManager : MonoBehaviour
 {
     private ScoreManager scoreManager;

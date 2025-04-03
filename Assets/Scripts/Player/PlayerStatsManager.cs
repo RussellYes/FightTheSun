@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using static GameManager;
 
+// This script centralizes and alters the player's stats.
+
 public class PlayerStatsManager : MonoBehaviour
 {
     // Singleton instance

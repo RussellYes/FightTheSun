@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script rotates a planet visual in a random direction and speed.
+
 public class PlanetRotate : MonoBehaviour
 {
     [Header("Visuals")]

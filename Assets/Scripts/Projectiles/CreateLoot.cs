@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script spawns loot when called.
+
 public class CreateLoot : MonoBehaviour
 {
     [SerializeField] private GameObject[] lootPrefab;

@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VFX;
+
+// This script controls SFX and particles of bullets.
 
 public class Bullet : MonoBehaviour
 {

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script spawns projectiles.
+
 public class ProjectileSpawner : MonoBehaviour
 {
     private bool isProjectilesOn;

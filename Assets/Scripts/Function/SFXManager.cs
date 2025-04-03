@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// This script manages sound effects (SFX) in the game.
+
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance;

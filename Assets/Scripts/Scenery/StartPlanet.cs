@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script moves a planet at the start of a level.
+
 public class StartPlanet : MonoBehaviour
 {
     [Header("Movement")]

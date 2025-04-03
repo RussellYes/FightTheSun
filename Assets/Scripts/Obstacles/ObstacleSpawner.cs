@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// This script control obstacles spawning.
 public class ObstacleSpawner : MonoBehaviour
 {
     private GameManager gameManager;

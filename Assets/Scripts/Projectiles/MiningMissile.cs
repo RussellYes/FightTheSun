@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+// This script controls movement, particles, and SFX of mining missiles.
+
 public class MiningMissile : MonoBehaviour
 {
     private SFXManager sFXManager;

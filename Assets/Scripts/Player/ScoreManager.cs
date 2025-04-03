@@ -1,8 +1,8 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+
+// This script manages the player's collectable resources for a score output, and saving and loading.
 
 public class ScoreManager : MonoBehaviour
 {

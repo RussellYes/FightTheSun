@@ -2,6 +2,8 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+// This script displays time, money, and obstacles destroyed in the dashboard UI.
+
 public class DashboardScoreText : MonoBehaviour
 {
     private GameManager gameManager;

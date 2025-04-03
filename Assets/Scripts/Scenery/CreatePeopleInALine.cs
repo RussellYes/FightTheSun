@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script is currently unused, but was created to generate a line of gameObjects with exponential scaling and offset to give 2D art a 3D depth look.
+
 public class CreatePeopleInALine : MonoBehaviour
 {
     [SerializeField] private GameObject personPrefab;

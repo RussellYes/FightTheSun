@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// This script manages the background music for different scenes in the game.
+
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance;

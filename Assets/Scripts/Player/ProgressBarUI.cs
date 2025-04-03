@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script updates the UI progress bars.
+
 public class ProgressBarUI : MonoBehaviour
 {
     [SerializeField] private bool isHullBar;

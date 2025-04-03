@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// Scroller from Tarodev https://www.youtube.com/watch?v=-6H-uYh80vc
-/// </summary>
+// This script moves a repeating background.
 
 public class Scroller : MonoBehaviour
 {

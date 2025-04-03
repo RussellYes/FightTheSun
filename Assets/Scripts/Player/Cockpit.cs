@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+// This script stores the values and visuals of the cockpit ship module.
+
 public class Cockpit : MonoBehaviour
 {
     // Define the event

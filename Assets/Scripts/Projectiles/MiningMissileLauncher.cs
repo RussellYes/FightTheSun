@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Ths script spawns mining missiles.
+
 public class MiningMissileLauncher : MonoBehaviour
 {
     [Header("Prefab")]

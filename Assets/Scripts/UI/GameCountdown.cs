@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System;
 using static GameManager;
 
+// This script displays a countdown and triggers game play.
+
 public class GameCountdown : MonoBehaviour
 {
     private SFXManager sFXManager;

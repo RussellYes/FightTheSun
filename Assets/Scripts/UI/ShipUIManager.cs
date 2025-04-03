@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script controls the ship UI.
+
 public class ShipUIManager : MonoBehaviour
 {
 

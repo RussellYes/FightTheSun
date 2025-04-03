@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+// This script store and changes the hull value for a space ship.
+
 public class Hull : MonoBehaviour
 {
     // Define events for hull changes

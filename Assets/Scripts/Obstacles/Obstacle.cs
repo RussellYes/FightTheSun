@@ -1,8 +1,7 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.VFX;
-using static GameManager;
+
+// This script controls attributes of obstacles such as appearance, visual cues, point value.
 
 public class Obstacle : MonoBehaviour
 {

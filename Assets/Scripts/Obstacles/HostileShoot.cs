@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
+// This script controls the shooting behavior of hostile objects in the game.
+
 public class HostileShoot : MonoBehaviour
 {
     private SFXManager sFXManager;

@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script displays the end screen and gives the player a choice to save their score.
+
 public class EndConditionsUI : MonoBehaviour
 {
     private ScoreManager scoreManager;

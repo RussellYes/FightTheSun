@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script controls the boss behavior, including movement, attack patterns, and triggering the next game state.
+
 public class Boss : MonoBehaviour
 {
     public static event Action StartSpawnersEvent;

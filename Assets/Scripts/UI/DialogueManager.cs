@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using System;
 using static GameManager;
 
+// This script controls the game story and dialogue, including tutorial style instructions.
+
 public class DialogueManager : MonoBehaviour
 {
     public static event Action StartGameCountdownEvent;
@@ -41,8 +43,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject hullMeterObject;
     [SerializeField] private GameObject healthPrefab;
     [SerializeField] private GameObject thrusterMeterObject;
-    [SerializeField] private GameObject missleButtonObject;
-    [SerializeField] private GameObject clawButtonObject;
 
     private GameObject currentArrowInstance;
 
@@ -350,24 +350,6 @@ public class DialogueManager : MonoBehaviour
 
             dialogueCount++;
             dialogueText.text = "The mining missle uncovers ore.";
-
-            if (missleButtonObject != null)
-            {
-                RectTransform missleButtonObjectRect = missleButtonObject.GetComponent<RectTransform>();
-
-                // Apply offsets directly
-                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-                Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
-                Vector3 arrowPosition = missleButtonObjectRect.position + xOffset + yOffset;
-
-                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, missleButtonObjectRect.parent);
-
-                // Ensure the arrow is rendered in front by setting its sibling index
-                currentArrowInstance.transform.SetAsLastSibling();
-                StartCoroutine(DestroyArrow(dialogueTimer));
-            }
-
         }
         else if (dialogueCount == 1)
         {
