@@ -993,7 +993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &266272660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1137,7 +1137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &377474058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,7 +1536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &517951933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7583,7 +7583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1962615855
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7774,6 +7774,73 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2498249836710071334}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2084604282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2084604284}
+  - component: {fileID: 2084604283}
+  m_Layer: 0
+  m_Name: ObstacleSpawnerAsteroids (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2084604283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084604282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d2eeafb78db74d9da89891d2134a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSpawnSpecial1: 0
+  isSpawnBoss1: 0
+  isSpawnBoss2: 0
+  isSpawnSingleObstacleSingleLocation: 0
+  isSpawnSingleObstacleRandomLocation: 1
+  isSpawnRandomObstacleSingleLocation: 0
+  isSpawnRandomObstacleRandomLocation: 0
+  obstacles:
+  - {fileID: 4301909746815339928, guid: 6c99d8de21c0fb9489fbe23a773552ee, type: 3}
+  spawnLocation: {fileID: 2084604284}
+  laneDistance: 1
+  timeBetweenSpawningMin: 2
+  timeBetweenSpawningMax: 2.2
+  isSpawnEventGroup1: 0
+  isSpawnEventGroup2: 0
+  isSpawnEventGroup3: 0
+  isSpawnEventGroup4: 0
+  isSpawnEventGroup5: 0
+  group1Prefab: {fileID: 0}
+  group2Prefab: {fileID: 0}
+  group3Prefab: {fileID: 0}
+  group4Prefab: {fileID: 0}
+  group5Prefab: {fileID: 0}
+--- !u!4 &2084604284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084604282}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2093201283
@@ -8494,6 +8561,7 @@ SceneRoots:
   - {fileID: 1422844285}
   - {fileID: 1697156286}
   - {fileID: 266272661}
+  - {fileID: 2084604284}
   - {fileID: 517951934}
   - {fileID: 377474059}
   - {fileID: 1820443498}

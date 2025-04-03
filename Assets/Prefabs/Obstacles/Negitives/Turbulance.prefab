@@ -125,6 +125,7 @@ MonoBehaviour:
   isGravityWave: 0
   isGravityWell: 0
   isTurbulance: 1
+  isLoot: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 1
   rotationSpeedMin: -80
@@ -132,9 +133,10 @@ MonoBehaviour:
   verticalWarning: {fileID: 5762032200503551617}
   entranceSounds: []
   collisionSounds:
-  - {fileID: 8300000, guid: 296a365312d7dbf46b795ebdfc440d5a, type: 3}
   - {fileID: 8300000, guid: 811180808aa102f4e8b958b80d8ee4d7, type: 3}
-  collisionParticles: {fileID: 1517886618772211621, guid: f084f780198fb5846a31b1408c6355e8, type: 3}
+  thunderSound: {fileID: 8300000, guid: d390b209ceab2674f9f336ac7132d41d, type: 3}
+  collisionParticles: {fileID: 1517886618772211621, guid: 1e2dfd8b541356c4a9935977ea24fd08, type: 3}
+  lightningParticles: {fileID: 1517886618772211621, guid: 9175c64d3511c834fa8ee893b3160698, type: 3}
 --- !u!114 &-4505411848051596897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +165,7 @@ MonoBehaviour:
   isBossObstacle: 0
   isFlipped: 0
   obstacleSprites:
-  - {fileID: 21300000, guid: bbd2206adea38da40a30d20992f945ef, type: 3}
+  - {fileID: 21300000, guid: 4d17702051beeff43a91469bcf964c9b, type: 3}
   obstacleRenderer: {fileID: 2647846136512851944}
   pointValue: 0
   visualWarning: {fileID: 2504786687601365788}
@@ -263,7 +265,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6378483834228950434}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c4101e79d9e8b1e4a85dfcdf6efc2a0a, type: 2}
   m_CullingMode: 0

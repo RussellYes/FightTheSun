@@ -30,7 +30,10 @@ public class ObstacleMovement : MonoBehaviour
 
     [SerializeField] private AudioClip[] entranceSounds;
     [SerializeField] private AudioClip[] collisionSounds;
+    [SerializeField] private AudioClip thunderSound;
     [SerializeField] private ParticleSystem collisionParticles;
+    [SerializeField] private ParticleSystem lightningParticles;
+    private float lightningTimer = 1.2f;
 
     private void Start()
     {
@@ -68,6 +71,27 @@ public class ObstacleMovement : MonoBehaviour
             }
         }
 
+        if (isTurbulance)
+        {
+            Lightning();
+        }
+
+    }
+
+    private void Lightning()
+    {
+        lightningTimer += Time.deltaTime;
+
+        if (lightningTimer >= 1.5f)
+        {
+            lightningTimer = 0;
+            if (lightningParticles != null)
+            {
+                ParticleSystem particles = Instantiate(lightningParticles, transform.position, Quaternion.identity);
+                particles.transform.SetParent(transform); // Set the parent to the obstacle
+                Destroy(particles.gameObject, 1f); // Destroy the particles after 1 second
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -98,6 +122,11 @@ public class ObstacleMovement : MonoBehaviour
             {
                 sFXManager.PlaySFX(collisionSounds[UnityEngine.Random.Range(0, collisionSounds.Length)]);
             }
+            if (sFXManager != null && thunderSound != null)
+            {
+                sFXManager.PlaySFX(thunderSound);
+            }
+
 
             if (collisionParticles != null)
             {
