@@ -1,13 +1,15 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // This script manages the player's collectable resources for a score output, and saving and loading.
 
 public class ScoreManager : MonoBehaviour
 {
     GameManager gameManager;
-    EndConditionsUI endConditionsUI;
+    private EndConditionsUI endConditionsUI;
 
     // Level-specific resources (reset each level)
     public float levelMoney = 0;
@@ -67,6 +69,7 @@ public class ScoreManager : MonoBehaviour
         Loot.PlayerGainsLootEvent += OnPlayerGainsLoot;
         GameManager.EndGameDataSaveEvent += UpdateData;
         EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveDataAtEndOfLevel;
+        EndConditionsUI.reviveEvent += ResetData;
     }
 
     private void OnDisable()
@@ -78,6 +81,7 @@ public class ScoreManager : MonoBehaviour
         GameManager.EndGameDataSaveEvent -= UpdateData;
         EndConditionsUI.EndConditionUIScoreChoiceEvent -= SaveDataAtEndOfLevel;
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        EndConditionsUI.reviveEvent -= ResetData;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -133,20 +137,12 @@ public class ScoreManager : MonoBehaviour
         OnLevelRareMetalChanged?.Invoke(levelRareMetal);
     }
 
-    public void OnKeyboardInput()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("P key pressed. Resetting data.");
-            ResetData();
-        }
-    }
-
     private void ResetData()
     {
         ResetLevelResources();
 
         totalMoney = 0f;
+        totalTime = 0f;
         totalMetal = 0f;
         totalRareMetal = 0f;
         totalObstaclesDestroyed = 0;

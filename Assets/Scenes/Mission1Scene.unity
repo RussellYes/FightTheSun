@@ -476,11 +476,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 37737749}
   m_CullTransparentMesh: 1
---- !u!1 &39485226 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-  m_PrefabInstance: {fileID: 5190793161351063163}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &194061463
 GameObject:
   m_ObjectHideFlags: 0
@@ -6952,19 +6947,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 621849578115041076, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
   m_PrefabInstance: {fileID: 5190793161351063163}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2498249836710071340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 39485226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 142a51f122f77624e8bd32c036260f88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hullMax: 10
 --- !u!1001 &4505433263598952846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6980,6 +6962,30 @@ PrefabInstance:
     - target: {fileID: 2069647428827330972, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093041985664502292, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093041985664502292, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093041985664502292, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093041985664502292, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093041985664502292, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093041985664502292, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2315939862337539475, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_Pivot.x
@@ -7064,6 +7070,10 @@ PrefabInstance:
     - target: {fileID: 3045661980048404995, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_Name
       value: EndConditionsUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3045661980048404995, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5121152904137798906, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_IsActive
@@ -7170,6 +7180,10 @@ PrefabInstance:
       propertyPath: damage
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2238221983638291148, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
+      propertyPath: hullMax
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: m_Name
       value: PlayerShipCockpit
@@ -7182,10 +7196,7 @@ PrefabInstance:
     - {fileID: 3842667927939262502, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6053377252775434496, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 2498249836710071340}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
 --- !u!114 &6182458372824552981
 MonoBehaviour:

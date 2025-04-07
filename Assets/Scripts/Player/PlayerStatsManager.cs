@@ -52,13 +52,27 @@ public class PlayerStatsManager : MonoBehaviour
     private float distanceTraveled = 0; // Track distance traveled
     private bool isProgressHalfway = false;
 
+    // Player endGame upgrades
+    private float engineeringSkill = 1;
+    private float pilotingSkill = 1;
+    private float mechanicsSkill = 1;
     private float miningSkill = 1;
+    private float roboticsSkill = 1;
+    private float combatSkill = 1;
+    private float skillIncreaseAmt = 0.01f;
 
 
     // Public properties
-    public float PlayerThrust => playerThrust * throttle; // Effective thrust is scaled by throttle
+    public float PlayerThrust => playerThrust * throttle * engineeringSkill; // Effective thrust is scaled by throttle
     public float PlayerMass => playerMass;
+
+    public float EngineeringSkill => engineeringSkill;
+    public float PilotingSkill => pilotingSkill;
+    public float MechanicsSkill => mechanicsSkill;
     public float MiningSkill => miningSkill;
+    public float RoboticsSkill => roboticsSkill;
+    public float CombatSkill => combatSkill;
+
 
     private void Awake()
     {
@@ -186,7 +200,7 @@ public class PlayerStatsManager : MonoBehaviour
             OnCurrentHullChanged?.Invoke(this, new OnCurrentHullChangedEventArgs { progressNormalized = progressNormalized });
         }
         if (playerHullMax == 0)
-            {
+        {
             Debug.LogWarning("playerHullMax is 0. Cannot calculate progressNormalized.");
         }
     }
@@ -239,7 +253,7 @@ public class PlayerStatsManager : MonoBehaviour
         {
             Destroy(playerMovement.gameObject);
         }
-       
+
 
     }
 
@@ -258,7 +272,7 @@ public class PlayerStatsManager : MonoBehaviour
                 //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
                 float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
                 OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
-                
+
                 if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f && !isProgressHalfway)
                 {
                     isProgressHalfway = true;
@@ -273,8 +287,49 @@ public class PlayerStatsManager : MonoBehaviour
                 }
             }
         }
-        
+
     }
+
+    public void MultiplyEngineeringSkill()
+    {
+        engineeringSkill *= skillIncreaseAmt;
+        PlayerPrefs.SetFloat("EngingeeringSkill",engineeringSkill);
+        PlayerPrefs.Save();
+    }
+    public void MultiplyPilotingSkill()
+    {
+        pilotingSkill *= skillIncreaseAmt;
+        PlayerPrefs.SetFloat("PilotingSkill", pilotingSkill);
+        PlayerPrefs.Save();
+    }
+    public void MultiplyMechanicsSkill()
+    {
+        mechanicsSkill *= skillIncreaseAmt;
+        PlayerPrefs.SetFloat("MechanicSkill", mechanicsSkill);
+        PlayerPrefs.Save();
+    }
+    public void MultiplyMiningSkill()
+    {
+        miningSkill *= skillIncreaseAmt;
+        PlayerPrefs.SetFloat("MininigSkill", miningSkill);
+        PlayerPrefs.Save();
+    }
+    public void MultiplyRoboticsSkill()
+    {
+        roboticsSkill *= skillIncreaseAmt;
+        PlayerPrefs.SetFloat("RoboticsSkill", roboticsSkill);
+        PlayerPrefs.Save();
+    }
+    public void MultiplyCombatSkill()
+    {
+        combatSkill *= skillIncreaseAmt;
+        PlayerPrefs.SetFloat("CombatSkill", combatSkill);
+        PlayerPrefs.Save();
+    }
+
+
+
+
 
 
 }
