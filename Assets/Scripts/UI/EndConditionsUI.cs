@@ -59,6 +59,7 @@ public class EndConditionsUI : MonoBehaviour
     private float memoryScore;
 
     [Header("Upgrade Buttons")]
+    [SerializeField] private GameObject upgradeButtonHolder;
     [SerializeField] private TextMeshProUGUI memoryScoreText;
     public Button engineeringButton;
     public Button pilotingButton;
@@ -81,7 +82,8 @@ public class EndConditionsUI : MonoBehaviour
 
     [SerializeField] private GameObject salesGameObject;
     [SerializeField] private TextMeshProUGUI salesText;
-    public Button doneButton;
+    public Button saveButtonFront;
+    [SerializeField] private GameObject saveButtonHolder;
 
 
     private void Awake()
@@ -102,7 +104,7 @@ public class EndConditionsUI : MonoBehaviour
         miningButton.onClick.AddListener(() => { BuyMining(); });
         roboticsButton.onClick.AddListener(() => { BuyRobotics(); });
         combatButton.onClick.AddListener(() => { BuyCombat(); });
-        doneButton.onClick.AddListener(() => { Revive(); });
+        saveButtonFront.onClick.AddListener(() => { Revive(); });
     }
 
     private void OnEnable()
@@ -140,15 +142,9 @@ public class EndConditionsUI : MonoBehaviour
         lineText.gameObject.SetActive(false);
         memoryScoreText.gameObject.SetActive(false);
 
-        engineeringButton.gameObject.SetActive(false);
-        pilotingButton.gameObject.SetActive(false);
-        mechanicsButton.gameObject.SetActive(false);
-        miningButton.gameObject.SetActive(false);
-        roboticsButton.gameObject.SetActive(false);
-        combatButton.gameObject.SetActive(false);
-        salesGameObject.SetActive(false);
-
-        doneButton.gameObject.SetActive(false);
+        upgradeButtonHolder.gameObject.SetActive(false);
+        saveButtonFront.gameObject.SetActive(false);
+        saveButtonHolder.gameObject.SetActive(false);
 
         newScoreSaveButtonFront.gameObject.SetActive(false);
         newScoreSaveButtonBack.gameObject.SetActive(false);
@@ -183,17 +179,6 @@ public class EndConditionsUI : MonoBehaviour
             }
             else
             {
-                engineeringButton.gameObject.SetActive(false);
-                pilotingButton.gameObject.SetActive(false);
-                mechanicsButton.gameObject.SetActive(false);
-                miningButton.gameObject.SetActive(false);
-                roboticsButton.gameObject.SetActive(false);
-                combatButton.gameObject.SetActive(false);
-                salesGameObject.SetActive(false);
-
-                doneButton.gameObject.SetActive(false);
-
-
                 winBackground.color = loseColor;
                 endText.text = "The sun implodes";
                 StartCoroutine(ShowLoseTextsWithDelay());
@@ -343,7 +328,7 @@ public class EndConditionsUI : MonoBehaviour
         loseText.gameObject.SetActive(true);
         loseText.text = "What will you remember?";
         winBackground.color = memoryUpgradeColor;
-        /*
+        
         // Update the time text
         int minutes2 = Mathf.FloorToInt(scoreManager.GetTotalTime() / 60);
         int seconds2 = Mathf.FloorToInt(scoreManager.GetTotalTime() % 60);
@@ -354,14 +339,15 @@ public class EndConditionsUI : MonoBehaviour
 
         // Update the money text
         totalMoneyText.text = $"Money: {scoreManager.GetTotalMoney()}";
-        */
 
         endText.gameObject.SetActive(false);
+
+        upgradeButtonHolder.gameObject.SetActive(true);
         loseText.gameObject.SetActive(true);
-        /*totalGameTimeText.gameObject.SetActive(true);
+        totalGameTimeText.gameObject.SetActive(true);
         totalObstaclesDestroyedText.gameObject.SetActive(true);
         totalMoneyText.gameObject.SetActive(true);
-        PlayRandomTextSfx();*/
+        PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
 
         // Store initial values
@@ -414,17 +400,11 @@ public class EndConditionsUI : MonoBehaviour
         totalGameTimeText.text = "Time: 00:00";
         totalObstaclesDestroyedText.text = "Destroyed: 0";
         totalMoneyText.text = "Money: 0";
-        /*
+        
         // Show upgrade and Done buttons
-        engineeringButton.gameObject.SetActive(true);
-        pilotingButton.gameObject.SetActive(true);
-        mechanicsButton.gameObject.SetActive(true);
-        miningButton.gameObject.SetActive(true);
-        roboticsButton.gameObject.SetActive(true);
-        combatButton.gameObject.SetActive(true);
-        salesGameObject.SetActive(true);
+        upgradeButtonHolder.gameObject.SetActive(true);
 
-        doneButton.gameObject.SetActive(true);*/
+        saveButtonHolder.gameObject.SetActive(true);
     }
 
     public void UpdateMemoryAndSkillsText()
