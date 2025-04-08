@@ -37,7 +37,6 @@ public class ScoreManager : MonoBehaviour
     public static event Action<float> OnTotalRareMetalChanged;
     public static event Action<float> OnLevelRareMetalChanged;
     public static event Action<int> OnObstaclesDestroyedByPlayerChanged;
-    public static event Action<float> OnLevelTimeChanged;
     public static event Action SavedTotalEvent;
 
     // Public getters

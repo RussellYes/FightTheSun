@@ -131,6 +131,10 @@ public class PlayerStatsManager : MonoBehaviour
         ObstacleMovement.turbulanceEvent -= ThrottleChange;
     }
 
+    private void Start()
+    {
+        LoadData();
+    }
     private void Update()
     {
         // Update distance traveled based on player's speed
@@ -290,39 +294,51 @@ public class PlayerStatsManager : MonoBehaviour
 
     }
 
+    private void LoadData()
+    {
+        // Load player stats from PlayerPrefs
+        engineeringSkill = PlayerPrefs.GetFloat("EngineeringSkill", 1);
+        pilotingSkill = PlayerPrefs.GetFloat("PilotingSkill", 1);
+        mechanicsSkill = PlayerPrefs.GetFloat("MechanicsSkill", 1);
+        miningSkill = PlayerPrefs.GetFloat("MiningSkill", 1);
+        roboticsSkill = PlayerPrefs.GetFloat("RoboticsSkill", 1);
+        combatSkill = PlayerPrefs.GetFloat("CombatSkill", 1);
+
+        Debug.Log($"Loaded Robotics: {roboticsSkill}");
+    }
     public void MultiplyEngineeringSkill()
     {
-        engineeringSkill *= skillIncreaseAmt;
-        PlayerPrefs.SetFloat("EngingeeringSkill",engineeringSkill);
+        engineeringSkill += engineeringSkill * skillIncreaseAmt;
+        PlayerPrefs.SetFloat("EngineeringSkill",engineeringSkill);
         PlayerPrefs.Save();
     }
     public void MultiplyPilotingSkill()
     {
-        pilotingSkill *= skillIncreaseAmt;
+        pilotingSkill += pilotingSkill * skillIncreaseAmt;
         PlayerPrefs.SetFloat("PilotingSkill", pilotingSkill);
         PlayerPrefs.Save();
     }
     public void MultiplyMechanicsSkill()
     {
-        mechanicsSkill *= skillIncreaseAmt;
-        PlayerPrefs.SetFloat("MechanicSkill", mechanicsSkill);
+        mechanicsSkill += mechanicsSkill * skillIncreaseAmt;
+        PlayerPrefs.SetFloat("MechanicsSkill", mechanicsSkill);
         PlayerPrefs.Save();
     }
     public void MultiplyMiningSkill()
     {
-        miningSkill *= skillIncreaseAmt;
-        PlayerPrefs.SetFloat("MininigSkill", miningSkill);
+        miningSkill += miningSkill * skillIncreaseAmt;
+        PlayerPrefs.SetFloat("MiningSkill", miningSkill);
         PlayerPrefs.Save();
     }
     public void MultiplyRoboticsSkill()
     {
-        roboticsSkill *= skillIncreaseAmt;
+        roboticsSkill += roboticsSkill * skillIncreaseAmt;
         PlayerPrefs.SetFloat("RoboticsSkill", roboticsSkill);
         PlayerPrefs.Save();
     }
     public void MultiplyCombatSkill()
     {
-        combatSkill *= skillIncreaseAmt;
+        combatSkill += combatSkill * skillIncreaseAmt;
         PlayerPrefs.SetFloat("CombatSkill", combatSkill);
         PlayerPrefs.Save();
     }

@@ -67,6 +67,12 @@ public class EndConditionsUI : MonoBehaviour
     public Button miningButton;
     public Button roboticsButton;
     public Button combatButton;
+    [SerializeField] private TextMeshProUGUI engineeringText;
+    [SerializeField] private TextMeshProUGUI pilotingText;
+    [SerializeField] private TextMeshProUGUI mechanicsText;
+    [SerializeField] private TextMeshProUGUI miningText;
+    [SerializeField] private TextMeshProUGUI roboticsText;
+    [SerializeField] private TextMeshProUGUI combatText;
     [SerializeField] private TextMeshProUGUI engineeringCostText;
     [SerializeField] private TextMeshProUGUI pilotingCostText;
     [SerializeField] private TextMeshProUGUI mechanicsCostText;
@@ -298,8 +304,8 @@ public class EndConditionsUI : MonoBehaviour
     IEnumerator ShowLoseTextsWithDelay()
     {
         // Show lose text
-        endText.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(textAppearDelay * 2);
+        /*endText.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(textAppearDelay);
 
         // Countdown timer
         float countdownDuration = 3.1f;
@@ -323,26 +329,29 @@ public class EndConditionsUI : MonoBehaviour
 
         endText.text = "Blackhole";
         winBackground.color = Color.black;
-        yield return new WaitForSecondsRealtime(textAppearDelay * 2);
-        endText.gameObject.SetActive(false);
+        yield return new WaitForSecondsRealtime(textAppearDelay);
+        endText.gameObject.SetActive(false);*/
         loseText.gameObject.SetActive(true);
         loseText.text = "What will you remember?";
         winBackground.color = memoryUpgradeColor;
-        
+
+        float loseTime = scoreManager.GetTotalTime() + gameManager.GameTime;
+        int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
+        float loseMoney = scoreManager.GetTotalMoney() + scoreManager.GetLevelMoney();
+
         // Update the time text
-        int minutes2 = Mathf.FloorToInt(scoreManager.GetTotalTime() / 60);
-        int seconds2 = Mathf.FloorToInt(scoreManager.GetTotalTime() % 60);
+        int minutes2 = Mathf.FloorToInt(loseTime / 60);
+        int seconds2 = Mathf.FloorToInt(loseTime % 60);
         totalGameTimeText.text = $"Time: {minutes2:00}:{seconds2:00}";
 
         // Update the obstacles destroyed text
-        totalObstaclesDestroyedText.text = $"Destroyed: {scoreManager.GetTotalObstaclesDestroyed()}";
+        totalObstaclesDestroyedText.text = $"Destroyed: " + loseObstacles;
 
         // Update the money text
-        totalMoneyText.text = $"Money: {scoreManager.GetTotalMoney()}";
+        totalMoneyText.text = $"Money: " + loseMoney;
 
         endText.gameObject.SetActive(false);
 
-        upgradeButtonHolder.gameObject.SetActive(true);
         loseText.gameObject.SetActive(true);
         totalGameTimeText.gameObject.SetActive(true);
         totalObstaclesDestroyedText.gameObject.SetActive(true);
@@ -350,21 +359,19 @@ public class EndConditionsUI : MonoBehaviour
         PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
 
-        // Store initial values
-        float initialTime = scoreManager.GetTotalTime();
-        int initialObstacles = scoreManager.GetTotalObstaclesDestroyed();
-        float initialMoney = scoreManager.GetTotalMoney();
         memoryScore = PlayerPrefs.GetFloat("memoryScore", 0);
 
+        salesGameObject.SetActive(false);
         lineText.gameObject.SetActive(true);
         memoryScoreText.gameObject.SetActive(true);
-        memoryScoreText.text = memoryScore.ToString();
+        memoryScoreText.text = memoryScore.ToString("0") + " memories";
+        UpdateMemoryAndSkillsText();
         PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
-
+        
         // Calculate final memory score
-        float finalMemoryScore = memoryScore + (initialObstacles * initialMoney / initialTime);
-
+        float finalMemoryScore = memoryScore + (loseObstacles * loseMoney / loseTime);
+        memoryScoreText.text = finalMemoryScore.ToString("0") + " memories";
         // Lerp all values simultaneously over 3 seconds
         float lerpDuration = 3f;
         float elapsedTime = 0f;
@@ -375,18 +382,18 @@ public class EndConditionsUI : MonoBehaviour
 
             // Lerp memory score up
             float currentMemoryValue = Mathf.Lerp(0, finalMemoryScore, progress);
-            memoryScoreText.text = Mathf.RoundToInt(currentMemoryValue).ToString();
+            memoryScoreText.text = Mathf.RoundToInt(currentMemoryValue).ToString("0") + " memories";
 
             // Lerp other values down
-            float currentTime = Mathf.Lerp(initialTime, 0, progress);
+            float currentTime = Mathf.Lerp(loseTime, 0, progress);
             int minutes3 = Mathf.FloorToInt(currentTime / 60);
             int seconds3 = Mathf.FloorToInt(currentTime % 60);
             totalGameTimeText.text = $"Time: {minutes3:00}:{seconds3:00}";
 
-            float currentObstacles = Mathf.Lerp(initialObstacles, 0, progress);
+            float currentObstacles = Mathf.Lerp(loseObstacles, 0, progress);
             totalObstaclesDestroyedText.text = $"Destroyed: {Mathf.RoundToInt(currentObstacles)}";
 
-            float currentMoney = Mathf.Lerp(initialMoney, 0, progress);
+            float currentMoney = Mathf.Lerp(loseMoney, 0, progress);
             totalMoneyText.text = $"Money: {Mathf.RoundToInt(currentMoney)}";
 
             elapsedTime += Time.unscaledDeltaTime;
@@ -396,38 +403,53 @@ public class EndConditionsUI : MonoBehaviour
         memoryScore = finalMemoryScore;
 
         // Ensure final values are exact
-        memoryScoreText.text = Mathf.RoundToInt(memoryScore).ToString();
+        memoryScoreText.text = Mathf.RoundToInt(memoryScore).ToString("0") + " memories";
         totalGameTimeText.text = "Time: 00:00";
         totalObstaclesDestroyedText.text = "Destroyed: 0";
         totalMoneyText.text = "Money: 0";
         
         // Show upgrade and Done buttons
         upgradeButtonHolder.gameObject.SetActive(true);
-
         saveButtonHolder.gameObject.SetActive(true);
+        saveButtonFront.gameObject.SetActive(true);
+        
     }
 
     public void UpdateMemoryAndSkillsText()
     {
-        memoryScoreText.text = memoryScore.ToString();
+        if (playerStatsManager == null)
+        {
+            playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
+        }
+
+        memoryScoreText.text = memoryScore.ToString("0") + " memories";
+
+        engineeringText.text = "Engineering " + playerStatsManager.EngineeringSkill.ToString("0.00");
+        pilotingText.text = "Piloting " + playerStatsManager.PilotingSkill.ToString("0.00");
+        mechanicsText.text = "Mechanics " + playerStatsManager.MechanicsSkill.ToString("0.00");
+        miningText.text = "Mining " + playerStatsManager.MiningSkill.ToString("0.00");
+        roboticsText.text = "Robotics " + playerStatsManager.RoboticsSkill.ToString("0.00");
+        combatText.text = "Combat " + playerStatsManager.CombatSkill.ToString("0.00");
 
         engineeringCost = playerStatsManager.EngineeringSkill * playerStatsManager.EngineeringSkill;
-        engineeringCostText.text = engineeringCost.ToString();
+        engineeringCostText.text = "Cost " + engineeringCost.ToString("0.00");
 
         pilotingCost = playerStatsManager.PilotingSkill * playerStatsManager.PilotingSkill;
-        pilotingCostText.text = pilotingCost.ToString();
+        pilotingCostText.text = "Cost " + pilotingCost.ToString("0.00");
 
         mechanicsCost = playerStatsManager.MechanicsSkill * playerStatsManager.MechanicsSkill;
-        mechanicsCostText.text = mechanicsCost.ToString();
+        mechanicsCostText.text = "Cost " + mechanicsCost.ToString("0.00");
 
         miningCost = playerStatsManager.MiningSkill * playerStatsManager.MiningSkill;
-        miningCostText.text = miningCost.ToString();
+        miningCostText.text = "Cost " + miningCost.ToString("0.00");
 
         roboticsCost = playerStatsManager.RoboticsSkill * playerStatsManager.RoboticsSkill;
-        roboticsCostText.text = roboticsCost.ToString();
+        roboticsCostText.text = "Cost " + roboticsCost.ToString("0.00");
 
         combatCost = playerStatsManager.CombatSkill * playerStatsManager.CombatSkill;
-        combatCostText.text = combatCost.ToString();
+        combatCostText.text = "Cost " + combatCost.ToString("0.00");
+
+        Debug.Log($"Robotics Display - Value: {playerStatsManager.RoboticsSkill}, Cost: {roboticsCost}");
     }
 
     private void PlayRandomTextSfx()
@@ -463,9 +485,8 @@ public class EndConditionsUI : MonoBehaviour
         if (memoryScore >= engineeringCost)
         {
             memoryScore -= engineeringCost;
-            UpdateMemoryAndSkillsText();
-
             playerStatsManager.MultiplyEngineeringSkill();
+            UpdateMemoryAndSkillsText();
         }
     }
     private void BuyPiloting()
