@@ -51,6 +51,8 @@ public class PlayerStatsManager : MonoBehaviour
 
     private float distanceTraveled = 0; // Track distance traveled
     private bool isProgressHalfway = false;
+    private float repairTimer = 200f;
+    private float repairCountdown;
 
     // Player endGame upgrades
     private float engineeringSkill = 1;
@@ -144,6 +146,8 @@ public class PlayerStatsManager : MonoBehaviour
             float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
             UpdateDistanceTraveled(distanceThisFrame);
         }
+
+        RepairHull();
     }
 
     private void HandleMassChange(float mass)
@@ -188,7 +192,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void HandlePlayerHullMaxChange(float hullMax)
     {
-        playerHullMax = hullMax;
+        playerHullMax = hullMax * mechanicsSkill;
         Debug.Log("Total hullMax Updated: " + playerHullMax);
     }
 
@@ -343,9 +347,20 @@ public class PlayerStatsManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    private void RepairHull()
+    {
+        repairCountdown -= Time.deltaTime;
 
+        if (repairCountdown <= 0)
+        {
+            repairCountdown = repairTimer - roboticsSkill;
 
+            if (repairCountdown < 1)
+            {
+                repairCountdown = 1;
+            }
 
-
-
+            HandlePlayerCurrentHullChange(1f);
+        }
+    }
 }

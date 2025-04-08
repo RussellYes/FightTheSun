@@ -10,4 +10,9 @@ public class Damage : MonoBehaviour
     {
         return damage;
     }
+
+    public void ChangeDamage(float amt)
+    {
+        damage += amt;
+    }
 }

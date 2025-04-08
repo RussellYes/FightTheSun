@@ -9,6 +9,9 @@ public class Cockpit : MonoBehaviour
     public static event Action<float> OnCockpitMassChanged;
     public static event Action<float> OnCockpitThrustChanged;
 
+    private PlayerStatsManager playerStatsManager;
+    private Damage damage;
+
     [Header("Cockpit Settings")]
     [SerializeField] private float mass;
     [SerializeField] private float thrust;
@@ -39,6 +42,10 @@ public class Cockpit : MonoBehaviour
 
     private void Start()
     {
+        playerStatsManager = FindObjectOfType<PlayerStatsManager>();
+        damage = GetComponent<Damage>();
+        damage.ChangeDamage(playerStatsManager.CombatSkill);
+
         // Invoke the event to add mass
         OnCockpitMassChanged?.Invoke(mass);
         // Invoke the event to add thrust

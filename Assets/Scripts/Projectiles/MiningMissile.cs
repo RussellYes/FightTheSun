@@ -6,7 +6,9 @@ using System.Collections;
 public class MiningMissile : MonoBehaviour
 {
     private SFXManager sFXManager;
+    private PlayerStatsManager playerStatsManager;
     private Rigidbody2D rb;
+    private Damage damage;
     private float accelerationTimer = 0f;
     private bool hasAccelerated = false;
 
@@ -32,11 +34,16 @@ public class MiningMissile : MonoBehaviour
     private void Start()
     {
         sFXManager = FindObjectOfType<SFXManager>();
+        playerStatsManager = FindObjectOfType<PlayerStatsManager>();
         rb = GetComponent<Rigidbody2D>();
+        damage = GetComponent<Damage>();
+
         smokeCountdown = smokeTime;
 
         // Apply initial slow speed (10%)
         rb.velocity = rb.velocity * startSpeedPercent;
+
+        damage.ChangeDamage(playerStatsManager.MiningSkill);
     }
 
     private void Update()

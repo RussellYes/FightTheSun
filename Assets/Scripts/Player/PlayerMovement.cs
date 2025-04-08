@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float laneDistance; // Distance between lanes
     private int targetLane = 2; // Start in the middle lane (lane 3)
-    private float playerHorizontalSpeedMultiplier = 1.5f;
 
     private Button leftButton;
     private Button rightButton;
@@ -89,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (playerStatsManager.PlayerMass > 0)
         {
             // Calculate the speed with mass
-            float calculatedSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * playerHorizontalSpeedMultiplier;
+            float calculatedSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * playerStatsManager.PilotingSkill;
 
             // Smoothly move the player to the target position
             transform.position = Vector3.Lerp(transform.position, targetPosition, calculatedSpeed * Time.deltaTime);
