@@ -33,15 +33,15 @@ public class MiningMissile : MonoBehaviour
 
     private void Start()
     {
-        sFXManager = FindObjectOfType<SFXManager>();
-        playerStatsManager = FindObjectOfType<PlayerStatsManager>();
+        sFXManager = FindFirstObjectByType<SFXManager>();
+        playerStatsManager = FindFirstObjectByType<PlayerStatsManager>();
         rb = GetComponent<Rigidbody2D>();
         damage = GetComponent<Damage>();
 
         smokeCountdown = smokeTime;
 
         // Apply initial slow speed (10%)
-        rb.velocity = rb.velocity * startSpeedPercent;
+        rb.linearVelocity = rb.linearVelocity * startSpeedPercent;
 
         damage.ChangeDamage(playerStatsManager.MiningSkill);
     }
@@ -61,7 +61,7 @@ public class MiningMissile : MonoBehaviour
 
             if (accelerationTimer >= accelerationDelay)
             {
-                rb.velocity = rb.velocity / startSpeedPercent;
+                rb.linearVelocity = rb.linearVelocity / startSpeedPercent;
                 hasAccelerated = true;
                 Debug.Log("Missile accelerated to full speed!", this);
             }

@@ -30,8 +30,8 @@ public class DashboardScoreText : MonoBehaviour
     private void Start()
     {
         // Initialize the UI elements
-        scoreManager = FindObjectOfType<ScoreManager>();
-        gameManager = FindObjectOfType<GameManager>();
+        scoreManager = FindFirstObjectByType<ScoreManager>();
+        gameManager = FindFirstObjectByType<GameManager>();
         if (scoreManager != null)
         {
             UpdateMoneyText(scoreManager.GetLevelMoney());

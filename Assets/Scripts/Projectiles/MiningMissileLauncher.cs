@@ -141,7 +141,7 @@ public class MiningMissileLauncher : MonoBehaviour
 
         if (missile.TryGetComponent<Rigidbody2D>(out var rb))
         {
-            rb.velocity = fireDirection * miningMissileSpeed;
+            rb.linearVelocity = fireDirection * miningMissileSpeed;
         }
     }
 }

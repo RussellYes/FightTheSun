@@ -129,7 +129,7 @@ public class HostileShoot : MonoBehaviour
                 Vector2 direction = (target.position - transform.position).normalized;
 
                 GameObject bullet = Instantiate(bulletPreFab, transform.position, Quaternion.identity);
-                bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+                bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
 
                 // Play cannon animation
                 if (cannonAnim != null)
@@ -179,7 +179,7 @@ public class HostileShoot : MonoBehaviour
                 Vector2 direction = transform.up;
 
                 GameObject bullet = Instantiate(bulletPreFab, transform.position, Quaternion.identity);
-                bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+                bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
 
                 // Play cannon animation
                 if (cannonAnim != null)
@@ -221,7 +221,7 @@ public class HostileShoot : MonoBehaviour
         {
             // Instantiate and shoot a bullet
             GameObject bullet = Instantiate(bulletPreFab, transform.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+            bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
 
             // Play cannon animation
             if (cannonAnim != null)

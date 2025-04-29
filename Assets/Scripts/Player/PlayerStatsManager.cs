@@ -256,7 +256,7 @@ public class PlayerStatsManager : MonoBehaviour
         gameManager.EndGame(false);
 
         // Destroy the player GameObject
-        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+        PlayerMovement playerMovement = FindFirstObjectByType<PlayerMovement>();
         if (playerMovement != null)
         {
             Destroy(playerMovement.gameObject);

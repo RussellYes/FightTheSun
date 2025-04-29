@@ -42,7 +42,7 @@ public class Cockpit : MonoBehaviour
 
     private void Start()
     {
-        playerStatsManager = FindObjectOfType<PlayerStatsManager>();
+        playerStatsManager = FindFirstObjectByType<PlayerStatsManager>();
         damage = GetComponent<Damage>();
         damage.ChangeDamage(playerStatsManager.CombatSkill);
 

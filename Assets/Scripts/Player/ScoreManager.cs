@@ -56,8 +56,8 @@ public class ScoreManager : MonoBehaviour
     private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        gameManager = FindObjectOfType<GameManager>();
-        endConditionsUI = FindObjectOfType<EndConditionsUI>();
+        gameManager = FindFirstObjectByType<GameManager>();
+        endConditionsUI = FindFirstObjectByType<EndConditionsUI>();
         LoadTotals();
     }
     private void OnEnable()
@@ -243,7 +243,7 @@ public class ScoreManager : MonoBehaviour
             // Get final time from GameManager
             if (gameManager == null)
             {
-                gameManager = FindObjectOfType<GameManager>();
+                gameManager = FindFirstObjectByType<GameManager>();
             }
 
             levelTime = gameManager.GameTime;

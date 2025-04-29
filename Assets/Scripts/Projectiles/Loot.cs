@@ -20,7 +20,7 @@ public class Loot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerStatsManager = FindObjectOfType<PlayerStatsManager>();
+        playerStatsManager = FindFirstObjectByType<PlayerStatsManager>();
 
         SetLootValues();
 
@@ -30,7 +30,7 @@ public class Loot : MonoBehaviour
     private void SetLootValues()
     {
         int lootCount = 1;
-        Boss boss = FindObjectOfType<Boss>();
+        Boss boss = FindFirstObjectByType<Boss>();
         if (boss != null)
         {
             lootCount = 5;
