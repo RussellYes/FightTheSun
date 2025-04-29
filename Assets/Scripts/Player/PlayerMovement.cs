@@ -12,15 +12,15 @@ public class PlayerMovement : MonoBehaviour
     private SFXManager sFXManager;
 
     [SerializeField] private float laneDistance; // Distance between lanes
-    private int targetLane = 2; // Start in the middle lane (lane 3)
+    private int targetLane = 2; // Start in the middle lane (lane 0 is 1st, lane 1 is 2nd, lane 2 is the 3rd of 5 lanes.)
 
     private Button leftButton;
     private Button rightButton;
 
     [SerializeField] private AudioClip[] thrusterSounds;
 
-    private Quaternion targetRotation; // Target rotation for smooth interpolation
-    private float yAxisRotationSpeed = 1f; // Rotation speed on the Y-axis
+    private Quaternion targetRotation;
+    private float yAxisRotationSpeed = 1f;
     private void Awake()
     {
         if (Instance == null)
@@ -54,10 +54,14 @@ public class PlayerMovement : MonoBehaviour
     {
         ObstacleMovement.gravityWaveEvent += RandomMove;
         ObstacleMovement.gravityWellEvent += MoveCloser;
+        SwipeControls.Instance.OnMoveLeft += MoveLeft;
+        SwipeControls.Instance.OnMoveRight += MoveRight;
     }
 
     private void OnDisable()
     {
+        ObstacleMovement.gravityWaveEvent -= RandomMove;
+        ObstacleMovement.gravityWellEvent -= MoveCloser;
         ObstacleMovement.gravityWaveEvent -= RandomMove;
         ObstacleMovement.gravityWellEvent -= MoveCloser;
     }
