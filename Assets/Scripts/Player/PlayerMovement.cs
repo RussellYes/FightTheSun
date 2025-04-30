@@ -22,16 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion targetRotation;
     private float yAxisRotationSpeed = 1f;
     private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        
+    {      
         // Find the buttons by their tags or names
         leftButton = GameObject.Find("LeftButton").GetComponent<Button>();
         rightButton = GameObject.Find("RightButton").GetComponent<Button>();
@@ -54,16 +45,17 @@ public class PlayerMovement : MonoBehaviour
     {
         ObstacleMovement.gravityWaveEvent += RandomMove;
         ObstacleMovement.gravityWellEvent += MoveCloser;
-        SwipeControls.Instance.OnMoveLeft += MoveLeft;
-        SwipeControls.Instance.OnMoveRight += MoveRight;
+        SwipeControls.OnMoveLeft += MoveLeft;
+        SwipeControls.OnMoveRight += MoveRight;
+
     }
 
     private void OnDisable()
     {
         ObstacleMovement.gravityWaveEvent -= RandomMove;
         ObstacleMovement.gravityWellEvent -= MoveCloser;
-        ObstacleMovement.gravityWaveEvent -= RandomMove;
-        ObstacleMovement.gravityWellEvent -= MoveCloser;
+        SwipeControls.OnMoveLeft -= MoveLeft;
+        SwipeControls.OnMoveRight -= MoveRight;
     }
 
     private void Start()

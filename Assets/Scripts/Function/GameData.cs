@@ -5,15 +5,44 @@ using UnityEngine;
 public class GameData
 {
     [Header("Game Data")]
-    // Type variables in this section to save as GameData such as:
-    //" public float level; "
-
     public List<PlayerSaveData> playerData;
+
+    [Header("Score Manager Data")]
+    // Persistent totals across all levels
+    public float totalMoney;
+    public float totalMetal;
+    public float totalRareMetal;
+    public float totalTime;
+    public int totalObstaclesDestroyed;
+
+    // Level-specific data dictionary (level number as key)
+    public Dictionary<int, LevelData> levelData;
 
     // Empty constructor for loading
     public GameData()
     {
         playerData = new List<PlayerSaveData>();
+        levelData = new Dictionary<int, LevelData>();
+        totalMoney = 0;
+        totalMetal = 0f;
+        totalRareMetal = 0f;
+        totalTime = 0f;
+        totalObstaclesDestroyed = 0;
+    }
+}
+
+[System.Serializable]
+public class LevelData
+{
+    public float levelTime;
+    public float levelMoney;
+    public int levelObstaclesDestroyed;
+
+    public LevelData(float time, float money, int obstacles)
+    {
+        levelTime = time;
+        levelMoney = money;
+        levelObstaclesDestroyed = obstacles;
     }
 }
 
@@ -21,8 +50,5 @@ public class GameData
 public class PlayerSaveData
 {
     [Header("Player Data")]
-    // Type variables in this section to save as GameData such as:
-    //" public float playerName; "
-
     public float playerMemoryScore;
 }

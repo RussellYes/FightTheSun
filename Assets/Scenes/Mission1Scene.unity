@@ -5461,8 +5461,6 @@ MonoBehaviour:
   levelRareMetal: 0
   levelTime: 0
   levelObstaclesDestroyed: 0
-  totalTime: 0
-  totalObstaclesDestroyed: 0
 --- !u!4 &1600393497
 Transform:
   m_ObjectHideFlags: 0
@@ -7123,7 +7121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3045661980048404995, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5121152904137798906, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_IsActive
@@ -7147,11 +7145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8085420520011880952, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8758635502251084979, guid: 021275e6aa2863f4ba764de3c8c93c87, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

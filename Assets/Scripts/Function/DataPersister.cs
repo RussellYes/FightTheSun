@@ -78,7 +78,6 @@ public class DataPersister : MonoBehaviour
         else
         {
             Debug.Log("DataPersister - Loading existing game");
-            ApplyLoadedData();
         }
     }
 
@@ -93,71 +92,20 @@ public class DataPersister : MonoBehaviour
     void UpdateGameData()
     {
         Debug.Log("DataPersister - Updating game data");
-        // This is an example of what to save to the game data:
-        /*
-        PlayerUI playerUI = FindFirstObjectByType<PlayerUI>();
-        if (playerUI != null)
-        {
-            Debug.Log($"DataPersister - Saving Current playerName in UI: '{playerUI.playerName}'");
-            Debug.Log($"DataPersister - Saving Current playerNameText value: '{playerUI.playerNameText?.text}'");
 
-            CurrentGameData.playerName = playerUI.playerName;
-            Debug.Log($"DataPersister - Saving name to GameData: '{CurrentGameData.playerName}'");
+        // Get reference to ScoreManager
+        ScoreManager scoreManager = FindFirstObjectByType<ScoreManager>();
+        if (scoreManager != null)
+        {
+            // Update the totals from ScoreManager (they should already be updated)
+            // We mainly need to ensure level data is saved
+            Debug.Log("DataPersister - ScoreManager found, game data updated");
         }
         else
         {
-            Debug.Log("DataPersister - PlayerUI not found, player name not saved.");
-        }
-        */
-
-
-    
-
-
-        CurrentGameData.playerData.Clear();
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Interactable"))
-        {
-            //PlayerSaveData data = new PlayerSaveData
-
-            // This is an example of what to save to the player data:
-            /*
-            CellPhone cellPhone = obj.GetComponent<CellPhone>();
-            if (cellPhone != null)
-            {
-                data.cellPhoneCountdown = cellPhone.cellPhoneCountdown;
-                data.cellPhoneRestCountdown = cellPhone.restCountdown;
-                data.isTexting = cellPhone.isTexting;
-                data.interactableType = "CellPhone";
-                data.interactableID = cellPhone.InteractableID;
-            }
-            */
+            Debug.Log("DataPersister - ScoreManager not found");
         }
     }
-
-void ApplyLoadedData()
-    {
-        // This is an example of what to load from the game data:
-        // Apply player data
-        /*
-        PlayerUI playerUI = FindFirstObjectByType<PlayerUI>();
-        if (playerUI != null)
-        {
-            Debug.Log($"DataPersister - Loading player name: {CurrentGameData.playerName}");
-            if (CurrentGameData.playerName != null)
-            {
-                PlayerLoadedNameEvent?.Invoke(CurrentGameData.playerName);
-                Debug.Log("DataPersister - sending loaded name event");
-            }
-            else
-            {
-                Debug.LogWarning("DataPersister - Player name is null");
-            }
-        }
-        */
-
-       
-    }
-
 
 
 
