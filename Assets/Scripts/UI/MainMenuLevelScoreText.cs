@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class MainMenuLevelScoreText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bestMoneyText;
     [SerializeField] private TextMeshProUGUI bestObstaclesDestroyedText;
 
-    [SerializeField] private int levelNumber = 1; // Set this in inspector for each level display
+    [SerializeField] private int levelNumber = 0; // Set this in inspector for each level display
 
     private void Start()
     {
@@ -20,27 +21,53 @@ public class MainMenuLevelScoreText : MonoBehaviour
     {
         Debug.Log("MainMenuLevelScoreText LoadLevelData");
 
-        // First verify the key exists
-        string obstacleKey = $"Level_{levelNumber}_ObstaclesDestroyed";
+        SetDefaultText();
 
-        if (!PlayerPrefs.HasKey(obstacleKey))
+        // Check if save system is available
+        if (DataPersister.Instance == null)
         {
-            Debug.Log($"Key not found: {obstacleKey}");
-            bestObstaclesDestroyedText.text = "Obstacles: ---";
+            Debug.LogWarning("DataPersister not initialized yet - trying again next frame");
+            StartCoroutine(DelayedLoad(levelNumber));
             return;
         }
 
-        // Load level data using ScoreManager's save format
-        float levelMoney = PlayerPrefs.GetFloat($"Level_{levelNumber}_Money", 0);
-        float levelTime = PlayerPrefs.GetFloat($"Level_{levelNumber}_Time", 0);
-        int levelObstacles = PlayerPrefs.GetInt($"Level_{levelNumber}_ObstaclesDestroyed", 0);
+        if (DataPersister.Instance.CurrentGameData == null)
+        {
+            Debug.LogWarning("GameData not loaded yet - trying again next frame");
+            StartCoroutine(DelayedLoad(levelNumber));
+            return;
+        }
 
-        // Update UI text
-        UpdateTimeText(levelTime);
-        UpdateMoneyText(levelMoney);
-        UpdateObstaclesDestroyedText(levelObstacles);
+        // Try to get level data
+        if (DataPersister.Instance.CurrentGameData.levelData.TryGetValue(levelNumber, out LevelData levelData))
+        {
+            Debug.Log($"Loaded data for level {levelNumber}: " +
+                     $"Time={levelData.levelTime}, " +
+                     $"Money={levelData.levelMoney}, " +
+                     $"Obstacles={levelData.levelObstaclesDestroyed}");
+
+            UpdateTimeText(levelData.levelTime);
+            UpdateMoneyText(levelData.levelMoney);
+            UpdateObstaclesDestroyedText(levelData.levelObstaclesDestroyed);
+        }
+        else
+        {
+            Debug.Log($"No saved data found for level {levelNumber}");
+        }
     }
 
+    private IEnumerator DelayedLoad(int levelNumber)
+    {
+        yield return null; // Wait one frame
+        LoadLevelData(levelNumber); // Try again
+    }
+
+    private void SetDefaultText()
+    {
+        bestTimeText.text = "Time: --:--";
+        bestMoneyText.text = "Money: ---";
+        bestObstaclesDestroyedText.text = "Obstacles: ---";
+    }
     private void UpdateTimeText(float timeInSeconds)
     {
         bestTimeText.text = timeInSeconds > 0 ?

@@ -202,9 +202,9 @@ public class ScoreManager : MonoBehaviour
 
     private void SaveDataAtEndOfLevel()
     {
-        int levelNumber = SceneManager.GetActiveScene().buildIndex;
+        int levelNumber = SceneManager.GetActiveScene().buildIndex -1;
 
-        if (levelNumber >= 1 && DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        if (levelNumber >= 0 && DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
         {
             if (gameManager == null)
             {

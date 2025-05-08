@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DataPersister : MonoBehaviour
 {
@@ -66,6 +67,12 @@ public class DataPersister : MonoBehaviour
         Debug.Log("DataPersister - LoadOrInitialize");
         bool saveExists = SaveSystem.SaveExists();
         CurrentGameData = SaveSystem.LoadGame();
+
+        // Ensure dictionary is initialized
+        if (CurrentGameData.levelData == null)
+        {
+            CurrentGameData.levelData = new Dictionary<int, LevelData>();
+        }
 
         // If no save exists or this is a new game, load previous data
         if (!saveExists || CurrentGameData == null)

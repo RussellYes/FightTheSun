@@ -8,6 +8,9 @@ public static class SaveSystem
 
     public static void SaveGame(GameData data)
     {
+        // Update the serialized data before saving
+        data.UpdateSerializedData();
+
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(savePath, json);
         Debug.Log("SaveSystem - Saved to: " + savePath);
@@ -18,7 +21,10 @@ public static class SaveSystem
         if (File.Exists(savePath))
         {
             string json = File.ReadAllText(savePath);
-            return JsonUtility.FromJson<GameData>(json);
+            GameData data = JsonUtility.FromJson<GameData>(json);
+            data.RebuildDictionary();
+            Debug.Log($"Loaded game data with {data.levelData.Count} levels");
+            return data;
         }
         else
         {

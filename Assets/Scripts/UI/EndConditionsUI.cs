@@ -16,8 +16,8 @@ public class EndConditionsUI : MonoBehaviour
     private SFXManager sFXManager;
     private PlayerStatsManager playerStatsManager;
 
-    public static Action EndConditionUIScoreChoiceEvent;
-    public static Action reviveEvent;
+    public static event Action EndConditionUIScoreChoiceEvent;
+    public static event Action reviveEvent;
 
     [Header("Winning UI")]
     [SerializeField] private bool isWin;
@@ -245,18 +245,28 @@ public class EndConditionsUI : MonoBehaviour
         oldObstacles.alpha = 0f;
         oldTime.alpha = 0f;
 
-        endText.text = "Save One Score";
+        endText.text = "Choose One Score";
 
         // Get current level index
         int levelNumber = SceneManager.GetActiveScene().buildIndex - 1;
-        // Load level data using ScoreManager's save format
-        float money = PlayerPrefs.GetFloat($"Level_{levelNumber}_Money", 0);
+
+        // Load level data from JSON save
+        float money = 0;
+        int obstaclesDestroyed = 0;
+        float timeInSeconds = 0;
+
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            if (DataPersister.Instance.CurrentGameData.levelData.TryGetValue(levelNumber, out LevelData levelData))
+            {
+                money = levelData.levelMoney;
+                obstaclesDestroyed = levelData.levelObstaclesDestroyed;
+                timeInSeconds = levelData.levelTime;
+            }
+        }
+
         oldMoneyText.text = money > 0 ? $"Money: {money}" : "Money: 0";
-
-        int obstaclesDestroyed = PlayerPrefs.GetInt($"Level_{levelNumber}_ObstaclesDestroyed", 0);
         oldObstaclesDestroyedText.text = obstaclesDestroyed > 0 ? $"Obstacles: {obstaclesDestroyed}" : "Obstacles: 0";
-
-        float timeInSeconds = PlayerPrefs.GetFloat($"Level_{levelNumber}_Time", 0);
         oldTimeText.text = timeInSeconds > 0 ? $"Best Time: {Mathf.FloorToInt(timeInSeconds / 60):00}:{Mathf.FloorToInt(timeInSeconds % 60):00}" : "Time: --:--";
 
         // Fade in over time duration
@@ -303,34 +313,6 @@ public class EndConditionsUI : MonoBehaviour
 
     IEnumerator ShowLoseTextsWithDelay()
     {
-        // Show lose text
-        /*endText.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(textAppearDelay);
-
-        // Countdown timer
-        float countdownDuration = 3.1f;
-        float countdownElapsed = 0f;
-
-        while (countdownElapsed < countdownDuration)
-        {
-            float remaining = countdownDuration - countdownElapsed;
-
-            // Calculate seconds and milliseconds (2 digits)
-            int seconds = Mathf.FloorToInt(remaining);
-            int milliseconds = Mathf.FloorToInt((remaining % 1) * 100); // Extract 2-digit ms
-
-            // Format as "SS:MS" (e.g., "03:09", "00:99")
-            endText.text = $"{seconds:00}:{milliseconds:00}";
-
-            countdownElapsed += Time.unscaledDeltaTime;
-            yield return null;
-        }
-
-
-        endText.text = "Blackhole";
-        winBackground.color = Color.black;
-        yield return new WaitForSecondsRealtime(textAppearDelay);
-        endText.gameObject.SetActive(false);*/
         loseText.gameObject.SetActive(true);
         loseText.text = "What will you remember?";
         winBackground.color = memoryUpgradeColor;
@@ -359,7 +341,14 @@ public class EndConditionsUI : MonoBehaviour
         PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
 
-        memoryScore = PlayerPrefs.GetFloat("memoryScore", 0);
+        // Load memory score from GameData instead of PlayerPrefs
+        memoryScore = 0;
+        if (DataPersister.Instance != null &&
+            DataPersister.Instance.CurrentGameData != null &&
+            DataPersister.Instance.CurrentGameData.playerData.Count > 0)
+        {
+            memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+        }
 
         salesGameObject.SetActive(false);
         lineText.gameObject.SetActive(true);
