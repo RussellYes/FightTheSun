@@ -42,8 +42,6 @@ public class PlayerStatsManager : MonoBehaviour
     [SerializeField] private float playerThrust;
 
     private float throttle = 1;
-    [SerializeField] private Button throttleUpButton;
-    [SerializeField] private Button throttleDownButton;
 
     private bool isMoving = true;
     [SerializeField] private float playerHullMax;
@@ -100,8 +98,6 @@ public class PlayerStatsManager : MonoBehaviour
         Hull.OnCurrentHullChanged += HandlePlayerCurrentHullChange;
 
         // Subscribe to throttle events
-        throttleUpButton.onClick.AddListener(() => ThrottleChange(0.25f)); // Increase throttle by 0.25
-        throttleDownButton.onClick.AddListener(() => ThrottleChange(-0.25f)); // Decrease throttle by 0.25
         GameManager.ChangeThrottleEvent += GameManager_ChangeThrottleEvent;
         ObstacleMovement.turbulanceEvent += ThrottleChange;
 
@@ -127,8 +123,6 @@ public class PlayerStatsManager : MonoBehaviour
         Hull.OnCurrentHullChanged -= HandlePlayerCurrentHullChange;
 
         // Unsubscribe from throttle events
-        throttleUpButton.onClick.RemoveAllListeners();
-        throttleDownButton.onClick.RemoveAllListeners();
         GameManager.ChangeThrottleEvent -= GameManager_ChangeThrottleEvent;
         ObstacleMovement.turbulanceEvent -= ThrottleChange;
     }
