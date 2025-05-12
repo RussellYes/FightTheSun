@@ -45,8 +45,10 @@ public class PlayerMovement : MonoBehaviour
     {
         ObstacleMovement.gravityWaveEvent += RandomMove;
         ObstacleMovement.gravityWellEvent += MoveCloser;
-        SwipeControls.OnMoveLeft += MoveLeft;
-        SwipeControls.OnMoveRight += MoveRight;
+        SwipeControls.OnSwipeLeft += MoveLeft;
+        SwipeControls.OnSwipeRight += MoveRight;
+        SwipeControls.OnSwipeUp += SpeedUp;
+        SwipeControls.OnSwipeDown += SpeedDown;
 
     }
 
@@ -54,8 +56,10 @@ public class PlayerMovement : MonoBehaviour
     {
         ObstacleMovement.gravityWaveEvent -= RandomMove;
         ObstacleMovement.gravityWellEvent -= MoveCloser;
-        SwipeControls.OnMoveLeft -= MoveLeft;
-        SwipeControls.OnMoveRight -= MoveRight;
+        SwipeControls.OnSwipeLeft -= MoveLeft;
+        SwipeControls.OnSwipeRight -= MoveRight;
+        SwipeControls.OnSwipeUp -= SpeedUp;
+        SwipeControls.OnSwipeDown -= SpeedDown;
     }
 
     private void Start()
@@ -155,4 +159,16 @@ public class PlayerMovement : MonoBehaviour
         }
         sFXManager.PlaySFX(thrusterSounds[Random.Range(0, thrusterSounds.Length)]);
     }
+
+    private void SpeedUp()
+    {
+        Debug.Log("PlayerMovement MoveUp");
+    }
+
+    private void SpeedDown()
+    {
+        // Move down logic here
+        Debug.Log("PlayerMovement MoveDown");
+    }
+
 }

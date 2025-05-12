@@ -4,8 +4,10 @@ using System;
 public class SwipeControls : MonoBehaviour
 {
     // Events for movement
-    public static event Action OnMoveLeft;
-    public static event Action OnMoveRight;
+    public static event Action OnSwipeLeft;
+    public static event Action OnSwipeRight;
+    public static event Action OnSwipeUp;
+    public static event Action OnSwipeDown;
 
     [SerializeField] private float minSwipeDistance = 50f; // Minimum distance for a swipe to be registered
     private Vector2 touchStartPos;
@@ -32,30 +34,43 @@ public class SwipeControls : MonoBehaviour
 
                 case TouchPhase.Ended:
                     Vector2 touchEndPos = touch.position;
-                    float swipeDistance = touchEndPos.x - touchStartPos.x;
+                    float swipeDistanceX = touchEndPos.x - touchStartPos.x;
+                    float swipeDistanceY = touchEndPos.y - touchStartPos.y;
 
-                    if (Mathf.Abs(swipeDistance) > minSwipeDistance)
+                    if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
                     {
-                        if (swipeDistance > 0)
+                        if (swipeDistanceX > 0)
                         {
-                            OnMoveRight?.Invoke();
+                            OnSwipeRight?.Invoke();
                         }
                         else
                         {
-                            OnMoveLeft?.Invoke();
+                            OnSwipeLeft?.Invoke();
                         }
                     }
+                    else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
+                    {
+                        if (swipeDistanceY > 0)
+                        {
+                            OnSwipeUp?.Invoke();
+                        }
+                        else
+                        {
+                            OnSwipeDown?.Invoke();
+                        }
+                    }
+
                     else
                     {
                         // Simple tap control
                         float screenCenter = Screen.width / 2f;
                         if (touchEndPos.x > screenCenter)
                         {
-                            OnMoveRight?.Invoke();
+                            OnSwipeRight?.Invoke();
                         }
                         else
                         {
-                            OnMoveLeft?.Invoke();
+                            OnSwipeLeft?.Invoke();
                         }
                     }
                     break;

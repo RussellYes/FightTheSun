@@ -8609,7 +8609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &567484216
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15289,7 +15289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &858803819
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24947,6 +24947,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1861685955}
   - component: {fileID: 1861685956}
+  - component: {fileID: 1861685957}
   m_Layer: 5
   m_Name: MainMenuUI
   m_TagString: Untagged
@@ -25010,6 +25011,19 @@ MonoBehaviour:
   xSFXIcon: {fileID: 885754760}
   sliderSFX: {fileID: 8300000, guid: 5409404f4763aa0449ef775970711461, type: 3}
   musicPreview: {fileID: 8300000, guid: 529d8db74ee4a2a4eb848cd334be11d2, type: 3}
+--- !u!114 &1861685957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861685954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253c60fb033a9224cad3495303a4c16e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSwipeDistance: 50
 --- !u!1 &1873680549
 GameObject:
   m_ObjectHideFlags: 0

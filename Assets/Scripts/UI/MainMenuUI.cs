@@ -127,6 +127,19 @@ public class MainMenuUI : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    private void OnEnable()
+    {
+        SwipeControls.OnSwipeUp += MoveScreenDown;
+        SwipeControls.OnSwipeDown += MoveScreenUp;
+    }
+
+    private void OnDisable()
+    {
+        SwipeControls.OnSwipeUp -= MoveScreenDown;
+        SwipeControls.OnSwipeDown -= MoveScreenUp;
+    }
+    
+
     private void Start()
     {
         // Initialize slider values to current volumes without triggering mute logic

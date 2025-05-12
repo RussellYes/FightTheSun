@@ -98,18 +98,15 @@ public class PlayerStatsManager : MonoBehaviour
         Hull.OnCurrentHullChanged += HandlePlayerCurrentHullChange;
 
         // Subscribe to throttle events
-        GameManager.ChangeThrottleEvent += GameManager_ChangeThrottleEvent;
+        GameManager.ChangeThrottleEvent += ThrottleChange;
         ObstacleMovement.turbulanceEvent += ThrottleChange;
+        SwipeControls.OnSwipeUp += SwipedUp;
+        SwipeControls.OnSwipeDown += SwipedDown;
 
         //Set goal progress. Should be zero.
         float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
         UpdateDistanceTraveled(distanceThisFrame);
 
-    }
-
-    private void GameManager_ChangeThrottleEvent(float throttleChange)
-    {
-        ThrottleChange(throttleChange);
     }
 
     private void OnDisable()
@@ -123,10 +120,20 @@ public class PlayerStatsManager : MonoBehaviour
         Hull.OnCurrentHullChanged -= HandlePlayerCurrentHullChange;
 
         // Unsubscribe from throttle events
-        GameManager.ChangeThrottleEvent -= GameManager_ChangeThrottleEvent;
+        GameManager.ChangeThrottleEvent -= ThrottleChange;
         ObstacleMovement.turbulanceEvent -= ThrottleChange;
+        SwipeControls.OnSwipeUp -= SwipedUp;
+        SwipeControls.OnSwipeDown -= SwipedDown;
     }
 
+    private void SwipedUp()
+    {
+        ThrottleChange(0.25f);
+    }
+    private void SwipedDown()
+    {
+        ThrottleChange(-0.25f);
+    }
     private void Start()
     {
         LoadData();
