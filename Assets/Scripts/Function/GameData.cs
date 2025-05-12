@@ -15,6 +15,18 @@ public class GameData
     public float totalTime;
     public int totalObstaclesDestroyed;
 
+    [Header("Achievements")]
+    public bool isMission1Complete;
+    public bool isMission2Complete;
+    public bool isMission3Complete;
+    public bool isMission4Complete;
+    public bool isMission5Complete;
+    public bool isMission6Complete;
+    public bool isMission7Complete;
+    public bool isMission8Complete;
+    public bool isMission9Complete;
+    public bool isMission10Complete;
+
     // Serialized level data list (for JSON serialization)
     public List<LevelDataEntry> serializedLevelData;
 
@@ -32,6 +44,18 @@ public class GameData
         totalRareMetal = 0f;
         totalTime = 0f;
         totalObstaclesDestroyed = 0;
+
+        isMission1Complete = false;
+        isMission2Complete = false;
+        isMission3Complete = false;
+        isMission4Complete = false;
+        isMission5Complete = false;
+        isMission6Complete = false;
+        isMission7Complete = false;
+        isMission8Complete = false;
+        isMission9Complete = false;
+        isMission10Complete = false;
+
     }
 
     // Call this after deserialization to rebuild the dictionary

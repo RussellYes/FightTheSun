@@ -384,7 +384,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner1
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -429,7 +429,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 225668184}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 3
@@ -471,6 +471,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &225668184 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 225668183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &238508372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1487,7 +1492,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner2
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1532,7 +1537,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1698991928}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1
@@ -1574,6 +1579,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &1698991928 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1698991927}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1874816448
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -233,6 +233,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16e94795d6ee3ac4d921702535625583, type: 3}
+--- !u!4 &534373534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1487593443}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &558374844 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 719303935094626568, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
@@ -330,7 +335,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1410022956}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1
@@ -567,6 +572,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1204025281 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 2087204962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1217999372
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +723,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17cc178764a3e1479ddd90155e50d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1410022956 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 821189504}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1422844284
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +827,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 534373534}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1
@@ -1087,7 +1102,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1204025281}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1

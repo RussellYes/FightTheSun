@@ -195,9 +195,6 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 HandlePlaying();
                 break;
-            case GameState.DialogueDuringPlay:
-                HandleDialogueDuringPlay();
-                break;
             case GameState.BossBattle:
                 HandleBossBattle();
                 break;
@@ -248,23 +245,6 @@ public class GameManager : MonoBehaviour
         SFXManager.Instance.MuteSFX(false);
 
         pauseMenuUI.gameObject.SetActive(false);
-    }
-
-    private void HandleDialogueDuringPlay()
-    {
-        // Unpause the game time
-        Time.timeScale = 1;
-
-        // Start spawners
-        StartSpawning?.Invoke();
-
-        MusicManager.Instance.ResumeMusic();
-        MusicManager.Instance.MuteMusic(false);
-        SFXManager.Instance.MuteSFX(false);
-        pauseMenuUI.gameObject.SetActive(false);
-
-        // Show dialogue boxes
-        DialogueManager.Instance.MissionDialogue();
     }
     private void HandlePaused()
     {

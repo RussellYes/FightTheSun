@@ -278,7 +278,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner3
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -323,7 +323,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 620703177}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1
@@ -361,6 +361,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &620703177 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 620703176}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &680113605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1193,7 +1198,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner2
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1238,7 +1243,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1611531587}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 3
@@ -1280,6 +1285,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &1611531587 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1611531586}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1697156283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,7 +1695,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner1
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1730,7 +1740,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1993833487}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 3
@@ -1768,6 +1778,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &1993833487 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1993833486}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2012527354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,7 +1840,6 @@ SceneRoots:
   - {fileID: 1040153469}
   - {fileID: 1709032511}
   - {fileID: 1787857896}
-  - {fileID: 1993833486}
   - {fileID: 318690768}
   - {fileID: 51242015}
   - {fileID: 1724863134}
@@ -1835,5 +1849,6 @@ SceneRoots:
   - {fileID: 680113605}
   - {fileID: 951948165}
   - {fileID: 1710318494}
+  - {fileID: 1993833486}
   - {fileID: 1611531586}
   - {fileID: 620703176}

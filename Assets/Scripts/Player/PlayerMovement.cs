@@ -14,32 +14,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float laneDistance; // Distance between lanes
     private int targetLane = 2; // Start in the middle lane (lane 0 is 1st, lane 1 is 2nd, lane 2 is the 3rd of 5 lanes.)
 
-    private Button leftButton;
-    private Button rightButton;
-
     [SerializeField] private AudioClip[] thrusterSounds;
 
     private Quaternion targetRotation;
     private float yAxisRotationSpeed = 1f;
-    private void Awake()
-    {      
-        // Find the buttons by their tags or names
-        leftButton = GameObject.Find("LeftButton").GetComponent<Button>();
-        rightButton = GameObject.Find("RightButton").GetComponent<Button>();
 
-
-        // Ensure buttons are found
-        if (leftButton == null || rightButton == null)
-        {
-            Debug.LogError("LeftButton or RightButton not found in the scene.");
-            return;
-        }
-
-        // Add listeners to the buttons
-        leftButton.onClick.AddListener(MoveLeft);
-        rightButton.onClick.AddListener(MoveRight);
-
-    }
 
     private void OnEnable()
     {

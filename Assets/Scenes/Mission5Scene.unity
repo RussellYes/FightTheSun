@@ -243,7 +243,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner6
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -288,7 +288,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 427954568}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1
@@ -314,6 +314,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &427954568 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 427954567}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &527804297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -578,7 +583,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner3
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -623,7 +628,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 912386938}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1
@@ -661,6 +666,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &912386938 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 912386937}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &994160385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -869,7 +879,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner1
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -914,7 +924,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1005526234}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 3
@@ -952,6 +962,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &1005526234 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1005526233}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040153467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,7 +1055,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner4
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1085,7 +1100,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1061284971}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 4
@@ -1127,6 +1142,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &1061284971 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1061284970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1063701019
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1137,7 +1157,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner2
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1182,7 +1202,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1063701020}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 2
@@ -1220,6 +1240,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &1063701020 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1063701019}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1176018517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,7 +1635,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_Name
-      value: ObstacleSpawner
+      value: ObstacleSpawner5
       objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1655,7 +1680,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: spawnLocation
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1449807091}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: obstacles.Array.size
       value: 1
@@ -1697,6 +1722,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &1449807091 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 1449807090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1499994887
 PrefabInstance:
   m_ObjectHideFlags: 0

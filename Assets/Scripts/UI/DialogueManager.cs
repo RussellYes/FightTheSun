@@ -12,6 +12,16 @@ using static GameManager;
 public class DialogueManager : MonoBehaviour
 {
     public static event Action StartGameCountdownEvent;
+    public static event Action <string> Mission1CompleteEvent;
+    public static event Action <string> Mission2CompleteEvent;
+    public static event Action <string> Mission3CompleteEvent;
+    public static event Action <string> Mission4CompleteEvent;
+    public static event Action <string> Mission5CompleteEvent;
+    public static event Action <string> Mission6CompleteEvent;
+    public static event Action <string> Mission7CompleteEvent;
+    public static event Action <string> Mission8CompleteEvent;
+    public static event Action <string> Mission9CompleteEvent;
+    public static event Action <string> Mission10CompleteEvent;
 
     private GameManager gameManager;
     public static DialogueManager Instance;
@@ -40,9 +50,10 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
-    [SerializeField] private GameObject hullMeterObject;
     [SerializeField] private GameObject healthPrefab;
-    [SerializeField] private GameObject thrusterMeterObject;
+    private Transform hullBarObjectRect;
+    private Transform thrustBarObjectRect;
+    private Transform CheckpointMeterObjectRect;
 
     private GameObject currentArrowInstance;
 
@@ -64,6 +75,23 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.Instance;
+
+        hullBarObjectRect = GameObject.Find("HullBar").GetComponent<RectTransform>();
+        if (hullBarObjectRect == null)
+        {
+            Debug.LogError("DialogueManager Start - HullBar object not found in the scene.");
+        }
+        thrustBarObjectRect = GameObject.Find("ThrustBar").GetComponent<RectTransform>();
+        if (thrustBarObjectRect == null)
+        {
+            Debug.LogError("DialogueManager Start - ThrustBar object not found in the scene.");
+        }
+        CheckpointMeterObjectRect = GameObject.Find("CheckpointMeter").GetComponent<RectTransform>();
+        if (CheckpointMeterObjectRect == null)
+        {
+            Debug.LogError("DialogueManager Start - CheckpointMeter object not found in the scene.");
+        }
+
 
         continueStartDialogueButton.onClick.AddListener(() =>
         {
@@ -136,7 +164,6 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
         shipUIManager.TurnOnShipUI();
-        shipUIManager.Mission1_1();
 
         if (dialogueCount == 0)
         {
@@ -147,37 +174,23 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(StartGameCountdown()); 
             StartCoroutine(DelayedSpawnActions1()); 
 
-            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
-
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
-            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullMeterObjectRect.parent);
-
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
-
             dialogueCount++;
-            dialogueText.text = "Asteroid! Move with these buttons.";
+            dialogueText.text = "Asteroid! Swipe left and right to move.";
+
+            StartCoroutine(MissionDialogueDelay(5f));
         }
         else if (dialogueCount == 1)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
-
-            RectTransform hullMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
 
             // Apply offsets directly
             Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
             Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
-            Vector3 arrowPosition = hullMeterObjectRect.position + xOffset + yOffset;
+            Vector3 arrowPosition = hullBarObjectRect.position + xOffset + yOffset;
 
             // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullMeterObjectRect.parent);
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
 
             // Ensure the arrow is rendered in front by setting its sibling index
             currentArrowInstance.transform.SetAsLastSibling();
@@ -186,14 +199,41 @@ public class DialogueManager : MonoBehaviour
             dialogueCount++;
             dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
         }
-
         else if (dialogueCount == 2)
         {
-            Debug.Log("DialogueManager - Mission 1 - Dialogue Count 2");
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+
+            dialogueCount++;
+            dialogueText.text = "Swipe up and down to change speed.";
+
+            StartCoroutine(MissionDialogueDelay(5f));
+        }
+        else if (dialogueCount == 3)
+        {
+            StartCoroutine(FadeInDialogueBox());
+            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
+            Vector3 arrowPosition = thrustBarObjectRect.position + xOffset + yOffset;
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+            dialogueCount++;
+            dialogueText.text = "This <b><color=blue>BLUE</color></b> gauge shows your speed.";
+        }
+        else if (dialogueCount == 4)
+        {
+            Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
             string endText = "Great flying. You're at the first planet.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission1CompleteEvent?.Invoke("Mission 1 Complete. Story unlocked.");
         }
 
     }
@@ -210,40 +250,24 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown()); 
 
-            RectTransform thrusterMeterObjectRect = thrusterMeterObject.GetComponent<RectTransform>();
-
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 110, 0); // Adjust these values as needed
-            Vector3 arrowPosition = thrusterMeterObjectRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, thrusterMeterObjectRect.parent);
-
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
-
             dialogueCount++;
-            dialogueText.text = "We can change speed with these controls";
+            dialogueText.text = "Will you race to the sun or slow down for loot?";
         }
         else if (dialogueCount == 1)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
-            RectTransform thrusterMeterObjectRect = hullMeterObject.GetComponent<RectTransform>();
-
             // Apply offsets directly
-            Vector3 xOffset = new Vector3(20, 150, 0); // Adjust these values as needed
+            Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
             Vector3 yOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 arrowPosition = thrusterMeterObjectRect.position + xOffset + yOffset;
+            Vector3 arrowPosition = CheckpointMeterObjectRect.position + xOffset + yOffset;
 
             // Define the z axis rotation
             Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
 
             // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, thrusterMeterObjectRect.parent);
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, CheckpointMeterObjectRect.parent);
 
             // Ensure the arrow is rendered in front by setting its sibling index
             currentArrowInstance.transform.SetAsLastSibling();
@@ -260,6 +284,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission2CompleteEvent?.Invoke("Mission 2 Complete. Story unlocked.");
         }
     }
     
@@ -278,7 +303,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(DelayedSpawnActions1());
 
             dialogueCount++;
-            dialogueText.text = "Collect Shipwrecks to repair your ship";
+            dialogueText.text = "Collect Shipwrecks to repair your ship.";
         }
         else if (dialogueCount == 1)
         {
@@ -286,7 +311,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
-            dialogueText.text = "Shipwreck scrap is sold and you get paid";
+            dialogueText.text = "Shipwreck scrap is worth money too!";
         }
 
         else if (dialogueCount == 2)
@@ -296,6 +321,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission3CompleteEvent?.Invoke("Mission 3 Complete. Story unlocked.");
         }
     }
     
@@ -322,16 +348,17 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
-            dialogueText.text = "Hostile ships are eager to meet us.";
+            dialogueText.text = "Will you fire back or fly fast?";
         }
 
         else if (dialogueCount == 2)
         {
             Debug.Log("DialogueManager - Mission 4 - Dialogue Count 2");
-            string endText = "A big gold ship draws attention.";
+            string endText = "Repairs will be needed.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission4CompleteEvent?.Invoke("Mission 4 Complete. Story unlocked.");
         }
     }
     
@@ -363,10 +390,11 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             Debug.Log("DialogueManager - Mission 5 - Dialogue Count 2");
-            string endText = "We need that ore for crafting upgrades.";
+            string endText = "We need ore for buying upgrades.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission5CompleteEvent?.Invoke("Mission 5 Complete. Story unlocked.");
         }
     }
 
@@ -409,6 +437,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission6CompleteEvent?.Invoke("Mission 6 Complete. Story unlocked.");
         }
     }
 
@@ -444,6 +473,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission7CompleteEvent?.Invoke("Mission 7 Complete. Story unlocked.");
         }
     }
 
@@ -479,6 +509,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission8CompleteEvent?.Invoke("Mission 8 Complete. Story unlocked.");
         }
     }
 
@@ -514,6 +545,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission9CompleteEvent?.Invoke("Mission 9 Complete. Story unlocked.");
         }
     }
 
@@ -556,6 +588,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
+            Mission1CompleteEvent?.Invoke("Mission 10 Complete. World Saved...For now.");
         }
 
     }
@@ -658,7 +691,11 @@ public class DialogueManager : MonoBehaviour
         gameManager.EndGame(true);
     }
 
-
+    IEnumerator MissionDialogueDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        MissionDialogue();
+    }
 
 
 

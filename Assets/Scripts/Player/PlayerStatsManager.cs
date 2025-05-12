@@ -273,7 +273,7 @@ public class PlayerStatsManager : MonoBehaviour
         //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled");
 
         // Calculate progress toward the goal
-        if (GameManager.Instance.IsGoalActive)
+        if (gameManager.IsGoalActive)
         {
             //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
             if (gameManager.Goal > 0)
@@ -285,8 +285,7 @@ public class PlayerStatsManager : MonoBehaviour
                 if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f && !isProgressHalfway)
                 {
                     isProgressHalfway = true;
-                    //Debug.Log("gameManager.Goal / 2");
-                    gameManager.SetState(GameState.DialogueDuringPlay);
+                    DialogueManager.Instance.MissionDialogue();
                 }
 
                 // Check if the goal has been reached
