@@ -1042,6 +1042,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1946143305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7976274573598138868, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+  m_PrefabInstance: {fileID: 2296483828125056723}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1962615854 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 269429492707363522, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
@@ -1141,6 +1146,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: goal
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: pauseButton
       value: 
@@ -1580,7 +1589,7 @@ PrefabInstance:
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: thrusterMeterObject
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1946143305}
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: continueStartDialogueButton
       value: 

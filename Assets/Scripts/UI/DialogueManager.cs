@@ -588,7 +588,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission1CompleteEvent?.Invoke("Mission 10 Complete. World Saved...For now.");
+            Mission10CompleteEvent?.Invoke("Mission 10 Complete. World Saved...For now.");
         }
 
     }

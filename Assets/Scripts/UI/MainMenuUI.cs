@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    AchievmentsUI achievmentsUI;
+
     [Header("Planets")]
     [SerializeField] private Button playMission1Button;
     [SerializeField] private Button playMission2Button;
@@ -160,6 +162,8 @@ public class MainMenuUI : MonoBehaviour
         // Ensure the menu is closed on start
         isMenuOpen = false;
         settingsMenu.SetActive(false);
+
+        achievmentsUI = FindFirstObjectByType<AchievmentsUI>();
     }
 
     private void OpenMenu()
