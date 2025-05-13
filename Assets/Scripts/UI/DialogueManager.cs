@@ -12,16 +12,7 @@ using static GameManager;
 public class DialogueManager : MonoBehaviour
 {
     public static event Action StartGameCountdownEvent;
-    public static event Action <string> Mission1CompleteEvent;
-    public static event Action <string> Mission2CompleteEvent;
-    public static event Action <string> Mission3CompleteEvent;
-    public static event Action <string> Mission4CompleteEvent;
-    public static event Action <string> Mission5CompleteEvent;
-    public static event Action <string> Mission6CompleteEvent;
-    public static event Action <string> Mission7CompleteEvent;
-    public static event Action <string> Mission8CompleteEvent;
-    public static event Action <string> Mission9CompleteEvent;
-    public static event Action <string> Mission10CompleteEvent;
+    public static event Action <int, string> MissionCompleteEvent;
 
     private GameManager gameManager;
     public static DialogueManager Instance;
@@ -230,10 +221,10 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
             string endText = "Great flying. You're at the first planet.";
-            StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission1CompleteEvent?.Invoke("Mission 1 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
+            StartCoroutine(EndDialogueScene(endText));
         }
 
     }
@@ -284,7 +275,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission2CompleteEvent?.Invoke("Mission 2 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 2 Complete. Story unlocked.");
         }
     }
     
@@ -321,7 +312,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission3CompleteEvent?.Invoke("Mission 3 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 3 Complete. Story unlocked.");
         }
     }
     
@@ -358,7 +349,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission4CompleteEvent?.Invoke("Mission 4 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 4 Complete. Story unlocked.");
         }
     }
     
@@ -394,7 +385,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission5CompleteEvent?.Invoke("Mission 5 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 5 Complete. Story unlocked.");
         }
     }
 
@@ -437,7 +428,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission6CompleteEvent?.Invoke("Mission 6 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 6 Complete. Story unlocked.");
         }
     }
 
@@ -473,7 +464,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission7CompleteEvent?.Invoke("Mission 7 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 7 Complete. Story unlocked.");
         }
     }
 
@@ -509,7 +500,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission8CompleteEvent?.Invoke("Mission 8 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 8 Complete. Story unlocked.");
         }
     }
 
@@ -545,7 +536,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission9CompleteEvent?.Invoke("Mission 9 Complete. Story unlocked.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 9 Complete. Story unlocked.");
         }
     }
 
@@ -588,7 +579,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
-            Mission10CompleteEvent?.Invoke("Mission 10 Complete. World Saved...For now.");
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 10 Complete. World Saved...For now.");
         }
 
     }

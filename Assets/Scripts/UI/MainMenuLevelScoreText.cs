@@ -71,7 +71,7 @@ public class MainMenuLevelScoreText : MonoBehaviour
             Debug.Log($"No saved data found for level {levelNumber}");
         }
 
-        CheckAchievements(levelNumber);
+        CheckLevelUnlockStatus(levelNumber);
     }
 
     private IEnumerator DelayedLoad(int levelNumber)
@@ -102,58 +102,24 @@ public class MainMenuLevelScoreText : MonoBehaviour
         bestObstaclesDestroyedText.text = obstaclesDestroyed > 0 ?
             $"Obstacles: {obstaclesDestroyed}" : "Obstacles: ---";
     }
-
-
-    private void CheckAchievements(int levelNumber)
+    private void CheckLevelUnlockStatus(int levelNumber)
     {
-        GameData gameData = DataPersister.Instance.CurrentGameData;
         bool isLevelUnlocked = false;
+        var gameData = DataPersister.Instance.CurrentGameData;
 
-        // Level 1 is always unlocked
+        // Force Level 1 to always be unlocked
         if (levelNumber == 1)
         {
             isLevelUnlocked = true;
+            gameData.SetMissionUnlocked(1, true); // Ensure unlock state is set
         }
-
-        // Check which mission corresponds to this level
-        switch (levelNumber)
+        else if (levelNumber >= 2 && levelNumber <= 10)
         {
-            case 2:
-                isLevelUnlocked = gameData.isMission1Complete;
-                break;
-            case 3:
-                isLevelUnlocked = gameData.isMission2Complete;
-                break;
-            case 4:
-                isLevelUnlocked = gameData.isMission3Complete;
-                break;
-            case 5:
-                isLevelUnlocked = gameData.isMission4Complete;
-                break;
-            case 6:
-                isLevelUnlocked = gameData.isMission5Complete;
-                break;
-            case 7:
-                isLevelUnlocked = gameData.isMission6Complete;
-                break;
-            case 8:
-                isLevelUnlocked = gameData.isMission7Complete;
-                break;
-            case 9:
-                isLevelUnlocked = gameData.isMission8Complete;
-                break;
-            case 10:
-                isLevelUnlocked = gameData.isMission9Complete;
-                break;
-            default:
-                Debug.LogWarning($"No unlock condition for level {levelNumber}");
-                break;
+            isLevelUnlocked = gameData.GetMissionUnlocked(levelNumber);
         }
-    
 
-        // Set planet active state based on unlock status
         lockedPlanet.SetActive(!isLevelUnlocked);
-        Debug.Log($"Level {levelNumber} unlocked status: {!isLevelUnlocked}");
+        Debug.Log($"Level {levelNumber} unlocked: {isLevelUnlocked}");
     }
 }
 

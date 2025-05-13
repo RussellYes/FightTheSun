@@ -104,8 +104,6 @@ public class DataPersister : MonoBehaviour
         ScoreManager scoreManager = FindFirstObjectByType<ScoreManager>();
         if (scoreManager != null)
         {
-            // Update the totals from ScoreManager (they should already be updated)
-            // We mainly need to ensure level data is saved
             Debug.Log("DataPersister - ScoreManager found, game data updated");
         }
         else

@@ -27374,6 +27374,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AchievementsUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1460068729647183674, guid: 6df5ee997a1cebb48843a38f917777d4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2915049471745230901, guid: 6df5ee997a1cebb48843a38f917777d4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -27440,7 +27444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2915049471745230901, guid: 6df5ee997a1cebb48843a38f917777d4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 2915049471745230901, guid: 6df5ee997a1cebb48843a38f917777d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
