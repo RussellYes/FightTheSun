@@ -269,9 +269,6 @@ public class ScoreManager : MonoBehaviour
             gameData.totalRareMetal = 0f;
             gameData.totalObstaclesDestroyed = 0;
 
-            // Clear level data
-            gameData.levelData.Clear();
-
             // Update local totals
             totalMoney = 0f;
             totalTime = 0f;

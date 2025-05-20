@@ -186,7 +186,7 @@ public class EndConditionsUI : MonoBehaviour
             else
             {
                 winBackground.color = loseColor;
-                endText.text = "The sun implodes";
+                endText.text = "The sun implodes sendng you back in time.";
                 StartCoroutine(ShowLoseTextsWithDelay());
             }
         }
@@ -314,7 +314,7 @@ public class EndConditionsUI : MonoBehaviour
     IEnumerator ShowLoseTextsWithDelay()
     {
         loseText.gameObject.SetActive(true);
-        loseText.text = "What will you remember?";
+        loseText.text = "You're sent back in time. What will you remember?";
         winBackground.color = memoryUpgradeColor;
 
         float loseTime = scoreManager.GetTotalTime() + gameManager.GameTime;
@@ -341,7 +341,7 @@ public class EndConditionsUI : MonoBehaviour
         PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
 
-        // Load memory score from GameData instead of PlayerPrefs
+        // Load memory score
         memoryScore = 0;
         if (DataPersister.Instance != null &&
             DataPersister.Instance.CurrentGameData != null &&
@@ -527,8 +527,6 @@ public class EndConditionsUI : MonoBehaviour
     private void Revive()
     {
         reviveEvent?.Invoke();
-
-
 
         LoadMainMenuScene();
     }

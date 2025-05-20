@@ -333,21 +333,6 @@ public class GameManager : MonoBehaviour
         // Set player speed to 25%
         ChangeThrottleEvent?.Invoke(-1f);
     }
-
-    private void HandleEndUI()
-    {
-        Debug.Log("GameManager HandleEndUI");
-
-        // Stop spawners
-        StopSpawning?.Invoke();
-
-        // Stop goal progress
-        StopGoalProgress();
-
-        // Show end UI
-        endConditionsUI.SetActive(true); // Activate the end conditions UI GameObject
-    }
-
     private void StopGoalProgress()
     {
         isGoalActive = false;
@@ -363,9 +348,6 @@ public class GameManager : MonoBehaviour
 
         SetState(GameState.EndUI);
 
-        // Activate the end conditions UI
-        endConditionsUI.SetActive(true);
-
         // Trigger the EndGameEvent
         EndGameEvent?.Invoke(isWin);
         EndGameDataSaveEvent?.Invoke();
@@ -375,6 +357,17 @@ public class GameManager : MonoBehaviour
 
         // Pause the game time
         Time.timeScale = 0;
+    }
+
+    private void HandleEndUI()
+    {
+        Debug.Log("GameManager HandleEndUI");
+
+        // Stop goal progress
+        StopGoalProgress();
+
+        // Show end UI
+        endConditionsUI.SetActive(true); // Activate the end conditions UI GameObject
     }
     private void StartSpawners()
     {
