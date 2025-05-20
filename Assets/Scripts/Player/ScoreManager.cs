@@ -68,10 +68,10 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleEntersSceneEvent += OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent += OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent += OnPlayerGainsLoot;
-        GameManager.EndGameDataSaveEvent += UpdateData;
-        EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveDataAtEndOfLevel;
-        EndConditionsUI.reviveEvent += ResetData;
-        DataPersister.NewGameEvent += OnNewGame;
+        GameManager.EndGameDataSaveEvent += EndGameLevelDataSave; 
+        EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveBestDataAtEndOfLevel;
+        EndConditionsUI.reviveEvent += ResetDataOnDeath;
+        DataPersister.NewGameEvent += ResetDataOnNewGame;
     }
 
     private void OnDisable()
@@ -79,16 +79,55 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleEntersSceneEvent -= OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent -= OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent -= OnPlayerGainsLoot;
-        GameManager.EndGameDataSaveEvent -= UpdateData;
-        EndConditionsUI.EndConditionUIScoreChoiceEvent -= SaveDataAtEndOfLevel;
+        GameManager.EndGameDataSaveEvent -= EndGameLevelDataSave;
+        EndConditionsUI.EndConditionUIScoreChoiceEvent -= SaveBestDataAtEndOfLevel; 
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        EndConditionsUI.reviveEvent -= ResetData;
-        DataPersister.NewGameEvent -= OnNewGame;
+        EndConditionsUI.reviveEvent -= ResetDataOnDeath;
+        DataPersister.NewGameEvent -= ResetDataOnNewGame;
     }
 
-    private void OnNewGame()
+    private void ResetDataOnNewGame()
     {
-        ResetData();
+
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            var gameData = DataPersister.Instance.CurrentGameData;
+
+            // Reset all level data
+            gameData.levelData.Clear();
+            for (int i = 1; i <= 10; i++)
+            {
+                gameData.levelData[i] = new LevelData(0, 0, 0);
+                gameData.SetMissionComplete(i, false);
+            }
+
+            // Reset unlock status (only Level 1 unlocked)
+            gameData.isMission1Unlocked = true;
+            for (int i = 2; i <= 10; i++)
+            {
+                gameData.SetMissionUnlocked(i, false);
+            }
+
+            // Update local copies
+            totalMoney = 0f;
+            totalTime = 0f;
+            totalMetal = 0f;
+            totalRareMetal = 0f;
+            totalObstaclesDestroyed = 0;
+
+            // Update totals in GameData
+            gameData.totalMoney = totalMoney;
+            gameData.totalTime = totalTime;
+            gameData.totalMetal = totalMetal;
+            gameData.totalRareMetal = totalRareMetal;
+            gameData.totalObstaclesDestroyed = totalObstaclesDestroyed;
+
+            DataPersister.Instance.SaveCurrentGame();
+
+            OnLevelMoneyChanged?.Invoke(levelMoney);
+            OnLevelMetalChanged?.Invoke(levelMetal);
+            OnLevelRareMetalChanged?.Invoke(levelRareMetal);
+        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -131,51 +170,6 @@ public class ScoreManager : MonoBehaviour
         levelObstaclesDestroyed = 0;
         totalObstaclesInScene = 0;
         currentObstaclesInScene = 0;
-
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
-        {
-            if (gameManager == null)
-            {
-                gameManager = FindFirstObjectByType<GameManager>();
-            }
-
-            var gameData = DataPersister.Instance.CurrentGameData;
-
-            //Reset level data for each level adjusted for build numbers
-            for (int buildIndex = 2; buildIndex <= 11; buildIndex++)
-            {
-                int levelNumber = buildIndex - 1; // Converts build index to level number
-
-
-                if (gameData.levelData.ContainsKey(levelNumber))
-                {
-                    gameData.levelData[levelNumber] = new LevelData(0, 0, 0); // Reset level data
-                }
-                else
-                {
-                    gameData.levelData.Add(levelNumber, new LevelData(0, 0, 0)); // Add level data if missing
-                }
-
-                // Reset unlock status (except Level 1)
-                if (levelNumber != 1)
-                {
-                    gameData.SetMissionUnlocked(levelNumber, false);
-                }
-            }            
-
-            // Update totals in GameData
-            gameData.totalMoney = totalMoney;
-            gameData.totalMetal = totalMetal;
-            gameData.totalRareMetal = totalRareMetal;
-            gameData.totalTime = totalTime;
-            gameData.totalObstaclesDestroyed = totalObstaclesDestroyed;
-
-            DataPersister.Instance.SaveCurrentGame();
-
-            OnLevelMoneyChanged?.Invoke(levelMoney);
-            OnLevelMetalChanged?.Invoke(levelMetal);
-            OnLevelRareMetalChanged?.Invoke(levelRareMetal);
-        }
     }
 
     private void OnPlayerGainsLoot(float metalGained, float rareMetalGained)
@@ -220,7 +214,7 @@ public class ScoreManager : MonoBehaviour
         OnTotalRareMetalChanged?.Invoke(totalRareMetal);
     }
 
-    private void UpdateData()
+    private void EndGameLevelDataSave()
     {
         // Add level progress to totals
         ChangeTotalMoney(levelMoney);
@@ -243,7 +237,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    private void SaveDataAtEndOfLevel()
+    private void SaveBestDataAtEndOfLevel()
     {
         int levelNumber = SceneManager.GetActiveScene().buildIndex -1;
 
@@ -264,6 +258,15 @@ public class ScoreManager : MonoBehaviour
             else
             {
                 gameData.levelData.Add(levelNumber, new LevelData(levelTime, levelMoney, levelObstaclesDestroyed));
+            }
+
+            // Mark level as complete
+            gameData.SetMissionComplete(levelNumber, true);
+
+            // Unlock next level (if not last level)
+            if (levelNumber < 10)
+            {
+                gameData.SetMissionUnlocked(levelNumber + 1, true);
             }
 
             // Update totals in GameData
@@ -299,18 +302,18 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    private void ResetData()
+    private void ResetDataOnDeath()
     {
         if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
         {
             var gameData = DataPersister.Instance.CurrentGameData;
+            int currentLevel = SceneManager.GetActiveScene().buildIndex - 1;
 
-            // Reset totals
-            gameData.totalMoney = 0f;
-            gameData.totalTime = 0f;
-            gameData.totalMetal = 0f;
-            gameData.totalRareMetal = 0f;
-            gameData.totalObstaclesDestroyed = 0;
+            // Reset all levels saved data
+            for (int i = 1; i <= 10; i++)
+            {
+                gameData.levelData[i] = new LevelData(0, 0, 0);
+            }
 
             // Update local totals
             totalMoney = 0f;
@@ -318,6 +321,16 @@ public class ScoreManager : MonoBehaviour
             totalMetal = 0f;
             totalRareMetal = 0f;
             totalObstaclesDestroyed = 0;
+
+            // Lock all levels except Level 1
+            for (int i = 2; i <= 10; i++)
+            {
+                gameData.SetMissionUnlocked(i, false);
+            }
+
+            // 5. Force immediate save
+            DataPersister.Instance.SaveCurrentGame();
+            Debug.Log("ScoreManager - ResetDataOnDeath - all level data zeroed after death");
         }
 
         // Reset level-specific data
@@ -332,12 +345,5 @@ public class ScoreManager : MonoBehaviour
         OnMoneyChanged?.Invoke(totalMoney);
         OnTotalMetalChanged?.Invoke(totalMetal);
         OnTotalRareMetalChanged?.Invoke(totalRareMetal);
-    }
-
-    private string FormatTime(float timeInSeconds)
-    {
-        int minutes = Mathf.FloorToInt(timeInSeconds / 60);
-        int seconds = Mathf.FloorToInt(timeInSeconds % 60);
-        return $"{minutes:00}:{seconds:00}";
     }
 }
