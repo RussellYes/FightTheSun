@@ -2691,7 +2691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWin: 0
   winBackground: {fileID: 82445401732004909}
-  winSprite: {fileID: 21300000, guid: ab04be348488f1245876380096a144b6, type: 3}
+  winSprite: {fileID: 0}
   endText: {fileID: 1185836012172421875}
   newScoreSaveButtonFront: {fileID: 5772873407996965735}
   newScoreSaveButtonBack: {fileID: 5179911550708837843}

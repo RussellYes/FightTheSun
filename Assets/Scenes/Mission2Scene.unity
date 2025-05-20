@@ -1528,6 +1528,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
+      propertyPath: planet1
+      value: 
+      objectReference: {fileID: 5599978935364366169, guid: 42c87d89326b1cd42b394befcdcde2f5, type: 3}
+    - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 638258882}

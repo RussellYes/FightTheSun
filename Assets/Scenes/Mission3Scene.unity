@@ -848,6 +848,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
+      propertyPath: planet1
+      value: 
+      objectReference: {fileID: 5599978935364366169, guid: f2dc74e2fec5973488345b0a2e05bdad, type: 3}
+    - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 1756494217}
@@ -874,7 +878,7 @@ PrefabInstance:
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: planetSpawnPosition
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 595514689}
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: thrusterMeterObject
       value: 
