@@ -155,6 +155,12 @@ public class ScoreManager : MonoBehaviour
                 {
                     gameData.levelData.Add(levelNumber, new LevelData(0, 0, 0)); // Add level data if missing
                 }
+
+                // Reset unlock status (except Level 1)
+                if (levelNumber != 1)
+                {
+                    gameData.SetMissionUnlocked(levelNumber, false);
+                }
             }            
 
             // Update totals in GameData
