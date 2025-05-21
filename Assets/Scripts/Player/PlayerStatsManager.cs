@@ -143,7 +143,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Update distance traveled based on player's speed
         if (isMoving && GameManager.Instance.IsGoalActive)
         {
-            Debug.Log("PlayerStatsManager_Update_if (isMoving)");
+            //Debug.Log("PlayerStatsManager_Update_if (isMoving)");
             float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
             UpdateDistanceTraveled(distanceThisFrame);
         }
@@ -185,7 +185,7 @@ public class PlayerStatsManager : MonoBehaviour
             isMoving = true;
         }
 
-        Debug.Log("Total Thrust Updated: " + effectiveThrust);
+        Debug.Log("PlayerStatsManager - HandleThrustChange - Total Thrust Updated: " + effectiveThrust);
 
         // Trigger thrust change event
         OnCurrentThrustChanged?.Invoke(this, new OnCurrentThrustChangedEventArgs { progressNormalized = throttle });
@@ -194,13 +194,13 @@ public class PlayerStatsManager : MonoBehaviour
     private void HandlePlayerHullMaxChange(float hullMax)
     {
         playerHullMax = hullMax * mechanicsSkill;
-        Debug.Log("Total hullMax Updated: " + playerHullMax);
+        Debug.Log("PlayerStatsManager - HandlePlayerHullMaxChage - Total hullMax Updated: " + playerHullMax);
     }
 
     private void HandlePlayerCurrentHullChange(float currentHull)
     {
         playerCurrentHull = currentHull;
-        Debug.Log("Total CurrentHull Updated: " + playerCurrentHull);
+        Debug.Log("PlayerStatsManager - HandlePlayerCurrentHullChange - Total CurrentHull Updated: " + playerCurrentHull);
 
         // Calculate normalized progress and trigger the event
         if (playerHullMax > 0)
@@ -210,7 +210,7 @@ public class PlayerStatsManager : MonoBehaviour
         }
         if (playerHullMax == 0)
         {
-            Debug.LogWarning("playerHullMax is 0. Cannot calculate progressNormalized.");
+            Debug.LogWarning("PlayerStatsManager - HandlePlayerCurrentHullChange - playerHullMax is 0. Cannot calculate progressNormalized.");
         }
     }
 
@@ -252,7 +252,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Player has died. Calling EndGame(false).");
+        Debug.Log("PlayerStatsManager - Die - Player has died. Calling EndGame(false).");
 
         gameManager.EndGame(false);
 
@@ -353,14 +353,14 @@ public class PlayerStatsManager : MonoBehaviour
 
         if (repairCountdown <= 0)
         {
+            ChangeHealth(1f);
+
             repairCountdown = repairTimer - roboticsSkill;
 
             if (repairCountdown < 1)
             {
                 repairCountdown = 1;
             }
-
-            HandlePlayerCurrentHullChange(1f);
         }
     }
 }

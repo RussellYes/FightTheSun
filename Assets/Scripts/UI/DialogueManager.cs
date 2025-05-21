@@ -490,13 +490,13 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
-            dialogueText.text = "Why are the Champ's employees in escape pods?";
+            dialogueText.text = "A graveyard of ships.";
         }
 
         else if (dialogueCount == 2)
         {
             Debug.Log("DialogueManager - Mission 8 - Dialogue Count 2");
-            string endText = "The Champ jettisoned people who disagreed with his plan.";
+            string endText = "You've traveled farther than most. Keep going.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 0;
@@ -526,7 +526,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
-            dialogueText.text = "What will you say when you find the Champ?";
+            dialogueText.text = "Let nothing stop you. You're so close.";
         }
 
         else if (dialogueCount == 2)

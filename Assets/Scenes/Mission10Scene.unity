@@ -806,6 +806,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8054099233051505604, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
+      propertyPath: hullMax
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8553710876239452228, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

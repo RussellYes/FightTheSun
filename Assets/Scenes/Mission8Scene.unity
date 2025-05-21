@@ -401,6 +401,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8054099233051505604, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
+      propertyPath: hullMax
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8553710876239452228, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1188,6 +1192,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7932307882309412533, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: winSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1df20bc88632b664baba34a28bd784e3, type: 3}
     - target: {fileID: 8531490564633930242, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
       propertyPath: m_Name
       value: ForegroundUIHolder

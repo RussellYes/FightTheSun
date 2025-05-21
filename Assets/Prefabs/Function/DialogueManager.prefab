@@ -57,9 +57,7 @@ MonoBehaviour:
   countdownText: {fileID: 0}
   planetSpawnPosition: {fileID: 0}
   planet1: {fileID: 5599978935364366169, guid: cbac9f9eb0b6e3e40bd10716e2ef7ced, type: 3}
-  boss1: {fileID: 0}
-  boss2: {fileID: 0}
+  boss1: {fileID: 4301909746815339928, guid: 8706a912d40a97c4a9bd73a05b989890, type: 3}
+  boss2: {fileID: 4301909746815339928, guid: ef907bec3aa5e834991200a2c04a63c5, type: 3}
   highLightArrowPrefab: {fileID: 1695043484928530785, guid: f00596f1c243fde42afb5e80239647b3, type: 3}
-  hullMeterObject: {fileID: 0}
   healthPrefab: {fileID: 4301909746815339928, guid: 8327a60abca002d43837e0706b4e52b1, type: 3}
-  thrusterMeterObject: {fileID: 0}

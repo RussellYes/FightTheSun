@@ -219,6 +219,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7932307882309412533, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: winSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 12d66881cb92c644fb4dd812787e72c7, type: 3}
     - target: {fileID: 8531490564633930242, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
       propertyPath: m_Name
       value: ForegroundUIHolder
@@ -343,6 +347,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5435460692217832303, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8054099233051505604, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
+      propertyPath: hullMax
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8553710876239452228, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
@@ -1255,6 +1263,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 978041441}
     - target: {fileID: 7273540544669516638, guid: c58d693a8571f9c4399841a6e7f6e8cf, type: 3}
+      propertyPath: playerHullMax
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7273540544669516638, guid: c58d693a8571f9c4399841a6e7f6e8cf, type: 3}
       propertyPath: throttleUpButton
       value: 
       objectReference: {fileID: 0}
@@ -1959,6 +1971,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
+      propertyPath: boss1
+      value: 
+      objectReference: {fileID: 4301909746815339928, guid: 8706a912d40a97c4a9bd73a05b989890, type: 3}
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: planet1
       value: 
