@@ -12,13 +12,12 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private bool isSpawnSpecial1;
     [SerializeField] private bool isSpawnBoss1;
     [SerializeField] private bool isSpawnBoss2;
+    [SerializeField] private bool isSpawnBoss3;
     [SerializeField] private bool isSpawnSingleObstacleSingleLocation;
     [SerializeField] private bool isSpawnSingleObstacleRandomLocation;
     [SerializeField] private bool isSpawnRandomObstacleSingleLocation;
     [SerializeField] private bool isSpawnRandomObstacleRandomLocation;
     
-
-
     [Header("Obstacle creation")]
     private bool isSpawnerOn;
     [SerializeField] private GameObject[] obstacles;
@@ -54,6 +53,7 @@ public class ObstacleSpawner : MonoBehaviour
         GameManager.StopSpawning += TurnOffSpawner;
         GameManager.StartSpawning += TurnOnSpawner;
         DialogueManager.SpawnSpecialEvent.AddListener(SpawnSpecial);
+        DialogueManager.ShipGraveyardEvent += Boss3;
         Boss.SpawnEventGroup1 += EventGroup1;
         Boss.SpawnEventGroup2 += EventGroup2;
         Boss.SpawnEventGroup3 += EventGroup3;
@@ -66,6 +66,7 @@ public class ObstacleSpawner : MonoBehaviour
         GameManager.StopSpawning -= TurnOffSpawner;
         GameManager.StartSpawning -= TurnOnSpawner;
         DialogueManager.SpawnSpecialEvent.RemoveListener(SpawnSpecial);
+        DialogueManager.ShipGraveyardEvent -= Boss3;
         Boss.SpawnEventGroup1 -= EventGroup1;
         Boss.SpawnEventGroup2 -= EventGroup2;
         Boss.SpawnEventGroup3 -= EventGroup3;
@@ -151,7 +152,35 @@ public class ObstacleSpawner : MonoBehaviour
             Instantiate(obstacleToSpawn, spawnLocation.position, Quaternion.identity);
         }
     }
-    
+
+    private void Boss3(GameObject boss3)
+    {
+        StartCoroutine(SpawnObstaclesWithDelay(boss3));
+    }
+
+    IEnumerator SpawnObstaclesWithDelay(GameObject boss3)
+    {
+        // Random number of obstacles to spawn (2-4)
+        int numberOfObstacles = Random.Range(2, 5);
+
+        for (int i = 0; i < numberOfObstacles; i++)
+        {
+            // Select the first obstacle from the array
+            GameObject obstacleToSpawn = obstacles[0];
+
+            // Instantiate the obstacle at the calculated position
+            Instantiate(obstacleToSpawn, spawnLocation.position, Quaternion.identity);
+
+            // Only wait if this isn't the last obstacle
+            if (i < numberOfObstacles - 1)
+            {
+                // Wait for a random time between 1-3 seconds
+                float waitTime = Random.Range(1f, 3f);
+                yield return new WaitForSeconds(waitTime);
+            }
+        }
+    }
+
     private void SpawnSingleObstacleSingleLocation()
     {
         Debug.Log("SpawnSingleObstacleSingleLocation");

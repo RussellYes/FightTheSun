@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static event Action StartGameCountdownEvent;
     public static event Action <int, string> MissionCompleteEvent;
+    public static event Action <GameObject> ShipGraveyardEvent;
 
     private GameManager gameManager;
     public static DialogueManager Instance;
@@ -38,6 +39,7 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] private GameObject boss1;
     [SerializeField] private GameObject boss2;
+    [SerializeField] private GameObject boss3;
 
     [Header("Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
@@ -446,7 +448,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(StartGameCountdown());
 
             dialogueCount++;
-            dialogueText.text = "Radiation from the Sun is heating up the ship.";
+            dialogueText.text = "Radiation from the Sun is damaging the ship.";
         }
         else if (dialogueCount == 1)
         {
@@ -475,7 +477,7 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueCount == 0)
         {
-            missionTitleText.text = "Mission 8: VIP Treatment";
+            missionTitleText.text = "Mission 8: Fireflies";
 
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
@@ -488,6 +490,8 @@ public class DialogueManager : MonoBehaviour
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
+
+            ShipGraveyardEvent?.Invoke(boss3);
 
             dialogueCount++;
             dialogueText.text = "A graveyard of ships.";

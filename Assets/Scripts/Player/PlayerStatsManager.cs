@@ -300,6 +300,14 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void LoadData()
     {
+        // Check if DataPersister exists and has valid data
+        if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
+        {
+            Debug.Log("PlayerStatsManager - LoadData - DataPersister or CurrentGameData is null. Loading defaults.");
+            LoadDefaultStats();
+            return;
+        }
+
         // Load player stats from PlayerPrefs
         engineeringSkill = DataPersister.Instance.CurrentGameData.engineeringSkill;
         pilotingSkill = DataPersister.Instance.CurrentGameData.pilotingSkill;
@@ -315,6 +323,20 @@ public class PlayerStatsManager : MonoBehaviour
         Debug.Log($"Loaded Robotics: {roboticsSkill}");
         Debug.Log($"Loaded Combat: {combatSkill}");
     }
+
+    private void LoadDefaultStats()
+    {
+        engineeringSkill = 1f;
+        pilotingSkill = 1f;
+        mechanicsSkill = 1f;
+        miningSkill = 1f;
+        roboticsSkill = 1f;
+        combatSkill = 1f;
+
+        Debug.Log("PlayerStatsManager - LoadDefaultStats - Using default skill values.");
+    }
+
+
     public void MultiplyEngineeringSkill()
     {
         engineeringSkill += engineeringSkill * skillIncreaseAmt;
