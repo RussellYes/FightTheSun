@@ -72,6 +72,7 @@ public class ScoreManager : MonoBehaviour
         EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveBestDataAtEndOfLevel;
         EndConditionsUI.reviveEvent += ResetDataOnDeath;
         DataPersister.NewGameEvent += ResetDataOnNewGame;
+        MainMenuUI.NewGameEvent += ResetDataOnNewGame;
     }
 
     private void OnDisable()
@@ -84,6 +85,7 @@ public class ScoreManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
         EndConditionsUI.reviveEvent -= ResetDataOnDeath;
         DataPersister.NewGameEvent -= ResetDataOnNewGame;
+        MainMenuUI.NewGameEvent -= ResetDataOnNewGame;
     }
 
     private void ResetDataOnNewGame()

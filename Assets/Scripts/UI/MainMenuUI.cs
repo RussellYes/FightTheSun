@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,6 +6,9 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    public static event Action NewGameEvent;
+
+
     [Header("Planets")]
     [SerializeField] private Button playMission1Button;
     [SerializeField] private Button playMission2Button;
@@ -26,7 +30,10 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private Color pauseColor;
     [SerializeField] private Image mainMenuBackground;
-
+    [SerializeField] private GameObject NewGameConfirmationWindow;
+    [SerializeField] private Button NewGameButton;
+    [SerializeField] private Button NewGameConfirmationButton;
+    [SerializeField] private Color newGameConfirmationColor;
 
     [Header("Volume Controls")]
     [SerializeField] private Slider musicVolumeSlider;
@@ -106,6 +113,18 @@ public class MainMenuUI : MonoBehaviour
             Debug.Log("continueButton.onClick");
             CloseMenu();
         });
+        NewGameButton.onClick.AddListener(() =>
+        {
+            Debug.Log("NewGameButton.onClick");
+            OpenNewGameConfirmationWindow();
+        });
+        NewGameConfirmationButton.onClick.AddListener(() =>
+        {
+            Debug.Log("NewGameConfirmationButton.onClick");
+            NewGameEvent?.Invoke();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        });
+
         quitButton.onClick.AddListener(() =>
         {
             Debug.Log("Quit");
@@ -167,6 +186,7 @@ public class MainMenuUI : MonoBehaviour
         isMenuOpen = true; // Menu is now open
         settingsMenu.SetActive(true);
         mainMenuBackground.color = pauseColor;
+        NewGameConfirmationWindow.SetActive(false);
 
         // Store the original music clip
         originalMusicClip = MusicManager.Instance.GetCurrentClip();
@@ -200,6 +220,12 @@ public class MainMenuUI : MonoBehaviour
         // Unmute music and SFX when the menu is closed
         MusicManager.Instance.MuteMusic(false);
         SFXManager.Instance.MuteSFX(false);
+    }
+
+    private void OpenNewGameConfirmationWindow()
+    {
+        NewGameConfirmationWindow.SetActive(true);
+        mainMenuBackground.color = newGameConfirmationColor;
     }
 
     public void SetMusicVolume(float volume)

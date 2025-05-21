@@ -301,50 +301,55 @@ public class PlayerStatsManager : MonoBehaviour
     private void LoadData()
     {
         // Load player stats from PlayerPrefs
-        engineeringSkill = PlayerPrefs.GetFloat("EngineeringSkill", 1);
-        pilotingSkill = PlayerPrefs.GetFloat("PilotingSkill", 1);
-        mechanicsSkill = PlayerPrefs.GetFloat("MechanicsSkill", 1);
-        miningSkill = PlayerPrefs.GetFloat("MiningSkill", 1);
-        roboticsSkill = PlayerPrefs.GetFloat("RoboticsSkill", 1);
-        combatSkill = PlayerPrefs.GetFloat("CombatSkill", 1);
+        engineeringSkill = DataPersister.Instance.CurrentGameData.engineeringSkill;
+        pilotingSkill = DataPersister.Instance.CurrentGameData.pilotingSkill;
+        mechanicsSkill = DataPersister.Instance.CurrentGameData.mechanicsSkill;
+        miningSkill = DataPersister.Instance.CurrentGameData.miningSkill;
+        roboticsSkill = DataPersister.Instance.CurrentGameData.roboticsSkill;
+        combatSkill = DataPersister.Instance.CurrentGameData.combatSkill;
 
+        Debug.Log($"Loaded Engineering: {engineeringSkill}");
+        Debug.Log($"Loaded Piloting: {pilotingSkill}");
+        Debug.Log($"Loaded Mechanics: {mechanicsSkill}");
+        Debug.Log($"Loaded Mining: {miningSkill}");
         Debug.Log($"Loaded Robotics: {roboticsSkill}");
+        Debug.Log($"Loaded Combat: {combatSkill}");
     }
     public void MultiplyEngineeringSkill()
     {
         engineeringSkill += engineeringSkill * skillIncreaseAmt;
-        PlayerPrefs.SetFloat("EngineeringSkill",engineeringSkill);
-        PlayerPrefs.Save();
+        DataPersister.Instance.CurrentGameData.engineeringSkill = engineeringSkill;
+        DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyPilotingSkill()
     {
         pilotingSkill += pilotingSkill * skillIncreaseAmt;
-        PlayerPrefs.SetFloat("PilotingSkill", pilotingSkill);
-        PlayerPrefs.Save();
+        DataPersister.Instance.CurrentGameData.pilotingSkill = pilotingSkill;
+        DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyMechanicsSkill()
     {
         mechanicsSkill += mechanicsSkill * skillIncreaseAmt;
-        PlayerPrefs.SetFloat("MechanicsSkill", mechanicsSkill);
-        PlayerPrefs.Save();
+        DataPersister.Instance.CurrentGameData.mechanicsSkill = mechanicsSkill;
+        DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyMiningSkill()
     {
         miningSkill += miningSkill * skillIncreaseAmt;
-        PlayerPrefs.SetFloat("MiningSkill", miningSkill);
-        PlayerPrefs.Save();
+        DataPersister.Instance.CurrentGameData.miningSkill = miningSkill;
+        DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyRoboticsSkill()
     {
         roboticsSkill += roboticsSkill * skillIncreaseAmt;
-        PlayerPrefs.SetFloat("RoboticsSkill", roboticsSkill);
-        PlayerPrefs.Save();
+        DataPersister.Instance.CurrentGameData.roboticsSkill = roboticsSkill;
+        DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyCombatSkill()
     {
         combatSkill += combatSkill * skillIncreaseAmt;
-        PlayerPrefs.SetFloat("CombatSkill", combatSkill);
-        PlayerPrefs.Save();
+        DataPersister.Instance.CurrentGameData.combatSkill = combatSkill;
+        DataPersister.Instance.SaveCurrentGame();
     }
 
     private void RepairHull()

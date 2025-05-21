@@ -27,6 +27,7 @@ public class GameData
     public bool isMission9Complete;
     public bool isMission10Complete;
 
+    [Header("Level Unlocks")]
     public bool isMission1Unlocked;
     public bool isMission2Unlocked;
     public bool isMission3Unlocked;
@@ -37,6 +38,14 @@ public class GameData
     public bool isMission8Unlocked;
     public bool isMission9Unlocked;
     public bool isMission10Unlocked;
+
+    [Header("Player Skills")]
+    public float engineeringSkill = 1;
+    public float pilotingSkill = 1;
+    public float mechanicsSkill = 1;
+    public float miningSkill = 1;
+    public float roboticsSkill = 1;
+    public float combatSkill = 1;
 
     // Serialized level data list (for JSON serialization)
     public List<LevelDataEntry> serializedLevelData;

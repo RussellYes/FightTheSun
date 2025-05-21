@@ -100,6 +100,18 @@ public class DataPersister : MonoBehaviour
     {
         Debug.Log("DataPersister - Updating game data");
 
+        // Update player stats if PlayerStatsManager exists
+        PlayerStatsManager playerStats = FindFirstObjectByType<PlayerStatsManager>();
+        if (playerStats != null)
+        {
+            CurrentGameData.engineeringSkill = playerStats.EngineeringSkill;
+            CurrentGameData.pilotingSkill = playerStats.PilotingSkill;
+            CurrentGameData.mechanicsSkill = playerStats.MechanicsSkill;
+            CurrentGameData.miningSkill = playerStats.MiningSkill;
+            CurrentGameData.roboticsSkill = playerStats.RoboticsSkill;
+            CurrentGameData.combatSkill = playerStats.CombatSkill;
+        }
+
         // Get reference to ScoreManager
         ScoreManager scoreManager = FindFirstObjectByType<ScoreManager>();
         if (scoreManager != null)

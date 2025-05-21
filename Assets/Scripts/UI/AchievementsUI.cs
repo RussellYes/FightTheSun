@@ -19,7 +19,7 @@ public class AchievementsUI : MonoBehaviour
 
         if (DialogueManager.Instance == null)
         {
-            Debug.LogError("DialogueManager instance not found after delay!");
+            Debug.Log("DialogueManager instance not found after delay!");
             yield break;
         }
 
