@@ -1,18 +1,26 @@
+using System;
+using TMPro;
+using Unity.Hierarchy;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Ths script spawns mining missiles.
 
 public class MiningMissileLauncher : MonoBehaviour
 {
+    public static event Action <int> LauncherActiveEvent;
+
     [Header("Prefab")]
     [SerializeField] private MiningMissile miningMissilePrefab;
 
     [Header("Firing Settings")]
-    [SerializeField] private float reloadTime;
     [SerializeField] private float miningMissileSpeed;
-    [SerializeField] private float initialDelay;
+    private float fireAngle;
+    private int missileCount;
 
     [Header("Visuals")]
+    private bool isLauncherActive;
+    private int launcherLevel;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite Launcher1;
     [SerializeField] private Sprite Launcher2;
@@ -20,112 +28,141 @@ public class MiningMissileLauncher : MonoBehaviour
     [SerializeField] private Sprite Launcher4;
     [SerializeField] private Sprite Launcher5;
 
-    private float reloadCountdown;
-    private int currentFireMode = 0;
-    private bool keyPressProcessed = false;
-
     private void Start()
     {
-        reloadCountdown = initialDelay;
-        UpdateLauncherVisual(); // Initialize visual
-        currentFireMode = 4;
+        missileCount = 0;
+        launcherLevel = 0;
+        isLauncherActive = false;
+        UpdateLauncherVisual();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        ReloadCountdown();
-        HandleFireModeToggle();
+        ShipUIManager.FireMissilesEvent += FireMissiles;
     }
-
-    private void ReloadCountdown()
+    private void OnDisable()
     {
-        if (reloadCountdown > 0)
-        {
-            reloadCountdown -= Time.deltaTime;
-        }
-        else
-        {
-            FireMissiles();
-            reloadCountdown = reloadTime;
-        }
+        ShipUIManager.FireMissilesEvent -= FireMissiles;
     }
-
-    private void HandleFireModeToggle()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (Input.GetKey(KeyCode.T))
+        if (collision.gameObject.TryGetComponent<MissilePickup>(out _))
         {
-            if (!keyPressProcessed)
-            {
-                currentFireMode = (currentFireMode + 1) % 5;
-                Debug.Log($"Switched to Mode {currentFireMode + 1}");
-                UpdateLauncherVisual(); // Update visual immediately
-                keyPressProcessed = true;
-            }
-        }
-        else
-        {
-            keyPressProcessed = false;
+            isLauncherActive = true;
+            missileCount += 6;
+            UpdateLauncherLevel();
+            UpdateLauncherVisual();
         }
     }
-
     private void UpdateLauncherVisual()
     {
-        if (spriteRenderer == null)
+        if (!isLauncherActive)
         {
-            Debug.LogWarning("SpriteRenderer is not assigned!");
+            LauncherActiveEvent?.Invoke(missileCount);
+            spriteRenderer.enabled = false;
             return;
         }
-
-        switch (currentFireMode)
+        if (isLauncherActive)
         {
-            case 0: spriteRenderer.sprite = Launcher1; break;
-            case 1: spriteRenderer.sprite = Launcher2; break;
-            case 2: spriteRenderer.sprite = Launcher3; break;
-            case 3: spriteRenderer.sprite = Launcher4; break;
-            case 4: spriteRenderer.sprite = Launcher5; break;
+            LauncherActiveEvent?.Invoke(missileCount);
+            spriteRenderer.enabled = true;
+        }
+    }
+    private void UpdateLauncherLevel()
+    {
+        if (launcherLevel == 0)
+        {
+            spriteRenderer.sprite = Launcher1;
+            launcherLevel = 1;
+        }
+        else if (launcherLevel == 1)
+        {
+            spriteRenderer.sprite = Launcher2;
+            launcherLevel = 2;
+        }
+        else if (launcherLevel == 2)
+        {
+            spriteRenderer.sprite = Launcher3;
+            launcherLevel = 3;
+        }
+        else if (launcherLevel == 3)
+        {
+            spriteRenderer.sprite = Launcher4;
+            launcherLevel = 4;
+        }
+        else if (launcherLevel >= 4)
+        {
+            spriteRenderer.sprite = Launcher5;
+            launcherLevel = 5;
         }
     }
 
     private void FireMissiles()
     {
-        switch (currentFireMode)
+        if (missileCount <= 0)
         {
-            case 0: FireMissileAtAngle(0f); break;
-            case 1: FireDualMissiles(); break;
-            case 2: FireTripleMissiles(); break;
-            case 3: FireQuadMissiles(); break;
-            case 4: FirePentaMissiles(); break;
+            return;
+        }
+        if (missileCount >= 1)
+        {
+            missileCount--;
+            LauncherActiveEvent?.Invoke(missileCount);
+
+            if (launcherLevel == 1)
+            {
+                FireMissileAtAngle(UnityEngine.Random.Range(0f, 5f));
+            }
+            else if (launcherLevel == 2)
+            {
+                FireDualMissiles();
+            }
+            else if (launcherLevel == 3)
+            {
+                FireTripleMissiles();
+            }
+            else if (launcherLevel == 4)
+            {
+                FireQuadMissiles();
+            }
+            else if (launcherLevel >= 5)
+            {
+                FirePentaMissiles();
+            }
         }
     }
 
     private void FireDualMissiles()
     {
-        FireMissileAtAngle(-10f);
-        FireMissileAtAngle(10f);
+        fireAngle = UnityEngine.Random.Range(5f, 10f);
+        FireMissileAtAngle(-fireAngle);
+        FireMissileAtAngle(fireAngle);
     }
 
     private void FireTripleMissiles()
     {
-        FireMissileAtAngle(-15f);
+        fireAngle = UnityEngine.Random.Range(5f, 10f);
+        FireMissileAtAngle(-(fireAngle + 5));
         FireMissileAtAngle(0f);
-        FireMissileAtAngle(15f);
+        FireMissileAtAngle((fireAngle + 5));
     }
 
     private void FireQuadMissiles()
     {
-        FireMissileAtAngle(-25f);
-        FireMissileAtAngle(-10f);
-        FireMissileAtAngle(10f);
-        FireMissileAtAngle(25f);
+        fireAngle = UnityEngine.Random.Range(5f, 10f);
+        FireMissileAtAngle(-(fireAngle + 10));
+        FireMissileAtAngle(-fireAngle);
+        FireMissileAtAngle(fireAngle);
+        FireMissileAtAngle((fireAngle + 10));
     }
 
     private void FirePentaMissiles()
     {
-        FireMissileAtAngle(-30f);
-        FireMissileAtAngle(-15f);
+        fireAngle = UnityEngine.Random.Range(5f, 10f);
+        FireMissileAtAngle(-(fireAngle + 15));
+        FireMissileAtAngle(-(fireAngle + 5));
         FireMissileAtAngle(0f);
-        FireMissileAtAngle(15f);
-        FireMissileAtAngle(30f);
+        FireMissileAtAngle((fireAngle + 5));
+        FireMissileAtAngle((fireAngle + 15));
     }
 
     private void FireMissileAtAngle(float angle)

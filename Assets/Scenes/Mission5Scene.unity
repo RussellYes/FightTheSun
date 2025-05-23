@@ -2058,6 +2058,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: goal
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: pauseButton
       value: 
       objectReference: {fileID: 994160394}
@@ -2133,6 +2137,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc41a02b3daba448b1bebb5f0bf0958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &2055121497
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_Name
+      value: ObstacleSpawnerMissiles
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: spawnLocation
+      value: 
+      objectReference: {fileID: 2055121498}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: obstacles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: timeBetweenSpawningMax
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: timeBetweenSpawningMin
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: 'obstacles.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4301909746815339928, guid: 221fe5bbe22138940bc3652c2df5fd42, type: 3}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: 'obstacles.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4301909746815339928, guid: 65254347c253a4a428ea98dbc97eea3f, type: 3}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: 'obstacles.Array.data[2]'
+      value: 
+      objectReference: {fileID: 4301909746815339928, guid: 9173a7d9d3176384a809a4ebd9c5b806, type: 3}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: isSpawnRandomObstacleRandomLocation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: isSpawnSingleObstacleRandomLocation
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+--- !u!4 &2055121498 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+  m_PrefabInstance: {fileID: 2055121497}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2156,6 +2258,7 @@ SceneRoots:
   - {fileID: 847154503}
   - {fileID: 192779634}
   - {fileID: 1005526233}
+  - {fileID: 2055121497}
   - {fileID: 1063701019}
   - {fileID: 912386937}
   - {fileID: 1061284970}

@@ -5,10 +5,22 @@ using UnityEngine;
 public class Damage : MonoBehaviour
 {
     [SerializeField] private float damage;
-
+    [SerializeField] private bool solarFlare2;
+    [SerializeField] private bool solarFlare3;
     public float GetDamage()
     {
-        return damage;
+        if (solarFlare2)
+        {
+            return damage * 2;
+        }
+        if (solarFlare3)
+        {
+            return damage * 4;
+        }
+        else 
+        {
+            return damage;
+        }
     }
 
     public void ChangeDamage(float amt)

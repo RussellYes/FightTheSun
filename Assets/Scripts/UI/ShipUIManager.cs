@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 // This script controls the ship UI.
 
 public class ShipUIManager : MonoBehaviour
 {
+    public static event Action FireMissilesEvent;
 
     [SerializeField] private GameObject shipUIBackground;
 
@@ -20,6 +24,20 @@ public class ShipUIManager : MonoBehaviour
     [SerializeField] private GameObject scoreMeter;
     [SerializeField] private GameObject pauseButton;
 
+    [Header("Missile UI")]
+    [SerializeField] private Button fireMissileButton;
+    [SerializeField] private TextMeshProUGUI missileCountText;
+
+    private void OnEnable()
+    {
+        fireMissileButton.onClick.AddListener(() => FireMissilesEvent?.Invoke());
+        MiningMissileLauncher.LauncherActiveEvent += UpdateMissileButton;
+    }
+    private void OnDisable()
+    {
+        fireMissileButton.onClick.RemoveListener(() => FireMissilesEvent?.Invoke());
+        MiningMissileLauncher.LauncherActiveEvent -= UpdateMissileButton;
+    }
     public void TurnOnShipUI()
     {
         shipUIBackground.SetActive(true);
@@ -40,5 +58,17 @@ public class ShipUIManager : MonoBehaviour
         pauseButton.SetActive(false);
     }
 
-
+    private void UpdateMissileButton(int missileCount)
+    {
+        if (missileCount > 0)
+        {
+            fireMissileButton.interactable = true;
+            missileCountText.text = missileCount.ToString();
+        }
+        else if (missileCount <= 0)
+        {
+            fireMissileButton.interactable = false;
+            missileCountText.text = "0";
+        }
+    }
 }

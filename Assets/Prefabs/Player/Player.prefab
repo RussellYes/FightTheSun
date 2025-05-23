@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8677147274154538556}
+  - {fileID: 6597033744777415861}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5755749830394830897
@@ -92,6 +93,68 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeDistance: 50
+--- !u!1001 &7250235714413192632
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8553710876239452228}
+    m_Modifications:
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165801354959696230, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+      propertyPath: m_Name
+      value: MiningMissileLauncher
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+--- !u!4 &6597033744777415861 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4545079549767706893, guid: 9dfedf82f368fdb4f97b007281a61cbb, type: 3}
+  m_PrefabInstance: {fileID: 7250235714413192632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8127356432681857288
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -53,7 +53,7 @@ public class MainMenuUI : MonoBehaviour
     // Screen movement variables
     private float screenHeight = 10f;
     private float minYPosition = 0f;
-    private float maxYPosition = 40;
+    private float maxYPosition = 30;
 
     private void Awake()
     {
