@@ -1,16 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// This script is used to find the missile pickup.
+/// </summary>
 public class MissilePickup : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

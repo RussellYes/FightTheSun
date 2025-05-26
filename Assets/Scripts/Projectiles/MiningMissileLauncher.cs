@@ -4,7 +4,7 @@ using Unity.Hierarchy;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Ths script spawns mining missiles.
+// This script spawns mining missiles.
 
 public class MiningMissileLauncher : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class MiningMissileLauncher : MonoBehaviour
     [Header("Firing Settings")]
     [SerializeField] private float miningMissileSpeed;
     private float fireAngle;
-    private int missileCount;
+    [SerializeField] private int missileCount;
 
     [Header("Visuals")]
     private bool isLauncherActive;
@@ -39,20 +39,19 @@ public class MiningMissileLauncher : MonoBehaviour
     private void OnEnable()
     {
         ShipUIManager.FireMissilesEvent += FireMissiles;
+        ObstacleMovement.MissilePickupEvent += MissilePickUp;
     }
     private void OnDisable()
     {
         ShipUIManager.FireMissilesEvent -= FireMissiles;
+        ObstacleMovement.MissilePickupEvent -= MissilePickUp;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void MissilePickUp()
     {
-        if (collision.gameObject.TryGetComponent<MissilePickup>(out _))
-        {
-            isLauncherActive = true;
-            missileCount += 6;
-            UpdateLauncherLevel();
-            UpdateLauncherVisual();
-        }
+        isLauncherActive = true;
+        missileCount += 6;
+        UpdateLauncherLevel();
+        UpdateLauncherVisual();
     }
     private void UpdateLauncherVisual()
     {
@@ -65,6 +64,12 @@ public class MiningMissileLauncher : MonoBehaviour
         if (isLauncherActive)
         {
             LauncherActiveEvent?.Invoke(missileCount);
+            if (spriteRenderer == null)
+            {
+                Debug.LogWarning("MiningMissileLauncher: No SpriteRenderer found.");
+                return;
+            }
+
             spriteRenderer.enabled = true;
         }
     }
@@ -170,9 +175,11 @@ public class MiningMissileLauncher : MonoBehaviour
         Quaternion spreadRotation = Quaternion.Euler(0, 0, angle);
         Vector2 fireDirection = spreadRotation * transform.up;
 
+        Transform playerTransform = transform.root; // Gets the parent object
+
         MiningMissile missile = Instantiate(
             miningMissilePrefab,
-            transform.position,
+            playerTransform.position,
             Quaternion.identity
         );
 

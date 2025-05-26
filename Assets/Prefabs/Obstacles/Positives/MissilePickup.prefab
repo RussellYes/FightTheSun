@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6179345374534429898}
   - component: {fileID: 6573171121537117768}
-  - component: {fileID: 2874394255055508190}
+  - component: {fileID: -5650985630392077284}
   - component: {fileID: 2156760109146772271}
   - component: {fileID: 2529052306193900648}
-  - component: {fileID: 6392614356590309932}
+  - component: {fileID: 6617714754914553570}
+  - component: {fileID: 3617690647522877934}
   m_Layer: 10
-  m_Name: MisslePickup
+  m_Name: MissilePickup
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,8 +66,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!61 &2874394255055508190
-BoxCollider2D:
+--- !u!58 &-5650985630392077284
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -100,17 +101,7 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.7, y: 1.7}
-    newSize: {x: 1, y: 0.5}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.5}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
 --- !u!114 &2156760109146772271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +118,9 @@ MonoBehaviour:
   isGravityWell: 0
   isTurbulance: 0
   isLoot: 0
+  isMissilePickUp: 1
   obstacle: {fileID: 2529052306193900648}
-  obstacleSpeedMultiplier: 0.4
+  obstacleSpeedMultiplier: 0.6
   rotationSpeedMin: -80
   rotationSpeedMax: 80
   verticalWarning: {fileID: 5762032200503551617}
@@ -155,12 +147,26 @@ MonoBehaviour:
   obstacleSprites:
   - {fileID: 2076031243457372258, guid: 75f5dedb18dab7f4aa5378a8183b553d, type: 3}
   obstacleRenderer: {fileID: 2647846136512851944}
-  pointValue: 5
+  pointValue: 1
   visualWarning: {fileID: 2504786687601365788}
   warningSpriteRenderer: {fileID: 2477320292511290396}
-  visualWarningColor: {r: 1, g: 0, b: 0.9118242, a: 1}
+  visualWarningColor: {r: 0.6901961, g: 0.15294115, b: 0.60097647, a: 1}
   visualWarningTimer: 1.5
---- !u!114 &6392614356590309932
+--- !u!114 &6617714754914553570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301909746815339928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30b4ca5c50a214440ba3a53e10394880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 2529052306193900648}
+  health: 10
+--- !u!114 &3617690647522877934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

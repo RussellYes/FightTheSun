@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2529052306193900648}
   m_Layer: 7
   m_Name: SolarFlare1
-  m_TagString: Obstacle
+  m_TagString: SolarFlare
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,6 +127,7 @@ MonoBehaviour:
   isGravityWell: 0
   isTurbulance: 0
   isLoot: 0
+  isMissilePickUp: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 0.5
   rotationSpeedMin: 0

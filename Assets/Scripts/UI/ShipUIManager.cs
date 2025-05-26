@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class ShipUIManager : MonoBehaviour
 {
     public static event Action FireMissilesEvent;
+    public static event Action PauseButtonEvent;
 
     [SerializeField] private GameObject shipUIBackground;
 

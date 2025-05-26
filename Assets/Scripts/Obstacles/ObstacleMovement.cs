@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ObstacleMovement : MonoBehaviour
 {
+    public static event Action MissilePickupEvent;
+
     private PlayerStatsManager playerStatsManager;
     private SFXManager sFXManager;
 
@@ -19,6 +21,7 @@ public class ObstacleMovement : MonoBehaviour
     [SerializeField] private bool isGravityWell;
     [SerializeField] private bool isTurbulance;
     [SerializeField] private bool isLoot;
+    [SerializeField] private bool isMissilePickUp;
 
 
     [Header("Obstacle Settings")]
@@ -109,12 +112,14 @@ public class ObstacleMovement : MonoBehaviour
                     sFXManager.PlaySFX(entranceSounds[UnityEngine.Random.Range(0, entranceSounds.Length)]);
                 }
             }
+            return;
         }
 
         // Check if the collided object is the WorldLowerBarrier
         else if (collision.CompareTag("WorldLowerBarrier"))
         {
             SelfDestruct();
+            return;
         }
 
         else if (collision.CompareTag("Player"))
@@ -161,6 +166,13 @@ public class ObstacleMovement : MonoBehaviour
                 }
                 Destroy(gameObject);
             }
+
+            if (isMissilePickUp)
+            {
+                MissilePickupEvent?.Invoke();
+                Destroy(gameObject);
+            }
+
         }
     }
 

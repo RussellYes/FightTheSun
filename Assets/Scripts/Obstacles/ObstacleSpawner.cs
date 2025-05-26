@@ -10,6 +10,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     [Header("Spawner type")]
     [SerializeField] private bool isSpawnSpecial1;
+    [SerializeField] private bool isMissileSpawner;
     [SerializeField] private bool isSpawnBoss1;
     [SerializeField] private bool isSpawnBoss2;
     [SerializeField] private bool isSpawnBoss3;
@@ -54,6 +55,7 @@ public class ObstacleSpawner : MonoBehaviour
         GameManager.StartSpawning += TurnOnSpawner;
         DialogueManager.SpawnSpecialEvent.AddListener(SpawnSpecial);
         DialogueManager.ShipGraveyardEvent += Boss3;
+        Boss.StopSpawnersEvent += DelayedTurnOnSpawner;
         Boss.SpawnEventGroup1 += EventGroup1;
         Boss.SpawnEventGroup2 += EventGroup2;
         Boss.SpawnEventGroup3 += EventGroup3;
@@ -67,6 +69,7 @@ public class ObstacleSpawner : MonoBehaviour
         GameManager.StartSpawning -= TurnOnSpawner;
         DialogueManager.SpawnSpecialEvent.RemoveListener(SpawnSpecial);
         DialogueManager.ShipGraveyardEvent -= Boss3;
+        Boss.StopSpawnersEvent -= DelayedTurnOnSpawner;
         Boss.SpawnEventGroup1 -= EventGroup1;
         Boss.SpawnEventGroup2 -= EventGroup2;
         Boss.SpawnEventGroup3 -= EventGroup3;
@@ -79,6 +82,17 @@ public class ObstacleSpawner : MonoBehaviour
         TimerForSpawning();
     }
 
+    private void DelayedTurnOnSpawner()
+    {
+        if (!isMissileSpawner) return; // Only activate if this is a missile spawner
+        StartCoroutine(DelayedSpawnerActivation()); // This will wait for 1 second before turning on the spawner during a boss fight.
+    }
+
+    IEnumerator DelayedSpawnerActivation()
+    {
+        yield return new WaitForSeconds(1f);
+        TurnOnSpawner();
+    }
     private void TurnOffSpawner()
     {
         isSpawnerOn = false;

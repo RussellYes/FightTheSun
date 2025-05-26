@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 
 public class SwipeControls : MonoBehaviour
 {
@@ -22,6 +23,11 @@ public class SwipeControls : MonoBehaviour
 
     private void HandleTouchInput()
     {
+        if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        {
+            // Ignore touch input if it's over a UI element
+            return;
+        }
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);

@@ -47,11 +47,13 @@ MonoBehaviour:
   isSpawnSpecial1: 0
   isSpawnBoss1: 0
   isSpawnBoss2: 0
+  isSpawnBoss3: 0
   isSpawnSingleObstacleSingleLocation: 0
   isSpawnSingleObstacleRandomLocation: 0
   isSpawnRandomObstacleSingleLocation: 0
   isSpawnRandomObstacleRandomLocation: 0
-  obstacles: []
+  obstacles:
+  - {fileID: 4301909746815339928, guid: baa6ca3202f2f0f43becafe1987b9fa3, type: 3}
   spawnLocation: {fileID: 2451845226028026601}
   laneDistance: 1
   timeBetweenSpawningMin: 5

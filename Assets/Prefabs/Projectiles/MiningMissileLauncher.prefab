@@ -49,6 +49,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -94,6 +97,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4545079549767706893}
   - component: {fileID: 4926817245376354882}
+  - component: {fileID: 1612854302182751477}
+  - component: {fileID: 1967492644539800290}
   m_Layer: 0
   m_Name: MiningMissileLauncher
   m_TagString: Untagged
@@ -130,12 +135,75 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miningMissilePrefab: {fileID: 5787465193228074011, guid: e22493a3947e0cd438e4f0a7fa48b6b1, type: 3}
-  reloadTime: 1
   miningMissileSpeed: 1
-  initialDelay: 5
+  missileCount: 0
   spriteRenderer: {fileID: 4828892425980559370}
   Launcher1: {fileID: 21300000, guid: 48be2e7a1c7a60240887e94dd4b51e19, type: 3}
   Launcher2: {fileID: 21300000, guid: 82d4c3c955ffc1b4198561c76788ca94, type: 3}
   Launcher3: {fileID: 21300000, guid: 7946cc998914a284ba228eec195bfd46, type: 3}
   Launcher4: {fileID: 21300000, guid: fe1e474b9ef030245af5d655760429b8, type: 3}
   Launcher5: {fileID: 21300000, guid: 9f4663a6484174544834c5d75a2dcee5, type: 3}
+--- !u!70 &1612854302182751477
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5165801354959696230}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.5, y: 1}
+  m_Direction: 0
+--- !u!50 &1967492644539800290
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5165801354959696230}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
