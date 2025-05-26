@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using UnityEngine.EventSystems;
+using System.Collections;
 
 public class SwipeControls : MonoBehaviour
 {
@@ -14,6 +14,17 @@ public class SwipeControls : MonoBehaviour
     private Vector2 touchStartPos;
     private bool touchEnabled = true;
 
+    private void OnEnable()
+    {
+        ShipUIManager.FireMissilesEvent += BlockTouchInput;
+        ShipUIManager.PauseButtonEvent += BlockTouchInput;
+    }
+    private void OnDisable()
+    {
+        ShipUIManager.FireMissilesEvent -= BlockTouchInput;
+        ShipUIManager.PauseButtonEvent -= BlockTouchInput;
+    }
+
     private void Update()
     {
         if (!touchEnabled) return;
@@ -21,13 +32,19 @@ public class SwipeControls : MonoBehaviour
         HandleTouchInput();
     }
 
+    private void BlockTouchInput()
+    {
+        touchEnabled = false;
+        StartCoroutine(EnableTouchAfterDelay(0.5f));
+    }
+
+    IEnumerator EnableTouchAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        touchEnabled = true;
+    }
     private void HandleTouchInput()
     {
-        if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-        {
-            // Ignore touch input if it's over a UI element
-            return;
-        }
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);

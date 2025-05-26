@@ -32,11 +32,13 @@ public class ShipUIManager : MonoBehaviour
     private void OnEnable()
     {
         fireMissileButton.onClick.AddListener(() => FireMissilesEvent?.Invoke());
+        pauseButton.GetComponent<Button>().onClick.AddListener(() => PauseButtonEvent?.Invoke());
         MiningMissileLauncher.LauncherActiveEvent += UpdateMissileButton;
     }
     private void OnDisable()
     {
         fireMissileButton.onClick.RemoveListener(() => FireMissilesEvent?.Invoke());
+        pauseButton.GetComponent<Button>().onClick.RemoveListener(() => PauseButtonEvent?.Invoke());
         MiningMissileLauncher.LauncherActiveEvent -= UpdateMissileButton;
     }
     public void TurnOnShipUI()
