@@ -23,7 +23,18 @@ public class Obstacle : MonoBehaviour
     
     private bool isWarningActive = true;
 
+    private void Awake()
+    {
+        if (obstacleRenderer == null)
+        {
+            obstacleRenderer = GetComponent<SpriteRenderer>();
+        }
 
+        if (warningSpriteRenderer == null && visualWarning != null)
+        {
+            warningSpriteRenderer = visualWarning.GetComponent<SpriteRenderer>();
+        }
+    }
     private void Start()
     {
         AssignRandomSprite();
@@ -41,7 +52,7 @@ public class Obstacle : MonoBehaviour
 
     private void Update()
     {
-        if (visualWarning != null)
+        if (visualWarning != null && warningSpriteRenderer != null)
         {
             if (isWarningActive)
             {
