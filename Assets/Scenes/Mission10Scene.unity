@@ -971,7 +971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8054099233051505604, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: hullMax
-      value: 100000
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8553710876239452228, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2352,7 +2352,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: goal
-      value: 100
+      value: 1100
       objectReference: {fileID: 0}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: pauseButton

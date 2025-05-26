@@ -1058,7 +1058,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: goal
-      value: 600
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: pauseButton
