@@ -110,12 +110,7 @@ public class ScoreManager : MonoBehaviour
                 gameData.SetMissionUnlocked(i, false);
             }
 
-            // Update local copies
-            totalMoney = 0f;
-            totalTime = 0f;
-            totalMetal = 0f;
-            totalRareMetal = 0f;
-            totalObstaclesDestroyed = 0;
+            ResetAllValues();
 
             // Update totals in GameData
             gameData.totalMoney = totalMoney;
@@ -306,6 +301,8 @@ public class ScoreManager : MonoBehaviour
 
     private void ResetDataOnDeath()
     {
+        ResetAllValues();
+
         if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
         {
             var gameData = DataPersister.Instance.CurrentGameData;
@@ -317,12 +314,12 @@ public class ScoreManager : MonoBehaviour
                 gameData.levelData[i] = new LevelData(0, 0, 0);
             }
 
-            // Update local totals
-            totalMoney = 0f;
-            totalTime = 0f;
-            totalMetal = 0f;
-            totalRareMetal = 0f;
-            totalObstaclesDestroyed = 0;
+            // Reset all resource totals
+            gameData.totalMoney = 0f;
+            gameData.totalTime = 0f;
+            gameData.totalMetal = 0f;
+            gameData.totalRareMetal = 0f;
+            gameData.totalObstaclesDestroyed = 0;
 
             // Lock all levels except Level 1
             for (int i = 2; i <= 10; i++)
@@ -330,22 +327,42 @@ public class ScoreManager : MonoBehaviour
                 gameData.SetMissionUnlocked(i, false);
             }
 
-            // 5. Force immediate save
+            UpdateAllUI();
+
             DataPersister.Instance.SaveCurrentGame();
             Debug.Log("ScoreManager - ResetDataOnDeath - all level data zeroed after death");
         }
+    }
 
-        // Reset level-specific data
-        ResetLevelResources();
-
-        // Save and update UI
-        if (DataPersister.Instance != null)
-        {
-            DataPersister.Instance.SaveCurrentGame();
-        }
-
+    private void UpdateAllUI()
+    {
         OnMoneyChanged?.Invoke(totalMoney);
         OnTotalMetalChanged?.Invoke(totalMetal);
         OnTotalRareMetalChanged?.Invoke(totalRareMetal);
+        OnLevelMoneyChanged?.Invoke(levelMoney);
+        OnLevelMetalChanged?.Invoke(levelMetal);
+        OnLevelRareMetalChanged?.Invoke(levelRareMetal);
+        OnObstaclesDestroyedByPlayerChanged?.Invoke(levelObstaclesDestroyed);
     }
+    private void ResetAllValues()
+    {
+        // Level-specific
+        levelMoney = 0;
+        levelMetal = 0f;
+        levelRareMetal = 0f;
+        levelTime = 0f;
+        levelObstaclesDestroyed = 0;
+
+        // Totals
+        totalMoney = 0f;
+        totalMetal = 0f;
+        totalRareMetal = 0f;
+        totalTime = 0f;
+        totalObstaclesDestroyed = 0;
+
+        // Obstacle tracking
+        totalObstaclesInScene = 0;
+        currentObstaclesInScene = 0;
+    }
+
 }
