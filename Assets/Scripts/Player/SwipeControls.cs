@@ -25,6 +25,11 @@ public class SwipeControls : MonoBehaviour
         ShipUIManager.PauseButtonEvent -= BlockTouchInput;
     }
 
+    private void Start()
+    {
+        // Scale swipe distance based on screen DPI. This is added because swiping works differently on different devices and some swipes were not being registered.
+        minSwipeDistance *= Screen.dpi / 160f;
+    }
     private void Update()
     {
         if (!touchEnabled) return;
