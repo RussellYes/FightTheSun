@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -86,8 +84,6 @@ public class EndConditionsUI : MonoBehaviour
     private float roboticsCost;
     private float combatCost;
 
-    [SerializeField] private GameObject salesGameObject;
-    [SerializeField] private TextMeshProUGUI salesText;
     public Button saveButtonFront;
     [SerializeField] private GameObject saveButtonHolder;
 
@@ -350,7 +346,6 @@ public class EndConditionsUI : MonoBehaviour
             memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
         }
 
-        salesGameObject.SetActive(false);
         lineText.gameObject.SetActive(true);
         memoryScoreText.gameObject.SetActive(true);
         memoryScoreText.text = memoryScore.ToString("0") + " memories";

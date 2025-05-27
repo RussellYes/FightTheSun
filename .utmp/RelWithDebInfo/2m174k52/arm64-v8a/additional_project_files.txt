@@ -1,0 +1,1 @@
+C:\IBelongHere\UnityGames\FightTheSun\FightTheSunGame\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\UnitySwappyWrapper.h
