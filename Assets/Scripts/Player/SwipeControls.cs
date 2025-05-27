@@ -13,7 +13,7 @@ public class SwipeControls : MonoBehaviour
     [SerializeField] private float minSwipeDistance = 50f; // Minimum distance for a swipe to be registered
     private Vector2 touchStartPos;
     private bool touchEnabled = true;
-
+    [SerializeField] private bool isMainMenu;
     private void OnEnable()
     {
         ShipUIManager.FireMissilesEvent += BlockTouchInput;
@@ -49,57 +49,117 @@ public class SwipeControls : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            switch (touch.phase)
+            if (isMainMenu)
             {
-                case TouchPhase.Began:
-                    touchStartPos = touch.position;
-                    break;
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        touchStartPos = touch.position;
+                        break;
 
-                case TouchPhase.Ended:
-                    Vector2 touchEndPos = touch.position;
-                    float swipeDistanceX = touchEndPos.x - touchStartPos.x;
-                    float swipeDistanceY = touchEndPos.y - touchStartPos.y;
+                    case TouchPhase.Ended:
+                        Vector2 touchEndPos = touch.position;
+                        float swipeDistanceX = touchEndPos.x - touchStartPos.x;
+                        float swipeDistanceY = touchEndPos.y - touchStartPos.y;
 
-                    if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
-                    {
-                        if (swipeDistanceX > 0)
+                        if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
                         {
-                            OnSwipeRight?.Invoke();
+                            if (swipeDistanceX > 0)
+                            {
+                                OnSwipeRight?.Invoke();
+                            }
+                            else
+                            {
+                                OnSwipeLeft?.Invoke();
+                            }
                         }
+                        else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
+                        {
+                            if (swipeDistanceY > 0)
+                            {
+                                OnSwipeUp?.Invoke();
+                            }
+                            else
+                            {
+                                OnSwipeDown?.Invoke();
+                            }
+                        }
+
                         else
                         {
-                            OnSwipeLeft?.Invoke();
+                            // Simple tap control
+                            float screenCenter = Screen.width / 2f;
+                            if (touchEndPos.x > screenCenter)
+                            {
+                                OnSwipeRight?.Invoke();
+                            }
+                            else
+                            {
+                                OnSwipeLeft?.Invoke();
+                            }
                         }
-                    }
-                    else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
-                    {
-                        if (swipeDistanceY > 0)
-                        {
-                            OnSwipeUp?.Invoke();
-                        }
-                        else
-                        {
-                            OnSwipeDown?.Invoke();
-                        }
-                    }
+                        break;
+                }
+            }
 
-                    else
-                    {
-                        // Simple tap control
-                        float screenCenter = Screen.width / 2f;
-                        if (touchEndPos.x > screenCenter)
+            if (!isMainMenu)
+            {
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        touchStartPos = touch.position;
+                        break;
+
+                    case TouchPhase.Ended:
+                        Vector2 touchEndPos = touch.position;
+                        float swipeDistanceX = touchEndPos.x - touchStartPos.x;
+                        float swipeDistanceY = touchEndPos.y - touchStartPos.y;
+
+                        if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
                         {
-                            OnSwipeRight?.Invoke();
+                            if (swipeDistanceX > 0)
+                            {
+                                OnSwipeRight?.Invoke();
+                            }
+                            else
+                            {
+                                OnSwipeLeft?.Invoke();
+                            }
                         }
+                        else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
+                        {
+                            if (swipeDistanceY > 0)
+                            {
+                                OnSwipeUp?.Invoke();
+                            }
+                            else
+                            {
+                                OnSwipeDown?.Invoke();
+                            }
+                        }
+
                         else
                         {
-                            OnSwipeLeft?.Invoke();
+                            // Simple tap control
+                            float screenCenter = Screen.width / 2f;
+                            if (touchEndPos.x > screenCenter)
+                            {
+                                OnSwipeRight?.Invoke();
+                            }
+                            else
+                            {
+                                OnSwipeLeft?.Invoke();
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
             }
         }
     }
+
+
+            
+
 
     public void EnableTouchControls(bool enable)
     {

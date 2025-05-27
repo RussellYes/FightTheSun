@@ -50,6 +50,10 @@ public class MainMenuUI : MonoBehaviour
 
     private bool isMenuOpen;
 
+    [Header("MainMenu Movement")]
+    private bool isLerping = false;
+    [SerializeField] private float lerpSpeed = 5f; // Adjust for smoother/faster transitions
+    private Vector3 targetPosition;
     // Screen movement variables
     private float screenHeight = 10f;
     private float minYPosition = 0f;
@@ -158,7 +162,6 @@ public class MainMenuUI : MonoBehaviour
         SwipeControls.OnSwipeDown -= MoveScreenUp;
     }
     
-
     private void Start()
     {
         // Initialize slider values to current volumes without triggering mute logic
@@ -179,6 +182,26 @@ public class MainMenuUI : MonoBehaviour
         // Ensure the menu is closed on start
         isMenuOpen = false;
         settingsMenu.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (isLerping)
+        {
+            // Lerp camera towards the target position
+            Camera.main.transform.position = Vector3.Lerp(
+                Camera.main.transform.position,
+                targetPosition,
+                lerpSpeed * Time.deltaTime
+            );
+
+            // Check if close enough to stop lerping
+            if (Vector3.Distance(Camera.main.transform.position, targetPosition) < 0.01f)
+            {
+                Camera.main.transform.position = targetPosition;
+                isLerping = false;
+            }
+        }
     }
 
     private void OpenMenu()
@@ -314,16 +337,16 @@ public class MainMenuUI : MonoBehaviour
     {
         //move screen up the height of the screen. Do not go above a maximum value
         // Move the camera up by the height of the screen
-        Vector3 newPosition = Camera.main.transform.position + Vector3.up * screenHeight;
-        newPosition.y = Mathf.Clamp(newPosition.y, minYPosition, maxYPosition);
-        Camera.main.transform.position = newPosition;
+        targetPosition = Camera.main.transform.position + Vector3.up * screenHeight;
+        targetPosition.y = Mathf.Clamp(targetPosition.y, minYPosition, maxYPosition);
+        isLerping = true;
     }
 
     private void MoveScreenDown()
     {
         //move screen down the height of the screen. Do not go below a minimum value
-        Vector3 newPosition = Camera.main.transform.position + Vector3.down * screenHeight;
-        newPosition.y = Mathf.Clamp(newPosition.y, minYPosition, maxYPosition);
-        Camera.main.transform.position = newPosition;
+        targetPosition = Camera.main.transform.position + Vector3.down * screenHeight;
+        targetPosition.y = Mathf.Clamp(targetPosition.y, minYPosition, maxYPosition);
+        isLerping = true;
     }
 }
