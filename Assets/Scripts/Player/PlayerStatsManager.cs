@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameManager;
@@ -292,12 +293,21 @@ public class PlayerStatsManager : MonoBehaviour
                 if (distanceTraveled >= gameManager.Goal)
                 {
                     gameManager.SetState(GameState.EndDialogue);
+                    StartCoroutine(DoubleCheckGameStateEndDialogue());
                 }
             }
         }
 
     }
 
+    IEnumerator DoubleCheckGameStateEndDialogue()
+    {
+        yield return new WaitForSeconds(0.1f); // Wait a short time to ensure the state has been set
+        if (gameManager.CurrentState != GameState.EndDialogue)
+        {
+            gameManager.SetState(GameState.EndDialogue);
+        }
+    }
     private void LoadData()
     {
         // Check if DataPersister exists and has valid data

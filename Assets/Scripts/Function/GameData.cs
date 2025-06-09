@@ -53,10 +53,13 @@ public class GameData
     // Level-specific data dictionary (level number as key)
     public Dictionary<int, LevelData> levelData;
 
+    public Dictionary<int, ComicData> comicData;
+
     // Empty constructor for loading
     public GameData()
     {
         playerData = new List<PlayerSaveData>();
+        comicData = new Dictionary<int, ComicData>();
         levelData = new Dictionary<int, LevelData>();
         serializedLevelData = new List<LevelDataEntry>();
         totalMoney = 0;
@@ -217,4 +220,17 @@ public class PlayerSaveData
 {
     [Header("Player Data")]
     public float playerMemoryScore;
+}
+
+[System.Serializable]
+
+public class ComicData
+{
+    public float comicNumber;
+    public bool isUnlocked;
+    public ComicData(float number, bool unlocked = false)
+    {
+        comicNumber = number;
+        isUnlocked = unlocked;
+    }
 }
