@@ -53,36 +53,15 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalObstaclesDestroyedText;
     [SerializeField] private TextMeshProUGUI totalMoneyText;
     [SerializeField] private TextMeshProUGUI lineText;
+    [SerializeField] private GameObject loseComicHolder;
+    [SerializeField] private Sprite[] loseComics;
+    [SerializeField] private float loseComicPanelDisplayTime = 2f;
 
     private float memoryScore;
 
     [Header("Upgrade Buttons")]
-    [SerializeField] private GameObject upgradeButtonHolder;
     [SerializeField] private TextMeshProUGUI memoryScoreText;
-    public Button engineeringButton;
-    public Button pilotingButton;
-    public Button mechanicsButton;
-    public Button miningButton;
-    public Button roboticsButton;
-    public Button combatButton;
-    [SerializeField] private TextMeshProUGUI engineeringText;
-    [SerializeField] private TextMeshProUGUI pilotingText;
-    [SerializeField] private TextMeshProUGUI mechanicsText;
-    [SerializeField] private TextMeshProUGUI miningText;
-    [SerializeField] private TextMeshProUGUI roboticsText;
-    [SerializeField] private TextMeshProUGUI combatText;
-    [SerializeField] private TextMeshProUGUI engineeringCostText;
-    [SerializeField] private TextMeshProUGUI pilotingCostText;
-    [SerializeField] private TextMeshProUGUI mechanicsCostText;
-    [SerializeField] private TextMeshProUGUI miningCostText;
-    [SerializeField] private TextMeshProUGUI roboticsCostText;
-    [SerializeField] private TextMeshProUGUI combatCostText;
-    private float engineeringCost;
-    private float pilotingCost;
-    private float mechanicsCost;
-    private float miningCost;
-    private float roboticsCost;
-    private float combatCost;
+
 
     public Button saveButtonFront;
     [SerializeField] private GameObject saveButtonHolder;
@@ -100,12 +79,6 @@ public class EndConditionsUI : MonoBehaviour
 
     private void Start()
     {
-        engineeringButton.onClick.AddListener(() => { BuyEngineering(); });
-        pilotingButton.onClick.AddListener(() => { BuyPiloting(); });
-        mechanicsButton.onClick.AddListener(() => { BuyMechanics(); });
-        miningButton.onClick.AddListener(() => { BuyMining(); });
-        roboticsButton.onClick.AddListener(() => { BuyRobotics(); });
-        combatButton.onClick.AddListener(() => { BuyCombat(); });
         saveButtonFront.onClick.AddListener(() => { Revive(); });
     }
 
@@ -144,7 +117,6 @@ public class EndConditionsUI : MonoBehaviour
         lineText.gameObject.SetActive(false);
         memoryScoreText.gameObject.SetActive(false);
 
-        upgradeButtonHolder.gameObject.SetActive(false);
         saveButtonFront.gameObject.SetActive(false);
         saveButtonHolder.gameObject.SetActive(false);
 
@@ -181,9 +153,7 @@ public class EndConditionsUI : MonoBehaviour
             }
             else
             {
-                winBackground.color = loseColor;
-                endText.text = "The sun implodes sendng you back in time.";
-                StartCoroutine(ShowLoseTextsWithDelay());
+                StartCoroutine(DisplayLoseComic());
             }
         }
         else
@@ -307,10 +277,37 @@ public class EndConditionsUI : MonoBehaviour
         });
     }
 
+    IEnumerator DisplayLoseComic()
+    {
+        if (loseComics == null || loseComics.Length == 0)
+        {
+            Debug.LogWarning("No lose comics assigned!");
+            loseComicHolder.SetActive(false);
+            StartCoroutine(ShowLoseTextsWithDelay());
+            yield break;
+        }
+        loseComicHolder.SetActive(true);
+
+        foreach (Sprite comic in loseComics)
+        {
+            if (winBackground != null && comic != null)
+            {
+                // Set the current comic sprite
+                winBackground.sprite = comic;
+
+                // Wait for the display time
+                yield return new WaitForSeconds(loseComicPanelDisplayTime);
+            }
+        }
+        loseComicHolder.SetActive(false);
+
+        StartCoroutine(ShowLoseTextsWithDelay());
+    }
+
     IEnumerator ShowLoseTextsWithDelay()
     {
         loseText.gameObject.SetActive(true);
-        loseText.text = "You're sent back in time. What will you remember?";
+        loseText.text = "What will you remember?";
         winBackground.color = memoryUpgradeColor;
 
         float loseTime = scoreManager.GetTotalTime() + gameManager.GameTime;
@@ -349,7 +346,7 @@ public class EndConditionsUI : MonoBehaviour
         lineText.gameObject.SetActive(true);
         memoryScoreText.gameObject.SetActive(true);
         memoryScoreText.text = memoryScore.ToString("0") + " memories";
-        UpdateMemoryAndSkillsText();
+        UpdateMemoryText();
         PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
         
@@ -392,14 +389,13 @@ public class EndConditionsUI : MonoBehaviour
         totalObstaclesDestroyedText.text = "Destroyed: 0";
         totalMoneyText.text = "Money: 0";
         
-        // Show upgrade and Done buttons
-        upgradeButtonHolder.gameObject.SetActive(true);
+        // Show save button halves
         saveButtonHolder.gameObject.SetActive(true);
         saveButtonFront.gameObject.SetActive(true);
         
     }
 
-    public void UpdateMemoryAndSkillsText()
+    public void UpdateMemoryText()
     {
         if (playerStatsManager == null)
         {
@@ -407,33 +403,6 @@ public class EndConditionsUI : MonoBehaviour
         }
 
         memoryScoreText.text = memoryScore.ToString("0") + " memories";
-
-        engineeringText.text = "Engineering " + playerStatsManager.EngineeringSkill.ToString("0.00");
-        pilotingText.text = "Piloting " + playerStatsManager.PilotingSkill.ToString("0.00");
-        mechanicsText.text = "Mechanics " + playerStatsManager.MechanicsSkill.ToString("0.00");
-        miningText.text = "Mining " + playerStatsManager.MiningSkill.ToString("0.00");
-        roboticsText.text = "Robotics " + playerStatsManager.RoboticsSkill.ToString("0.00");
-        combatText.text = "Combat " + playerStatsManager.CombatSkill.ToString("0.00");
-
-        engineeringCost = playerStatsManager.EngineeringSkill * playerStatsManager.EngineeringSkill;
-        engineeringCostText.text = "Cost " + engineeringCost.ToString("0.00");
-
-        pilotingCost = playerStatsManager.PilotingSkill * playerStatsManager.PilotingSkill;
-        pilotingCostText.text = "Cost " + pilotingCost.ToString("0.00");
-
-        mechanicsCost = playerStatsManager.MechanicsSkill * playerStatsManager.MechanicsSkill;
-        mechanicsCostText.text = "Cost " + mechanicsCost.ToString("0.00");
-
-        miningCost = playerStatsManager.MiningSkill * playerStatsManager.MiningSkill;
-        miningCostText.text = "Cost " + miningCost.ToString("0.00");
-
-        roboticsCost = playerStatsManager.RoboticsSkill * playerStatsManager.RoboticsSkill;
-        roboticsCostText.text = "Cost " + roboticsCost.ToString("0.00");
-
-        combatCost = playerStatsManager.CombatSkill * playerStatsManager.CombatSkill;
-        combatCostText.text = "Cost " + combatCost.ToString("0.00");
-
-        Debug.Log($"Robotics Display - Value: {playerStatsManager.RoboticsSkill}, Cost: {roboticsCost}");
     }
 
     private void PlayRandomTextSfx()
@@ -462,61 +431,6 @@ public class EndConditionsUI : MonoBehaviour
 
         Loader.Load(Loader.Scene.MainMenuScene);
         Debug.Log("Loading Scene");
-    }
-
-    private void BuyEngineering()
-    {
-        if (memoryScore >= engineeringCost)
-        {
-            memoryScore -= engineeringCost;
-            playerStatsManager.MultiplyEngineeringSkill();
-            UpdateMemoryAndSkillsText();
-        }
-    }
-    private void BuyPiloting()
-    {
-        if (memoryScore >= pilotingCost)
-        {
-            memoryScore -= pilotingCost;
-            UpdateMemoryAndSkillsText();
-            playerStatsManager.MultiplyPilotingSkill();
-        }
-    }
-    private void BuyMechanics()
-    {
-        if (memoryScore >= mechanicsCost)
-        {
-            memoryScore -= mechanicsCost;
-            UpdateMemoryAndSkillsText();
-            playerStatsManager.MultiplyMechanicsSkill();
-        }
-    }
-    private void BuyMining()
-    {
-        if (memoryScore >= miningCost)
-        {
-            memoryScore -= miningCost;
-            UpdateMemoryAndSkillsText();
-            playerStatsManager.MultiplyMiningSkill();
-        }
-    }
-    private void BuyRobotics()
-    {
-        if (memoryScore >= roboticsCost)
-        {
-            memoryScore -= roboticsCost;
-            UpdateMemoryAndSkillsText();
-            playerStatsManager.MultiplyRoboticsSkill();
-        }
-    }
-    private void BuyCombat()
-    {
-        if (memoryScore >= combatCost)
-        {
-            memoryScore -= combatCost;
-            UpdateMemoryAndSkillsText();
-            playerStatsManager.MultiplyCombatSkill();
-        }
     }
 
     private void Revive()
