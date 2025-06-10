@@ -63,6 +63,13 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         shipUpgradeOpenButton.onClick.RemoveListener(OpenShipUpgradeMenu);
         shipUpgradeCloseButton.onClick.RemoveListener(CloseShipUpgradeMenu);
+        // Upgrade button listeners
+        engineeringButton.onClick.RemoveListener(() => { BuyEngineering(); });
+        pilotingButton.onClick.RemoveListener(() => { BuyPiloting(); });
+        mechanicsButton.onClick.RemoveListener(() => { BuyMechanics(); });
+        miningButton.onClick.RemoveListener(() => { BuyMining(); });
+        roboticsButton.onClick.RemoveListener(() => { BuyRobotics(); });
+        combatButton.onClick.RemoveListener(() => { BuyCombat(); });
     }
 
     private void OpenShipUpgradeMenu()
