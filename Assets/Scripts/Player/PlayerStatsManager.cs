@@ -67,6 +67,8 @@ public class PlayerStatsManager : MonoBehaviour
     public float PlayerThrust => playerThrust * throttle * engineeringSkill; // Effective thrust is scaled by throttle
     public float PlayerMass => playerMass;
 
+    public float PlayerCurrentHull => playerCurrentHull;
+
     public float EngineeringSkill => engineeringSkill;
     public float PilotingSkill => pilotingSkill;
     public float MechanicsSkill => mechanicsSkill;
@@ -148,8 +150,6 @@ public class PlayerStatsManager : MonoBehaviour
             float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
             UpdateDistanceTraveled(distanceThisFrame);
         }
-
-        RepairHull();
     }
 
     private void HandleMassChange(float mass)

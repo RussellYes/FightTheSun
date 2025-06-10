@@ -126,8 +126,6 @@ public class ShipUpgradesUI : MonoBehaviour
 
         combatCost = playerStatsManager.CombatSkill * playerStatsManager.CombatSkill;
         combatCostText.text = "Cost " + combatCost.ToString("0.00");
-
-        Debug.Log($"Robotics Display - Value: {playerStatsManager.RoboticsSkill}, Cost: {roboticsCost}");
     }
 
     private void BuyEngineering()

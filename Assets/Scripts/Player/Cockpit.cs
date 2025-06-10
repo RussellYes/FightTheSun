@@ -16,6 +16,7 @@ public class Cockpit : MonoBehaviour
     [SerializeField] private float mass;
     [SerializeField] private float thrust;
 
+
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer hullSpriteRenderer;
     [SerializeField] private Sprite hull100;
@@ -50,6 +51,12 @@ public class Cockpit : MonoBehaviour
         OnCockpitMassChanged?.Invoke(mass);
         // Invoke the event to add thrust
         OnCockpitThrustChanged?.Invoke(thrust);
+    }
+
+    private void Update()
+    {
+
+        RepairHull();
     }
 
     private void OnDestroy()

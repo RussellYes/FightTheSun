@@ -9,13 +9,25 @@ public class Hull : MonoBehaviour
     public static event Action<float> OnHullMaxChanged;
     public static event Action<float> OnCurrentHullChanged;
 
+    private PlayerStatsManager playerStatsManager;
+
     [SerializeField] private float hullMax;
+    [SerializeField] private float repairTime;
+    [SerializeField] private float repairCountdown;
 
     private void Start()
     {
+        playerStatsManager = FindFirstObjectByType<PlayerStatsManager>();
+
         // Trigger events to initialize values
         OnHullMaxChanged?.Invoke(hullMax);
         OnCurrentHullChanged?.Invoke(hullMax); // Start with full hull
+        repairCountdown = repairTime;
+    }
+
+    private void Update()
+    {
+        RepairShip();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,4 +40,19 @@ public class Hull : MonoBehaviour
             PlayerStatsManager.Instance.ChangeHealth(-damageComponent.GetDamage());
         }
     }
+
+    private void RepairShip()
+    {
+        repairCountdown -= Time.deltaTime;
+
+        if (repairCountdown <= 0f && playerStatsManager.PlayerCurrentHull > 0)
+        {
+            float repairValue = 1f;
+            OnCurrentHullChanged?.Invoke(repairValue);
+            repairCountdown = repairTime;
+            // Trigger the event to notify about the current hull change
+            OnCurrentHullChanged?.Invoke(playerStatsManager.PlayerCurrentHull);
+        }
+    }
+
 }
