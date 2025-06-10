@@ -53,13 +53,13 @@ public class GameData
     // Level-specific data dictionary (level number as key)
     public Dictionary<int, LevelData> levelData;
 
-    public Dictionary<int, ComicData> comicData;
+    public Dictionary<float, ComicData> comicData;
 
     // Empty constructor for loading
     public GameData()
     {
         playerData = new List<PlayerSaveData>();
-        comicData = new Dictionary<int, ComicData>();
+        comicData = new Dictionary<float, ComicData>();
         levelData = new Dictionary<int, LevelData>();
         serializedLevelData = new List<LevelDataEntry>();
         totalMoney = 0;

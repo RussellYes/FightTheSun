@@ -1,91 +1,129 @@
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ComicsUI : MonoBehaviour
 {
-    [SerializeField] private Image lockedImage;
-    [SerializeField] private Image comicTestPlanet1;
-    [SerializeField] private Image comicTestPlanet2;
-    [SerializeField] private Image comicTestPlanet3;
-    [SerializeField] private Image comicTestPlanet4;
-    [SerializeField] private Image comicThrowPillows1;
-    [SerializeField] private Image comicThrowPillows2;
-    [SerializeField] private Image comicThrowPillows3;
-    [SerializeField] private Image comicThrowPillows4;
-    [SerializeField] private Image comicTrafficButton1;
-    [SerializeField] private Image comicTrafficButton2;
-    [SerializeField] private Image comicTrafficButton3;
-    [SerializeField] private Image comicTrafficButton4;
-    [SerializeField] private Image comicImpatient1;
-    [SerializeField] private Image comicImpatient2;
-    [SerializeField] private Image comicImpatient3;
-    [SerializeField] private Image comicImpatient4;
-    [SerializeField] private Image comicNatureLover1;
-    [SerializeField] private Image comicNatureLover2;
-    [SerializeField] private Image comicNatureLover3;
-    [SerializeField] private Image comicNatureLover4;
-    [SerializeField] private Image comicDysonSphere1;
-    [SerializeField] private Image comicDysonSphere2;
-    [SerializeField] private Image comicDysonSphere3;
-    [SerializeField] private Image comicDysonSphere4;
-    [SerializeField] private Image comicGoingLive1;
-    [SerializeField] private Image comicGoingLive2;
-    [SerializeField] private Image comicGoingLive3;
-    [SerializeField] private Image comicGoingLive4;
-    [SerializeField] private Image comicClippingCoupons1;
-    [SerializeField] private Image comicClippingCoupons2;
-    [SerializeField] private Image comicClippingCoupons3;
-    [SerializeField] private Image comicClippingCoupons4;
-    [SerializeField] private Image comicExactChange1;
-    [SerializeField] private Image comicExactChange2;
-    [SerializeField] private Image comicExactChange3;
-    [SerializeField] private Image comicExactChange4;
-    [SerializeField] private Image comicHeyNeighbour1;
-    [SerializeField] private Image comicHeyNeighbour2;
-    [SerializeField] private Image comicHeyNeighbour3;
-    [SerializeField] private Image comicHeyNeighbour4;
-    [SerializeField] private Image comicRewind1;
-    [SerializeField] private Image comicRewind2;
-    [SerializeField] private Image comicRewind3;
-    [SerializeField] private Image comicRewind4;
-    [SerializeField] private Image comicInTheBlack1;
-    [SerializeField] private Image comicInTheBlack2;
-    [SerializeField] private Image comicInTheBlack3;
-    [SerializeField] private Image comicInTheBlack4;
+    [Header("Menu Controls")]
+    [SerializeField] private GameObject comicMenuHolder;
+    [SerializeField] private Button openComicMenu;
+    [SerializeField] private Button closeComicMenu;
+
+    [Header("Comic Display")]
+    [SerializeField] private Image comicImage;
+    [SerializeField] private GameObject lockImage;
+    [SerializeField] private TextMeshProUGUI panelNumberText;
+
+    [Header("Navigation")]
+    [SerializeField] private Button forwardButton;
+    [SerializeField] private Button backButton;
+
+    [Header("Comic Data")]
+    [SerializeField] private Sprite[] comicSprites;
+    [SerializeField] private float[] comicNumbers;
+
+    private int currentPanelIndex = 0;
+
+    private void OnEnable()
+    {
+        openComicMenu.onClick.AddListener(OpenComicMenu);
+        closeComicMenu.onClick.AddListener(CloseComicMenu);
+        forwardButton.onClick.AddListener(ShowNextPanel);
+        backButton.onClick.AddListener(ShowPreviousPanel);
+    }
+
+    private void OnDisable()
+    {
+        openComicMenu.onClick.RemoveListener(OpenComicMenu);
+        closeComicMenu.onClick.RemoveListener(CloseComicMenu);
+        forwardButton.onClick.RemoveListener(ShowNextPanel);
+        backButton.onClick.RemoveListener(ShowPreviousPanel);
+    }
 
     private void Start()
     {
-        LoadComicData(levelData comicNumber, unlocked);
+        // Initialize with all comics locked
+        InitializeComicData();
+        ShowCurrentPanel();
     }
 
-    private void LoadComicData(float comicNumber)
+    private void OpenComicMenu() => comicMenuHolder.SetActive(true);
+    private void CloseComicMenu() => comicMenuHolder.SetActive(false);
+
+    private void InitializeComicData()
     {
-        if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
+        // Verify array setup
+        if (comicSprites == null || comicNumbers == null || comicSprites.Length == 0 || comicNumbers.Length == 0)
         {
-            Debug.LogWarning("DataPersister or CurrentGameData not initialized yet.");
+            Debug.LogError("Comic arrays are not properly initialized in the inspector!");
             return;
         }
 
-        GameData gameData = DataPersister.Instance.CurrentGameData;
-
-        if (!gameData.comicData.TryGetValue(comicNumber, out ComicData comicData))
+        if (comicSprites.Length != comicNumbers.Length)
         {
-            Debug.LogWarning($"No comic data found for comic number {comicNumber}");
+            Debug.LogError("ComicSprites and ComicNumbers arrays must be the same length!");
             return;
         }
 
-        if (gameData.comicData[comicNumber].unlocked)
+        // Initialize data if available, otherwise use default locked state
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
         {
-            lockedImage.gameObject.SetActive(false);
-            ShowComic(comicNumber);
+            foreach (float number in comicNumbers)
+            {
+                if (!DataPersister.Instance.CurrentGameData.comicData.ContainsKey(number))
+                {
+                    DataPersister.Instance.CurrentGameData.comicData[number] = new ComicData(number, false);
+                }
+            }
         }
-        else
-        {
-            lockedImage.gameObject.SetActive(true);
-        }
-
-
     }
 
+    private void ShowCurrentPanel()
+    {
+        if (comicSprites == null || comicNumbers == null ||
+            comicSprites.Length == 0 || comicNumbers.Length == 0 ||
+            comicSprites.Length != comicNumbers.Length)
+        {
+            Debug.LogError("Comic arrays are not properly initialized!");
+            return;
+        }
+
+        if (currentPanelIndex < 0 || currentPanelIndex >= comicSprites.Length)
+        {
+            Debug.LogError($"Invalid panel index: {currentPanelIndex}");
+            return;
+        }
+
+        // Show current comic
+        comicImage.sprite = comicSprites[currentPanelIndex];
+        panelNumberText.text = $"Comic {comicNumbers[currentPanelIndex]}";
+
+        lockImage.SetActive(true);
+
+        UpdateNavigationButtons();
+    }
+
+    private void UpdateNavigationButtons()
+    {
+        backButton.interactable = currentPanelIndex > 0;
+        forwardButton.interactable = currentPanelIndex < comicSprites.Length - 1;
+    }
+
+    private void ShowNextPanel()
+    {
+        if (currentPanelIndex < comicSprites.Length - 1)
+        {
+            currentPanelIndex++;
+            ShowCurrentPanel();
+        }
+    }
+
+    private void ShowPreviousPanel()
+    {
+        if (currentPanelIndex > 0)
+        {
+            currentPanelIndex--;
+            ShowCurrentPanel();
+        }
+    }
 }
