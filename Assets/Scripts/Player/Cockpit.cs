@@ -52,13 +52,6 @@ public class Cockpit : MonoBehaviour
         // Invoke the event to add thrust
         OnCockpitThrustChanged?.Invoke(thrust);
     }
-
-    private void Update()
-    {
-
-        RepairHull();
-    }
-
     private void OnDestroy()
     {
         // Invoke the event to subtract mass
