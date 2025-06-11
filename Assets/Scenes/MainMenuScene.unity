@@ -601,7 +601,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4414681078303059643}
-  m_Father: {fileID: 244987403}
+  m_Father: {fileID: 1378137749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1797,7 +1797,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4602672069303644137}
-  m_Father: {fileID: 244987403}
+  m_Father: {fileID: 1378137749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2605,12 +2605,12 @@ GameObject:
   - component: {fileID: 244987405}
   - component: {fileID: 244987404}
   m_Layer: 5
-  m_Name: UpgradeButtonHolder
+  m_Name: ShipUpgradeHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &244987403
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2618,17 +2618,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244987402}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 296593850}
-  - {fileID: 1683246490}
-  - {fileID: 1859597719}
-  - {fileID: 28218447}
-  - {fileID: 1048754212}
-  - {fileID: 182805989}
+  - {fileID: 1378137749}
   - {fileID: 2044229282}
   - {fileID: 3382009108438175828}
   m_Father: {fileID: 1736779027}
@@ -3402,7 +3397,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8941497586906354164}
-  m_Father: {fileID: 244987403}
+  m_Father: {fileID: 1378137749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9613,6 +9608,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414966065}
+  m_CullTransparentMesh: 1
+--- !u!1 &425539259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 425539260}
+  - component: {fileID: 425539262}
+  - component: {fileID: 425539261}
+  m_Layer: 5
+  m_Name: ComicMenuHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &425539260
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425539259}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1106731044}
+  m_Father: {fileID: 1696149984}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &425539261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425539259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 3368139163371340339, guid: 621b7b2b96185f3498876d4c7cc656c3, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &425539262
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425539259}
   m_CullTransparentMesh: 1
 --- !u!1 &439880729
 GameObject:
@@ -24103,7 +24174,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2498103755553745927}
-  m_Father: {fileID: 244987403}
+  m_Father: {fileID: 1378137749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24458,7 +24529,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106731043}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -24469,7 +24540,7 @@ RectTransform:
   - {fileID: 646446653}
   - {fileID: 763864121}
   - {fileID: 9410445}
-  m_Father: {fileID: 1696149984}
+  m_Father: {fileID: 425539260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -26215,6 +26286,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369299530}
   m_CullTransparentMesh: 1
+--- !u!1 &1378137748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1378137749}
+  m_Layer: 5
+  m_Name: UpgradeButtonHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1378137749
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378137748}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 296593850}
+  - {fileID: 1683246490}
+  - {fileID: 1859597719}
+  - {fileID: 28218447}
+  - {fileID: 1048754212}
+  - {fileID: 182805989}
+  m_Father: {fileID: 244987403}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1378624423
 GameObject:
   m_ObjectHideFlags: 0
@@ -28039,7 +28151,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7400611412835270017}
-  m_Father: {fileID: 244987403}
+  m_Father: {fileID: 1378137749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -28235,7 +28347,7 @@ GameObject:
   - component: {fileID: 1696149984}
   - component: {fileID: 1696149985}
   m_Layer: 5
-  m_Name: StoryUI
+  m_Name: ComicsUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28253,7 +28365,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1106731044}
+  - {fileID: 425539260}
   m_Father: {fileID: 1015753003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -28273,9 +28385,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f4fd3daad662774298882ccdc340fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comicMenuHolder: {fileID: 1106731043}
+  comicMenuHolder: {fileID: 425539259}
+  comicHolder: {fileID: 1106731043}
   openComicMenu: {fileID: 683877772}
   closeComicMenu: {fileID: 1824561294}
+  uIOpenCloseLerpTime: 1
   comicImage: {fileID: 1974467896}
   lockImage: {fileID: 840809708}
   panelNumberText: {fileID: 9410446}
@@ -28767,8 +28881,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipUpgradeHolder: {fileID: 244987402}
+  upgradeButtonHolder: {fileID: 1378137748}
   shipUpgradeOpenButton: {fileID: 1156521086}
   shipUpgradeCloseButton: {fileID: 3222381218509622936}
+  uIOpenCloseLerpTime: 1
   memoryScoreText: {fileID: 2044229283}
   engineeringButton: {fileID: 306725069140488492}
   pilotingButton: {fileID: 2105037479585074775}
@@ -30049,7 +30165,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 972222574701202938}
-  m_Father: {fileID: 244987403}
+  m_Father: {fileID: 1378137749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,8 +8,10 @@ public class ShipUpgradesUI : MonoBehaviour
     private PlayerStatsManager playerStatsManager;
 
     [SerializeField] private GameObject shipUpgradeHolder;
+    [SerializeField] private GameObject upgradeButtonHolder;
     [SerializeField] private Button shipUpgradeOpenButton;
     [SerializeField] private Button shipUpgradeCloseButton;
+    [SerializeField] private float uIOpenCloseLerpTime = 1f;
 
     [Header("Memory Score")]
     private float memoryScore;
@@ -48,8 +51,8 @@ public class ShipUpgradesUI : MonoBehaviour
 
     private void OnEnable()
     {
-        shipUpgradeOpenButton.onClick.AddListener(OpenShipUpgradeMenu);
-        shipUpgradeCloseButton.onClick.AddListener(CloseShipUpgradeMenu);
+        shipUpgradeOpenButton.onClick.AddListener(() => StartCoroutine(OpenShipUpgradeMenu()));
+        shipUpgradeCloseButton.onClick.AddListener(() => StartCoroutine(CloseShipUpgradeMenu()));
         // Upgrade button listeners
         engineeringButton.onClick.AddListener(() => { BuyEngineering(); });
         pilotingButton.onClick.AddListener(() => { BuyPiloting(); });
@@ -61,8 +64,8 @@ public class ShipUpgradesUI : MonoBehaviour
 
     private void OnDisable()
     {
-        shipUpgradeOpenButton.onClick.RemoveListener(OpenShipUpgradeMenu);
-        shipUpgradeCloseButton.onClick.RemoveListener(CloseShipUpgradeMenu);
+        shipUpgradeOpenButton.onClick.RemoveListener(() => StartCoroutine(OpenShipUpgradeMenu()));
+        shipUpgradeCloseButton.onClick.RemoveListener(() => StartCoroutine(CloseShipUpgradeMenu()));
         // Upgrade button listeners
         engineeringButton.onClick.RemoveListener(() => { BuyEngineering(); });
         pilotingButton.onClick.RemoveListener(() => { BuyPiloting(); });
@@ -72,13 +75,45 @@ public class ShipUpgradesUI : MonoBehaviour
         combatButton.onClick.RemoveListener(() => { BuyCombat(); });
     }
 
-    private void OpenShipUpgradeMenu()
+    IEnumerator OpenShipUpgradeMenu()
     {
         shipUpgradeHolder.SetActive(true);
+        // without delay, move upgradeButtonHolder up 2000 on the y axis.
+        RectTransform rectTransform = upgradeButtonHolder.GetComponent<RectTransform>();
+        Vector3 originalPosition = rectTransform.localPosition;
+        Vector3 startPosition = originalPosition + new Vector3(0, 2000, 0);
+        rectTransform.localPosition = startPosition;
+
+        // lerp upgradeButtonHolder's position from its +2000 y axis position to its original position over UIOpenCloseLerpTime seconds.
+        float elapsedTime = 0f;
+        while (elapsedTime < uIOpenCloseLerpTime)
+        {
+            rectTransform.localPosition = Vector3.Lerp(startPosition, originalPosition, elapsedTime / uIOpenCloseLerpTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localPosition = originalPosition;
     }
 
-    private void CloseShipUpgradeMenu()
+    IEnumerator CloseShipUpgradeMenu()
     {
+        // lerp upgradeButtonHolder's position from its original position to +2000 y over UIOpenCloseLerpTime seconds.
+        RectTransform rectTransform = upgradeButtonHolder.GetComponent<RectTransform>();
+        Vector3 originalPosition = rectTransform.localPosition;
+        Vector3 endPosition = originalPosition + new Vector3(0, 2000, 0);
+
+        float elapsedTime = 0f;
+        while (elapsedTime < uIOpenCloseLerpTime)
+        {
+            rectTransform.localPosition = Vector3.Lerp(originalPosition, endPosition, elapsedTime / uIOpenCloseLerpTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localPosition = endPosition;
+
+        // without delay, move upgradeButtonHolder down 2000 on the y axis back to its original position.
+        rectTransform.localPosition = originalPosition;
+
         shipUpgradeHolder.SetActive(false);
     }
 

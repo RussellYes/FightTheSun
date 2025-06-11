@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +7,10 @@ public class ComicsUI : MonoBehaviour
 {
     [Header("Menu Controls")]
     [SerializeField] private GameObject comicMenuHolder;
+    [SerializeField] private GameObject comicHolder;
     [SerializeField] private Button openComicMenu;
     [SerializeField] private Button closeComicMenu;
+    [SerializeField] private float uIOpenCloseLerpTime = 1f;
 
     [Header("Comic Display")]
     [SerializeField] private Image comicImage;
@@ -26,16 +29,16 @@ public class ComicsUI : MonoBehaviour
 
     private void OnEnable()
     {
-        openComicMenu.onClick.AddListener(OpenComicMenu);
-        closeComicMenu.onClick.AddListener(CloseComicMenu);
+        openComicMenu.onClick.AddListener(() => StartCoroutine(OpenComicMenu()));
+        closeComicMenu.onClick.AddListener(() => StartCoroutine(CloseComicMenu()));
         forwardButton.onClick.AddListener(ShowNextPanel);
         backButton.onClick.AddListener(ShowPreviousPanel);
     }
 
     private void OnDisable()
     {
-        openComicMenu.onClick.RemoveListener(OpenComicMenu);
-        closeComicMenu.onClick.RemoveListener(CloseComicMenu);
+        openComicMenu.onClick.RemoveListener(() => StartCoroutine(OpenComicMenu()));
+        closeComicMenu.onClick.RemoveListener(() => StartCoroutine(CloseComicMenu()));
         forwardButton.onClick.RemoveListener(ShowNextPanel);
         backButton.onClick.RemoveListener(ShowPreviousPanel);
     }
@@ -46,9 +49,47 @@ public class ComicsUI : MonoBehaviour
         InitializeComicData();
         ShowCurrentPanel();
     }
+    IEnumerator OpenComicMenu()
+    {
+        comicMenuHolder.SetActive(true);
+        // without delay, move comicHolder up 2000 on the y axis.
+        RectTransform rectTransform = comicHolder.GetComponent<RectTransform>();
+        Vector3 originalPosition = rectTransform.localPosition;
+        Vector3 startPosition = originalPosition + new Vector3(0, 2000, 0);
+        rectTransform.localPosition = startPosition;
 
-    private void OpenComicMenu() => comicMenuHolder.SetActive(true);
-    private void CloseComicMenu() => comicMenuHolder.SetActive(false);
+        // lerp comicHolder's position from its +2000 y axis position to its original position over UIOpenCloseLerpTime seconds.
+        float elapsedTime = 0f;
+        while (elapsedTime < uIOpenCloseLerpTime)
+        {
+            rectTransform.localPosition = Vector3.Lerp(startPosition, originalPosition, elapsedTime / uIOpenCloseLerpTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localPosition = originalPosition;
+    }
+
+    IEnumerator CloseComicMenu()
+    {
+        // lerp comicHolder's position from its original position to +2000 y over UIOpenCloseLerpTime seconds.
+        RectTransform rectTransform = comicHolder.GetComponent<RectTransform>();
+        Vector3 originalPosition = rectTransform.localPosition;
+        Vector3 endPosition = originalPosition + new Vector3(0, 2000, 0);
+
+        float elapsedTime = 0f;
+        while (elapsedTime < uIOpenCloseLerpTime)
+        {
+            rectTransform.localPosition = Vector3.Lerp(originalPosition, endPosition, elapsedTime / uIOpenCloseLerpTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localPosition = endPosition;
+
+        // without delay, move comicHolder down 2000 on the y axis back to its original position.
+        rectTransform.localPosition = originalPosition;
+
+        comicMenuHolder.SetActive(false);
+    }
 
     private void InitializeComicData()
     {
