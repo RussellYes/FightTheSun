@@ -58,6 +58,8 @@ public class MainMenuUI : MonoBehaviour
     private float screenHeight = 10f;
     private float minYPosition = 0f;
     private float maxYPosition = 30;
+    [SerializeField] private float uIStartLerpTimeDelay = 4f;
+    [SerializeField] private float uIStartLerpTime = 3f;
 
     private void Awake()
     {
@@ -146,7 +148,6 @@ public class MainMenuUI : MonoBehaviour
             sFXVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
         }
 
-
         Time.timeScale = 1f;
     }
 
@@ -182,6 +183,8 @@ public class MainMenuUI : MonoBehaviour
         // Ensure the menu is closed on start
         isMenuOpen = false;
         settingsMenu.SetActive(false);
+
+        StartCoroutine(InitialMenuAnimation());
     }
 
     private void Update()
@@ -202,6 +205,36 @@ public class MainMenuUI : MonoBehaviour
                 isLerping = false;
             }
         }
+    }
+
+    private IEnumerator InitialMenuAnimation()
+    {
+        // Set initial position to maxYPosition
+        Vector3 startPos = Camera.main.transform.position;
+        startPos.y = maxYPosition;
+        Camera.main.transform.position = startPos;
+
+        // Wait for the delay
+        yield return new WaitForSeconds(uIStartLerpTimeDelay);
+
+        // lerp at uIStartLerpTime speed to the minYPosition
+        Vector3 targetPos = startPos;
+        targetPos.y = minYPosition;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < uIStartLerpTime)
+        {
+            Camera.main.transform.position = Vector3.Lerp(
+                startPos,
+                targetPos,
+                elapsedTime / uIStartLerpTime
+            );
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure final position is exact
+        Camera.main.transform.position = targetPos;
     }
 
     private void OpenMenu()

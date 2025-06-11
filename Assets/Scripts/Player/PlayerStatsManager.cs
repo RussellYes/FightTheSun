@@ -143,12 +143,15 @@ public class PlayerStatsManager : MonoBehaviour
     }
     private void Update()
     {
-        // Update distance traveled based on player's speed
-        if (isMoving && GameManager.Instance.IsGoalActive)
+        if (GameManager.Instance != null)
         {
-            //Debug.Log("PlayerStatsManager_Update_if (isMoving)");
-            float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
-            UpdateDistanceTraveled(distanceThisFrame);
+            // Update distance traveled based on player's speed
+            if (isMoving && GameManager.Instance.IsGoalActive)
+            {
+                //Debug.Log("PlayerStatsManager_Update_if (isMoving)");
+                float distanceThisFrame = PlayerThrust * Time.deltaTime; // Distance = speed * time
+                UpdateDistanceTraveled(distanceThisFrame);
+            }
         }
     }
 
@@ -272,32 +275,33 @@ public class PlayerStatsManager : MonoBehaviour
     {
         distanceTraveled += distance;
         //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled");
-
-        // Calculate progress toward the goal
-        if (gameManager.IsGoalActive)
+        if (gameManager != null)
         {
-            //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
-            if (gameManager.Goal > 0)
+            // Calculate progress toward the goal
+            if (gameManager.IsGoalActive)
             {
-                //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
-                float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
-                OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
-
-                if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f && !isProgressHalfway)
+                //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
+                if (gameManager.Goal > 0)
                 {
-                    isProgressHalfway = true;
-                    DialogueManager.Instance.MissionDialogue();
-                }
+                    //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
+                    float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
+                    OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
 
-                // Check if the goal has been reached
-                if (distanceTraveled >= gameManager.Goal)
-                {
-                    gameManager.SetState(GameState.EndDialogue);
-                    StartCoroutine(DoubleCheckGameStateEndDialogue());
+                    if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f && !isProgressHalfway)
+                    {
+                        isProgressHalfway = true;
+                        DialogueManager.Instance.MissionDialogue();
+                    }
+
+                    // Check if the goal has been reached
+                    if (distanceTraveled >= gameManager.Goal)
+                    {
+                        gameManager.SetState(GameState.EndDialogue);
+                        StartCoroutine(DoubleCheckGameStateEndDialogue());
+                    }
                 }
             }
         }
-
     }
 
     IEnumerator DoubleCheckGameStateEndDialogue()

@@ -47,7 +47,6 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
         shipUpgradeHolder.SetActive(false);
-        UpdateMemoryText();
     }
 
     private void OnEnable()
@@ -85,6 +84,9 @@ public class ShipUpgradesUI : MonoBehaviour
         Vector3 startPosition = originalPosition + new Vector3(0, 2000, 0);
         rectTransform.localPosition = startPosition;
 
+        //  Update memory score and skills text.
+        UpdateMemoryAndSkillsText();
+
         // lerp upgradeButtonHolder's position from its +2000 y axis position to its original position over UIOpenCloseLerpTime seconds.
         float elapsedTime = 0f;
         while (elapsedTime < uIOpenCloseLerpTime)
@@ -120,23 +122,18 @@ public class ShipUpgradesUI : MonoBehaviour
 
     public void UpdateMemoryText()
     {
-        if (playerStatsManager == null)
-        {
-            playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
-        }
-
         memoryScoreText.text = memoryScore.ToString("0") + " memories";
     }
 
 
     public void UpdateMemoryAndSkillsText()
     {
+        UpdateMemoryText();
+
         if (playerStatsManager == null)
         {
             playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
         }
-
-        memoryScoreText.text = memoryScore.ToString("0") + " memories";
 
         engineeringText.text = "Engineering " + playerStatsManager.EngineeringSkill.ToString("0.00");
         pilotingText.text = "Piloting " + playerStatsManager.PilotingSkill.ToString("0.00");
