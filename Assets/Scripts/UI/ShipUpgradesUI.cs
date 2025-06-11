@@ -47,6 +47,7 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
         shipUpgradeHolder.SetActive(false);
+        UpdateMemoryText();
     }
 
     private void OnEnable()
