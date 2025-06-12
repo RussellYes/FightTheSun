@@ -57,7 +57,9 @@ public class MainMenuUI : MonoBehaviour
     // Screen movement variables
     private float screenHeight = 10f;
     private float minYPosition = 0f;
+    public float MinYPosition => minYPosition;
     private float maxYPosition = 30;
+    public float MaxYPosition => maxYPosition;
     [SerializeField] private float uIStartLerpTimeDelay = 4f;
     [SerializeField] private float uIStartLerpTime = 3f;
 
