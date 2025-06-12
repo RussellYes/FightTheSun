@@ -30844,7 +30844,7 @@ MonoBehaviour:
   musicPreview: {fileID: 8300000, guid: 529d8db74ee4a2a4eb848cd334be11d2, type: 3}
   lerpSpeed: 5
   uIStartLerpTimeDelay: 4
-  uIStartLerpTime: 1
+  uIStartLerpTime: 3
 --- !u!114 &1861685957
 MonoBehaviour:
   m_ObjectHideFlags: 0

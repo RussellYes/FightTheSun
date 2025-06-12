@@ -55,6 +55,7 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private Image loseBackground;
     [SerializeField] private Sprite[] loseComics;
     [SerializeField] private float loseComicPanelDisplayTime = 2f;
+    [SerializeField] private Button skipComicButton;
 
     private float memoryScore;
 
@@ -86,6 +87,7 @@ public class EndConditionsUI : MonoBehaviour
         Debug.Log("EndConditionsUI subscribed to EndGameEvent");
         GameManager.EndGameEvent += EndGame;
         ScoreManager.SavedTotalEvent += LoadMainMenuScene;
+        skipComicButton.onClick.AddListener(() => {SkipComic(); });
     }
 
     private void OnDisable()
@@ -93,6 +95,7 @@ public class EndConditionsUI : MonoBehaviour
         Debug.Log("EndConditionsUI unsubscribed from EndGameEvent");
         GameManager.EndGameEvent -= EndGame;
         ScoreManager.SavedTotalEvent -= LoadMainMenuScene;
+        skipComicButton.onClick.RemoveListener(() => { SkipComic(); });
     }
 
     private void HideUI()
@@ -161,28 +164,36 @@ public class EndConditionsUI : MonoBehaviour
         }
     }
 
+    private void SkipComic()
+    {
+        Debug.Log("Skipping comics display");
+        StopCoroutine(DisplayLoseComics());
+        loseComicHolder.SetActive(false);
+        StartCoroutine(ShowLoseTextsWithDelay());
+    }
     IEnumerator DisplayLoseComics()
     {
         loseComicHolder.SetActive(true);
 
-        for (int i = 0; i < loseComics.Length; i++)
-        {
-            if (loseBackground == null || loseComics[i] == null)
-                continue;
 
-            Debug.Log($"Displaying comic {i}: {loseComics[i].name}");
-
-            // Set the new sprite
-            loseBackground.sprite = loseComics[i];
-
-            // Wait using unscaled time
-            float endTime = Time.unscaledTime + loseComicPanelDisplayTime;
-            while (Time.unscaledTime < endTime)
+            for (int i = 0; i < loseComics.Length; i++)
             {
-                yield return null; // Wait each frame until time passes
-            }
-        }
+                if (loseBackground == null || loseComics[i] == null)
+                    continue;
 
+                Debug.Log($"Displaying comic {i}: {loseComics[i].name}");
+
+                // Set the new sprite
+                loseBackground.sprite = loseComics[i];
+
+                // Wait using unscaled time
+                float endTime = Time.unscaledTime + loseComicPanelDisplayTime;
+                while (Time.unscaledTime < endTime)
+                {
+                    yield return null; // Wait each frame until time passes
+                }
+            }
+        
         loseComicHolder.SetActive(false);
 
         StartCoroutine(ShowLoseTextsWithDelay());

@@ -573,7 +573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8522668817486238573
 RectTransform:
   m_ObjectHideFlags: 0
@@ -911,6 +911,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d39b16dff78695c47ab5c2c4c05211d3, type: 3}
   - {fileID: 21300000, guid: 7838554c24a36e848b8ed3ec60bc3362, type: 3}
   loseComicPanelDisplayTime: 2
+  skipComicButton: {fileID: 7314292916022741453}
   memoryScoreText: {fileID: 7200285817060794060}
   saveButtonFront: {fileID: 1697361491308338723}
   saveButtonHolder: {fileID: 3837075825688837318}
@@ -3009,7 +3010,7 @@ GameObject:
   - component: {fileID: 3282561741726901165}
   - component: {fileID: 7314292916022741453}
   m_Layer: 0
-  m_Name: PlayButton
+  m_Name: SkipButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3056,7 +3057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.9716981, g: 0.03208439, b: 0.7543857, a: 0.003921569}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

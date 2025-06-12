@@ -51,8 +51,10 @@ public class MainMenuUI : MonoBehaviour
     private bool isMenuOpen;
 
     [Header("MainMenu Movement")]
-    private bool isLerping = false;
     [SerializeField] private float lerpSpeed = 5f; // Adjust for smoother/faster transitions
+    [SerializeField] private float uIStartLerpTimeDelay = 4f;
+    [SerializeField] private float uIStartLerpTime = 3f;
+    private bool isLerping = false;
     private Vector3 targetPosition;
     // Screen movement variables
     private float screenHeight = 10f;
@@ -60,8 +62,7 @@ public class MainMenuUI : MonoBehaviour
     public float MinYPosition => minYPosition;
     private float maxYPosition = 30;
     public float MaxYPosition => maxYPosition;
-    [SerializeField] private float uIStartLerpTimeDelay = 4f;
-    [SerializeField] private float uIStartLerpTime = 3f;
+
 
     private void Awake()
     {
