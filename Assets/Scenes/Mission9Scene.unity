@@ -866,6 +866,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
+      propertyPath: dialogueBoxPortraitImage
+      value: 
+      objectReference: {fileID: 645459735}
+    - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: continueStartDialogueButton
       value: 
       objectReference: {fileID: 15779934}
@@ -1046,6 +1050,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &645459735 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2642108366085259022, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+  m_PrefabInstance: {fileID: 15779931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1040153467
 GameObject:
   m_ObjectHideFlags: 0

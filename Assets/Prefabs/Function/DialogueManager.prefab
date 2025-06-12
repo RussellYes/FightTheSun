@@ -49,6 +49,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipUIManager: {fileID: 0}
+  dialogueBoxPortraitImage: {fileID: 0}
+  mavisPortraitImage: {fileID: 21300000, guid: 8165f11e8ef57a24da06f6cc4f7cf318, type: 3}
+  jermaPortraitImage: {fileID: 21300000, guid: f553fba47f63f364bb9caa677a5c4e40, type: 3}
   dialogueBoxUI: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogueTimer: 4

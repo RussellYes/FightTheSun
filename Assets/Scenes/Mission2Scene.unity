@@ -1568,6 +1568,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
+      propertyPath: dialogueBoxPortraitImage
+      value: 
+      objectReference: {fileID: 2131068970}
+    - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: continueStartDialogueButton
       value: 
       objectReference: {fileID: 638258883}
@@ -1815,6 +1819,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
   m_PrefabInstance: {fileID: 1886438363}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2131068970 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2642108366085259022, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+  m_PrefabInstance: {fileID: 638258880}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

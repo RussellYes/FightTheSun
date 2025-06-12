@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeDistance: 50
+  isMainMenu: 0
 --- !u!1001 &7250235714413192632
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,7 +170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 493707157449197476, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: thrust
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 621849578115041076, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -229,7 +230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1841760046531602050, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: damage
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2238221983638291148, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: hullMax

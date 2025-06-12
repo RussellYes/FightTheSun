@@ -330,6 +330,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6486726366939884ab14a8f6b4214ae4, type: 3}
+--- !u!114 &592774782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2642108366085259022, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+  m_PrefabInstance: {fileID: 1005866660}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &595514689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,6 +1578,10 @@ PrefabInstance:
       propertyPath: thrusterMeterObject
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
+      propertyPath: dialogueBoxPortraitImage
+      value: 
+      objectReference: {fileID: 592774782}
     - target: {fileID: 4927615877762316323, guid: 17ebd521e7ddc6b4599d3eb89170123b, type: 3}
       propertyPath: continueStartDialogueButton
       value: 
