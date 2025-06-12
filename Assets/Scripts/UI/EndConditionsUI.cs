@@ -46,14 +46,13 @@ public class EndConditionsUI : MonoBehaviour
 
     [Header("Lose UI")]
     [SerializeField] private Sprite loseSprite;
-    [SerializeField] private Color loseColor;
-    [SerializeField] private Color memoryUpgradeColor;
     [SerializeField] private TextMeshProUGUI loseText;
     [SerializeField] private TextMeshProUGUI totalGameTimeText;
     [SerializeField] private TextMeshProUGUI totalObstaclesDestroyedText;
     [SerializeField] private TextMeshProUGUI totalMoneyText;
     [SerializeField] private TextMeshProUGUI lineText;
     [SerializeField] private GameObject loseComicHolder;
+    [SerializeField] private Image loseBackground;
     [SerializeField] private Sprite[] loseComics;
     [SerializeField] private float loseComicPanelDisplayTime = 2f;
 
@@ -153,13 +152,40 @@ public class EndConditionsUI : MonoBehaviour
             }
             else
             {
-                StartCoroutine(DisplayLoseComic());
+                StartCoroutine(DisplayLoseComics());
             }
         }
         else
         {
             Debug.Log("EndConditionsUI can't find ScoreManager or GameManager");
         }
+    }
+
+    IEnumerator DisplayLoseComics()
+    {
+        loseComicHolder.SetActive(true);
+
+        for (int i = 0; i < loseComics.Length; i++)
+        {
+            if (loseBackground == null || loseComics[i] == null)
+                continue;
+
+            Debug.Log($"Displaying comic {i}: {loseComics[i].name}");
+
+            // Set the new sprite
+            loseBackground.sprite = loseComics[i];
+
+            // Wait using unscaled time
+            float endTime = Time.unscaledTime + loseComicPanelDisplayTime;
+            while (Time.unscaledTime < endTime)
+            {
+                yield return null; // Wait each frame until time passes
+            }
+        }
+
+        loseComicHolder.SetActive(false);
+
+        StartCoroutine(ShowLoseTextsWithDelay());
     }
 
     private IEnumerator ShowWinTextsWithDelay()
@@ -277,38 +303,11 @@ public class EndConditionsUI : MonoBehaviour
         });
     }
 
-    IEnumerator DisplayLoseComic()
-    {
-        if (loseComics == null || loseComics.Length == 0)
-        {
-            Debug.LogWarning("No lose comics assigned!");
-            loseComicHolder.SetActive(false);
-            StartCoroutine(ShowLoseTextsWithDelay());
-            yield break;
-        }
-        loseComicHolder.SetActive(true);
-
-        foreach (Sprite comic in loseComics)
-        {
-            if (winBackground != null && comic != null)
-            {
-                // Set the current comic sprite
-                winBackground.sprite = comic;
-
-                // Wait for the display time
-                yield return new WaitForSeconds(loseComicPanelDisplayTime);
-            }
-        }
-        loseComicHolder.SetActive(false);
-
-        StartCoroutine(ShowLoseTextsWithDelay());
-    }
-
     IEnumerator ShowLoseTextsWithDelay()
     {
         loseText.gameObject.SetActive(true);
         loseText.text = "What will you remember?";
-        winBackground.color = memoryUpgradeColor;
+        winBackground.sprite = loseSprite;
 
         float loseTime = scoreManager.GetTotalTime() + gameManager.GameTime;
         int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
