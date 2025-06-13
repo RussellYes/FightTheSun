@@ -64,15 +64,23 @@ public class DataPersister : MonoBehaviour
 
     public void LoadOrInitialize()
     {
-        Debug.Log("DataPersister - LoadOrInitialize");
         bool saveExists = SaveSystem.SaveExists();
-        CurrentGameData = SaveSystem.LoadGame();
+        Debug.Log($"DataPersister - LoadOrInitialize - Save exists: {saveExists}");
 
-        // Ensure dictionary is initialized
-        if (CurrentGameData.levelData == null)
+        CurrentGameData = SaveSystem.LoadGame();
+        Debug.Log($"DataPersister - Loaded GameData: {CurrentGameData != null}");
+
+        if (CurrentGameData == null)
         {
-            CurrentGameData.levelData = new Dictionary<int, LevelData>();
+            Debug.Log("DataPersister - Creating new GameData");
+            CurrentGameData = new GameData();
         }
+
+        // Ensure all dictionaries and lists are initialized
+        CurrentGameData.levelData ??= new Dictionary<int, LevelData>();
+        CurrentGameData.playerData ??= new List<PlayerSaveData>();
+        CurrentGameData.comicData ??= new Dictionary<float, ComicData>();
+        CurrentGameData.serializedLevelData ??= new List<LevelDataEntry>();
 
         // If no save exists or this is a new game, load previous data
         if (!saveExists || CurrentGameData == null)
@@ -110,6 +118,17 @@ public class DataPersister : MonoBehaviour
             CurrentGameData.miningSkill = playerStats.MiningSkill;
             CurrentGameData.roboticsSkill = playerStats.RoboticsSkill;
             CurrentGameData.combatSkill = playerStats.CombatSkill;
+        }
+
+        ShipUpgradesUI shipUpgrades = FindFirstObjectByType<ShipUpgradesUI>();
+        if (shipUpgrades != null)
+        {
+            // Ensure player data exists
+            if (CurrentGameData.playerData.Count == 0)
+            {
+                CurrentGameData.playerData.Add(new PlayerSaveData());
+            }
+            CurrentGameData.playerData[0].playerMemoryScore = shipUpgrades.GetMemoryScore();
         }
 
         // Get reference to ScoreManager

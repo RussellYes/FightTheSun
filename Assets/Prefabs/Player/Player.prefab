@@ -170,7 +170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 493707157449197476, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: thrust
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 621849578115041076, guid: ded88e9f02ea9b6419df8cad4f54e18b, type: 3}
       propertyPath: m_LocalPosition.x

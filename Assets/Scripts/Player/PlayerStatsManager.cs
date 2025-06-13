@@ -51,7 +51,7 @@ public class PlayerStatsManager : MonoBehaviour
     private float distanceTraveled = 0; // Track distance traveled
     private bool isProgressHalfway = false;
 
-    // Player endGame upgrades
+    // Player ship upgrades
     private float engineeringSkill = 1;
     private float pilotingSkill = 1;
     private float mechanicsSkill = 1;
@@ -310,7 +310,7 @@ public class PlayerStatsManager : MonoBehaviour
             gameManager.SetState(GameState.EndDialogue);
         }
     }
-    private void LoadData()
+    public void LoadData()
     {
         // Check if DataPersister exists and has valid data
         if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
@@ -320,7 +320,7 @@ public class PlayerStatsManager : MonoBehaviour
             return;
         }
 
-        // Load player stats from PlayerPrefs
+        // Load player stats
         engineeringSkill = DataPersister.Instance.CurrentGameData.engineeringSkill;
         pilotingSkill = DataPersister.Instance.CurrentGameData.pilotingSkill;
         mechanicsSkill = DataPersister.Instance.CurrentGameData.mechanicsSkill;

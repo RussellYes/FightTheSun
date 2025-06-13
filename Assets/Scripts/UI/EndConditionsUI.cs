@@ -175,12 +175,8 @@ public class EndConditionsUI : MonoBehaviour
     {
         loseComicHolder.SetActive(true);
 
-
             for (int i = 0; i < loseComics.Length; i++)
             {
-                if (loseBackground == null || loseComics[i] == null)
-                    continue;
-
                 Debug.Log($"Displaying comic {i}: {loseComics[i].name}");
 
                 // Set the new sprite

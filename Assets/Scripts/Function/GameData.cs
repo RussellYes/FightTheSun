@@ -15,6 +15,15 @@ public class GameData
     public float totalTime;
     public int totalObstaclesDestroyed;
 
+    [Header("PlayerStats Manager Data")]
+    public float playerMemoryScore;
+    public float engineeringSkill = 1;
+    public float pilotingSkill = 1;
+    public float mechanicsSkill = 1;
+    public float miningSkill = 1;
+    public float roboticsSkill = 1;
+    public float combatSkill = 1;
+
     [Header("Achievements")]
     public bool isMission1Complete;
     public bool isMission2Complete;
@@ -39,14 +48,6 @@ public class GameData
     public bool isMission9Unlocked;
     public bool isMission10Unlocked;
 
-    [Header("Player Skills")]
-    public float engineeringSkill = 1;
-    public float pilotingSkill = 1;
-    public float mechanicsSkill = 1;
-    public float miningSkill = 1;
-    public float roboticsSkill = 1;
-    public float combatSkill = 1;
-
     // Serialized level data list (for JSON serialization)
     public List<LevelDataEntry> serializedLevelData;
 
@@ -67,6 +68,14 @@ public class GameData
         totalRareMetal = 0f;
         totalTime = 0f;
         totalObstaclesDestroyed = 0;
+
+        playerMemoryScore = 0;
+        engineeringSkill = 1;
+        pilotingSkill = 1;
+        mechanicsSkill = 1;
+        miningSkill = 1;
+        roboticsSkill = 1;
+        combatSkill = 1;
 
         isMission1Complete = false;
         isMission2Complete = false;

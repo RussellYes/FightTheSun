@@ -47,8 +47,38 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
         shipUpgradeHolder.SetActive(false);
+
+        // Wait for DataPersister to initialize before loading
+        StartCoroutine(InitializeAfterDelay());
     }
 
+    private IEnumerator InitializeAfterDelay()
+    {
+        // Wait until DataPersister is ready
+        while (DataPersister.Instance == null)
+        {
+            yield return new WaitForSeconds(1f);
+            yield return null;
+        }
+
+        LoadMemoryAndSkills();
+    }
+    private void LoadMemoryAndSkills()
+    {
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
+                memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+        }
+        if (playerStatsManager == null)
+        {
+            playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
+        }
+
+        playerStatsManager.LoadData();
+
+        UpdateMemoryAndSkillsText();
+    }
     private void OnEnable()
     {
         shipUpgradeOpenButton.onClick.AddListener(() => StartCoroutine(OpenShipUpgradeMenu()));
@@ -120,6 +150,10 @@ public class ShipUpgradesUI : MonoBehaviour
         shipUpgradeHolder.SetActive(false);
     }
 
+    public float GetMemoryScore()
+    {
+        return memoryScore;
+    }
     public void UpdateMemoryText()
     {
         memoryScoreText.text = memoryScore.ToString("0") + " memories";
@@ -167,7 +201,8 @@ public class ShipUpgradesUI : MonoBehaviour
         {
             memoryScore -= engineeringCost;
             playerStatsManager.MultiplyEngineeringSkill();
-            UpdateMemoryText();
+            SaveMemoryAndSkills();
+            UpdateMemoryAndSkillsText();
         }
     }
     private void BuyPiloting()
@@ -175,8 +210,9 @@ public class ShipUpgradesUI : MonoBehaviour
         if (memoryScore >= pilotingCost)
         {
             memoryScore -= pilotingCost;
-            UpdateMemoryText();
             playerStatsManager.MultiplyPilotingSkill();
+            SaveMemoryAndSkills();
+            UpdateMemoryAndSkillsText();
         }
     }
     private void BuyMechanics()
@@ -184,8 +220,9 @@ public class ShipUpgradesUI : MonoBehaviour
         if (memoryScore >= mechanicsCost)
         {
             memoryScore -= mechanicsCost;
-            UpdateMemoryText();
             playerStatsManager.MultiplyMechanicsSkill();
+            SaveMemoryAndSkills();
+            UpdateMemoryAndSkillsText();
         }
     }
     private void BuyMining()
@@ -193,8 +230,9 @@ public class ShipUpgradesUI : MonoBehaviour
         if (memoryScore >= miningCost)
         {
             memoryScore -= miningCost;
-            UpdateMemoryText();
             playerStatsManager.MultiplyMiningSkill();
+            SaveMemoryAndSkills();
+            UpdateMemoryAndSkillsText();
         }
     }
     private void BuyRobotics()
@@ -202,8 +240,9 @@ public class ShipUpgradesUI : MonoBehaviour
         if (memoryScore >= roboticsCost)
         {
             memoryScore -= roboticsCost;
-            UpdateMemoryText();
             playerStatsManager.MultiplyRoboticsSkill();
+            SaveMemoryAndSkills();
+            UpdateMemoryAndSkillsText();
         }
     }
     private void BuyCombat()
@@ -211,11 +250,32 @@ public class ShipUpgradesUI : MonoBehaviour
         if (memoryScore >= combatCost)
         {
             memoryScore -= combatCost;
-            UpdateMemoryText();
             playerStatsManager.MultiplyCombatSkill();
+            SaveMemoryAndSkills();
+            UpdateMemoryAndSkillsText();
         }
     }
 
+    private void SaveMemoryAndSkills()
+    {
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            // Ensure player data exists
+            if (DataPersister.Instance.CurrentGameData.playerData.Count == 0)
+            {
+                DataPersister.Instance.CurrentGameData.playerData.Add(new PlayerSaveData());
+            }
 
+            // Update memory score
+            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
+
+            // Update skills through PlayerStatsManager (which already handles saving)
+            // The PlayerStatsManager's Multiply methods already save the skills
+
+            // Save the game
+            DataPersister.Instance.SaveCurrentGame();
+            Debug.Log("Saved memory score and skills");
+        }
+    }
 
 }
