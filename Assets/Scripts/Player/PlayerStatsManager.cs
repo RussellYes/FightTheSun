@@ -50,8 +50,6 @@ public class PlayerStatsManager : MonoBehaviour
 
     private float distanceTraveled = 0; // Track distance traveled
     private bool isProgressHalfway = false;
-    private float repairTimer = 200f;
-    private float repairCountdown;
 
     // Player endGame upgrades
     private float engineeringSkill = 1;
@@ -386,22 +384,5 @@ public class PlayerStatsManager : MonoBehaviour
         combatSkill += combatSkill * skillIncreaseAmt;
         DataPersister.Instance.CurrentGameData.combatSkill = combatSkill;
         DataPersister.Instance.SaveCurrentGame();
-    }
-
-    private void RepairHull()
-    {
-        repairCountdown -= Time.deltaTime;
-
-        if (repairCountdown <= 0)
-        {
-            ChangeHealth(1f);
-
-            repairCountdown = repairTimer - roboticsSkill;
-
-            if (repairCountdown < 1)
-            {
-                repairCountdown = 1;
-            }
-        }
     }
 }

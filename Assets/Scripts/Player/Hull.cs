@@ -12,8 +12,9 @@ public class Hull : MonoBehaviour
     private PlayerStatsManager playerStatsManager;
 
     [SerializeField] private float hullMax;
-    [SerializeField] private float repairTime;
-    [SerializeField] private float repairCountdown;
+    private float maxRepairTime = 200f;
+    private float minRepairTime = 1f;
+    private float repairCountdown;
 
     private void Start()
     {
@@ -22,7 +23,7 @@ public class Hull : MonoBehaviour
         // Trigger events to initialize values
         OnHullMaxChanged?.Invoke(hullMax);
         OnCurrentHullChanged?.Invoke(hullMax); // Start with full hull
-        repairCountdown = repairTime;
+        repairCountdown = maxRepairTime;
     }
 
     private void Update()
@@ -49,7 +50,11 @@ public class Hull : MonoBehaviour
         {
             float repairValue = 1f;
             OnCurrentHullChanged?.Invoke(repairValue);
-            repairCountdown = repairTime;
+            repairCountdown = maxRepairTime - playerStatsManager.RoboticsSkill;
+            if (repairCountdown < minRepairTime)
+            {
+                repairCountdown = minRepairTime;
+            }
             // Trigger the event to notify about the current hull change
             OnCurrentHullChanged?.Invoke(playerStatsManager.PlayerCurrentHull);
         }

@@ -437,6 +437,22 @@ public class EndConditionsUI : MonoBehaviour
         endText.gameObject.SetActive(true);
         endText.text = "Saving...";
 
+        // Save memoryScore with dataPersister and GameData scripts
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            // Ensure player data exists
+            if (DataPersister.Instance.CurrentGameData.playerData.Count == 0)
+            {
+                DataPersister.Instance.CurrentGameData.playerData.Add(new PlayerSaveData());
+            }
+
+            // Update memory score
+            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
+
+            // Save the game
+            DataPersister.Instance.SaveCurrentGame();
+        }
+
         yield return new WaitForSecondsRealtime(1);
 
         Loader.Load(Loader.Scene.MainMenuScene);

@@ -10,7 +10,6 @@ public class MainMenuObstacle : MonoBehaviour
     [SerializeField] private float movementSpeedVariation;
     private float rotationDirection;
     private float rotationSpeed;
-    private float rotation;
     [SerializeField] private float timeUntilDestruction;
     [SerializeField] private Image mainMenuObstacleImage;
     [SerializeField] private Sprite[] ascendingObstacleSprites;
@@ -60,11 +59,7 @@ public class MainMenuObstacle : MonoBehaviour
 
     private void AssignRotation()
     {
-        if (isAscending)
-        {
-            rotation = 0;
-        }
-        else
+        if (!isAscending)
         {
             // Randomize rotation direction clockwise or counterclockwise
             rotationDirection = Random.value < 0.5f ? -1f : 1f;
