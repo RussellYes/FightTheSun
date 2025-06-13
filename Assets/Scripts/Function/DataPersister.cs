@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class DataPersister : MonoBehaviour
 {
     public static event Action NewGameEvent;
+    public static event Action InitializationComplete;
 
     public static DataPersister Instance;
     public GameData CurrentGameData { get; private set; }
@@ -94,6 +95,7 @@ public class DataPersister : MonoBehaviour
         {
             Debug.Log("DataPersister - Loading existing game");
         }
+        InitializationComplete?.Invoke();
     }
 
     public void SaveCurrentGame()
@@ -112,12 +114,19 @@ public class DataPersister : MonoBehaviour
         PlayerStatsManager playerStats = FindFirstObjectByType<PlayerStatsManager>();
         if (playerStats != null)
         {
-            CurrentGameData.engineeringSkill = playerStats.EngineeringSkill;
-            CurrentGameData.pilotingSkill = playerStats.PilotingSkill;
-            CurrentGameData.mechanicsSkill = playerStats.MechanicsSkill;
-            CurrentGameData.miningSkill = playerStats.MiningSkill;
-            CurrentGameData.roboticsSkill = playerStats.RoboticsSkill;
-            CurrentGameData.combatSkill = playerStats.CombatSkill;
+            // Ensure player data exists
+            if (CurrentGameData.playerData.Count == 0)
+            {
+                CurrentGameData.playerData.Add(new PlayerSaveData());
+            }
+
+            // Update all skills in playerData
+            CurrentGameData.playerData[0].engineeringSkill = playerStats.EngineeringSkill;
+            CurrentGameData.playerData[0].pilotingSkill = playerStats.PilotingSkill;
+            CurrentGameData.playerData[0].mechanicsSkill = playerStats.MechanicsSkill;
+            CurrentGameData.playerData[0].miningSkill = playerStats.MiningSkill;
+            CurrentGameData.playerData[0].roboticsSkill = playerStats.RoboticsSkill;
+            CurrentGameData.playerData[0].combatSkill = playerStats.CombatSkill;
         }
 
         ShipUpgradesUI shipUpgrades = FindFirstObjectByType<ShipUpgradesUI>();

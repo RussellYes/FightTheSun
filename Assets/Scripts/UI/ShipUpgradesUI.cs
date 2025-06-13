@@ -47,20 +47,10 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
         shipUpgradeHolder.SetActive(false);
-
-        // Wait for DataPersister to initialize before loading
-        StartCoroutine(InitializeAfterDelay());
     }
 
-    private IEnumerator InitializeAfterDelay()
+    private void OnDataPersisterReady()
     {
-        // Wait until DataPersister is ready
-        while (DataPersister.Instance == null)
-        {
-            yield return new WaitForSeconds(1f);
-            yield return null;
-        }
-
         LoadMemoryAndSkills();
     }
     private void LoadMemoryAndSkills()
@@ -69,18 +59,20 @@ public class ShipUpgradesUI : MonoBehaviour
         {
             if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
                 memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
-        }
-        if (playerStatsManager == null)
-        {
-            playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
-        }
+            else
+            {
+                // Initialize if empty
+                DataPersister.Instance.CurrentGameData.playerData.Add(new PlayerSaveData());
+                memoryScore = 0;
+            }
 
-        playerStatsManager.LoadData();
-
+            Debug.Log($"Loaded memoryScore: {memoryScore}");
+        }
         UpdateMemoryAndSkillsText();
     }
     private void OnEnable()
     {
+        DataPersister.InitializationComplete += OnDataPersisterReady;
         shipUpgradeOpenButton.onClick.AddListener(() => StartCoroutine(OpenShipUpgradeMenu()));
         shipUpgradeCloseButton.onClick.AddListener(() => StartCoroutine(CloseShipUpgradeMenu()));
         // Upgrade button listeners
@@ -94,6 +86,7 @@ public class ShipUpgradesUI : MonoBehaviour
 
     private void OnDisable()
     {
+        DataPersister.InitializationComplete -= OnDataPersisterReady;
         shipUpgradeOpenButton.onClick.RemoveListener(() => StartCoroutine(OpenShipUpgradeMenu()));
         shipUpgradeCloseButton.onClick.RemoveListener(() => StartCoroutine(CloseShipUpgradeMenu()));
         // Upgrade button listeners
@@ -269,8 +262,7 @@ public class ShipUpgradesUI : MonoBehaviour
             // Update memory score
             DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
 
-            // Update skills through PlayerStatsManager (which already handles saving)
-            // The PlayerStatsManager's Multiply methods already save the skills
+            // Skills are saved by PlayerStatsManager when changed
 
             // Save the game
             DataPersister.Instance.SaveCurrentGame();

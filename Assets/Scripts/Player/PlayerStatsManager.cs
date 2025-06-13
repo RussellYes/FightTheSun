@@ -93,6 +93,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Subscribe to events
         Cockpit.OnCockpitMassChanged += HandleMassChange;
         Cockpit.OnCockpitThrustChanged += HandleThrustChange;
+        DataPersister.InitializationComplete += OnDataPersisterReady;
 
         // Subscribe to Hull events
         Hull.OnHullMaxChanged += HandlePlayerHullMaxChange;
@@ -115,6 +116,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Unsubscribe from events
         Cockpit.OnCockpitMassChanged -= HandleMassChange;
         Cockpit.OnCockpitThrustChanged -= HandleThrustChange;
+        DataPersister.InitializationComplete -= OnDataPersisterReady;
 
         // Unsubscribe from Hull events
         Hull.OnHullMaxChanged -= HandlePlayerHullMaxChange;
@@ -135,7 +137,7 @@ public class PlayerStatsManager : MonoBehaviour
     {
         ThrottleChange(-0.25f);
     }
-    private void Start()
+    private void OnDataPersisterReady()
     {
         LoadData();
     }
@@ -320,13 +322,21 @@ public class PlayerStatsManager : MonoBehaviour
             return;
         }
 
-        // Load player stats
-        engineeringSkill = DataPersister.Instance.CurrentGameData.engineeringSkill;
-        pilotingSkill = DataPersister.Instance.CurrentGameData.pilotingSkill;
-        mechanicsSkill = DataPersister.Instance.CurrentGameData.mechanicsSkill;
-        miningSkill = DataPersister.Instance.CurrentGameData.miningSkill;
-        roboticsSkill = DataPersister.Instance.CurrentGameData.roboticsSkill;
-        combatSkill = DataPersister.Instance.CurrentGameData.combatSkill;
+        // Load player stats from playerData[0]
+        if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
+        {
+            var playerData = DataPersister.Instance.CurrentGameData.playerData[0];
+            engineeringSkill = playerData.engineeringSkill;
+            pilotingSkill = playerData.pilotingSkill;
+            mechanicsSkill = playerData.mechanicsSkill;
+            miningSkill = playerData.miningSkill;
+            roboticsSkill = playerData.roboticsSkill;
+            combatSkill = playerData.combatSkill;
+        }
+        else
+        {
+            LoadDefaultStats();
+        }
 
         Debug.Log($"Loaded Engineering: {engineeringSkill}");
         Debug.Log($"Loaded Piloting: {pilotingSkill}");
@@ -352,37 +362,37 @@ public class PlayerStatsManager : MonoBehaviour
     public void MultiplyEngineeringSkill()
     {
         engineeringSkill += engineeringSkill * skillIncreaseAmt;
-        DataPersister.Instance.CurrentGameData.engineeringSkill = engineeringSkill;
+        DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill = engineeringSkill;
         DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyPilotingSkill()
     {
         pilotingSkill += pilotingSkill * skillIncreaseAmt;
-        DataPersister.Instance.CurrentGameData.pilotingSkill = pilotingSkill;
+        DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill = pilotingSkill;
         DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyMechanicsSkill()
     {
         mechanicsSkill += mechanicsSkill * skillIncreaseAmt;
-        DataPersister.Instance.CurrentGameData.mechanicsSkill = mechanicsSkill;
+        DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill = mechanicsSkill;
         DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyMiningSkill()
     {
         miningSkill += miningSkill * skillIncreaseAmt;
-        DataPersister.Instance.CurrentGameData.miningSkill = miningSkill;
+        DataPersister.Instance.CurrentGameData.playerData[0].miningSkill = miningSkill;
         DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyRoboticsSkill()
     {
         roboticsSkill += roboticsSkill * skillIncreaseAmt;
-        DataPersister.Instance.CurrentGameData.roboticsSkill = roboticsSkill;
+        DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill = roboticsSkill;
         DataPersister.Instance.SaveCurrentGame();
     }
     public void MultiplyCombatSkill()
     {
         combatSkill += combatSkill * skillIncreaseAmt;
-        DataPersister.Instance.CurrentGameData.combatSkill = combatSkill;
+        DataPersister.Instance.CurrentGameData.playerData[0].combatSkill = combatSkill;
         DataPersister.Instance.SaveCurrentGame();
     }
 }

@@ -15,14 +15,7 @@ public class GameData
     public float totalTime;
     public int totalObstaclesDestroyed;
 
-    [Header("PlayerStats Manager Data")]
-    public float playerMemoryScore;
-    public float engineeringSkill = 1;
-    public float pilotingSkill = 1;
-    public float mechanicsSkill = 1;
-    public float miningSkill = 1;
-    public float roboticsSkill = 1;
-    public float combatSkill = 1;
+
 
     [Header("Achievements")]
     public bool isMission1Complete;
@@ -60,6 +53,18 @@ public class GameData
     public GameData()
     {
         playerData = new List<PlayerSaveData>();
+        // Initialize first player data with default values
+        playerData.Add(new PlayerSaveData()
+        {
+            playerMemoryScore = 0,
+            engineeringSkill = 1,
+            pilotingSkill = 1,
+            mechanicsSkill = 1,
+            miningSkill = 1,
+            roboticsSkill = 1,
+            combatSkill = 1
+        });
+
         comicData = new Dictionary<float, ComicData>();
         levelData = new Dictionary<int, LevelData>();
         serializedLevelData = new List<LevelDataEntry>();
@@ -68,14 +73,6 @@ public class GameData
         totalRareMetal = 0f;
         totalTime = 0f;
         totalObstaclesDestroyed = 0;
-
-        playerMemoryScore = 0;
-        engineeringSkill = 1;
-        pilotingSkill = 1;
-        mechanicsSkill = 1;
-        miningSkill = 1;
-        roboticsSkill = 1;
-        combatSkill = 1;
 
         isMission1Complete = false;
         isMission2Complete = false;
@@ -229,6 +226,12 @@ public class PlayerSaveData
 {
     [Header("Player Data")]
     public float playerMemoryScore;
+    public float engineeringSkill;
+    public float pilotingSkill;
+    public float mechanicsSkill;
+    public float miningSkill;
+    public float roboticsSkill;
+    public float combatSkill;
 }
 
 [System.Serializable]
