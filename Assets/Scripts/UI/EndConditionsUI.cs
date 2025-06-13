@@ -169,7 +169,7 @@ public class EndConditionsUI : MonoBehaviour
         Debug.Log("Skipping comics display");
         StopCoroutine(DisplayLoseComics());
         loseComicHolder.SetActive(false);
-        StartCoroutine(ShowLoseTextsWithDelay());
+        //StartCoroutine(ShowLoseTextsWithDelay());
     }
     IEnumerator DisplayLoseComics()
     {

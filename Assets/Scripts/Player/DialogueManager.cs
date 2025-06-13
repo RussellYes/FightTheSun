@@ -277,7 +277,7 @@ public class DialogueManager : MonoBehaviour
 
             // Apply offsets directly
             Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 200, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
             Vector3 arrowPosition = CheckpointMeterObjectRect.position + xOffset + yOffset;
 
             // Define the z axis rotation

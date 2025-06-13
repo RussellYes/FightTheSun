@@ -81,26 +81,26 @@ public class MainMenuLevelScoreText : MonoBehaviour
     }
     private void SetDefaultText()
     {
-        bestTimeText.text = "Time: --:--";
-        bestMoneyText.text = "Money: ---";
-        bestObstaclesDestroyedText.text = "Obstacles: ---";
+        bestTimeText.text = "--:--";
+        bestMoneyText.text = "---";
+        bestObstaclesDestroyedText.text = "---";
     }
     private void UpdateTimeText(float timeInSeconds)
     {
         bestTimeText.text = timeInSeconds > 0 ?
-            $"Best Time: {Mathf.FloorToInt(timeInSeconds / 60):00}:{Mathf.FloorToInt(timeInSeconds % 60):00}" :
-            "Time: --:--";
+            $"{Mathf.FloorToInt(timeInSeconds / 60):00}:{Mathf.FloorToInt(timeInSeconds % 60):00}" :
+            "--:--";
     }
 
     private void UpdateMoneyText(float money)
     {
-        bestMoneyText.text = money > 0 ? $"Money: {money}" : "Money: ---";
+        bestMoneyText.text = money > 0 ? $"{money}" : "---";
     }
 
     private void UpdateObstaclesDestroyedText(int obstaclesDestroyed)
     {
         bestObstaclesDestroyedText.text = obstaclesDestroyed > 0 ?
-            $"Obstacles: {obstaclesDestroyed}" : "Obstacles: ---";
+            $"{obstaclesDestroyed}" : "---";
     }
     private void CheckLevelUnlockStatus(int levelNumber)
     {
