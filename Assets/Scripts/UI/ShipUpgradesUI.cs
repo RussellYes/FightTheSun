@@ -2,16 +2,19 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class ShipUpgradesUI : MonoBehaviour
 {
     private PlayerStatsManager playerStatsManager;
+    private SFXManager sFXManager;
 
     [SerializeField] private GameObject shipUpgradeHolder;
     [SerializeField] private GameObject upgradeButtonHolder;
     [SerializeField] private Button shipUpgradeOpenButton;
     [SerializeField] private Button shipUpgradeCloseButton;
     [SerializeField] private float uIOpenCloseLerpTime = 1f;
+    [SerializeField] private AudioClip[] shipUpgradeMenuOpenCloseSFX;
 
     [Header("Memory Score")]
     private float memoryScore;
@@ -46,6 +49,7 @@ public class ShipUpgradesUI : MonoBehaviour
     private void Start()
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
+        sFXManager = FindAnyObjectByType<SFXManager>();
         shipUpgradeHolder.SetActive(false);
     }
 
@@ -101,6 +105,13 @@ public class ShipUpgradesUI : MonoBehaviour
     IEnumerator OpenShipUpgradeMenu()
     {
         shipUpgradeHolder.SetActive(true);
+
+        //Play SFX
+        if (sFXManager != null && shipUpgradeMenuOpenCloseSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(shipUpgradeMenuOpenCloseSFX[UnityEngine.Random.Range(0, shipUpgradeMenuOpenCloseSFX.Length)]);
+        }
+
         // without delay, move upgradeButtonHolder up 2000 on the y axis.
         RectTransform rectTransform = upgradeButtonHolder.GetComponent<RectTransform>();
         Vector3 originalPosition = rectTransform.localPosition;
@@ -123,6 +134,12 @@ public class ShipUpgradesUI : MonoBehaviour
 
     IEnumerator CloseShipUpgradeMenu()
     {
+        //Play SFX
+        if (sFXManager != null && shipUpgradeMenuOpenCloseSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(shipUpgradeMenuOpenCloseSFX[UnityEngine.Random.Range(0, shipUpgradeMenuOpenCloseSFX.Length)]);
+        }
+
         // lerp upgradeButtonHolder's position from its original position to +2000 y over UIOpenCloseLerpTime seconds.
         RectTransform rectTransform = upgradeButtonHolder.GetComponent<RectTransform>();
         Vector3 originalPosition = rectTransform.localPosition;

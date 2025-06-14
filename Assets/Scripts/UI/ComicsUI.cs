@@ -2,15 +2,19 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class ComicsUI : MonoBehaviour
 {
+    private SFXManager sFXManager;
+
     [Header("Menu Controls")]
     [SerializeField] private GameObject comicMenuHolder;
     [SerializeField] private GameObject comicHolder;
     [SerializeField] private Button openComicMenu;
     [SerializeField] private Button closeComicMenu;
     [SerializeField] private float uIOpenCloseLerpTime = 1f;
+    [SerializeField] private AudioClip[] comicMenuOpenCloseSFX;
 
     [Header("Comic Display")]
     [SerializeField] private Image comicImage;
@@ -48,10 +52,18 @@ public class ComicsUI : MonoBehaviour
         // Initialize with all comics locked
         InitializeComicData();
         ShowCurrentPanel();
+        sFXManager = FindAnyObjectByType<SFXManager>();
     }
     IEnumerator OpenComicMenu()
     {
         comicMenuHolder.SetActive(true);
+
+        //Play SFX
+        if (sFXManager != null && comicMenuOpenCloseSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(comicMenuOpenCloseSFX[UnityEngine.Random.Range(0, comicMenuOpenCloseSFX.Length)]);
+        }
+
         // without delay, move comicHolder up 2000 on the y axis.
         RectTransform rectTransform = comicHolder.GetComponent<RectTransform>();
         Vector3 originalPosition = rectTransform.localPosition;
@@ -93,6 +105,12 @@ public class ComicsUI : MonoBehaviour
 
     private void InitializeComicData()
     {
+        //Play SFX
+        if (sFXManager != null && comicMenuOpenCloseSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(comicMenuOpenCloseSFX[UnityEngine.Random.Range(0, comicMenuOpenCloseSFX.Length)]);
+        }
+
         // Verify array setup
         if (comicSprites == null || comicNumbers == null || comicSprites.Length == 0 || comicNumbers.Length == 0)
         {
