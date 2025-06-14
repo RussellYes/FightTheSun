@@ -83,6 +83,12 @@ public class ComicsUI : MonoBehaviour
 
     IEnumerator CloseComicMenu()
     {
+        //Play SFX
+        if (sFXManager != null && comicMenuOpenCloseSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(comicMenuOpenCloseSFX[UnityEngine.Random.Range(0, comicMenuOpenCloseSFX.Length)]);
+        }
+
         // lerp comicHolder's position from its original position to +2000 y over UIOpenCloseLerpTime seconds.
         RectTransform rectTransform = comicHolder.GetComponent<RectTransform>();
         Vector3 originalPosition = rectTransform.localPosition;
@@ -105,12 +111,6 @@ public class ComicsUI : MonoBehaviour
 
     private void InitializeComicData()
     {
-        //Play SFX
-        if (sFXManager != null && comicMenuOpenCloseSFX.Length > 0)
-        {
-            sFXManager.PlaySFX(comicMenuOpenCloseSFX[UnityEngine.Random.Range(0, comicMenuOpenCloseSFX.Length)]);
-        }
-
         // Verify array setup
         if (comicSprites == null || comicNumbers == null || comicSprites.Length == 0 || comicNumbers.Length == 0)
         {

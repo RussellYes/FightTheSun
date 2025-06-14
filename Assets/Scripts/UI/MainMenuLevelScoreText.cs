@@ -12,47 +12,25 @@ public class MainMenuLevelScoreText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bestObstaclesDestroyedText;
     [SerializeField] private GameObject lockedPlanet;
 
-    [SerializeField] private int levelNumber = 0; // Set this in inspector for each level display
+    [SerializeField] private int levelNumber; // Set this in inspector for each level display
 
-    private void Start()
+    private void OnEnable()
     {
-        StartCoroutine(Initialize());
+        DataPersister.InitializationComplete += LoadLevelData;
     }
 
-    private IEnumerator Initialize()
+    private void OnDisable()
     {
-        // Initial wait to ensure other systems are initialized
-        yield return new WaitForEndOfFrame();
-
-        // Brief additional wait if DataPersister isn't ready
-        if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        LoadLevelData(levelNumber);
+        DataPersister.InitializationComplete -= LoadLevelData;
     }
 
-    private void LoadLevelData(int levelNumber)
+
+
+    private void LoadLevelData()
     {
         Debug.Log("MainMenuLevelScoreText LoadLevelData");
 
         SetDefaultText();
-
-        // Check if save system is available
-        if (DataPersister.Instance == null)
-        {
-            Debug.LogWarning("DataPersister not initialized yet - trying again next frame");
-            StartCoroutine(DelayedLoad(levelNumber));
-            return;
-        }
-
-        if (DataPersister.Instance.CurrentGameData == null)
-        {
-            Debug.LogWarning("GameData not loaded yet - trying again next frame");
-            StartCoroutine(DelayedLoad(levelNumber));
-            return;
-        }
 
         // Try to get level data
         if (DataPersister.Instance.CurrentGameData.levelData.TryGetValue(levelNumber, out LevelData levelData))
@@ -72,12 +50,6 @@ public class MainMenuLevelScoreText : MonoBehaviour
         }
 
         CheckLevelUnlockStatus(levelNumber);
-    }
-
-    private IEnumerator DelayedLoad(int levelNumber)
-    {
-        yield return null; // Wait one frame
-        LoadLevelData(levelNumber); // Try again
     }
     private void SetDefaultText()
     {
