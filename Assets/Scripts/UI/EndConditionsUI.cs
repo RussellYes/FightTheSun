@@ -56,6 +56,7 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private Sprite[] loseComics;
     [SerializeField] private float loseComicPanelDisplayTime = 2f;
     [SerializeField] private Button skipComicButton;
+    private bool areComicsDisplaying = false;
 
     private float memoryScore;
 
@@ -101,6 +102,7 @@ public class EndConditionsUI : MonoBehaviour
     private void HideUI()
     {
         // Initially hide all text elements and their shine bars
+        winBackground.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
         newMoneyText.gameObject.SetActive(false);
         if (moneyTextShineBar != null) moneyTextShineBar.SetActive(false);
@@ -137,6 +139,7 @@ public class EndConditionsUI : MonoBehaviour
             // Update the win/lose UI
             if (isWin)
             {
+                winBackground.gameObject.SetActive(true);
                 winBackground.sprite = winSprite;
                 endText.text = "You win";
 
@@ -155,6 +158,7 @@ public class EndConditionsUI : MonoBehaviour
             }
             else
             {
+                areComicsDisplaying = true;
                 StartCoroutine(DisplayLoseComics());
             }
         }
@@ -167,14 +171,14 @@ public class EndConditionsUI : MonoBehaviour
     private void SkipComic()
     {
         Debug.Log("Skipping comics display");
-        StopCoroutine(DisplayLoseComics());
-        loseComicHolder.SetActive(false);
-        //StartCoroutine(ShowLoseTextsWithDelay());
+        areComicsDisplaying = false;
     }
     IEnumerator DisplayLoseComics()
     {
         loseComicHolder.SetActive(true);
 
+        if (areComicsDisplaying)
+        {
             for (int i = 0; i < loseComics.Length; i++)
             {
                 Debug.Log($"Displaying comic {i}: {loseComics[i].name}");
@@ -189,9 +193,9 @@ public class EndConditionsUI : MonoBehaviour
                     yield return null; // Wait each frame until time passes
                 }
             }
-        
+        }
         loseComicHolder.SetActive(false);
-
+        areComicsDisplaying = false;
         StartCoroutine(ShowLoseTextsWithDelay());
     }
 
@@ -312,9 +316,10 @@ public class EndConditionsUI : MonoBehaviour
 
     IEnumerator ShowLoseTextsWithDelay()
     {
+        winBackground.gameObject.SetActive(true);
+        winBackground.sprite = loseSprite;
         loseText.gameObject.SetActive(true);
         loseText.text = "What will you remember?";
-        winBackground.sprite = loseSprite;
 
         float loseTime = scoreManager.GetTotalTime() + gameManager.GameTime;
         int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
