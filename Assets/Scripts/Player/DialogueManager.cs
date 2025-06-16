@@ -107,6 +107,7 @@ public class DialogueManager : MonoBehaviour
     {
         PlayerStatsManager.GoalProgressEvent += MissionDialogue;
         GameManager.MissionDialogueEvent += MissionDialogue;
+        // DataPersister.InitializationComplete += ;
     }
 
     private void OnDisable()
@@ -191,8 +192,8 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 1: Learn To Drive";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown()); 
             StartCoroutine(DelayedSpawnActions1());
+            StartGameCountdownEvent?.Invoke();
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -264,7 +265,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 2: Speed Control";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -324,7 +325,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 3: Fixing For Trouble";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
             StartCoroutine(DelayedSpawnActions1());
 
             if (dialogueBoxPortraitImage != null)
@@ -360,7 +361,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 4: Trouble Finds You";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
             StartCoroutine(DelayedSpawnActions1());
 
             if (dialogueBoxPortraitImage != null)
@@ -407,7 +408,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 5: It's Mine";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -444,7 +445,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 6: A Really Big Rock";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -496,7 +497,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 7: Feel The Heat";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -532,8 +533,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 8: Fireflies";
 
             StartCoroutine(FadeInDialogueBox());
-
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
 
             dialogueText.text = "This area shows multiple distress signals.";
         }
@@ -575,7 +575,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 9: Comic Chaos";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -615,7 +615,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 10: Pirate King";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(StartGameCountdown());
+            StartGameCountdownEvent?.Invoke();
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -656,14 +656,6 @@ public class DialogueManager : MonoBehaviour
         }
 
     }
-
-
-    IEnumerator StartGameCountdown()
-    {
-        yield return new WaitForSeconds(0.1f); // Wait for one frame to ensure all scripts are enabled and subscribed
-        StartGameCountdownEvent?.Invoke();
-    }
-
     public void HideDialogue()
     {
         StartCoroutine(FadeOutDialogueBox(0f));
@@ -722,7 +714,8 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator DelayedSpawnActions1()
     {
-        yield return new WaitForSeconds(3f);
+        float delayTime = 3f; // Adjust the delay time as needed
+        yield return new WaitForSeconds(delayTime);
         // Spawn 1 obstacle
         SpawnSpecialEvent?.Invoke();
     }
@@ -745,7 +738,8 @@ public class DialogueManager : MonoBehaviour
 
         Instantiate(planet1, planetSpawnPosition.transform.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(3f);
+        float planetMoveTime = 3f;
+        yield return new WaitForSeconds(planetMoveTime);
 
         StartCoroutine(FadeInDialogueBox());
         dialogueText.text = endText;

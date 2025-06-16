@@ -81,24 +81,29 @@ public class GameManager : MonoBehaviour
         Debug.Log("Initial GameState: " + GameManager.Instance.CurrentState.ToString());
 
         endConditionsUI.SetActive(false);
-
-        // Set the current mission based on the scene
-        SetMissionBasedOnScene();
-
-        // Explicitly set the state to StartDialogue to trigger HandleStateChange
-        SetState(GameState.StartDialogue);
     }
 
     private void OnEnable()
     {
+        DataPersister.InitializationComplete += Initialize;
         Boss.StartSpawnersEvent += StartSpawners;
         Boss.StopSpawnersEvent += StopSpawners;
     }
 
     private void OnDisable()
     {
+        DataPersister.InitializationComplete -= Initialize;
         Boss.StartSpawnersEvent -= StartSpawners;
         Boss.StopSpawnersEvent -= StopSpawners;
+    }
+
+    private void Initialize()
+    {
+        // Set the current mission based on the scene
+        SetMissionBasedOnScene();
+
+        // Explicitly set the state to StartDialogue to trigger HandleStateChange
+        SetState(GameState.StartDialogue);
     }
 
     private void Update()
