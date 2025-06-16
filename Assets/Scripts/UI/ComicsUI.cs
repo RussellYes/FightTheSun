@@ -19,6 +19,9 @@ public class ComicsUI : MonoBehaviour
     [Header("Comic Display")]
     [SerializeField] private Image comicImage;
     [SerializeField] private GameObject lockImage;
+    [SerializeField] private Button unlockComicButton;
+    [SerializeField] private GameObject unlockComicHolder;
+    [SerializeField] private TextMeshProUGUI unlockComicCostText;
     [SerializeField] private TextMeshProUGUI panelNumberText;
 
     [Header("Navigation")]
@@ -37,6 +40,7 @@ public class ComicsUI : MonoBehaviour
         closeComicMenu.onClick.AddListener(() => StartCoroutine(CloseComicMenu()));
         forwardButton.onClick.AddListener(ShowNextPanel);
         backButton.onClick.AddListener(ShowPreviousPanel);
+        unlockComicButton.onClick.AddListener(UnlockComicPanel);
     }
 
     private void OnDisable()
@@ -45,6 +49,7 @@ public class ComicsUI : MonoBehaviour
         closeComicMenu.onClick.RemoveListener(() => StartCoroutine(CloseComicMenu()));
         forwardButton.onClick.RemoveListener(ShowNextPanel);
         backButton.onClick.RemoveListener(ShowPreviousPanel);
+        unlockComicButton.onClick.RemoveListener(UnlockComicPanel);
     }
 
     private void Start()
@@ -185,4 +190,16 @@ public class ComicsUI : MonoBehaviour
             ShowCurrentPanel();
         }
     }
+
+    private void UnlockComicPanel()
+    {
+
+    }
+
+    // if the comic is locked, the unlock button must be active
+    // load totalMoney from DataPersister and GameData
+    // cost of unlocking the comic is 1000 * comicNumbers[currentPanelIndex]
+    // display cost of unlocking the comic as unlockComicCostText
+    // if totalMoney >= unlockCost, unlock the comic and set its isUnlocked to true
+    // save totalMoney and unlocked status through DataPersister and GameData
 }
