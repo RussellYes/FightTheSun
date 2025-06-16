@@ -191,7 +191,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 1: Learn To Drive";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown()); 
             StartCoroutine(DelayedSpawnActions1());
 
@@ -206,7 +205,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 6)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
 
             // Apply offsets directly
             Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
@@ -225,7 +223,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
 
             dialogueText.text = "Swipe up and down to change speed.";
 
@@ -234,7 +231,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 8)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
 
             // Apply offsets directly
             Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
@@ -268,7 +264,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 2: Speed Control";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
 
             if (dialogueBoxPortraitImage != null)
@@ -281,7 +276,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             // Apply offsets directly
             Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
@@ -330,7 +324,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 3: Fixing For Trouble";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
             StartCoroutine(DelayedSpawnActions1());
 
@@ -343,7 +336,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueText.text = "Shipwreck scrap is worth money too!";
         }
@@ -368,7 +360,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 4: Trouble Finds You";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
             StartCoroutine(DelayedSpawnActions1());
 
@@ -382,7 +373,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -417,7 +407,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 5: It's Mine";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
 
             if (dialogueBoxPortraitImage != null)
@@ -429,7 +418,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueCount++;
             dialogueText.text = "Increase your mining skill for better loot.";
@@ -456,7 +444,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 6: A Really Big Rock";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
 
             if (dialogueBoxPortraitImage != null)
@@ -471,7 +458,6 @@ public class DialogueManager : MonoBehaviour
             Debug.Log("DialogueManager Mission6 DialogueCount1");
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -510,7 +496,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 7: Feel The Heat";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
 
             if (dialogueBoxPortraitImage != null)
@@ -522,7 +507,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueText.text = "It's getting hotter closer to the Sun.";
         }
@@ -548,7 +532,7 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 8: Fireflies";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
+
             StartCoroutine(StartGameCountdown());
 
             dialogueText.text = "This area shows multiple distress signals.";
@@ -556,7 +540,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             ShipGraveyardEvent?.Invoke(boss3);
 
@@ -592,7 +575,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 9: Comic Chaos";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
 
             if (dialogueBoxPortraitImage != null)
@@ -604,7 +586,6 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             dialogueText.text = "Let nothing stop you. You're so close.";
         }
@@ -634,7 +615,6 @@ public class DialogueManager : MonoBehaviour
             missionTitleText.text = "Mission 10: Pirate King";
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
 
             if (dialogueBoxPortraitImage != null)
@@ -649,7 +629,6 @@ public class DialogueManager : MonoBehaviour
             Debug.Log("DialogueManager Mission10 DialogueCount1");
 
             StartCoroutine(FadeInDialogueBox());
-            StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
             if (dialogueBoxPortraitImage != null)
             {
@@ -710,6 +689,8 @@ public class DialogueManager : MonoBehaviour
             // Ensure the alpha is set to 1 at the end
             canvasGroup.alpha = 1f;                       
         }
+
+        StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
     }
 
     IEnumerator FadeOutDialogueBox(float waitTime)
@@ -768,7 +749,6 @@ public class DialogueManager : MonoBehaviour
 
         StartCoroutine(FadeInDialogueBox());
         dialogueText.text = endText;
-        StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
 
         yield return new WaitForSeconds(dialogueTimer + 1f);
 
