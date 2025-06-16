@@ -105,12 +105,14 @@ public class DialogueManager : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerStatsManager.GoalProgressEvent += MissionDialogue;
         GameManager.MissionDialogueEvent += MissionDialogue;
     }
 
     private void OnDisable()
     {
-        // Unsubscribe from the sceneLoaded event
+        PlayerStatsManager.GoalProgressEvent -= MissionDialogue;
+        GameManager.MissionDialogueEvent -= MissionDialogue;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -197,7 +199,6 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount = 1;
             dialogueText.text = "Asteroid! Swipe left and right to move.";
 
             StartCoroutine(MissionDialogueDelay(5f, 6));
@@ -220,10 +221,8 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(DestroyArrow(dialogueTimer));
 
             dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
-
-            MissionDialogue(7);
         }
-        else if (dialogueCount == 7)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay

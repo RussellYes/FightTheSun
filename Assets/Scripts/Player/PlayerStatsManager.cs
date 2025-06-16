@@ -32,6 +32,8 @@ public class PlayerStatsManager : MonoBehaviour
     public static event EventHandler<OnCurrentThrustChangedEventArgs> OnCurrentThrustChanged;
     public static event EventHandler<OnCheckpointProgressChangedEventArgs> OnCheckpointProgressChanged;
 
+
+    public static event Action <int> GoalProgressEvent;
     public static event Action <int> PlayerHullPercentEvent;
 
     [SerializeField] private GameManager gameManager;
@@ -289,19 +291,22 @@ public class PlayerStatsManager : MonoBehaviour
                     if (distanceTraveled >= gameManager.Goal * 0.25f && distanceTraveled <= (gameManager.Goal * 0.25f) + 0.1f && !isProgress25way)
                     {
                         isProgress25way = true;
-                        DialogueManager.Instance.MissionDialogue(1);
+                        GoalProgressEvent?.Invoke(1);
+                        Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal Progress 25% reached.");
                     }
 
                     if (distanceTraveled >= gameManager.Goal * 0.5f && distanceTraveled <= (gameManager.Goal * 0.5f) + 0.1f && !isProgressHalfway)
                     {
                         isProgressHalfway = true;
-                        DialogueManager.Instance.MissionDialogue(2);
+                        GoalProgressEvent?.Invoke(2);
+                        Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal Progress 50% reached.");
                     }
 
                     if (distanceTraveled >= gameManager.Goal * 0.75f && distanceTraveled <= (gameManager.Goal * 0.75f) + 0.1f && !isProgress75way)
                     {
                         isProgress75way = true;
-                        DialogueManager.Instance.MissionDialogue(3);
+                        GoalProgressEvent?.Invoke(3);
+                        Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal Progress 75% reached.");
                     }
 
                     // Check if the goal has been reached
@@ -309,6 +314,7 @@ public class PlayerStatsManager : MonoBehaviour
                     {
                         gameManager.SetState(GameState.EndDialogue);
                         StartCoroutine(DoubleCheckGameStateEndDialogue());
+                        Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal reached. Setting game state to EndDialogue.");
                     }
                 }
             }
