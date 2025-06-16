@@ -14,7 +14,7 @@ public class Cockpit : MonoBehaviour
 
     [Header("Cockpit Settings")]
     [SerializeField] private float mass;
-    [SerializeField] private float thrust;
+    private float thrust = 1;
 
 
     [Header("Visuals")]
