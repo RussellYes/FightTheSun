@@ -29,7 +29,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private float dialogueTimer = 4f;
     [SerializeField] private Button continueStartDialogueButton;
-    private float dialogueCount = 0f;
+    private int dialogueCount = 99;
 
     [Header("Mission Title / Countdown")]
     [SerializeField] private TextMeshProUGUI missionTitleText;
@@ -101,29 +101,30 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.LogError("No GameObject with tag 'SpeakerPortraitUI' found");
         }
+    }
 
-        continueStartDialogueButton.onClick.AddListener(() =>
-        {
-            MissionDialogue();
-        });
+    private void OnEnable()
+    {
+        GameManager.MissionDialogueEvent += MissionDialogue;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe from the sceneLoaded event
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Reset dialogue count when a new scene is loaded
-        dialogueCount = 0;
+        dialogueCount = 99;
 
         Debug.Log($"New scene loaded: {scene.name}. Dialogue count reset.");
     }
 
-    private void OnDestroy()
+    public void MissionDialogue(int amt)
     {
-        // Unsubscribe from the sceneLoaded event when the object is destroyed
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    public void MissionDialogue()
-    {
+        dialogueCount = amt;
         Debug.Log("Dialogue Count = " + dialogueCount);
 
         // Debug log to verify the current mission
@@ -169,6 +170,15 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    //Missions use a numbering system as follows:
+    // 0 = Mission start
+    // 1 = 25% complete
+    // 2 = 50% complete
+    // 3 = 75% complete
+    // 4 = 100% complete
+    // 5 = mission end
+    // 6+ = additional dialogue for the mission
+
     private void Mission1()
     {
         Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
@@ -187,12 +197,12 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount++;
+            dialogueCount = 1;
             dialogueText.text = "Asteroid! Swipe left and right to move.";
 
-            StartCoroutine(MissionDialogueDelay(5f));
+            StartCoroutine(MissionDialogueDelay(5f, 6));
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 6)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
@@ -209,20 +219,20 @@ public class DialogueManager : MonoBehaviour
             currentArrowInstance.transform.SetAsLastSibling();
             StartCoroutine(DestroyArrow(dialogueTimer));
 
-            dialogueCount++;
             dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
+
+            MissionDialogue(7);
         }
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 7)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
 
-            dialogueCount++;
             dialogueText.text = "Swipe up and down to change speed.";
 
-            StartCoroutine(MissionDialogueDelay(5f));
+            StartCoroutine(MissionDialogueDelay(5f, 8));
         }
-        else if (dialogueCount == 3)
+        else if (dialogueCount == 8)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
@@ -236,7 +246,6 @@ public class DialogueManager : MonoBehaviour
             // Ensure the arrow is rendered in front by setting its sibling index
             currentArrowInstance.transform.SetAsLastSibling();
             StartCoroutine(DestroyArrow(dialogueTimer));
-            dialogueCount++;
             dialogueText.text = "This <b><color=blue>BLUE</color></b> gauge shows your speed.";
         }
         else if (dialogueCount == 4)
@@ -244,7 +253,7 @@ public class DialogueManager : MonoBehaviour
             Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
             string endText = "Great flying. You're at the first planet.";
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
             StartCoroutine(EndDialogueScene(endText));
         }
@@ -267,10 +276,10 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount++;
+
             dialogueText.text = "Race to the sun or slow down for loot?";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
@@ -294,11 +303,10 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = jermaPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "Look! This meter shows the progress to our checkpoint.";
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             if (dialogueBoxPortraitImage != null)
             {
@@ -308,7 +316,7 @@ public class DialogueManager : MonoBehaviour
             string endText = "You've got skills. We arrived at the space station safely.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 2 Complete. Story unlocked.");
         }
     }
@@ -331,25 +339,22 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "Collect Shipwrecks to repair your ship.";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
-            dialogueCount++;
             dialogueText.text = "Shipwreck scrap is worth money too!";
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 3 - Dialogue Count 2");
             string endText = "Life moves fast. If you're slow, buy upgrades.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 3 Complete. Story unlocked.");
         }
     }
@@ -372,10 +377,10 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount++;
+
             dialogueText.text = "Not everyone is friendly in space.";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
@@ -384,11 +389,11 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = jermaPortraitImage;
             }
-            dialogueCount++;
+
             dialogueText.text = "Fire back or fly fast?";
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             if (dialogueBoxPortraitImage != null)
             {
@@ -398,7 +403,7 @@ public class DialogueManager : MonoBehaviour
             string endText = "Repairs will be needed.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 4 Complete. Story unlocked.");
         }
     }
@@ -420,10 +425,9 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = jermaPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "The mining missle uncovers ore.";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
@@ -432,13 +436,13 @@ public class DialogueManager : MonoBehaviour
             dialogueText.text = "Increase your mining skill for better loot.";
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 5 - Dialogue Count 2");
             string endText = "We need ore for buying upgrades.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 5 Complete. Story unlocked.");
         }
     }
@@ -460,10 +464,9 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "Pirates guard the ore in this area";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             Debug.Log("Spawning boss at position: " + planetSpawnPosition.transform.position);
             Debug.Log("DialogueManager Mission6 DialogueCount1");
@@ -483,7 +486,7 @@ public class DialogueManager : MonoBehaviour
             Instantiate(boss1, planetSpawnPosition.transform.position, Quaternion.identity);
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             if (dialogueBoxPortraitImage != null)
             {
@@ -493,7 +496,7 @@ public class DialogueManager : MonoBehaviour
             string endText = "What a fortune!";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 6 Complete. Story unlocked.");
         }
     }
@@ -515,19 +518,17 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "Radiation from the Sun is damaging the ship.";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
-            dialogueCount++;
             dialogueText.text = "It's getting hotter closer to the Sun.";
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 7 - Dialogue Count 2");
             string endText = "How can we possibly survive?";
@@ -551,10 +552,9 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after delay
             StartCoroutine(StartGameCountdown());
 
-            dialogueCount++;
             dialogueText.text = "This area shows multiple distress signals.";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
@@ -565,11 +565,10 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = jermaPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "A graveyard of ships.";
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             if (dialogueBoxPortraitImage != null)
             {
@@ -579,7 +578,7 @@ public class DialogueManager : MonoBehaviour
             string endText = "You've traveled farther than most. Keep going.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 8 Complete. Story unlocked.");
         }
     }
@@ -601,19 +600,17 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = jermaPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "Here comes maddness.";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             StartCoroutine(FadeInDialogueBox());
             StartCoroutine(FadeOutDialogueBox(dialogueTimer)); //Hide dialogue box after
 
-            dialogueCount++;
             dialogueText.text = "Let nothing stop you. You're so close.";
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             if (dialogueBoxPortraitImage != null)
             {
@@ -623,7 +620,7 @@ public class DialogueManager : MonoBehaviour
             string endText = "Thank you for flying. We're all cheering for you at home.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 9 Complete. Story unlocked.");
         }
     }
@@ -645,10 +642,9 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "You've angered GoodCorp. They're sending their whole fleet.";
         }
-        else if (dialogueCount == 1)
+        else if (dialogueCount == 2)
         {
             Debug.Log("Spawning boss at position: " + planetSpawnPosition.transform.position);
             Debug.Log("DialogueManager Mission10 DialogueCount1");
@@ -660,7 +656,6 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = jermaPortraitImage;
             }
-            dialogueCount++;
             dialogueText.text = "There is something VERY VERY big coming your way.";
 
             GameManager.Instance.SetState(GameState.BossBattle);
@@ -668,7 +663,7 @@ public class DialogueManager : MonoBehaviour
             Instantiate(boss2, planetSpawnPosition.transform.position, Quaternion.identity);
         }
 
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 4)
         {
             if (dialogueBoxPortraitImage != null)
             {
@@ -678,7 +673,7 @@ public class DialogueManager : MonoBehaviour
             string endText = "Our hero! You reached the Sun.";
             StartCoroutine(EndDialogueScene(endText));
 
-            dialogueCount = 0;
+            dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 10 Complete. World Saved?");
         }
 
@@ -782,10 +777,10 @@ public class DialogueManager : MonoBehaviour
         gameManager.EndGame(true);
     }
 
-    IEnumerator MissionDialogueDelay(float delayTime)
+    IEnumerator MissionDialogueDelay(float delayTime, int amt)
     {
         yield return new WaitForSeconds(delayTime);
-        MissionDialogue();
+        MissionDialogue(amt);
     }
 
 

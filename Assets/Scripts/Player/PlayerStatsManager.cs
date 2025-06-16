@@ -32,10 +32,7 @@ public class PlayerStatsManager : MonoBehaviour
     public static event EventHandler<OnCurrentThrustChangedEventArgs> OnCurrentThrustChanged;
     public static event EventHandler<OnCheckpointProgressChangedEventArgs> OnCheckpointProgressChanged;
 
-    public static event Action PlayerHull100Percent;
-    public static event Action PlayerHull75Percent;
-    public static event Action PlayerHull50Percent;
-    public static event Action PlayerHull25Percent;
+    public static event Action <int> PlayerHullPercentEvent;
 
     [SerializeField] private GameManager gameManager;
 
@@ -49,7 +46,9 @@ public class PlayerStatsManager : MonoBehaviour
     [SerializeField] private float playerCurrentHull;
 
     private float distanceTraveled = 0; // Track distance traveled
+    private bool isProgress25way = false;
     private bool isProgressHalfway = false;
+    private bool isProgress75way = false;
 
     // Player ship upgrades
     private float engineeringSkill = 1;
@@ -229,22 +228,22 @@ public class PlayerStatsManager : MonoBehaviour
         if (playerCurrentHull >= playerHullMax * 0.75f)
         {
             Debug.Log("Hull 100% (75%-100%");
-            PlayerHull100Percent?.Invoke();
+            PlayerHullPercentEvent?.Invoke(100);
         }
         else if (playerCurrentHull < playerHullMax * 0.75f && playerCurrentHull >= playerHullMax * 0.5f)
         {
             Debug.Log("Hull 75% (50%-75%");
-            PlayerHull75Percent?.Invoke();
+            PlayerHullPercentEvent?.Invoke(75);
         }
         else if (playerCurrentHull < playerHullMax * 0.5f && playerCurrentHull >= playerHullMax * 0.25f)
         {
             Debug.Log("Hull 50% (25%-50%)");
-            PlayerHull50Percent?.Invoke();
-        }
+            PlayerHullPercentEvent?.Invoke(50);
+        }    
         else if (playerCurrentHull < playerHullMax * 0.25f)
         {
             Debug.Log("Hull 25% (0%-25%)");
-            PlayerHull25Percent?.Invoke();
+            PlayerHullPercentEvent?.Invoke(25);
         }
         if (playerCurrentHull <= 0)
         {
@@ -287,10 +286,22 @@ public class PlayerStatsManager : MonoBehaviour
                     float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
                     OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
 
-                    if (distanceTraveled >= gameManager.Goal / 2 && distanceTraveled <= (gameManager.Goal / 2) + 0.1f && !isProgressHalfway)
+                    if (distanceTraveled >= gameManager.Goal * 0.25f && distanceTraveled <= (gameManager.Goal * 0.25f) + 0.1f && !isProgress25way)
+                    {
+                        isProgress25way = true;
+                        DialogueManager.Instance.MissionDialogue(1);
+                    }
+
+                    if (distanceTraveled >= gameManager.Goal * 0.5f && distanceTraveled <= (gameManager.Goal * 0.5f) + 0.1f && !isProgressHalfway)
                     {
                         isProgressHalfway = true;
-                        DialogueManager.Instance.MissionDialogue();
+                        DialogueManager.Instance.MissionDialogue(2);
+                    }
+
+                    if (distanceTraveled >= gameManager.Goal * 0.75f && distanceTraveled <= (gameManager.Goal * 0.75f) + 0.1f && !isProgress75way)
+                    {
+                        isProgress75way = true;
+                        DialogueManager.Instance.MissionDialogue(3);
                     }
 
                     // Check if the goal has been reached

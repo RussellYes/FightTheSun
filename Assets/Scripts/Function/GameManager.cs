@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentState { get; private set; }
 
+    public static event Action<int> MissionDialogueEvent;
     public delegate void EndGameAction(bool isWin);
     public static event EndGameAction EndGameEvent;
     public static event Action EndGameDataSaveEvent;
@@ -220,7 +221,7 @@ public class GameManager : MonoBehaviour
         StopGoalProgress();
 
         // Show dialogue boxes
-        DialogueManager.Instance.MissionDialogue();
+        MissionDialogueEvent?.Invoke(0);
     }
 
     private void HandlePlaying()
@@ -326,7 +327,7 @@ public class GameManager : MonoBehaviour
         //Wait for a few seconds to let the game area clear obstacles
         yield return new WaitForSeconds(2);
 
-        DialogueManager.Instance.MissionDialogue();
+        MissionDialogueEvent?.Invoke(4);
 
         // Set player speed to 25%
         ChangeThrottleEvent?.Invoke(-1f);
