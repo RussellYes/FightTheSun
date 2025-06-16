@@ -27,18 +27,12 @@ public class Cockpit : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStatsManager.PlayerHull100Percent += Visual100;
-        PlayerStatsManager.PlayerHull75Percent += Visual75;
-        PlayerStatsManager.PlayerHull50Percent += Visual50;
-        PlayerStatsManager.PlayerHull25Percent += Visual25;
+        PlayerStatsManager.PlayerHullPercentEvent += Visual;
     }
 
     private void OnDisable()
     {
-        PlayerStatsManager.PlayerHull100Percent -= Visual100;
-        PlayerStatsManager.PlayerHull75Percent -= Visual75;
-        PlayerStatsManager.PlayerHull50Percent -= Visual50;
-        PlayerStatsManager.PlayerHull25Percent -= Visual25;
+        PlayerStatsManager.PlayerHullPercentEvent -= Visual;
     }
 
     private void Start()
@@ -60,23 +54,26 @@ public class Cockpit : MonoBehaviour
         OnCockpitThrustChanged?.Invoke(-thrust);
     }
 
-    private void Visual100()
+    private void Visual(int percentHull)
     {
-        hullSpriteRenderer.sprite = hull100;
-    }
-    private void Visual75()
-    {
-        hullSpriteRenderer.sprite = hull75;
-    }
-    private void Visual50()
-    {
-        hullSpriteRenderer.sprite = hull50;
-    }
-    private void Visual25()
-    {
-        hullSpriteRenderer.sprite = hull25;
-    }
+        if (percentHull >= 100)
+        {
+            hullSpriteRenderer.sprite = hull100;
+        }
+        else if (percentHull >= 75)
+        {
+            hullSpriteRenderer.sprite = hull75;
+        }
+        else if (percentHull >= 50)
+        {
+            hullSpriteRenderer.sprite = hull50;
+        }
+        else if (percentHull >= 25)
+        {
+            hullSpriteRenderer.sprite = hull25;
+        }
 
+    }
 
 
 }
