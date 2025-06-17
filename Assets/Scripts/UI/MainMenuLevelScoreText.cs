@@ -11,6 +11,7 @@ public class MainMenuLevelScoreText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bestMoneyText;
     [SerializeField] private TextMeshProUGUI bestObstaclesDestroyedText;
     [SerializeField] private GameObject lockedPlanet;
+    [SerializeField] private GameObject lockedMoonStore;
 
     [SerializeField] private int levelNumber; // Set this in inspector for each level display
 
@@ -92,6 +93,11 @@ public class MainMenuLevelScoreText : MonoBehaviour
 
         lockedPlanet.SetActive(!isLevelUnlocked);
         Debug.Log($"Level {levelNumber} unlocked: {isLevelUnlocked}");
+
+        if (lockedMoonStore != null && levelNumber == 2)
+        {
+            lockedMoonStore.SetActive(!isLevelUnlocked);
+        }
     }
 }
 

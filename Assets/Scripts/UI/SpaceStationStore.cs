@@ -4,20 +4,34 @@ using UnityEngine.UI;
 
 public class SpaceStationStore : MonoBehaviour
 {
+
+    private SFXManager sFXManager;
+
+    [Header("UI References")]
     [SerializeField] private Button openStoreButton;
     [SerializeField] private Button closeStoreButton;
-
     [SerializeField] private GameObject storeHolder;
+
+    [Header("Currency Displays")]
     [SerializeField] private TextMeshProUGUI memoriesText;
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI metalText;
     [SerializeField] private TextMeshProUGUI rareMetalText;
+
+    [Header("Trade Buttons")]
     [SerializeField] private Button memoriesForMoneyButton;
     [SerializeField] private Button moneyForMetalButton;
     [SerializeField] private Button metalForRareMetalButton;
-    [SerializeField] private Button rareMetalForMemoriesButton;
+    [SerializeField] private Button rareMetalForMemoryButton;
+    [SerializeField] private AudioClip buySucessSFX;
+    [SerializeField] private AudioClip buyFailSFX;
 
-
+    [Header("Trade Rates")]
+    private int memoriesToMoneyRate = 200;
+    private int moneyToMetalRate = 200;
+    private int metalToRareMetalRate = 200;
+    private int rareMetalToMemorRate = 200;
+    private int tradeAmount = 100;
     private void OnEnable()
     {
         DataPersister.InitializationComplete += OnInitializationComplete;
@@ -26,7 +40,7 @@ public class SpaceStationStore : MonoBehaviour
         memoriesForMoneyButton.onClick.AddListener(TradeMemoriesForMoney);
         moneyForMetalButton.onClick.AddListener(TrandeMoneyForMetal);
         metalForRareMetalButton.onClick.AddListener(TradeMetalForRareMetal);
-        rareMetalForMemoriesButton.onClick.AddListener(TradeRareMetalForMemories);
+        rareMetalForMemoryButton.onClick.AddListener(TradeRareMetalForMemories);
     }
 
     private void OnDisable()
@@ -37,7 +51,7 @@ public class SpaceStationStore : MonoBehaviour
         memoriesForMoneyButton.onClick.RemoveListener(TradeMemoriesForMoney);
         moneyForMetalButton.onClick.RemoveListener(TrandeMoneyForMetal);
         metalForRareMetalButton.onClick.RemoveListener(TradeMetalForRareMetal);
-        rareMetalForMemoriesButton.onClick.RemoveListener(TradeRareMetalForMemories);
+        rareMetalForMemoryButton.onClick.RemoveListener(TradeRareMetalForMemories);
     }
 
     private void OnInitializationComplete()
@@ -53,7 +67,7 @@ public class SpaceStationStore : MonoBehaviour
     private void OpenStore()
     {
         storeHolder.SetActive(true);
-
+        UpdateTexts();
     }
 
     private void CloseStore()
@@ -61,47 +75,110 @@ public class SpaceStationStore : MonoBehaviour
         storeHolder.SetActive(false);
     }
 
+    private void UpdateTexts()
+    {
+        memoriesText.text = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore.ToString();
+        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString();
+        metalText.text = DataPersister.Instance.CurrentGameData.totalMetal.ToString();
+        rareMetalText.text = DataPersister.Instance.CurrentGameData.totalRareMetal.ToString();
+    }
     private void TradeMemoriesForMoney()
     {
-        // Ensure that the trade is valid (e.g., player has enough rare metal)
-        // Trade 200 memories for 100 money logic here
-        SaveTrade();
-        UpdateTexts();
+        if (DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore >= memoriesToMoneyRate)
+        {
+            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore -= memoriesToMoneyRate;
+            DataPersister.Instance.CurrentGameData.totalMoney += tradeAmount;
+            UpdateTexts();
+            // Play success SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buySucessSFX);
+            }
+        }
+        else
+        {
+            // Play failure SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buyFailSFX);
+            }
+            Debug.Log("Not enough memories for this trade");
+        }
     }
 
     private void TrandeMoneyForMetal()
     {
-        // Ensure that the trade is valid (e.g., player has enough rare metal)
-        // Trade 200 money for 100 metal logic here
-        SaveTrade();
-        UpdateTexts();
+        if (DataPersister.Instance.CurrentGameData.totalMoney >= moneyToMetalRate)
+        {
+            DataPersister.Instance.CurrentGameData.totalMoney -= moneyToMetalRate;
+            DataPersister.Instance.CurrentGameData.totalMetal += tradeAmount;
+            UpdateTexts();
+            // Play success SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buySucessSFX);
+            }
+        }
+        else
+        {
+            // Play failure SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buyFailSFX);
+            }
+            Debug.Log("Not enough memories for this trade");
+        }
     }
 
     private void TradeMetalForRareMetal()
     {
-        // Ensure that the trade is valid (e.g., player has enough rare metal)
-        // Trade 200 metal for 100 rare metal logic here
-        SaveTrade();
-        UpdateTexts();
+        if (DataPersister.Instance.CurrentGameData.totalMetal >= metalToRareMetalRate)
+        {
+            DataPersister.Instance.CurrentGameData.totalMetal -= metalToRareMetalRate;
+            DataPersister.Instance.CurrentGameData.totalRareMetal += tradeAmount;
+            UpdateTexts();
+            // Play success SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buySucessSFX);
+            }
+        }
+        else
+        {
+            // Play failure SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buyFailSFX);
+            }
+            Debug.Log("Not enough memories for this trade");
+        }
     }
 
     private void TradeRareMetalForMemories()
     {
-        // Ensure that the trade is valid (e.g., player has enough rare metal)
-        // Trade 200 rare metal for 100 memories logic here
-        SaveTrade();
-        UpdateTexts();
+        if (DataPersister.Instance.CurrentGameData.totalRareMetal >= rareMetalToMemorRate)
+        {
+            DataPersister.Instance.CurrentGameData.totalRareMetal -= rareMetalToMemorRate;
+            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore += tradeAmount;
+            // Play success SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buySucessSFX);
+            }
+        }
+        else
+        {
+            // Play failure SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buyFailSFX);
+            }
+            Debug.Log("Not enough memories for this trade");
+        }
     }
-    
-    private void SaveTrade()
-    {
-        // Save memories, money, metal, and rare metal to DataPersister
-    }
-    private void UpdateTexts()
-    {
-        // Ensure that the trade is valid (e.g., player has enough rare metal)
-        // Update UI texts with current values of money, metal, rare metal, and memories
-    }
+
+
+
 
 
 }
