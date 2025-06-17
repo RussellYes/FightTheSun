@@ -251,7 +251,7 @@ public class ShipUpgradesUI : MonoBehaviour
         combatMemoryCost = Cube(playerStatsManager.CombatSkill);
         combatMemoryCostText.text = combatMemoryCost.ToString("0.00");
 
-        // Metal costs f0r upgrades
+        // Metal costs for upgrades
         engineeringMetalCost = Squared(playerStatsManager.EngineeringSkill);
         if (engineeringMetalCost < 1.5)
         {

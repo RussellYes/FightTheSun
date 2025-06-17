@@ -21,8 +21,16 @@ public class ComicsUI : MonoBehaviour
     [SerializeField] private GameObject lockImage;
     [SerializeField] private Button unlockComicButton;
     [SerializeField] private GameObject unlockComicHolder;
-    [SerializeField] private TextMeshProUGUI unlockComicCostText;
+    [SerializeField] private TextMeshProUGUI unlockComicMemoryCostText;
+    [SerializeField] private TextMeshProUGUI unlockComicMoneyCostText;
     [SerializeField] private TextMeshProUGUI panelNumberText;
+    [SerializeField] private AudioClip buySucessSFX;
+    [SerializeField] private AudioClip buyFailSFX;
+    private float unlockMemoryCost;
+    private float unlockMoneyCost;
+    private float memoryCostMultiplier = 1003f;
+    private float moneyCostMultiplier = 107f;
+
 
     [Header("Navigation")]
     [SerializeField] private Button forwardButton;
@@ -31,11 +39,13 @@ public class ComicsUI : MonoBehaviour
     [Header("Comic Data")]
     [SerializeField] private Sprite[] comicSprites;
     [SerializeField] private float[] comicNumbers;
+    private float currentComicNumber;
 
     private int currentPanelIndex = 0;
 
     private void OnEnable()
     {
+        DataPersister.InitializationComplete += Initalize;
         openComicMenu.onClick.AddListener(() => StartCoroutine(OpenComicMenu()));
         closeComicMenu.onClick.AddListener(() => StartCoroutine(CloseComicMenu()));
         forwardButton.onClick.AddListener(ShowNextPanel);
@@ -45,6 +55,7 @@ public class ComicsUI : MonoBehaviour
 
     private void OnDisable()
     {
+        DataPersister.InitializationComplete -= Initalize;
         openComicMenu.onClick.RemoveListener(() => StartCoroutine(OpenComicMenu()));
         closeComicMenu.onClick.RemoveListener(() => StartCoroutine(CloseComicMenu()));
         forwardButton.onClick.RemoveListener(ShowNextPanel);
@@ -52,9 +63,8 @@ public class ComicsUI : MonoBehaviour
         unlockComicButton.onClick.RemoveListener(UnlockComicPanel);
     }
 
-    private void Start()
+    private void Initalize()
     {
-        // Initialize with all comics locked
         InitializeComicData();
         ShowCurrentPanel();
         sFXManager = FindAnyObjectByType<SFXManager>();
@@ -162,7 +172,26 @@ public class ComicsUI : MonoBehaviour
         comicImage.sprite = comicSprites[currentPanelIndex];
         panelNumberText.text = $"Comic {comicNumbers[currentPanelIndex]}";
 
-        lockImage.SetActive(true);
+        // Show costs if locked
+        currentComicNumber = comicNumbers[currentPanelIndex];
+        bool isUnlocked = false;
+
+        // Check unlocked status if DataPersister is available
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            isUnlocked = DataPersister.Instance.CurrentGameData.comicData.ContainsKey(currentComicNumber) &&
+                        DataPersister.Instance.CurrentGameData.comicData[currentComicNumber].isUnlocked;
+
+            if (!isUnlocked)
+            {
+                unlockMemoryCost = Mathf.RoundToInt(memoryCostMultiplier * currentComicNumber);
+                unlockMoneyCost = Mathf.RoundToInt(moneyCostMultiplier * currentComicNumber);
+                unlockComicMemoryCostText.text = $"{unlockMemoryCost}";
+                unlockComicMoneyCostText.text = $"{unlockMoneyCost}";
+            }
+        }
+        // Update UI elements
+        lockImage.SetActive(!isUnlocked);
 
         UpdateNavigationButtons();
     }
@@ -193,13 +222,56 @@ public class ComicsUI : MonoBehaviour
 
     private void UnlockComicPanel()
     {
+        currentComicNumber = comicNumbers[currentPanelIndex];
+        unlockMemoryCost = Mathf.RoundToInt(memoryCostMultiplier * currentComicNumber);
+        unlockMoneyCost = Mathf.RoundToInt(moneyCostMultiplier * currentComicNumber);
 
+        // Check if already unlocked
+        if (DataPersister.Instance.CurrentGameData.comicData.ContainsKey(currentComicNumber) &&
+            DataPersister.Instance.CurrentGameData.comicData[currentComicNumber].isUnlocked)
+        {
+            Debug.Log($"Comic {currentComicNumber} is already unlocked");
+            return;
+        }
+
+        // Check if player has enough currency
+        if (DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore >= unlockMemoryCost && DataPersister.Instance.CurrentGameData.totalMoney >= unlockMoneyCost)
+        {
+            // Deduct costs
+            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore -= unlockMemoryCost;
+            DataPersister.Instance.CurrentGameData.totalMoney -= unlockMoneyCost;
+
+            // Unlock comic
+            if (!DataPersister.Instance.CurrentGameData.comicData.ContainsKey(currentComicNumber))
+            {
+                DataPersister.Instance.CurrentGameData.comicData[currentComicNumber] = new ComicData(currentComicNumber, true);
+            }
+            else
+            {
+                DataPersister.Instance.CurrentGameData.comicData[currentComicNumber].isUnlocked = true;
+            }
+
+            // Save changes
+            DataPersister.Instance.SaveCurrentGame();
+
+            // Update UI
+            ShowCurrentPanel();
+
+            // Play success SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buySucessSFX);
+            }
+        }
+        else
+        {
+            Debug.Log("Not enough money to unlock this comic");
+            // Play failure SFX
+            if (sFXManager != null)
+            {
+                sFXManager.PlaySFX(buyFailSFX);
+            }
+        }
     }
 
-    // if the comic is locked, the unlock button must be active
-    // load totalMoney from DataPersister and GameData
-    // cost of unlocking the comic is 1000 * comicNumbers[currentPanelIndex]
-    // display cost of unlocking the comic as unlockComicCostText
-    // if totalMoney >= unlockCost, unlock the comic and set its isUnlocked to true
-    // save totalMoney and unlocked status through DataPersister and GameData
 }
