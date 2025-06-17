@@ -119,8 +119,8 @@ public class PauseMenuUI : MonoBehaviour
         obstaclesDestroyedText.text = $"Destroyed: {scoreManager.GetLevelObstaclesDestroyed()}";
 
         // Update the time text
-        int minutes = Mathf.FloorToInt(gameManager.GameTime / 60);
-        int seconds = Mathf.FloorToInt(gameManager.GameTime % 60);
+        int minutes = Mathf.FloorToInt(gameManager.LevelTime / 60);
+        int seconds = Mathf.FloorToInt(gameManager.LevelTime % 60);
         timeText.text = $"Time: {minutes:00}:{seconds:00}";
 
         // Play the pause menu music

@@ -12,7 +12,8 @@ public class ShipUIManager : MonoBehaviour
     public static event Action FireMissilesEvent;
     public static event Action PauseButtonEvent;
 
-    [SerializeField] private GameObject shipUIBackground;
+    [SerializeField] private GameObject shipDashboardUIHolder;
+    [SerializeField] private GameObject shipTotalTimeUIHolder;
 
     [Header("Hull UI")]
     [SerializeField] private GameObject hullMeter;
@@ -24,6 +25,8 @@ public class ShipUIManager : MonoBehaviour
     [SerializeField] private GameObject checkpointUI;
     [SerializeField] private GameObject scoreMeter;
     [SerializeField] private GameObject pauseButton;
+    [SerializeField] private TextMeshProUGUI totalTimeText;
+    private bool initialized = false;
 
     [Header("Missile UI")]
     [SerializeField] private Button fireMissileButton;
@@ -34,16 +37,31 @@ public class ShipUIManager : MonoBehaviour
         fireMissileButton.onClick.AddListener(() => FireMissilesEvent?.Invoke());
         pauseButton.GetComponent<Button>().onClick.AddListener(() => PauseButtonEvent?.Invoke());
         MiningMissileLauncher.LauncherActiveEvent += UpdateMissileButton;
+        DataPersister.InitializationComplete += OnInitializationComplete;
     }
     private void OnDisable()
     {
         fireMissileButton.onClick.RemoveListener(() => FireMissilesEvent?.Invoke());
         pauseButton.GetComponent<Button>().onClick.RemoveListener(() => PauseButtonEvent?.Invoke());
         MiningMissileLauncher.LauncherActiveEvent -= UpdateMissileButton;
+        DataPersister.InitializationComplete -= OnInitializationComplete;
+    }
+
+    private void OnInitializationComplete()
+    {
+        initialized = true;
+    }
+    private void Update()
+    {
+        if (initialized)
+        {
+            KeepingTime();
+        }
     }
     public void TurnOnShipUI()
     {
-        shipUIBackground.SetActive(true);
+        shipDashboardUIHolder.SetActive(true);
+        shipTotalTimeUIHolder.SetActive(true);
 
         hullMeter.SetActive(true);
         speedMeter.SetActive(true);
@@ -53,7 +71,9 @@ public class ShipUIManager : MonoBehaviour
     }
     public void TurnOffShipUI()
     {
-        shipUIBackground.SetActive(false);
+        shipDashboardUIHolder.SetActive(false);
+        shipTotalTimeUIHolder.SetActive(false);
+
         hullMeter.SetActive(false);
         speedMeter.SetActive(false);
         checkpointUI.SetActive(false);
@@ -74,4 +94,21 @@ public class ShipUIManager : MonoBehaviour
             missileCountText.text = "0";
         }
     }
+
+    private void KeepingTime()
+    {
+        if (totalTimeText != null)
+        {
+            float totalCountdownTime = 3600 - GameManager.Instance.LevelTime - DataPersister.Instance.CurrentGameData.totalTime;
+
+            int minutes = Mathf.FloorToInt(totalCountdownTime / 60);
+            int seconds = Mathf.FloorToInt(totalCountdownTime % 60);
+            totalTimeText.text = $"{minutes:00}:{seconds:00}";
+        }
+        else
+        {
+            Debug.LogError("Total Time Text is not found by ShipUIManager");
+        }
+    }
+
 }

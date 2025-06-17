@@ -9,7 +9,7 @@ public class DashboardScoreText : MonoBehaviour
     private GameManager gameManager;
     private ScoreManager scoreManager;
 
-    [SerializeField] private TextMeshProUGUI timeText;
+    //[SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI dashboardMoneyText;
     [SerializeField] private TextMeshProUGUI obstaclesDestroyedText;
 
@@ -41,9 +41,9 @@ public class DashboardScoreText : MonoBehaviour
 
     private void Update()
     {
-            UpdateTimeText(gameManager.GameTime);
+            //UpdateTimeText(gameManager.LevelTime);
     }
-
+    /*
     private void UpdateTimeText(float timeInSeconds)
     {
         if (timeText != null)
@@ -57,7 +57,7 @@ public class DashboardScoreText : MonoBehaviour
         {
             Debug.LogError("timeText is not found by DashboardUI");
         }
-    }
+    }*/
 
     private void UpdateMoneyText(float newScore)
     {

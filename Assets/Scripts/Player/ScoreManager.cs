@@ -245,7 +245,7 @@ public class ScoreManager : MonoBehaviour
                 gameManager = FindFirstObjectByType<GameManager>();
             }
 
-            levelTime = gameManager.GameTime;
+            levelTime = gameManager.LevelTime;
             var gameData = DataPersister.Instance.CurrentGameData;
 
             if (gameData.levelData.ContainsKey(levelNumber))

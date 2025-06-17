@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button unpauseButton;
 
-    private float gameTime;
+    private float levelTime;
 
     [SerializeField] private float goal; // Distance to the goal
     private bool isGoalActive = false;
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     public float Goal => goal;
 
     // Public property to access the game time
-    public float GameTime => gameTime;
+    public float LevelTime => levelTime;
 
 
 
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     {
         if (isGoalActive || isBossBattle)
         {
-            gameTime += Time.deltaTime; // Increment game time
+            levelTime += Time.deltaTime; // Increment game time
         }
     }
 

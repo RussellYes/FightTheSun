@@ -150,8 +150,8 @@ public class EndConditionsUI : MonoBehaviour
                 newObstaclesDestroyedText.text = $"Destroyed: {scoreManager.GetLevelObstaclesDestroyed()}";
 
                 // Update the time text
-                int minutes = Mathf.FloorToInt(gameManager.GameTime / 60);
-                int seconds = Mathf.FloorToInt(gameManager.GameTime % 60);
+                int minutes = Mathf.FloorToInt(gameManager.LevelTime / 60);
+                int seconds = Mathf.FloorToInt(gameManager.LevelTime % 60);
                 newTimeText.text = $"Time: {minutes:00}:{seconds:00}";
 
                 StartCoroutine(ShowWinTextsWithDelay());
@@ -319,7 +319,7 @@ public class EndConditionsUI : MonoBehaviour
         loseText.gameObject.SetActive(true);
         loseText.text = "What will you remember?";
 
-        float loseTime = scoreManager.GetTotalTime() + gameManager.GameTime;
+        float loseTime = scoreManager.GetTotalTime() + gameManager.LevelTime;
         int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
         float loseMoney = scoreManager.GetTotalMoney() + scoreManager.GetLevelMoney();
 
