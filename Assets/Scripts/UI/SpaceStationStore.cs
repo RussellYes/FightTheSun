@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ public class SpaceStationStore : MonoBehaviour
     [SerializeField] private Button openStoreButton;
     [SerializeField] private Button closeStoreButton;
     [SerializeField] private GameObject storeHolder;
+    [SerializeField] private GameObject storeButtonHolder;
+    [SerializeField] private AudioClip[] storeOpenCloseSFX;
+    [SerializeField] private float uIOpenCloseLerpTime = 1;
 
     [Header("Currency Displays")]
     [SerializeField] private TextMeshProUGUI memoriesText;
@@ -62,17 +66,70 @@ public class SpaceStationStore : MonoBehaviour
     private void Start()
     {
         storeHolder.SetActive(false);
+        sFXManager = SFXManager.Instance;
 
     }
     private void OpenStore()
     {
         storeHolder.SetActive(true);
         UpdateTexts();
+        playOpenCloseSFX();
+        OpenStoreLerp();
     }
 
     private void CloseStore()
     {
         storeHolder.SetActive(false);
+        playOpenCloseSFX();
+        CloseStoreLerp();
+    }
+
+    IEnumerator OpenStoreLerp()
+    {
+        // without delay, move storeButtonHolder up 2000 on the y axis.
+        RectTransform rectTransform = storeButtonHolder.GetComponent<RectTransform>();
+        Vector3 originalPosition = rectTransform.localPosition;
+        Vector3 startPosition = originalPosition + new Vector3(0, 2000, 0);
+        rectTransform.localPosition = startPosition;
+
+        // lerp storeButtonHolder's position from its +2000 y axis position to its original position over UIOpenCloseLerpTime seconds.
+        float elapsedTime = 0f;
+        while (elapsedTime < uIOpenCloseLerpTime)
+        {
+            rectTransform.localPosition = Vector3.Lerp(startPosition, originalPosition, elapsedTime / uIOpenCloseLerpTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localPosition = originalPosition;
+    }
+    IEnumerator CloseStoreLerp()
+    {
+        // lerp storeButtonHolder's position from its original position to +2000 y over UIOpenCloseLerpTime seconds.
+        RectTransform rectTransform = storeButtonHolder.GetComponent<RectTransform>();
+        Vector3 originalPosition = rectTransform.localPosition;
+        Vector3 endPosition = originalPosition + new Vector3(0, 2000, 0);
+
+        float elapsedTime = 0f;
+        while (elapsedTime < uIOpenCloseLerpTime)
+        {
+            rectTransform.localPosition = Vector3.Lerp(originalPosition, endPosition, elapsedTime / uIOpenCloseLerpTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localPosition = endPosition;
+
+        // without delay, move comicHolder down 2000 on the y axis back to its original position.
+        rectTransform.localPosition = originalPosition;
+    }
+
+    private void playOpenCloseSFX()
+    {
+        AudioClip sFX = storeOpenCloseSFX[Random.Range(0, storeOpenCloseSFX.Length)];
+
+        if (sFXManager != null)
+        {
+            sFXManager.PlaySFX(sFX);
+        }
     }
 
     private void UpdateTexts()
