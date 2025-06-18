@@ -28,9 +28,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button unpauseButton;
 
+    private bool initialized = false;
     private float levelTime;
+    private float totalCountdownTime;
 
-    [SerializeField] private float goal; // Distance to the goal
+    [SerializeField] private float distanceToGoal;
     private bool isGoalActive = false;
     private bool isBossBattle = false;
 
@@ -40,10 +42,11 @@ public class GameManager : MonoBehaviour
     public bool IsGoalActive => isGoalActive;
 
     // Public property to access the goal
-    public float Goal => goal;
+    public float DistanceToGoal => distanceToGoal;
 
     // Public property to access the game time
     public float LevelTime => levelTime;
+    public float TotalCountdownTime => totalCountdownTime;
 
 
 
@@ -104,10 +107,17 @@ public class GameManager : MonoBehaviour
 
         // Explicitly set the state to StartDialogue to trigger HandleStateChange
         SetState(GameState.StartDialogue);
+
+        initialized = true;
     }
 
     private void Update()
     {
+        if (initialized)
+        {
+            KeepingTime();
+        }
+
         if (isGoalActive || isBossBattle)
         {
             levelTime += Time.deltaTime; // Increment game time
@@ -381,6 +391,16 @@ public class GameManager : MonoBehaviour
     private void StopSpawners()
     {
         StopSpawning?.Invoke();
+    }
+
+    private void KeepingTime()
+    {
+            totalCountdownTime = 3600 - levelTime - DataPersister.Instance.CurrentGameData.totalTime;
+
+        if (totalCountdownTime <= 0)
+        {
+            EndGame(false);
+        }
     }
 
 

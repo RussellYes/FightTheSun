@@ -33,7 +33,6 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI newTimeText;
     [SerializeField] private GameObject timeShineBar;
     [SerializeField] private AudioClip[] textMovementSfx;
-    [SerializeField] private AudioClip buttonAppearSFX;
     [SerializeField] private float textAppearDelay;
     [SerializeField] private float sFXDelay;
 
@@ -449,6 +448,7 @@ public class EndConditionsUI : MonoBehaviour
 
             // Update memory score
             DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
+            DataPersister.Instance.CurrentGameData.totalTime = gameManager.TotalCountdownTime;
 
             // Save the game
             DataPersister.Instance.SaveCurrentGame();

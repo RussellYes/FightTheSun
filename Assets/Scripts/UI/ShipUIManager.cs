@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 // This script controls the ship UI.
 
@@ -11,6 +12,8 @@ public class ShipUIManager : MonoBehaviour
 {
     public static event Action FireMissilesEvent;
     public static event Action PauseButtonEvent;
+
+    SFXManager sFXManager;
 
     [SerializeField] private GameObject shipDashboardUIHolder;
     [SerializeField] private GameObject shipTotalTimeUIHolder;
@@ -29,10 +32,18 @@ public class ShipUIManager : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private TextMeshProUGUI totalTimeText;
     private bool initialized = false;
+    [SerializeField] private AudioClip clockTimeIsUpSFX;
+    private Color defaultTimeTextColor;
 
     [Header("Missile UI")]
     [SerializeField] private Button fireMissileButton;
     [SerializeField] private TextMeshProUGUI missileCountText;
+
+    private void Start()
+    {
+        sFXManager = FindFirstObjectByType<SFXManager>();
+        defaultTimeTextColor = totalTimeText.color;
+    }
 
     private void OnEnable()
     {
@@ -102,11 +113,21 @@ public class ShipUIManager : MonoBehaviour
     {
         if (totalTimeText != null)
         {
-            float totalCountdownTime = 3600 - GameManager.Instance.LevelTime - DataPersister.Instance.CurrentGameData.totalTime;
+            float totalCountdownTime = GameManager.Instance.TotalCountdownTime;
 
             int minutes = Mathf.FloorToInt(totalCountdownTime / 60);
             int seconds = Mathf.FloorToInt(totalCountdownTime % 60);
             totalTimeText.text = $"{minutes:00}:{seconds:00}";
+
+            if (Math.Floor(totalCountdownTime) == totalCountdownTime && totalCountdownTime >= 1 && totalCountdownTime <= 5)
+            {
+                totalTimeText.color = Color.red;
+                sFXManager.PlaySFX(clockTimeIsUpSFX);
+            }
+            else
+            {
+                totalTimeText.color = defaultTimeTextColor;
+            }
         }
         else
         {

@@ -282,27 +282,27 @@ public class PlayerStatsManager : MonoBehaviour
             if (gameManager.IsGoalActive)
             {
                 //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
-                if (gameManager.Goal > 0)
+                if (gameManager.DistanceToGoal > 0)
                 {
                     //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
-                    float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.Goal); // Clamp progress between 0 and 1
+                    float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.DistanceToGoal); // Clamp progress between 0 and 1
                     OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
 
-                    if (distanceTraveled >= gameManager.Goal * 0.25f && distanceTraveled <= (gameManager.Goal * 0.25f) + 0.1f && !isProgress25way)
+                    if (distanceTraveled >= gameManager.DistanceToGoal * 0.25f && distanceTraveled <= (gameManager.DistanceToGoal * 0.25f) + 0.1f && !isProgress25way)
                     {
                         isProgress25way = true;
                         GoalProgressEvent?.Invoke(1);
                         Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal Progress 25% reached.");
                     }
 
-                    if (distanceTraveled >= gameManager.Goal * 0.5f && distanceTraveled <= (gameManager.Goal * 0.5f) + 0.1f && !isProgressHalfway)
+                    if (distanceTraveled >= gameManager.DistanceToGoal * 0.5f && distanceTraveled <= (gameManager.DistanceToGoal * 0.5f) + 0.1f && !isProgressHalfway)
                     {
                         isProgressHalfway = true;
                         GoalProgressEvent?.Invoke(2);
                         Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal Progress 50% reached.");
                     }
 
-                    if (distanceTraveled >= gameManager.Goal * 0.75f && distanceTraveled <= (gameManager.Goal * 0.75f) + 0.1f && !isProgress75way)
+                    if (distanceTraveled >= gameManager.DistanceToGoal * 0.75f && distanceTraveled <= (gameManager.DistanceToGoal * 0.75f) + 0.1f && !isProgress75way)
                     {
                         isProgress75way = true;
                         GoalProgressEvent?.Invoke(3);
@@ -310,7 +310,7 @@ public class PlayerStatsManager : MonoBehaviour
                     }
 
                     // Check if the goal has been reached
-                    if (distanceTraveled >= gameManager.Goal)
+                    if (distanceTraveled >= gameManager.DistanceToGoal)
                     {
                         gameManager.SetState(GameState.EndDialogue);
                         StartCoroutine(DoubleCheckGameStateEndDialogue());
