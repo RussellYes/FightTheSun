@@ -4783,6 +4783,7 @@ MonoBehaviour:
   scoreMeter: {fileID: 5615682881725504726}
   pauseButton: {fileID: 6581232851745513766}
   totalTimeText: {fileID: 5418004833921471341}
+  clockTimeIsUpSFX: {fileID: 8300000, guid: aa9d16701be099643866a3434418cc1d, type: 3}
   fireMissileButton: {fileID: 7409279972269310127}
   missileCountText: {fileID: 1670873914566051143}
 --- !u!1 &7102865650355098110
