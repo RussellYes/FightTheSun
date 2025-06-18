@@ -2,26 +2,28 @@ using UnityEngine;
 
 public class MiningClaw : MonoBehaviour
 {
-    private Vector2 originPoint;
+    private Transform originTransform; 
     private LineRenderer cableLineRenderer;
     private Rigidbody2D rb;
     private bool isReturning = false;
-    private float returnSpeed = 15f;
+    private float returnSpeed = 5f;
+    private float launchSpeed;
 
-    [SerializeField] private float maxDistance = 20f;
-
-    public void Initialize(Vector2 origin, LineRenderer cableRenderer)
+    public void Initialize(Transform origin, LineRenderer cableRenderer, float speed)
     {
-        originPoint = origin;
+        originTransform = origin;
         cableLineRenderer = cableRenderer;
+        launchSpeed = speed;
         rb = GetComponent<Rigidbody2D>();
         cableLineRenderer.enabled = true;
+
+        // Initial positions
+        UpdateCable();
     }
 
     private void Update()
     {
         UpdateCable();
-        CheckDistance();
 
         if (isReturning)
         {
@@ -31,31 +33,38 @@ public class MiningClaw : MonoBehaviour
 
     private void UpdateCable()
     {
-        if (cableLineRenderer != null)
+        if (cableLineRenderer != null && originTransform != null)
         {
-            cableLineRenderer.SetPosition(0, originPoint);
+            // Get a new position from the origin transform
+            cableLineRenderer.SetPosition(0, originTransform.position);
             cableLineRenderer.SetPosition(1, transform.position);
         }
     }
 
-    private void CheckDistance()
+    public void Retract()
     {
-        float distance = Vector2.Distance(originPoint, transform.position);
-        if (distance > maxDistance && !isReturning)
+        isReturning = true;
+        if (rb != null)
         {
-            isReturning = true;
             rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
         }
     }
 
     private void ReturnToShip()
     {
-        Vector2 direction = (originPoint - (Vector2)transform.position).normalized;
+        if (originTransform == null) return;
+
+        Vector2 direction = (originTransform.position - transform.position).normalized;
         transform.position += (Vector3)direction * returnSpeed * Time.deltaTime;
 
-        if (Vector2.Distance(transform.position, originPoint) < 0.5f)
+        if (Vector2.Distance(transform.position, originTransform.position) < 0.5f)
         {
             Destroy(gameObject);
+            if (cableLineRenderer != null)
+            {
+                cableLineRenderer.enabled = false;
+            }
         }
     }
 
@@ -64,6 +73,14 @@ public class MiningClaw : MonoBehaviour
         if (cableLineRenderer != null)
         {
             cableLineRenderer.enabled = false;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!isReturning)
+        {
+            Retract();
         }
     }
 }
