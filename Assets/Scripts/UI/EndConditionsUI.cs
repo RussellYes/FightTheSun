@@ -314,6 +314,7 @@ public class EndConditionsUI : MonoBehaviour
 
     IEnumerator ShowLoseTextsWithDelay()
     {
+        DataPersister.Instance.CurrentGameData.sunCount++;
         winBackground.gameObject.SetActive(true);
         winBackground.sprite = loseSprite;
         loseText.gameObject.SetActive(true);

@@ -14,6 +14,8 @@ public class ShipUIManager : MonoBehaviour
 
     [SerializeField] private GameObject shipDashboardUIHolder;
     [SerializeField] private GameObject shipTotalTimeUIHolder;
+    [SerializeField] private GameObject shipSunCountHolder;
+    [SerializeField] private TextMeshProUGUI SunCountText;
 
     [Header("Hull UI")]
     [SerializeField] private GameObject hullMeter;
@@ -56,6 +58,7 @@ public class ShipUIManager : MonoBehaviour
         if (initialized)
         {
             KeepingTime();
+            SunCount();
         }
     }
     public void TurnOnShipUI()
@@ -110,5 +113,18 @@ public class ShipUIManager : MonoBehaviour
             Debug.LogError("Total Time Text is not found by ShipUIManager");
         }
     }
+
+    private void SunCount()
+    {
+        if (SunCountText != null)
+        {
+            SunCountText.text = DataPersister.Instance.CurrentGameData.sunCount.ToString();
+        }
+        else
+        {
+            Debug.LogError("Sun Count Text is not found by ShipUIManager");
+        }
+    }
+
 
 }

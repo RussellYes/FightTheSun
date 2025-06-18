@@ -14,6 +14,7 @@ public class GameData
     public float totalRareMetal;
     public float totalTime;
     public int totalObstaclesDestroyed;
+    public int sunCount;
 
 
 
@@ -73,6 +74,7 @@ public class GameData
         totalRareMetal = 0f;
         totalTime = 0f;
         totalObstaclesDestroyed = 0;
+        sunCount = 0;
 
         isMission1Complete = false;
         isMission2Complete = false;

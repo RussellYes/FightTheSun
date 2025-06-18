@@ -43,7 +43,7 @@ public class DashboardScoreText : MonoBehaviour
     {
         if (dashboardMoneyText != null)
         {
-            dashboardMoneyText.text = $"Money: {newScore}";
+            dashboardMoneyText.text = $"{newScore}";
         }
         else
         {
@@ -55,7 +55,7 @@ public class DashboardScoreText : MonoBehaviour
     {
         if (obstaclesDestroyedText != null)
         {
-            obstaclesDestroyedText.text = $"Destroyed: {newCount}";
+            obstaclesDestroyedText.text = $"{newCount}";
         }
         else
         {
