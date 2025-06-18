@@ -39,26 +39,6 @@ public class DashboardScoreText : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-            //UpdateTimeText(gameManager.LevelTime);
-    }
-    /*
-    private void UpdateTimeText(float timeInSeconds)
-    {
-        if (timeText != null)
-        {
-            // Format the time as minutes:seconds
-            int minutes = Mathf.FloorToInt(timeInSeconds / 60);
-            int seconds = Mathf.FloorToInt(timeInSeconds % 60);
-            timeText.text = $"Time: {minutes:00}:{seconds:00}";
-        }
-        else
-        {
-            Debug.LogError("timeText is not found by DashboardUI");
-        }
-    }*/
-
     private void UpdateMoneyText(float newScore)
     {
         if (dashboardMoneyText != null)
