@@ -85,9 +85,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6179345374534429898}
   - component: {fileID: 6573171121537117768}
-  - component: {fileID: 2874394255055508190}
   - component: {fileID: -4561240578343706736}
   - component: {fileID: 3048061160263829618}
+  - component: {fileID: -5501489358739884728}
   m_Layer: 10
   m_Name: MiningClaw
   m_TagString: Obstacle
@@ -143,8 +143,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!61 &2874394255055508190
-BoxCollider2D:
+--- !u!114 &-4561240578343706736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301909746815339928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966c7dea7db3cbb4babbef745b98afac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!222 &3048061160263829618
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301909746815339928}
+  m_CullTransparentMesh: 1
+--- !u!58 &-5501489358739884728
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -178,37 +198,7 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.7, y: 1.7}
-    newSize: {x: 1, y: 0.5}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.5}
-  m_EdgeRadius: 0
---- !u!114 &-4561240578343706736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 966c7dea7db3cbb4babbef745b98afac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!222 &3048061160263829618
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301909746815339928}
-  m_CullTransparentMesh: 1
+  m_Radius: 0.5
 --- !u!1 &5931679618942554171
 GameObject:
   m_ObjectHideFlags: 0

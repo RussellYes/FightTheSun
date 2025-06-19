@@ -8,6 +8,9 @@ public class CreateLoot : MonoBehaviour
 {
     [SerializeField] private GameObject[] lootPrefab;
 
+    [SerializeField] private float miningTime;
+
+    public float MiningTime { get { return miningTime; }}
     public void SpawnLoot()
     {
         if (lootPrefab == null || lootPrefab.Length == 0) return;

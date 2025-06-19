@@ -9,13 +9,9 @@ public class ProgressBarUI : MonoBehaviour
     [SerializeField] private bool isHullBar;
     [SerializeField] private bool isThrustBar;
     [SerializeField] private bool isCheckpointBar;
+    [SerializeField] private bool isClawTimerBar;
 
     [SerializeField] private Image barImage;
-
-    private void Start()
-    {
-
-    }
 
     private void OnEnable()
     {
@@ -31,6 +27,10 @@ public class ProgressBarUI : MonoBehaviour
         if (isCheckpointBar)
         {
             PlayerStatsManager.OnCheckpointProgressChanged += PlayerStatsManager_OnCheckpointProgressChanged;
+        }
+        if (isClawTimerBar)
+        {
+            MiningClaw.OnClawTimerChanged += MiningClaw_OnClawTimerChanged;
         }
     }
 
@@ -48,6 +48,10 @@ public class ProgressBarUI : MonoBehaviour
         if (isCheckpointBar)
         {
             PlayerStatsManager.OnCheckpointProgressChanged -= PlayerStatsManager_OnCheckpointProgressChanged;
+        }
+        if (isClawTimerBar)
+        {
+            MiningClaw.OnClawTimerChanged -= MiningClaw_OnClawTimerChanged;
         }
     }
 
@@ -71,6 +75,14 @@ public class ProgressBarUI : MonoBehaviour
     {
         //Debug.Log("ProgressBarUI_PlayerStatsManager_OnCheckpointProgressChanged");
         if (isCheckpointBar)
+        {
+            barImage.fillAmount = e.progressNormalized;
+        }
+    }
+
+    private void MiningClaw_OnClawTimerChanged(object sender, MiningClaw.OnClawTimerChangedEventArgs e)
+    {
+        if (isClawTimerBar)
         {
             barImage.fillAmount = e.progressNormalized;
         }

@@ -73,7 +73,6 @@ public class ShipUIManager : MonoBehaviour
         MiningMissileLauncher.LauncherActiveEvent += UpdateMissileButton;
         DataPersister.InitializationComplete += OnInitializationComplete;
         miningClawButton.onClick.AddListener(() => { ActivateClawJoyStick(); });
-        MiningClawLauncher.MiningClawTimeUpdateEvent += UpdateMiningClawTime;
     }
     private void OnDisable()
     {
@@ -82,7 +81,6 @@ public class ShipUIManager : MonoBehaviour
         MiningMissileLauncher.LauncherActiveEvent -= UpdateMissileButton;
         DataPersister.InitializationComplete -= OnInitializationComplete;
         miningClawButton.onClick.RemoveListener(() => { ActivateClawJoyStick(); });
-        MiningClawLauncher.MiningClawTimeUpdateEvent -= UpdateMiningClawTime;
     }
 
     private void InitializeMiningClawJoystick()
@@ -303,9 +301,4 @@ public class ShipUIManager : MonoBehaviour
         return Vector2.Distance(touchPosition, joystickCenter) < joystickRadius * 1.5f;
     }
 
-    private void UpdateMiningClawTime(float remainingTime)
-    {
-        // You can use this to update UI elements if needed
-        // For example, show a countdown timer for the mining claw
-    }
 }
