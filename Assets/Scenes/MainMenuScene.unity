@@ -37285,6 +37285,10 @@ MonoBehaviour:
   comicMenuOpenCloseSFX:
   - {fileID: 8300000, guid: 100dfc059874cd243ab65da989a4731a, type: 3}
   - {fileID: 8300000, guid: 1e6152abb2b1ec443bec7db0037c8d6c, type: 3}
+  buttonSFX:
+  - {fileID: 8300000, guid: 3e7d664f35544dc49b8cffacef7a0bf9, type: 3}
+  buttonFailSFX:
+  - {fileID: 8300000, guid: aa9d16701be099643866a3434418cc1d, type: 3}
   comicImage: {fileID: 1974467896}
   lockImage: {fileID: 840809708}
   unlockComicButton: {fileID: 132520602}

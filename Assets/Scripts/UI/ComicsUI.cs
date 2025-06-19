@@ -15,6 +15,8 @@ public class ComicsUI : MonoBehaviour
     [SerializeField] private Button closeComicMenu;
     [SerializeField] private float uIOpenCloseLerpTime = 1f;
     [SerializeField] private AudioClip[] comicMenuOpenCloseSFX;
+    [SerializeField] private AudioClip[] buttonSFX;
+    [SerializeField] private AudioClip[] buttonFailSFX;
 
     [Header("Comic Display")]
     [SerializeField] private Image comicImage;
@@ -154,6 +156,8 @@ public class ComicsUI : MonoBehaviour
 
     private void ShowCurrentPanel()
     {
+        
+
         if (comicSprites == null || comicNumbers == null ||
             comicSprites.Length == 0 || comicNumbers.Length == 0 ||
             comicSprites.Length != comicNumbers.Length)
@@ -208,6 +212,11 @@ public class ComicsUI : MonoBehaviour
         {
             currentPanelIndex++;
             ShowCurrentPanel();
+            sFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+        }
+        else
+        {
+            sFXManager.PlaySFX(buttonFailSFX[UnityEngine.Random.Range(0, buttonFailSFX.Length)]);
         }
     }
 
@@ -217,6 +226,11 @@ public class ComicsUI : MonoBehaviour
         {
             currentPanelIndex--;
             ShowCurrentPanel();
+            sFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+        }
+        else
+        {
+            sFXManager.PlaySFX(buttonFailSFX[UnityEngine.Random.Range(0, buttonFailSFX.Length)]);
         }
     }
 

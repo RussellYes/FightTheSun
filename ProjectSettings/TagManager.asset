@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - SolarFlare
   - SpeakerPortraitUI
+  - Mining
   layers:
   - Default
   - TransparentFX

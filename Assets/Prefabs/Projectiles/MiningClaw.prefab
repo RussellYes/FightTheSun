@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7258838533161113318}
   - component: {fileID: 5683830034785321474}
   - component: {fileID: 7761533552747196754}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,9 +88,9 @@ GameObject:
   - component: {fileID: -4561240578343706736}
   - component: {fileID: 3048061160263829618}
   - component: {fileID: -5501489358739884728}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: MiningClaw
-  m_TagString: Obstacle
+  m_TagString: Mining
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,6 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966c7dea7db3cbb4babbef745b98afac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderCheckRadius: 0.5
+  showDebugGizmos: 1
 --- !u!222 &3048061160263829618
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -198,7 +200,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.2
 --- !u!1 &5931679618942554171
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +213,7 @@ GameObject:
   - component: {fileID: 1478683470764745579}
   - component: {fileID: 6503086946742997478}
   - component: {fileID: 3608972901484953449}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1297581618196513488}
   - component: {fileID: 356920606657125485}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: ClawCableLineRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
