@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 8319025744354508607}
   - component: {fileID: 5333041910104161950}
   - component: {fileID: 8931021678857595171}
+  - component: {fileID: 7482174660503878548}
   m_Layer: 5
   m_Name: HullBar
   m_TagString: Untagged
@@ -246,6 +247,21 @@ MonoBehaviour:
   isCheckpointBar: 0
   isClawTimerBar: 0
   barImage: {fileID: 8319025744354508607}
+--- !u!114 &7482174660503878548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337025846978759717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+  m_EffectDistance: {x: 1, y: -6}
+  m_UseGraphicAlpha: 1
 --- !u!1 &378954527258302665
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +979,7 @@ GameObject:
   - component: {fileID: 7601645701966925177}
   - component: {fileID: 8943845061963640298}
   - component: {fileID: 2224303814920302831}
+  - component: {fileID: 7579207203518322017}
   m_Layer: 5
   m_Name: MiningClawButton
   m_TagString: Untagged
@@ -1088,6 +1105,21 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: 3}
   m_UseGraphicAlpha: 0
+--- !u!114 &7579207203518322017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829063150209212696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+  m_EffectDistance: {x: 6, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &2000129617164100182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1590,6 +1622,7 @@ GameObject:
   - component: {fileID: 2441894573793247570}
   - component: {fileID: 7409279972269310127}
   - component: {fileID: 4964637068033132614}
+  - component: {fileID: 8851305001850682453}
   m_Layer: 5
   m_Name: FireMissileButton
   m_TagString: Untagged
@@ -1714,6 +1747,21 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: 3}
   m_UseGraphicAlpha: 0
+--- !u!114 &8851305001850682453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2794639508178905846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+  m_EffectDistance: {x: 1, y: -6}
+  m_UseGraphicAlpha: 1
 --- !u!1 &2925962497133332827
 GameObject:
   m_ObjectHideFlags: 0
@@ -6076,6 +6124,7 @@ GameObject:
   - component: {fileID: 6734926144292319645}
   - component: {fileID: 4688705544337464883}
   - component: {fileID: 3255687642281287304}
+  - component: {fileID: 5347626560833090364}
   m_Layer: 5
   m_Name: ThrustBar
   m_TagString: Untagged
@@ -6173,6 +6222,21 @@ MonoBehaviour:
   isCheckpointBar: 0
   isClawTimerBar: 0
   barImage: {fileID: 6734926144292319645}
+--- !u!114 &5347626560833090364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7976274573598138868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+  m_EffectDistance: {x: 1, y: -6}
+  m_UseGraphicAlpha: 1
 --- !u!1 &8531490564633930242
 GameObject:
   m_ObjectHideFlags: 0
