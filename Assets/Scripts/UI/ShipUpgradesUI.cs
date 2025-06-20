@@ -349,9 +349,9 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= engineeringMemoryCost && GetMetalScore() >= engineeringMetalCost && GetRareMetalScore() >= engineeringRareMetalCost)
         {
-            AddMemory(engineeringMemoryCost);
-            AddMetal(engineeringMetalCost);
-            AddRareMetal(engineeringRareMetalCost);
+            ChangeMemory(-engineeringMemoryCost);
+            ChangeMetal(engineeringMetalCost);
+            ChangeRareMetal(engineeringRareMetalCost);
             playerStatsManager.MultiplyEngineeringSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -360,9 +360,9 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= pilotingMemoryCost && GetMetalScore() >= pilotingMetalCost && GetRareMetalScore() >= pilotingRareMetalCost)
         {
-            AddMemory(pilotingMemoryCost);
-            AddMetal(pilotingMetalCost);
-            AddRareMetal(pilotingRareMetalCost);
+            ChangeMemory(-pilotingMemoryCost);
+            ChangeMetal(pilotingMetalCost);
+            ChangeRareMetal(pilotingRareMetalCost);
             playerStatsManager.MultiplyPilotingSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -371,9 +371,9 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= mechanicsMemoryCost && GetMetalScore() >= mechanicsMetalCost && GetRareMetalScore() >= mechanicsRareMetalCost)
         {
-            AddMemory(mechanicsMemoryCost);
-            AddMetal(mechanicsMetalCost);
-            AddRareMetal(mechanicsRareMetalCost);
+            ChangeMemory(-mechanicsMemoryCost);
+            ChangeMetal(mechanicsMetalCost);
+            ChangeRareMetal(mechanicsRareMetalCost);
             playerStatsManager.MultiplyMechanicsSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -382,9 +382,9 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= miningMemoryCost && GetMetalScore() >= miningMetalCost && GetRareMetalScore() >= miningRareMetalCost)
         {
-            AddMemory(miningMemoryCost);
-            AddMetal(miningMetalCost);
-            AddRareMetal(miningRareMetalCost);
+            ChangeMemory(-miningMemoryCost);
+            ChangeMetal(miningMetalCost);
+            ChangeRareMetal(miningRareMetalCost);
             playerStatsManager.MultiplyMiningSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -393,9 +393,9 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= roboticsMemoryCost && GetMetalScore() >= roboticsMetalCost && GetRareMetalScore() >= roboticsRareMetalCost)
         {
-            AddMemory(roboticsMemoryCost);
-            AddMetal(roboticsMetalCost);
-            AddRareMetal(roboticsRareMetalCost);
+            ChangeMemory(-roboticsMemoryCost);
+            ChangeMetal(roboticsMetalCost);
+            ChangeRareMetal(roboticsRareMetalCost);
             playerStatsManager.MultiplyRoboticsSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -404,25 +404,25 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= combatMemoryCost && GetMetalScore() >= combatMetalCost && GetRareMetalScore() >= combatRareMetalCost)
         {
-            AddMemory(combatMemoryCost);
-            AddMetal(combatMetalCost);
-            AddRareMetal(combatRareMetalCost);
+            ChangeMemory(-combatMemoryCost);
+            ChangeMetal(combatMetalCost);
+            ChangeRareMetal(combatRareMetalCost);
             playerStatsManager.MultiplyCombatSkill();
             UpdateMemoryAndSkillsText();
         }
     }
-    public void AddMemory(float amount)
+    public void ChangeMemory(float amount)
     {
         DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore += amount;
         DataPersister.Instance.SaveCurrentGame();
     }
-    public void AddMetal(float amount)
+    public void ChangeMetal(float amount)
     {
         DataPersister.Instance.CurrentGameData.totalMetal += amount;
         DataPersister.Instance.SaveCurrentGame();
     }
 
-    public void AddRareMetal(float amount)
+    public void ChangeRareMetal(float amount)
     {
         DataPersister.Instance.CurrentGameData.totalRareMetal += amount;
         DataPersister.Instance.SaveCurrentGame();
