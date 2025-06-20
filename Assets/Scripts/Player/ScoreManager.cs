@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class ScoreManager : MonoBehaviour
 {
     GameManager gameManager;
-    EndConditionsUI endConditionsUI;
 
     // Level-specific resources (reset each level)
     public float levelMoney = 0;
@@ -43,7 +42,6 @@ public class ScoreManager : MonoBehaviour
     private void Awake()
     {
         gameManager = FindFirstObjectByType<GameManager>();
-        endConditionsUI = FindFirstObjectByType<EndConditionsUI>();
     }
 
     private void OnEnable()
@@ -159,6 +157,8 @@ public class ScoreManager : MonoBehaviour
     private void SaveBestDataAtEndOfLevel()
     {
         int levelNumber = SceneManager.GetActiveScene().buildIndex -1;
+        levelTime = gameManager.LevelTime;
+        var gameData = DataPersister.Instance.CurrentGameData;
 
         if (levelNumber >= 0 && DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
         {
@@ -166,10 +166,6 @@ public class ScoreManager : MonoBehaviour
             {
                 gameManager = FindFirstObjectByType<GameManager>();
             }
-
-            levelTime = gameManager.LevelTime;
-            var gameData = DataPersister.Instance.CurrentGameData;
-
             if (gameData.levelData.ContainsKey(levelNumber))
             {
                 gameData.levelData[levelNumber] = new LevelData(levelTime, levelMoney, levelObstaclesDestroyed);
@@ -194,10 +190,9 @@ public class ScoreManager : MonoBehaviour
             gameData.totalRareMetal += levelRareMetal;
             gameData.totalTime += levelTime;
             gameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
-
-            DataPersister.Instance.SaveCurrentGame();
         }
 
+        DataPersister.Instance.SaveCurrentGame();
         SavedTotalEvent?.Invoke();
     }
 
