@@ -1607,6 +1607,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1756494210}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: distanceToGoal
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: endConditionsUI
       value: 
       objectReference: {fileID: 1756494212}

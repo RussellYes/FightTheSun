@@ -275,16 +275,16 @@ public class PlayerStatsManager : MonoBehaviour
     private void UpdateDistanceTraveled(float distance)
     {
         distanceTraveled += distance;
-        //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled");
+        Debug.Log("PlayerStatsManager_UpdateDistanceTraveled");
         if (gameManager != null)
         {
             // Calculate progress toward the goal
             if (gameManager.IsGoalActive)
             {
-                //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
+                Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive");
                 if (gameManager.DistanceToGoal > 0)
                 {
-                    //Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
+                    Debug.Log("PlayerStatsManager_UpdateDistanceTraveled_GameManager.Instance.IsGoalActive_gameManager.Goal > 0");
                     float progressNormalized = Mathf.Clamp01(distanceTraveled / gameManager.DistanceToGoal); // Clamp progress between 0 and 1
                     OnCheckpointProgressChanged?.Invoke(this, new OnCheckpointProgressChangedEventArgs { progressNormalized = progressNormalized });
 
