@@ -1,9 +1,22 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
 public class GameData
 {
+    private void OnEnable()
+    {
+        DataPersister.NewGameEvent += ResetDataOnNewGame;
+        MainMenuUI.NewGameEvent += ResetDataOnNewGame;
+    }
+    private void OnDisable()
+    {
+        DataPersister.NewGameEvent += ResetDataOnNewGame;
+        MainMenuUI.NewGameEvent += ResetDataOnNewGame;
+    }
+
+
     [Header("Game Data")]
     public List<PlayerSaveData> playerData;
 
@@ -138,6 +151,8 @@ public class GameData
         };
     }
 
+
+
     public void SetMissionComplete(int missionNumber, bool value)
     {
         switch (missionNumber)
@@ -191,6 +206,60 @@ public class GameData
         }
     }
 
+    public void ResetDataOnNewGame()
+    {
+        // Reset player data
+        playerData.Clear();
+        playerData.Add(new PlayerSaveData()
+        {
+            playerMemoryScore = 0,
+            engineeringSkill = 1,
+            pilotingSkill = 1,
+            mechanicsSkill = 1,
+            miningSkill = 1,
+            roboticsSkill = 1,
+            combatSkill = 1
+        });
+
+        // Reset level data
+        levelData.Clear();
+        serializedLevelData.Clear();
+
+        // Reset comic data
+        comicData.Clear();
+
+        // Reset resource totals
+        totalMoney = 0;
+        totalMetal = 0f;
+        totalRareMetal = 0f;
+        totalTime = 0f;
+        totalObstaclesDestroyed = 0;
+        sunCount = 0;
+
+        // Reset achievements
+        isMission1Complete = false;
+        isMission2Complete = false;
+        isMission3Complete = false;
+        isMission4Complete = false;
+        isMission5Complete = false;
+        isMission6Complete = false;
+        isMission7Complete = false;
+        isMission8Complete = false;
+        isMission9Complete = false;
+        isMission10Complete = false;
+
+        // Reset level unlocks
+        isMission1Unlocked = true; // Level 1 is always unlocked
+        isMission2Unlocked = false;
+        isMission3Unlocked = false;
+        isMission4Unlocked = false;
+        isMission5Unlocked = false;
+        isMission6Unlocked = false;
+        isMission7Unlocked = false;
+        isMission8Unlocked = false;
+        isMission9Unlocked = false;
+        isMission10Unlocked = false;
+    }
 
 }
 

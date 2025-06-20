@@ -6,6 +6,7 @@ public class ScoreManager : MonoBehaviour
 {
     GameManager gameManager;
     private EndConditionsUI endConditionsUI;
+    GameData gameData;
 
     // Level-specific resources (reset each level)
     public float levelMoney = 0;
@@ -13,13 +14,6 @@ public class ScoreManager : MonoBehaviour
     public float levelRareMetal = 0f;
     public float levelTime = 0f;
     public int levelObstaclesDestroyed = 0;
-    
-    // Local copies of totals for quick access
-    private float totalMoney;
-    private float totalMetal;
-    private float totalRareMetal;
-    private float totalTime;
-    private int totalObstaclesDestroyed;
 
     // Obstacle tracking
     private int totalObstaclesInScene;
@@ -36,11 +30,11 @@ public class ScoreManager : MonoBehaviour
     public static event Action SavedTotalEvent;
 
     // Public getters
-    public float GetTotalMoney() => totalMoney;
-    public float GetTotalMetal() => totalMetal;
-    public float GetTotalRareMetal() => totalRareMetal;
-    public float GetTotalTime() => totalTime;
-    public int GetTotalObstaclesDestroyed() => totalObstaclesDestroyed;
+    public float GetTotalMoney() => DataPersister.Instance?.CurrentGameData?.totalMoney ?? 0;
+    public float GetTotalMetal() => DataPersister.Instance?.CurrentGameData?.totalMetal ?? 0;
+    public float GetTotalRareMetal() => DataPersister.Instance?.CurrentGameData?.totalRareMetal ?? 0;
+    public float GetTotalTime() => DataPersister.Instance?.CurrentGameData?.totalTime ?? 0;
+    public int GetTotalObstaclesDestroyed() => DataPersister.Instance?.CurrentGameData?.totalObstaclesDestroyed ?? 0;
     public float GetLevelMoney() => levelMoney;
     public float GetLevelMetal() => levelMetal;
     public float GetLevelRareMetal() => levelRareMetal;
@@ -49,18 +43,8 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
         gameManager = FindFirstObjectByType<GameManager>();
         endConditionsUI = FindFirstObjectByType<EndConditionsUI>();
-    }
-
-    private void Start()
-    {
-        // Initialize with loaded data if available
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
-        {
-            LoadTotals();
-        }
     }
 
     private void OnEnable()
@@ -71,8 +55,7 @@ public class ScoreManager : MonoBehaviour
         GameManager.EndGameDataSaveEvent += EndGameLevelDataSave; 
         EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveBestDataAtEndOfLevel;
         EndConditionsUI.reviveEvent += ResetDataOnDeath;
-        DataPersister.NewGameEvent += ResetDataOnNewGame;
-        MainMenuUI.NewGameEvent += ResetDataOnNewGame;
+        DataPersister.InitializationComplete += ResetLevelResources; // Ensure totals are loaded after initialization
     }
 
     private void OnDisable()
@@ -82,61 +65,8 @@ public class ScoreManager : MonoBehaviour
         Loot.PlayerGainsLootEvent -= OnPlayerGainsLoot;
         GameManager.EndGameDataSaveEvent -= EndGameLevelDataSave;
         EndConditionsUI.EndConditionUIScoreChoiceEvent -= SaveBestDataAtEndOfLevel; 
-        SceneManager.sceneLoaded -= OnSceneLoaded;
         EndConditionsUI.reviveEvent -= ResetDataOnDeath;
-        DataPersister.NewGameEvent -= ResetDataOnNewGame;
-        MainMenuUI.NewGameEvent -= ResetDataOnNewGame;
-    }
-
-    private void ResetDataOnNewGame()
-    {
-
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
-        {
-            var gameData = DataPersister.Instance.CurrentGameData;
-
-            // Reset all level data
-            gameData.levelData.Clear();
-            for (int i = 1; i <= 10; i++)
-            {
-                gameData.levelData[i] = new LevelData(0, 0, 0);
-                gameData.SetMissionComplete(i, false);
-            }
-
-            // Reset unlock status (only Level 1 unlocked)
-            gameData.isMission1Unlocked = true;
-            for (int i = 2; i <= 10; i++)
-            {
-                gameData.SetMissionUnlocked(i, false);
-            }
-
-            ResetAllValues();
-
-            // Update totals in GameData
-            gameData.totalMoney = totalMoney;
-            gameData.totalTime = totalTime;
-            gameData.totalMetal = totalMetal;
-            gameData.totalRareMetal = totalRareMetal;
-            gameData.totalObstaclesDestroyed = totalObstaclesDestroyed;
-
-            DataPersister.Instance.SaveCurrentGame();
-
-            OnLevelMoneyChanged?.Invoke(levelMoney);
-            OnLevelMetalChanged?.Invoke(levelMetal);
-            OnLevelRareMetalChanged?.Invoke(levelRareMetal);
-        }
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.buildIndex == 0) // Main menu
-        {
-            LoadTotals();
-        }
-        else // Game level
-        {
-            ResetLevelResources();
-        }
+        DataPersister.InitializationComplete -= ResetLevelResources;
     }
 
     private void OnObstacleEntersScene()
@@ -195,20 +125,20 @@ public class ScoreManager : MonoBehaviour
 
     private void ChangeTotalMoney(float points)
     {
-        totalMoney += points;
-        OnMoneyChanged?.Invoke(totalMoney);
+        gameData.totalMoney += points;
+        OnMoneyChanged?.Invoke(gameData.totalMoney);
     }
 
     private void ChangeTotalMetal(float points)
     {
-        totalMetal += points;
-        OnTotalMetalChanged?.Invoke(totalMetal);
+        gameData.totalMetal += points;
+        OnTotalMetalChanged?.Invoke(gameData.totalMetal);
     }
 
     private void ChangeTotalRareMetal(float points)
     {
-        totalRareMetal += points;
-        OnTotalRareMetalChanged?.Invoke(totalRareMetal);
+        gameData.totalRareMetal += points;
+        OnTotalRareMetalChanged?.Invoke(gameData.totalRareMetal);
     }
 
     private void EndGameLevelDataSave()
@@ -217,23 +147,22 @@ public class ScoreManager : MonoBehaviour
         ChangeTotalMoney(levelMoney);
         ChangeTotalMetal(levelMetal);
         ChangeTotalRareMetal(levelRareMetal);
-        totalTime += levelTime;
-        totalObstaclesDestroyed += levelObstaclesDestroyed;
+        gameData.totalTime += levelTime;
+        gameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
 
-        Debug.Log("ScoreManager - UpdateData - TotalObstaclesDestroyed = " + totalObstaclesDestroyed);
 
-        // Update GameData
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        if (DataPersister.Instance?.CurrentGameData != null)
         {
             var gameData = DataPersister.Instance.CurrentGameData;
-            gameData.totalMoney = totalMoney;
-            gameData.totalMetal = totalMetal;
-            gameData.totalRareMetal = totalRareMetal;
-            gameData.totalTime = totalTime;
-            gameData.totalObstaclesDestroyed = totalObstaclesDestroyed;
+
+            // Update totals in GameData
+            gameData.totalMoney += levelMoney;
+            gameData.totalMetal += levelMetal;
+            gameData.totalRareMetal += levelRareMetal;
+            gameData.totalTime += levelTime;
+            gameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
         }
     }
-
     private void SaveBestDataAtEndOfLevel()
     {
         int levelNumber = SceneManager.GetActiveScene().buildIndex -1;
@@ -267,11 +196,11 @@ public class ScoreManager : MonoBehaviour
             }
 
             // Update totals in GameData
-            gameData.totalMoney = totalMoney;
-            gameData.totalMetal = totalMetal;
-            gameData.totalRareMetal = totalRareMetal;
-            gameData.totalTime = totalTime;
-            gameData.totalObstaclesDestroyed = totalObstaclesDestroyed;
+            gameData.totalMoney += levelMoney;
+            gameData.totalMetal += levelMetal;
+            gameData.totalRareMetal += levelRareMetal;
+            gameData.totalTime += levelTime;
+            gameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
 
             DataPersister.Instance.SaveCurrentGame();
         }
@@ -279,29 +208,9 @@ public class ScoreManager : MonoBehaviour
         SavedTotalEvent?.Invoke();
     }
 
-    private void LoadTotals()
-    {
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
-        {
-            var gameData = DataPersister.Instance.CurrentGameData;
-
-            // Update local totals
-            totalMoney = gameData.totalMoney;
-            totalMetal = gameData.totalMetal;
-            totalRareMetal = gameData.totalRareMetal;
-            totalTime = gameData.totalTime;
-            totalObstaclesDestroyed = gameData.totalObstaclesDestroyed;
-
-            // Update UI
-            OnMoneyChanged?.Invoke(totalMoney);
-            OnTotalMetalChanged?.Invoke(totalMetal);
-            OnTotalRareMetalChanged?.Invoke(totalRareMetal);
-        }
-    }
-
     private void ResetDataOnDeath()
     {
-        ResetAllValues();
+        ResetLevelValues();
 
         if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
         {
@@ -336,15 +245,15 @@ public class ScoreManager : MonoBehaviour
 
     private void UpdateAllUI()
     {
-        OnMoneyChanged?.Invoke(totalMoney);
-        OnTotalMetalChanged?.Invoke(totalMetal);
-        OnTotalRareMetalChanged?.Invoke(totalRareMetal);
+        OnMoneyChanged?.Invoke(gameData.totalMoney);
+        OnTotalMetalChanged?.Invoke(gameData.totalMetal);
+        OnTotalRareMetalChanged?.Invoke(gameData.totalRareMetal);
         OnLevelMoneyChanged?.Invoke(levelMoney);
         OnLevelMetalChanged?.Invoke(levelMetal);
         OnLevelRareMetalChanged?.Invoke(levelRareMetal);
         OnObstaclesDestroyedByPlayerChanged?.Invoke(levelObstaclesDestroyed);
     }
-    private void ResetAllValues()
+    private void ResetLevelValues()
     {
         // Level-specific
         levelMoney = 0;
@@ -352,13 +261,6 @@ public class ScoreManager : MonoBehaviour
         levelRareMetal = 0f;
         levelTime = 0f;
         levelObstaclesDestroyed = 0;
-
-        // Totals
-        totalMoney = 0f;
-        totalMetal = 0f;
-        totalRareMetal = 0f;
-        totalTime = 0f;
-        totalObstaclesDestroyed = 0;
 
         // Obstacle tracking
         totalObstaclesInScene = 0;
