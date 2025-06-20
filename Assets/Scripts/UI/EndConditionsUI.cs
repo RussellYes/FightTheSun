@@ -129,8 +129,9 @@ public class EndConditionsUI : MonoBehaviour
         oldScoreSaveButtonBack.gameObject.SetActive(false);
     }
 
-    private void EndGame(bool isWin)
+    private void EndGame(bool abool)
     {
+        isWin = abool;
         if (scoreManager != null && gameManager != null)
         {
             Debug.Log($"EndGame called with isWin = {isWin}");
@@ -446,6 +447,8 @@ public class EndConditionsUI : MonoBehaviour
                 DataPersister.Instance.CurrentGameData.playerData.Add(new PlayerSaveData());
             }
 
+            DataPersister.Instance.SaveCurrentGame();
+
             // Update memory score
             DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
             DataPersister.Instance.CurrentGameData.totalTime = gameManager.TotalCountdownTime;
@@ -463,6 +466,29 @@ public class EndConditionsUI : MonoBehaviour
     private void Revive()
     {
         reviveEvent?.Invoke();
+
+        var gameData = DataPersister.Instance.CurrentGameData;
+        int currentLevel = SceneManager.GetActiveScene().buildIndex - 1;
+
+        // Reset all levels saved data
+        for (int i = 1; i <= 10; i++)
+        {
+            gameData.levelData[i] = new LevelData(0, 0, 0);
+        }
+
+        // Reset all resource totals
+        gameData.totalMoney = 0f;
+        gameData.totalTime = 0f;
+        gameData.totalMetal = 0f;
+        gameData.totalRareMetal = 0f;
+        gameData.totalObstaclesDestroyed = 0;
+
+        // Lock all levels except Level 1
+        for (int i = 2; i <= 10; i++)
+        {
+            gameData.SetMissionUnlocked(i, false);
+        }
+
 
         LoadMainMenuScene();
     }

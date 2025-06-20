@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 public class ScoreManager : MonoBehaviour
 {
     GameManager gameManager;
-    private EndConditionsUI endConditionsUI;
-    GameData gameData;
+    EndConditionsUI endConditionsUI;
 
     // Level-specific resources (reset each level)
     public float levelMoney = 0;
@@ -53,9 +52,7 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleExitsSceneEvent += OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent += OnPlayerGainsLoot;
         GameManager.EndGameDataSaveEvent += EndGameLevelDataSave; 
-        EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveBestDataAtEndOfLevel;
-        EndConditionsUI.reviveEvent += ResetDataOnDeath;
-        DataPersister.InitializationComplete += ResetLevelResources; // Ensure totals are loaded after initialization
+        DataPersister.InitializationComplete += Initialized; // Ensure totals are loaded after initialization
     }
 
     private void OnDisable()
@@ -65,8 +62,13 @@ public class ScoreManager : MonoBehaviour
         Loot.PlayerGainsLootEvent -= OnPlayerGainsLoot;
         GameManager.EndGameDataSaveEvent -= EndGameLevelDataSave;
         EndConditionsUI.EndConditionUIScoreChoiceEvent -= SaveBestDataAtEndOfLevel; 
-        EndConditionsUI.reviveEvent -= ResetDataOnDeath;
-        DataPersister.InitializationComplete -= ResetLevelResources;
+        DataPersister.InitializationComplete -= Initialized;
+    }
+
+    private void Initialized()
+    {
+        ResetLevelResources();
+        UpdateAllUI();
     }
 
     private void OnObstacleEntersScene()
@@ -90,14 +92,18 @@ public class ScoreManager : MonoBehaviour
 
     private void ResetLevelResources()
     {
+        // Level-specific
         levelMoney = 0;
         levelMetal = 0f;
         levelRareMetal = 0f;
         levelTime = 0f;
         levelObstaclesDestroyed = 0;
+
+        // Obstacle tracking
         totalObstaclesInScene = 0;
         currentObstaclesInScene = 0;
     }
+
 
     private void OnPlayerGainsLoot(float metalGained, float rareMetalGained)
     {
@@ -125,20 +131,20 @@ public class ScoreManager : MonoBehaviour
 
     private void ChangeTotalMoney(float points)
     {
-        gameData.totalMoney += points;
-        OnMoneyChanged?.Invoke(gameData.totalMoney);
+        DataPersister.Instance.CurrentGameData.totalMoney += points;
+        OnMoneyChanged?.Invoke(DataPersister.Instance.CurrentGameData.totalMoney);
     }
 
     private void ChangeTotalMetal(float points)
     {
-        gameData.totalMetal += points;
-        OnTotalMetalChanged?.Invoke(gameData.totalMetal);
+        DataPersister.Instance.CurrentGameData.totalMetal += points;
+        OnTotalMetalChanged?.Invoke(DataPersister.Instance.CurrentGameData.totalMetal);
     }
 
     private void ChangeTotalRareMetal(float points)
     {
-        gameData.totalRareMetal += points;
-        OnTotalRareMetalChanged?.Invoke(gameData.totalRareMetal);
+        DataPersister.Instance.CurrentGameData.totalRareMetal += points;
+        OnTotalRareMetalChanged?.Invoke(DataPersister.Instance.CurrentGameData.totalRareMetal);
     }
 
     private void EndGameLevelDataSave()
@@ -147,21 +153,8 @@ public class ScoreManager : MonoBehaviour
         ChangeTotalMoney(levelMoney);
         ChangeTotalMetal(levelMetal);
         ChangeTotalRareMetal(levelRareMetal);
-        gameData.totalTime += levelTime;
-        gameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
-
-
-        if (DataPersister.Instance?.CurrentGameData != null)
-        {
-            var gameData = DataPersister.Instance.CurrentGameData;
-
-            // Update totals in GameData
-            gameData.totalMoney += levelMoney;
-            gameData.totalMetal += levelMetal;
-            gameData.totalRareMetal += levelRareMetal;
-            gameData.totalTime += levelTime;
-            gameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
-        }
+        DataPersister.Instance.CurrentGameData.totalTime += levelTime;
+        DataPersister.Instance.CurrentGameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
     }
     private void SaveBestDataAtEndOfLevel()
     {
@@ -208,63 +201,16 @@ public class ScoreManager : MonoBehaviour
         SavedTotalEvent?.Invoke();
     }
 
-    private void ResetDataOnDeath()
-    {
-        ResetLevelValues();
-
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
-        {
-            var gameData = DataPersister.Instance.CurrentGameData;
-            int currentLevel = SceneManager.GetActiveScene().buildIndex - 1;
-
-            // Reset all levels saved data
-            for (int i = 1; i <= 10; i++)
-            {
-                gameData.levelData[i] = new LevelData(0, 0, 0);
-            }
-
-            // Reset all resource totals
-            gameData.totalMoney = 0f;
-            gameData.totalTime = 0f;
-            gameData.totalMetal = 0f;
-            gameData.totalRareMetal = 0f;
-            gameData.totalObstaclesDestroyed = 0;
-
-            // Lock all levels except Level 1
-            for (int i = 2; i <= 10; i++)
-            {
-                gameData.SetMissionUnlocked(i, false);
-            }
-
-            UpdateAllUI();
-
-            DataPersister.Instance.SaveCurrentGame();
-            Debug.Log("ScoreManager - ResetDataOnDeath - all level data zeroed after death");
-        }
-    }
-
     private void UpdateAllUI()
     {
-        OnMoneyChanged?.Invoke(gameData.totalMoney);
-        OnTotalMetalChanged?.Invoke(gameData.totalMetal);
-        OnTotalRareMetalChanged?.Invoke(gameData.totalRareMetal);
+        OnMoneyChanged?.Invoke(DataPersister.Instance.CurrentGameData.totalMoney);
+        OnTotalMetalChanged?.Invoke(DataPersister.Instance.CurrentGameData.totalMetal);
+        OnTotalRareMetalChanged?.Invoke(DataPersister.Instance.CurrentGameData.totalRareMetal);
         OnLevelMoneyChanged?.Invoke(levelMoney);
         OnLevelMetalChanged?.Invoke(levelMetal);
         OnLevelRareMetalChanged?.Invoke(levelRareMetal);
         OnObstaclesDestroyedByPlayerChanged?.Invoke(levelObstaclesDestroyed);
     }
-    private void ResetLevelValues()
-    {
-        // Level-specific
-        levelMoney = 0;
-        levelMetal = 0f;
-        levelRareMetal = 0f;
-        levelTime = 0f;
-        levelObstaclesDestroyed = 0;
 
-        // Obstacle tracking
-        totalObstaclesInScene = 0;
-        currentObstaclesInScene = 0;
-    }
 
 }
