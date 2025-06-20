@@ -158,13 +158,13 @@ public class ShipUIManager : MonoBehaviour
     {
         if (totalTimeText != null)
         {
-            float totalCountdownTime = GameManager.Instance.TotalCountdownTime;
+            float timeRemaining = GameManager.Instance.TimeRemaining;
 
-            int minutes = Mathf.FloorToInt(totalCountdownTime / 60);
-            int seconds = Mathf.FloorToInt(totalCountdownTime % 60);
+            int minutes = Mathf.FloorToInt(timeRemaining / 60);
+            int seconds = Mathf.FloorToInt(timeRemaining % 60);
             totalTimeText.text = $"{minutes:00}:{seconds:00}";
 
-            if (Math.Floor(totalCountdownTime) == totalCountdownTime && totalCountdownTime >= 1 && totalCountdownTime <= 5)
+            if (Math.Floor(timeRemaining) == timeRemaining && timeRemaining >= 1 && timeRemaining <= 5)
             {
                 totalTimeText.color = Color.red;
                 sFXManager.PlaySFX(clockTimeIsUpSFX);

@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
 
     private bool initialized = false;
     private float levelTime;
-    private float totalCountdownTime;
+    private float timeRemaining;
+    [SerializeField] private float totalGameTimeLimit = 3600f; // 60 minutes in seconds
 
     [SerializeField] private float distanceToGoal;
     private bool isGoalActive = false;
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     // Public property to access the game time
     public float LevelTime => levelTime;
-    public float TotalCountdownTime => totalCountdownTime;
+    public float TimeRemaining => timeRemaining;
 
 
 
@@ -105,6 +106,9 @@ public class GameManager : MonoBehaviour
         // Set the current mission based on the scene
         SetMissionBasedOnScene();
 
+        // Initialize time remaining
+        timeRemaining = totalGameTimeLimit - DataPersister.Instance.CurrentGameData.totalTime;
+
         // Explicitly set the state to StartDialogue to trigger HandleStateChange
         SetState(GameState.StartDialogue);
 
@@ -116,11 +120,6 @@ public class GameManager : MonoBehaviour
         if (initialized)
         {
             KeepingTime();
-        }
-
-        if (isGoalActive || isBossBattle)
-        {
-            levelTime += Time.deltaTime; // Increment game time
         }
     }
 
@@ -395,11 +394,16 @@ public class GameManager : MonoBehaviour
 
     private void KeepingTime()
     {
-            totalCountdownTime = 3600 - levelTime - DataPersister.Instance.CurrentGameData.totalTime;
-
-        if (totalCountdownTime <= 0)
+        if (isGoalActive || isBossBattle)
         {
-            EndGame(false);
+            levelTime += Time.deltaTime;
+            timeRemaining -= Time.deltaTime;
+
+            if (timeRemaining <= 0)
+            {
+                timeRemaining = 0;
+                EndGame(false);
+            }
         }
     }
 

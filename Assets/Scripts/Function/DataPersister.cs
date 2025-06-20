@@ -7,13 +7,19 @@ using System.Collections.Generic;
 
 public class DataPersister : MonoBehaviour
 {
-    public static event Action NewGameEvent;
     public static event Action InitializationComplete;
 
     public static DataPersister Instance;
     public GameData CurrentGameData { get; private set; }
 
-
+    private void OnEnable()
+    {
+        MainMenuUI.NewGameEvent += StartNewGame;
+    }
+    private void OnDisable()
+    {
+        MainMenuUI.NewGameEvent += StartNewGame;
+    }
     void OnApplicationQuit()
     {
         SaveCurrentGame();
@@ -87,7 +93,7 @@ public class DataPersister : MonoBehaviour
         if (!saveExists || CurrentGameData == null)
         {
             // Set default variables, start screen, etc
-            NewGameEvent?.Invoke();
+            StartNewGame();
             Debug.Log("DataPersister - NewGameEvent");
         }
         // Otherwise, it's a loaded game
@@ -153,7 +159,18 @@ public class DataPersister : MonoBehaviour
     }
 
 
+    public void StartNewGame()
+    {
+        Debug.Log("DataPersister - Starting new game");
 
- 
-    
+        CurrentGameData = new GameData();
+
+        CurrentGameData.ResetDataOnNewGame();
+
+        SaveSystem.DeleteSave();
+
+        SaveCurrentGame();
+    }
+
+
 }

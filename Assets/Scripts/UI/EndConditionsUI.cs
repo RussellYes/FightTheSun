@@ -170,7 +170,7 @@ public class EndConditionsUI : MonoBehaviour
     private void SkipComic()
     {
         Debug.Log("Skipping comics display");
-        StopCoroutine(DisplayLoseComics());
+        StopAllCoroutines();
         loseComicHolder.SetActive(false);
         StartCoroutine(ShowLoseTextsWithDelay());
     }
@@ -318,7 +318,7 @@ public class EndConditionsUI : MonoBehaviour
         winBackground.gameObject.SetActive(true);
         winBackground.sprite = loseSprite;
         loseText.gameObject.SetActive(true);
-        loseText.text = "What will you remember?";
+        loseText.text = " Sent back in time. What will you remember?";
 
         float loseTime = scoreManager.GetTotalTime() + gameManager.LevelTime;
         int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
@@ -356,13 +356,12 @@ public class EndConditionsUI : MonoBehaviour
         lineText.gameObject.SetActive(true);
         memoryScoreText.gameObject.SetActive(true);
         memoryScoreText.text = memoryScore.ToString("0") + " memories";
-        UpdateMemoryText();
         PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
         
         // Calculate final memory score
         float finalMemoryScore = memoryScore + (loseObstacles * loseMoney / loseTime);
-        memoryScoreText.text = finalMemoryScore.ToString("0") + " memories";
+
         // Lerp all values simultaneously over 3 seconds
         float lerpDuration = 3f;
         float elapsedTime = 0f;
@@ -451,7 +450,7 @@ public class EndConditionsUI : MonoBehaviour
 
             // Update memory score
             DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
-            DataPersister.Instance.CurrentGameData.totalTime = gameManager.TotalCountdownTime;
+            DataPersister.Instance.CurrentGameData.totalTime = gameManager.TimeRemaining;
 
             // Save the game
             DataPersister.Instance.SaveCurrentGame();

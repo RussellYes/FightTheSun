@@ -5,17 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    private void OnEnable()
-    {
-        DataPersister.NewGameEvent += ResetDataOnNewGame;
-        MainMenuUI.NewGameEvent += ResetDataOnNewGame;
-    }
-    private void OnDisable()
-    {
-        DataPersister.NewGameEvent += ResetDataOnNewGame;
-        MainMenuUI.NewGameEvent += ResetDataOnNewGame;
-    }
-
 
     [Header("Game Data")]
     public List<PlayerSaveData> playerData;
