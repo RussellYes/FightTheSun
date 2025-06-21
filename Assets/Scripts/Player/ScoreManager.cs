@@ -10,7 +10,6 @@ public class ScoreManager : MonoBehaviour
     public float levelMoney = 0;
     public float levelMetal = 0f;
     public float levelRareMetal = 0f;
-    public float levelTime = 0f;
     public int levelObstaclesDestroyed = 0;
 
     // Obstacle tracking
@@ -25,18 +24,15 @@ public class ScoreManager : MonoBehaviour
     public static event Action<float> OnTotalRareMetalChanged;
     public static event Action<float> OnLevelRareMetalChanged;
     public static event Action<int> OnObstaclesDestroyedByPlayerChanged;
-    public static event Action SavedTotalEvent;
 
     // Public getters
     public float GetTotalMoney() => DataPersister.Instance?.CurrentGameData?.totalMoney ?? 0;
     public float GetTotalMetal() => DataPersister.Instance?.CurrentGameData?.totalMetal ?? 0;
     public float GetTotalRareMetal() => DataPersister.Instance?.CurrentGameData?.totalRareMetal ?? 0;
-    public float GetTotalTime() => DataPersister.Instance?.CurrentGameData?.totalTime ?? 0;
     public int GetTotalObstaclesDestroyed() => DataPersister.Instance?.CurrentGameData?.totalObstaclesDestroyed ?? 0;
     public float GetLevelMoney() => levelMoney;
     public float GetLevelMetal() => levelMetal;
     public float GetLevelRareMetal() => levelRareMetal;
-    public float GetLevelTime() => levelTime;
     public int GetLevelObstaclesDestroyed() => levelObstaclesDestroyed;
 
     private void Awake()
@@ -49,7 +45,8 @@ public class ScoreManager : MonoBehaviour
         Obstacle.ObstacleEntersSceneEvent += OnObstacleEntersScene;
         Obstacle.ObstacleExitsSceneEvent += OnObstacleExitsScene;
         Loot.PlayerGainsLootEvent += OnPlayerGainsLoot;
-        GameManager.EndGameDataSaveEvent += EndGameLevelDataSave; 
+        GameManager.EndGameDataSaveEvent += EndGameLevelDataSave;
+        EndConditionsUI.EndConditionUIScoreChoiceEvent += SaveBestDataAtEndOfLevel;
         DataPersister.InitializationComplete += Initialized; // Ensure totals are loaded after initialization
     }
 
@@ -94,7 +91,6 @@ public class ScoreManager : MonoBehaviour
         levelMoney = 0;
         levelMetal = 0f;
         levelRareMetal = 0f;
-        levelTime = 0f;
         levelObstaclesDestroyed = 0;
 
         // Obstacle tracking
@@ -151,13 +147,11 @@ public class ScoreManager : MonoBehaviour
         ChangeTotalMoney(levelMoney);
         ChangeTotalMetal(levelMetal);
         ChangeTotalRareMetal(levelRareMetal);
-        DataPersister.Instance.CurrentGameData.totalTime += levelTime;
         DataPersister.Instance.CurrentGameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
     }
     private void SaveBestDataAtEndOfLevel()
     {
         int levelNumber = SceneManager.GetActiveScene().buildIndex -1;
-        levelTime = gameManager.LevelTime;
         var gameData = DataPersister.Instance.CurrentGameData;
 
         if (levelNumber >= 0 && DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
@@ -168,11 +162,11 @@ public class ScoreManager : MonoBehaviour
             }
             if (gameData.levelData.ContainsKey(levelNumber))
             {
-                gameData.levelData[levelNumber] = new LevelData(levelTime, levelMoney, levelObstaclesDestroyed);
+                gameData.levelData[levelNumber] = new LevelData(GameManager.Instance.LevelTime, levelMoney, levelObstaclesDestroyed);
             }
             else
             {
-                gameData.levelData.Add(levelNumber, new LevelData(levelTime, levelMoney, levelObstaclesDestroyed));
+                gameData.levelData.Add(levelNumber, new LevelData(GameManager.Instance.LevelTime, levelMoney, levelObstaclesDestroyed));
             }
 
             // Mark level as complete
@@ -188,12 +182,10 @@ public class ScoreManager : MonoBehaviour
             gameData.totalMoney += levelMoney;
             gameData.totalMetal += levelMetal;
             gameData.totalRareMetal += levelRareMetal;
-            gameData.totalTime += levelTime;
             gameData.totalObstaclesDestroyed += levelObstaclesDestroyed;
-        }
 
-        DataPersister.Instance.SaveCurrentGame();
-        SavedTotalEvent?.Invoke();
+            Debug.Log($"Saved Level {levelNumber} stats - Time: {gameManager.LevelTime}s, " + $"Money: {levelMoney}, Obstacles: {levelObstaclesDestroyed}");
+        }
     }
 
     private void UpdateAllUI()

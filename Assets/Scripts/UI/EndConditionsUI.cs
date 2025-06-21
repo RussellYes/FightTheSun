@@ -85,7 +85,6 @@ public class EndConditionsUI : MonoBehaviour
     {
         Debug.Log("EndConditionsUI subscribed to EndGameEvent");
         GameManager.EndGameEvent += EndGame;
-        ScoreManager.SavedTotalEvent += LoadMainMenuScene;
         skipComicButton.onClick.AddListener(() => {SkipComic();
             Debug.Log("skip comic Button clicked!"); });
     }
@@ -94,7 +93,6 @@ public class EndConditionsUI : MonoBehaviour
     {
         Debug.Log("EndConditionsUI unsubscribed from EndGameEvent");
         GameManager.EndGameEvent -= EndGame;
-        ScoreManager.SavedTotalEvent -= LoadMainMenuScene;
         skipComicButton.onClick.RemoveListener(() => { SkipComic(); });
     }
 
@@ -302,13 +300,19 @@ public class EndConditionsUI : MonoBehaviour
         // This button keeps the existing level score.
         oldScoreSaveButtonFront.onClick.AddListener(() =>
         {
+            DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
+            DataPersister.Instance.SaveCurrentGame();
             LoadMainMenuScene();
         });
 
         // This button saves a new score over the existing level score.
         newScoreSaveButtonFront.onClick.AddListener(() =>
         {
+            Debug.Log("EndConditionsUI newScoreSaveButtonFront");
             EndConditionUIScoreChoiceEvent?.Invoke();
+            DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
+            DataPersister.Instance.SaveCurrentGame();
+            LoadMainMenuScene();
         });
     }
 
@@ -320,7 +324,7 @@ public class EndConditionsUI : MonoBehaviour
         loseText.gameObject.SetActive(true);
         loseText.text = " Sent back in time. What will you remember?";
 
-        float loseTime = scoreManager.GetTotalTime() + gameManager.LevelTime;
+        float loseTime = DataPersister.Instance.CurrentGameData.totalTime + gameManager.LevelTime;
         int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
         float loseMoney = scoreManager.GetTotalMoney() + scoreManager.GetLevelMoney();
 
@@ -450,8 +454,8 @@ public class EndConditionsUI : MonoBehaviour
 
             // Update memory score
             DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
-            DataPersister.Instance.CurrentGameData.totalTime = gameManager.TimeRemaining;
-
+            DataPersister.Instance.CurrentGameData.totalTime = gameManager.TimeRemaining;        
+    
             // Save the game
             DataPersister.Instance.SaveCurrentGame();
         }

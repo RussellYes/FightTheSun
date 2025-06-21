@@ -106,12 +106,16 @@ public class GameManager : MonoBehaviour
         // Set the current mission based on the scene
         SetMissionBasedOnScene();
 
-        // Initialize time remaining
-        timeRemaining = totalGameTimeLimit - DataPersister.Instance.CurrentGameData.totalTime;
-
         // Explicitly set the state to StartDialogue to trigger HandleStateChange
         SetState(GameState.StartDialogue);
 
+        levelTime = 0f;
+
+        // Initialize timeRemaining based on totalGameTimeLimit minus saved totalTime
+        timeRemaining = totalGameTimeLimit - DataPersister.Instance.CurrentGameData.totalTime;
+
+        Debug.Log($"Initialized - Total: {DataPersister.Instance.CurrentGameData.totalTime}, " +
+                  $"Level: {levelTime}, Remaining: {timeRemaining}");
         initialized = true;
     }
 
@@ -397,7 +401,9 @@ public class GameManager : MonoBehaviour
         if (isGoalActive || isBossBattle)
         {
             levelTime += Time.deltaTime;
-            timeRemaining -= Time.deltaTime;
+
+            // Calculate remaining time from total limit minus all time spent
+            timeRemaining = totalGameTimeLimit - (DataPersister.Instance.CurrentGameData.totalTime + levelTime);
 
             if (timeRemaining <= 0)
             {
