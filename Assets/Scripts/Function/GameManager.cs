@@ -114,8 +114,8 @@ public class GameManager : MonoBehaviour
         // Initialize timeRemaining based on totalGameTimeLimit minus saved totalTime
         timeRemaining = totalGameTimeLimit - DataPersister.Instance.CurrentGameData.totalTime;
 
-        Debug.Log($"Initialized - Total: {DataPersister.Instance.CurrentGameData.totalTime}, " +
-                  $"Level: {levelTime}, Remaining: {timeRemaining}");
+        Debug.Log($"GameManager Initialized - Total: {DataPersister.Instance.CurrentGameData.totalTime}, " +
+                  $"Level: {levelTime}, Remaining: {timeRemaining} FindTime");
         initialized = true;
     }
 

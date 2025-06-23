@@ -249,6 +249,9 @@ public class EndConditionsUI : MonoBehaviour
         // Get current level index
         int levelNumber = SceneManager.GetActiveScene().buildIndex - 1;
 
+        Debug.Log($"EndConditionsUI ShowWinTextsWithDelay DataPersister.Instance.CurrentGameData.totalTime = {DataPersister.Instance.CurrentGameData.totalTime} FindTime");
+        Debug.Log($"EndConditionsUI ShowWinTextsWithDelay gameManager.LevelTime = {gameManager.LevelTime} FindTime");
+
         // Load level data from JSON save
         float money = 0;
         int obstaclesDestroyed = 0;
@@ -323,6 +326,9 @@ public class EndConditionsUI : MonoBehaviour
         winBackground.sprite = loseSprite;
         loseText.gameObject.SetActive(true);
         loseText.text = " Sent back in time. What will you remember?";
+
+        Debug.Log($"EndConditionsUI ShowLoseTextsWithDelay - Total: {DataPersister.Instance.CurrentGameData.totalTime}, " +
+          $"Level: {gameManager.LevelTime}, Remaining: {gameManager.TimeRemaining} FindTime");
 
         float loseTime = DataPersister.Instance.CurrentGameData.totalTime + gameManager.LevelTime;
         int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
@@ -453,8 +459,7 @@ public class EndConditionsUI : MonoBehaviour
             DataPersister.Instance.SaveCurrentGame();
 
             // Update memory score
-            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
-            DataPersister.Instance.CurrentGameData.totalTime = gameManager.TimeRemaining;        
+            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;        
     
             // Save the game
             DataPersister.Instance.SaveCurrentGame();
@@ -491,8 +496,9 @@ public class EndConditionsUI : MonoBehaviour
         {
             gameData.SetMissionUnlocked(i, false);
         }
-
-
+        Debug.Log($"EndConditionsUI Revive - gameData.totalTime: {gameData.totalTime} FindTime");
+        Debug.Log($"EndConditionsUI Revive - Total: {DataPersister.Instance.CurrentGameData.totalTime}, " +
+          $"Level: {gameManager.LevelTime}, Remaining: {gameManager.TimeRemaining} FindTime");
         LoadMainMenuScene();
     }
 }
