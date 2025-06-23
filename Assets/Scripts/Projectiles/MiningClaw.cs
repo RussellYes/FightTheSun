@@ -1,8 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class MiningClaw : MonoBehaviour
 {
+    SFXManager SFXManager => SFXManager.Instance;
     public class OnClawTimerChangedEventArgs : System.EventArgs
     {
         public float progressNormalized;
@@ -27,6 +29,7 @@ public class MiningClaw : MonoBehaviour
     [Header("Collision Settings")]
     [SerializeField] private float colliderCheckRadius = 0.5f;
     [SerializeField] private bool showDebugGizmos = true;
+    [SerializeField] private AudioClip[] miningClawGrabSFX;
 
     private CircleCollider2D clawCollider;
     private void Start()
@@ -68,6 +71,7 @@ public class MiningClaw : MonoBehaviour
     private void Update()
     {
         UpdateCable();
+        UpdateRotation();
 
         if (!isMining && !isReturning)
         {
@@ -104,6 +108,23 @@ public class MiningClaw : MonoBehaviour
         }
     }
 
+    private void UpdateRotation()
+    {
+        if (originTransform != null)
+        {
+            // Calculate direction from claw to origin (launcher)
+            Vector2 directionToOrigin = originTransform.position - transform.position;
+
+            // Flip the direction to face away from origin
+            Vector2 directionAwayFromOrigin = -directionToOrigin;
+
+            // Calculate the angle in degrees
+            float angle = Mathf.Atan2(directionAwayFromOrigin.y, directionAwayFromOrigin.x) * Mathf.Rad2Deg + 90;
+
+            // Apply the rotation
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (isReturning || isMining) return;
@@ -143,6 +164,7 @@ public class MiningClaw : MonoBehaviour
     public void StartMining(float miningDuration, CreateLoot lootTarget)
     {
         isMining = true;
+        SFXManager.PlaySFX(miningClawGrabSFX[UnityEngine.Random.Range(0, miningClawGrabSFX.Length)]);
         totalMiningTime = miningDuration;
         currentMiningTime = miningDuration;
         currentLootTarget = lootTarget;

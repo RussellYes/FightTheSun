@@ -15,7 +15,7 @@ public class ShipUIManager : MonoBehaviour
     public static event Action<Vector2> LaunchMiningClawEvent;
     public static event Action StopMiningClawEvent;
 
-    SFXManager sFXManager;
+    SFXManager SFXManager => SFXManager.Instance;
     SwipeControls swipeControls;
 
     [SerializeField] private GameObject shipDashboardUIHolder;
@@ -41,6 +41,7 @@ public class ShipUIManager : MonoBehaviour
     [Header("Missile UI")]
     [SerializeField] private Button fireMissileButton;
     [SerializeField] private TextMeshProUGUI missileCountText;
+    [SerializeField] private AudioClip[] buttonSFX;
 
     [Header("MiningClaw")]
     [SerializeField] private Button miningClawButton;
@@ -59,7 +60,6 @@ public class ShipUIManager : MonoBehaviour
 
     private void Start()
     {
-        sFXManager = FindFirstObjectByType<SFXManager>();
         swipeControls = FindFirstObjectByType<SwipeControls>();
         defaultTimeTextColor = totalTimeText.color;
 
@@ -68,21 +68,48 @@ public class ShipUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        fireMissileButton.onClick.AddListener(() => FireMissilesEvent?.Invoke());
-        pauseButton.GetComponent<Button>().onClick.AddListener(() => PauseButtonEvent?.Invoke());
+        fireMissileButton.onClick.AddListener(() => { FireMissileButton(); });
+        pauseButton.GetComponent<Button>().onClick.AddListener(() => { PauseButtonClicked(); });
         MiningMissileLauncher.LauncherActiveEvent += UpdateMissileButton;
         DataPersister.InitializationComplete += OnInitializationComplete;
         miningClawButton.onClick.AddListener(() => { ActivateClawJoyStick(); });
     }
     private void OnDisable()
     {
-        fireMissileButton.onClick.RemoveListener(() => FireMissilesEvent?.Invoke());
-        pauseButton.GetComponent<Button>().onClick.RemoveListener(() => PauseButtonEvent?.Invoke());
+        fireMissileButton.onClick.RemoveListener(() => { FireMissileButton(); });
+        pauseButton.GetComponent<Button>().onClick.RemoveListener(() => { PauseButtonClicked(); });
         MiningMissileLauncher.LauncherActiveEvent -= UpdateMissileButton;
         DataPersister.InitializationComplete -= OnInitializationComplete;
         miningClawButton.onClick.RemoveListener(() => { ActivateClawJoyStick(); });
     }
 
+    private void PauseButtonClicked()
+    {
+        if (SFXManager != null && buttonSFX.Length > 0)
+        {
+            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+        }
+        else
+        {
+            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
+        }
+
+        PauseButtonEvent?.Invoke();
+    }
+
+    private void FireMissileButton()
+    {
+        if (SFXManager != null && buttonSFX.Length > 0)
+        {
+            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+        }
+        else
+        {
+            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
+        }
+
+        FireMissilesEvent?.Invoke();
+    }
     private void InitializeMiningClawJoystick()
     {
         miningClawJoyStickUIHolder.SetActive(false);
@@ -167,7 +194,7 @@ public class ShipUIManager : MonoBehaviour
             if (Math.Floor(timeRemaining) == timeRemaining && timeRemaining >= 1 && timeRemaining <= 5)
             {
                 totalTimeText.color = Color.red;
-                sFXManager.PlaySFX(clockTimeIsUpSFX);
+                SFXManager.PlaySFX(clockTimeIsUpSFX);
             }
             else
             {
@@ -194,6 +221,15 @@ public class ShipUIManager : MonoBehaviour
 
     private void ActivateClawJoyStick()
     {
+        if (SFXManager != null && buttonSFX.Length > 0)
+        {
+            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+        }
+        else
+        {
+            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
+        }
+
         // Deactivate swipe controls
         swipeControls.EnableTouchControls(false);
 

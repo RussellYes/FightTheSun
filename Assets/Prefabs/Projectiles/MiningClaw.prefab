@@ -157,6 +157,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderCheckRadius: 0.5
   showDebugGizmos: 1
+  miningClawGrabSFX:
+  - {fileID: 8300000, guid: 0d36cab2463f73947820d2c2f27f428a, type: 3}
+  - {fileID: 8300000, guid: 6fabdde6ccee2874d941d040324cc7ec, type: 3}
+  - {fileID: 8300000, guid: be6a32071c1295c4d9dea8aa26d55305, type: 3}
 --- !u!222 &3048061160263829618
 CanvasRenderer:
   m_ObjectHideFlags: 0

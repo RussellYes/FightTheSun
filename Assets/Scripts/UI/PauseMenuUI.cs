@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameManager;
@@ -11,9 +12,11 @@ public class PauseMenuUI : MonoBehaviour
 {
     public static PauseMenuUI Instance; // Singleton instance
 
-    [SerializeField] private Button unpauseButton;
     [SerializeField] private Button homeButton;
+    [SerializeField] private Button playButton;
+    [SerializeField] private AudioClip[] buttonSFX;
 
+    SFXManager SFXManager => SFXManager.Instance;
     private ScoreManager scoreManager;
     private GameManager gameManager;
 
@@ -37,7 +40,7 @@ public class PauseMenuUI : MonoBehaviour
     [SerializeField] private AudioClip musicPreview; // Music clip to play when adjusting the music slider
     private AudioClip originalMusicClip; // Track the original music clip
 
-    private bool isPaused; // Track whether the game is paused
+    private bool isPaused;
 
     private void Awake()
     {
@@ -52,12 +55,6 @@ public class PauseMenuUI : MonoBehaviour
             return;
         }
 
-        // Set up button listeners
-        homeButton.onClick.AddListener(() => {
-            Loader.Load(Loader.Scene.MainMenuScene);
-            Debug.Log("Loading Scene");
-        });
-
         // Set up slider listeners
         if (musicVolumeSlider != null)
         {
@@ -70,6 +67,30 @@ public class PauseMenuUI : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        OnPause();
+
+        homeButton.onClick.AddListener(() => {
+            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+            Loader.Load(Loader.Scene.MainMenuScene);
+            Debug.Log("Loading Scene");
+        });
+
+        playButton.onClick.AddListener(() =>
+        {
+            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+            isPaused = false; // Game is no longer paused
+            gameObject.SetActive(false); // Hide the pause menu
+        });
+    }
+
+    private void OnDisable()
+    {
+        homeButton.onClick.RemoveAllListeners();
+        musicVolumeSlider.onValueChanged.RemoveAllListeners();
+        sFXVolumeSlider.onValueChanged.RemoveAllListeners();
+    }
     private void Start()
     {
         // Initialize slider values to current volumes
@@ -86,11 +107,6 @@ public class PauseMenuUI : MonoBehaviour
         // Initialize icon states based on current volumes
         UpdateMusicIcon();
         UpdateSFXIcon();
-    }
-
-    private void OnEnable()
-    {
-        OnPause();
     }
 
     public void OnPause()

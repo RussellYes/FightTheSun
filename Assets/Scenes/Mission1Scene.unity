@@ -1089,12 +1089,80 @@ PrefabInstance:
       objectReference: {fileID: 1007728397}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: distanceToGoal
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: endConditionsUI
       value: 
       objectReference: {fileID: 1962615854}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: buttonSFX.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7768d52d4740f5d4fb37e591bed1f09c, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 00715d4fce45e314c9588c264eadfbf1, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a15747eba8bf60448f5fa887f6a4634, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: dc4a3fa8451333d43bcc803759d8463c, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f81e2afa3f1831f4a870e263aca74d08, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[5]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 405cf424701b97e46b736ffef4522d1c, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[6]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 805a77f4ea37d6547bb6ceb2fb9b54da, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[7]'
+      value: 
+      objectReference: {fileID: 8300000, guid: ff15d679a6ca5d544ba744748e278553, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[8]'
+      value: 
+      objectReference: {fileID: 8300000, guid: caeced3ff77bf8b42a4c8c1ecda90b8c, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[9]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a15747eba8bf60448f5fa887f6a4634, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[10]'
+      value: 
+      objectReference: {fileID: 8300000, guid: dc4a3fa8451333d43bcc803759d8463c, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[11]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f81e2afa3f1831f4a870e263aca74d08, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[12]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 405cf424701b97e46b736ffef4522d1c, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[13]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 805a77f4ea37d6547bb6ceb2fb9b54da, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[14]'
+      value: 
+      objectReference: {fileID: 8300000, guid: ff15d679a6ca5d544ba744748e278553, type: 3}
+    - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
+      propertyPath: 'buttonSFX.Array.data[15]'
+      value: 
+      objectReference: {fileID: 8300000, guid: caeced3ff77bf8b42a4c8c1ecda90b8c, type: 3}
     - target: {fileID: 3999933901889969261, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -1324,6 +1392,38 @@ PrefabInstance:
       propertyPath: m_TagString
       value: SpeakerPortraitUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: buttonSFX.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: 'buttonSFX.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 05684629bb7996b49805881fc0104948, type: 3}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: 'buttonSFX.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 607286f6c7f329d4e98ecd6e29bf712b, type: 3}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: 'buttonSFX.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: aeaf0bd9da44acf45a7dff6269eaf254, type: 3}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: 'buttonSFX.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d2058043d7b2df141b8a2a3120c35d24, type: 3}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: 'buttonSFX.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d29372dc3daa78241b49cdf11c9b2de4, type: 3}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: 'buttonSFX.Array.data[5]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 630b4afa340a5c643a2faad16c1799de, type: 3}
+    - target: {fileID: 7693270969267809009, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: 'buttonSFX.Array.data[6]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 00c3e6a3a00635043bbab9499343afdb, type: 3}
     - target: {fileID: 7932307882309412533, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
       propertyPath: winSprite
       value: 

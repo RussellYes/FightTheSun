@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    SFXManager SFXManager => SFXManager.Instance;
+
     public static event Action NewGameEvent;
 
 
     [Header("Planets")]
+    [SerializeField] private AudioClip planetButtonSFX;
     [SerializeField] private Button playMission1Button;
     [SerializeField] private Button playMission2Button;
     [SerializeField] private Button playMission3Button;
@@ -20,8 +23,10 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button playMission8Button;
     [SerializeField] private Button playMission9Button;
     [SerializeField] private Button playMission10Button;
+    
 
     [Header("Settings")]
+    [SerializeField] private AudioClip[] buttonSingleSFX;
     [SerializeField] private Button upButton;
     [SerializeField] private Button downButton;
     [SerializeField] private Button openSettingButton;
@@ -75,30 +80,37 @@ public class MainMenuUI : MonoBehaviour
         });
         
         playMission3Button.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(planetButtonSFX);
             Loader.Load(Loader.Scene.Mission3Scene);
         });
         
         playMission4Button.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(planetButtonSFX);
             Loader.Load(Loader.Scene.Mission4Scene);;
         });
         
         playMission5Button.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(planetButtonSFX);
             Loader.Load(Loader.Scene.Mission5Scene);
         });
         
         playMission6Button.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(planetButtonSFX);
             Loader.Load(Loader.Scene.Mission6Scene);
         });  
         
         playMission7Button.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(planetButtonSFX);
             Loader.Load(Loader.Scene.Mission7Scene);
         });
         
         playMission8Button.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(planetButtonSFX);
             Loader.Load(Loader.Scene.Mission8Scene);
         });
         
         playMission9Button.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(planetButtonSFX);
             Loader.Load(Loader.Scene.Mission9Scene);;
         });
         
@@ -107,28 +119,34 @@ public class MainMenuUI : MonoBehaviour
         });
 
         upButton.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(buttonSingleSFX[UnityEngine.Random.Range(0, buttonSingleSFX.Length)]);
             MoveScreenUp();
         });
         
         downButton.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(buttonSingleSFX[UnityEngine.Random.Range(0, buttonSingleSFX.Length)]);
             MoveScreenDown();
         });
         
         openSettingButton.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(buttonSingleSFX[UnityEngine.Random.Range(0, buttonSingleSFX.Length)]);
             Debug.Log("openSettingButton.onClick");
             OpenMenu();
         });
         continueButton.onClick.AddListener(() =>{
+            SFXManager.PlaySFX(buttonSingleSFX[UnityEngine.Random.Range(0, buttonSingleSFX.Length)]);
             Debug.Log("continueButton.onClick");
             CloseMenu();
         });
         NewGameButton.onClick.AddListener(() =>
         {
+            SFXManager.PlaySFX(buttonSingleSFX[UnityEngine.Random.Range(0, buttonSingleSFX.Length)]);
             Debug.Log("NewGameButton.onClick");
             OpenNewGameConfirmationWindow();
         });
         NewGameConfirmationButton.onClick.AddListener(() =>
         {
+            SFXManager.PlaySFX(buttonSingleSFX[UnityEngine.Random.Range(0, buttonSingleSFX.Length)]);
             Debug.Log("NewGameConfirmationButton.onClick");
             NewGameEvent?.Invoke();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -136,6 +154,7 @@ public class MainMenuUI : MonoBehaviour
 
         quitButton.onClick.AddListener(() =>
         {
+            SFXManager.PlaySFX(buttonSingleSFX[UnityEngine.Random.Range(0, buttonSingleSFX.Length)]);
             Debug.Log("Quit");
             Application.Quit();
         });

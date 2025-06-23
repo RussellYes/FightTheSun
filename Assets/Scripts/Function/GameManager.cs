@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     private ScoreManager scoreManager;
     public static GameManager Instance;
+    SFXManager SFXManager => SFXManager.Instance;
 
     public GameState CurrentState { get; private set; }
 
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button unpauseButton;
+    [SerializeField] private AudioClip[] buttonSFX;
 
     private bool initialized = false;
     private float levelTime;
@@ -68,9 +70,11 @@ public class GameManager : MonoBehaviour
         }
 
         pauseButton.onClick.AddListener(() => {
+            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
             HandlePaused();
         });
         unpauseButton.onClick.AddListener(() => {
+            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
             HandleUnpaused();
         });
 

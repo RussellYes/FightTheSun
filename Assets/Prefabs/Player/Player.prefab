@@ -106,7 +106,7 @@ PrefabInstance:
     - target: {fileID: -4881226727936450086, guid: b2ffebb27913d1a4590a36e21eeaba84, type: 3}
       propertyPath: miningClawSFX
       value: 
-      objectReference: {fileID: 8300000, guid: 8d6b0bb17995e9f47ac9357b0fd0974f, type: 3}
+      objectReference: {fileID: 8300000, guid: 697e2d0ab44337c41bfd12f704e012b5, type: 3}
     - target: {fileID: -4881226727936450086, guid: b2ffebb27913d1a4590a36e21eeaba84, type: 3}
       propertyPath: miningClawPrefab
       value: 

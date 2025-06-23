@@ -211,6 +211,10 @@ MonoBehaviour:
   lootPrefab:
   - {fileID: 4301909746815339928, guid: f8d92708e82490042b4a711a1c3f246e, type: 3}
   miningTime: 3
+  minedSFX:
+  - {fileID: 8300000, guid: 65927a1f2ca6bcc40a5817fa561e6ef0, type: 3}
+  - {fileID: 8300000, guid: 566a04d7c9a1dc549aa5d56b88f6c785, type: 3}
+  - {fileID: 8300000, guid: 3b5690b3013d4dd4ea9502ba1c066010, type: 3}
 --- !u!1 &6378483834228950434
 GameObject:
   m_ObjectHideFlags: 0

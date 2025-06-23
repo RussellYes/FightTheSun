@@ -5267,6 +5267,14 @@ MonoBehaviour:
   clockTimeIsUpSFX: {fileID: 8300000, guid: aa9d16701be099643866a3434418cc1d, type: 3}
   fireMissileButton: {fileID: 7409279972269310127}
   missileCountText: {fileID: 1670873914566051143}
+  buttonSFX:
+  - {fileID: 8300000, guid: 05684629bb7996b49805881fc0104948, type: 3}
+  - {fileID: 8300000, guid: 607286f6c7f329d4e98ecd6e29bf712b, type: 3}
+  - {fileID: 8300000, guid: aeaf0bd9da44acf45a7dff6269eaf254, type: 3}
+  - {fileID: 8300000, guid: d2058043d7b2df141b8a2a3120c35d24, type: 3}
+  - {fileID: 8300000, guid: d29372dc3daa78241b49cdf11c9b2de4, type: 3}
+  - {fileID: 8300000, guid: 630b4afa340a5c643a2faad16c1799de, type: 3}
+  - {fileID: 8300000, guid: 00c3e6a3a00635043bbab9499343afdb, type: 3}
   miningClawButton: {fileID: 8943845061963640298}
   miningClawJoyStickUIHolder: {fileID: 3951519350778356031}
   miningClawJoystickBackground: {fileID: 3215875808707285930}
@@ -6402,8 +6410,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127654f34d43f4b4e9caa57200059fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unpauseButton: {fileID: 2750419501181825627}
   homeButton: {fileID: 1849300200010805689}
+  buttonSFX:
+  - {fileID: 8300000, guid: 05684629bb7996b49805881fc0104948, type: 3}
+  - {fileID: 8300000, guid: 607286f6c7f329d4e98ecd6e29bf712b, type: 3}
+  - {fileID: 8300000, guid: aeaf0bd9da44acf45a7dff6269eaf254, type: 3}
+  - {fileID: 8300000, guid: d2058043d7b2df141b8a2a3120c35d24, type: 3}
+  - {fileID: 8300000, guid: d29372dc3daa78241b49cdf11c9b2de4, type: 3}
+  - {fileID: 8300000, guid: 630b4afa340a5c643a2faad16c1799de, type: 3}
+  - {fileID: 8300000, guid: 00c3e6a3a00635043bbab9499343afdb, type: 3}
   pauseBackground: {fileID: 8343553046195928212}
   pauseText: {fileID: 5438014738172957518}
   scoreText: {fileID: 3174925371005370026}
@@ -6415,7 +6430,7 @@ MonoBehaviour:
   xMusicIcon: {fileID: 712890357050254318}
   xSFXIcon: {fileID: 8632235034374672407}
   sliderSFX: {fileID: 8300000, guid: 412ba6bdcd33cef478502db1bddc21f8, type: 3}
-  musicPreview: {fileID: 8300000, guid: 82a26871eb1ec76478ced77195f591ce, type: 3}
+  musicPreview: {fileID: 8300000, guid: 648dceb627a95cc418dfef9fe56abedb, type: 3}
 --- !u!1 &8594144705098810565
 GameObject:
   m_ObjectHideFlags: 0

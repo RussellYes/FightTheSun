@@ -37286,7 +37286,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 100dfc059874cd243ab65da989a4731a, type: 3}
   - {fileID: 8300000, guid: 1e6152abb2b1ec443bec7db0037c8d6c, type: 3}
   buttonSFX:
-  - {fileID: 8300000, guid: 3e7d664f35544dc49b8cffacef7a0bf9, type: 3}
+  - {fileID: 8300000, guid: 7768d52d4740f5d4fb37e591bed1f09c, type: 3}
+  - {fileID: 8300000, guid: 00715d4fce45e314c9588c264eadfbf1, type: 3}
+  - {fileID: 8300000, guid: 5a15747eba8bf60448f5fa887f6a4634, type: 3}
+  - {fileID: 8300000, guid: dc4a3fa8451333d43bcc803759d8463c, type: 3}
+  - {fileID: 8300000, guid: f81e2afa3f1831f4a870e263aca74d08, type: 3}
+  - {fileID: 8300000, guid: 405cf424701b97e46b736ffef4522d1c, type: 3}
+  - {fileID: 8300000, guid: 805a77f4ea37d6547bb6ceb2fb9b54da, type: 3}
+  - {fileID: 8300000, guid: ff15d679a6ca5d544ba744748e278553, type: 3}
+  - {fileID: 8300000, guid: caeced3ff77bf8b42a4c8c1ecda90b8c, type: 3}
   buttonFailSFX:
   - {fileID: 8300000, guid: aa9d16701be099643866a3434418cc1d, type: 3}
   comicImage: {fileID: 1974467896}
@@ -39770,6 +39778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc4a625a81c1424c8e06f940be06d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planetButtonSFX: {fileID: 8300000, guid: 7768d52d4740f5d4fb37e591bed1f09c, type: 3}
   playMission1Button: {fileID: 13513818}
   playMission2Button: {fileID: 1392339777}
   playMission3Button: {fileID: 602128770}
@@ -39780,6 +39789,7 @@ MonoBehaviour:
   playMission8Button: {fileID: 1816738882}
   playMission9Button: {fileID: 1789555168}
   playMission10Button: {fileID: 1400566343}
+  buttonSingleSFX: []
   upButton: {fileID: 858803820}
   downButton: {fileID: 567484217}
   openSettingButton: {fileID: 1249769350}

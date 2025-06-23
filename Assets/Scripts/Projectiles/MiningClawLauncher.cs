@@ -34,7 +34,15 @@ public class MiningClawLauncher : MonoBehaviour
     {
         if (currentClaw != null) return;
 
-        sFXManager.PlaySFX(miningClawSFX);
+        if (sFXManager == null)
+        {
+            sFXManager = FindFirstObjectByType<SFXManager>();
+        }
+        if (miningClawSFX != null || sFXManager != null)
+        {
+            sFXManager.PlaySFX(miningClawSFX);
+        }
+
         GameObject claw = Instantiate(miningClawPrefab, transform.position, Quaternion.identity);
         currentClaw = claw.GetComponent<MiningClaw>();
 
