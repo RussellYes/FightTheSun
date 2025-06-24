@@ -395,11 +395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: timeBetweenSpawningMax
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: timeBetweenSpawningMin
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: 'obstacles.Array.data[0]'

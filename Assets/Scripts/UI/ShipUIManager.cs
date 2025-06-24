@@ -41,7 +41,8 @@ public class ShipUIManager : MonoBehaviour
     [Header("Missile UI")]
     [SerializeField] private Button fireMissileButton;
     [SerializeField] private TextMeshProUGUI missileCountText;
-    [SerializeField] private AudioClip[] buttonSFX;
+    [SerializeField] private AudioClip[] buttonPositiveSFX;
+    [SerializeField] private AudioClip buttonNegitiveSFX;
 
     [Header("MiningClaw")]
     [SerializeField] private Button miningClawButton;
@@ -85,30 +86,24 @@ public class ShipUIManager : MonoBehaviour
 
     private void PauseButtonClicked()
     {
-        if (SFXManager != null && buttonSFX.Length > 0)
-        {
-            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
-        }
-        else
-        {
-            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
-        }
-
+        PlayButtonPositive();
         PauseButtonEvent?.Invoke();
     }
 
     private void FireMissileButton()
     {
-        if (SFXManager != null && buttonSFX.Length > 0)
+        if (fireMissileButton.interactable)
         {
-            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+            PlayButtonPositive();
+            FireMissilesEvent?.Invoke();
         }
-        else
+        if (!fireMissileButton.interactable)
         {
-            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
+            PlayButtonNegitive();
+            Debug.LogWarning("FireMissileButton: Button is not interactable, cannot fire missiles.");
         }
 
-        FireMissilesEvent?.Invoke();
+
     }
     private void InitializeMiningClawJoystick()
     {
@@ -130,6 +125,7 @@ public class ShipUIManager : MonoBehaviour
     private void OnInitializationComplete()
     {
         initialized = true;
+        UpdateMissileButton(DataPersister.Instance.CurrentGameData.missileCount);
     }
     private void Update()
     {
@@ -221,14 +217,7 @@ public class ShipUIManager : MonoBehaviour
 
     private void ActivateClawJoyStick()
     {
-        if (SFXManager != null && buttonSFX.Length > 0)
-        {
-            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
-        }
-        else
-        {
-            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
-        }
+        PlayButtonPositive();
 
         // Deactivate swipe controls
         swipeControls.EnableTouchControls(false);
@@ -336,6 +325,31 @@ public class ShipUIManager : MonoBehaviour
         // Check if touch is within joystick activation area
         return Vector2.Distance(touchPosition, joystickCenter) < joystickRadius * 1.5f;
     }
+
+    private void PlayButtonPositive()
+    {
+        if (SFXManager != null && buttonPositiveSFX.Length > 0)
+        {
+            SFXManager.PlaySFX(buttonPositiveSFX[UnityEngine.Random.Range(0, buttonPositiveSFX.Length)]);
+        }
+        else
+        {
+            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
+        }
+    }
+
+    private void PlayButtonNegitive()
+    {
+        if (SFXManager != null && buttonNegitiveSFX != null)
+        {
+            SFXManager.PlaySFX(buttonNegitiveSFX);
+        }
+        else
+        {
+            Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
+        }
+    }
+
 
 }
 

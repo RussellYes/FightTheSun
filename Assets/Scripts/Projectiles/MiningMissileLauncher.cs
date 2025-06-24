@@ -28,6 +28,7 @@ public class MiningMissileLauncher : MonoBehaviour
     [SerializeField] private Sprite Launcher4;
     [SerializeField] private Sprite Launcher5;
 
+    public float MissileCount => missileCount;
     private void Start()
     {
         missileCount = 0;

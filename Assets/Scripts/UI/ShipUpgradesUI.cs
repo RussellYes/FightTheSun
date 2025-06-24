@@ -15,6 +15,8 @@ public class ShipUpgradesUI : MonoBehaviour
     [SerializeField] private Button shipUpgradeCloseButton;
     [SerializeField] private float uIOpenCloseLerpTime = 1f;
     [SerializeField] private AudioClip[] shipUpgradeMenuOpenCloseSFX;
+    [SerializeField] private AudioClip[] buttonPositiveSFX;
+    [SerializeField] private AudioClip buttonNegitiveSFX;
 
     [Header("Memory Score")]
     [SerializeField] private TextMeshProUGUI memoryScoreText;
@@ -345,15 +347,35 @@ public class ShipUpgradesUI : MonoBehaviour
 
     }
 
+    private void PlayPositiveButtonSFX()
+    {
+        if (sFXManager != null && buttonPositiveSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(buttonPositiveSFX[UnityEngine.Random.Range(0, buttonPositiveSFX.Length)]);
+        }
+    }
+
+    private void PlayNegitiveButtonSFX()
+    {
+        if (sFXManager != null && buttonNegitiveSFX != null)
+        {
+            sFXManager.PlaySFX(buttonNegitiveSFX);
+        }
+    }
     private void BuyEngineering()
     {
         if (GetMemoryScore() >= engineeringMemoryCost && GetMetalScore() >= engineeringMetalCost && GetRareMetalScore() >= engineeringRareMetalCost)
         {
+            PlayPositiveButtonSFX();
             ChangeMemory(-engineeringMemoryCost);
             ChangeMetal(engineeringMetalCost);
             ChangeRareMetal(engineeringRareMetalCost);
             playerStatsManager.MultiplyEngineeringSkill();
             UpdateMemoryAndSkillsText();
+        }
+        else
+        {
+            PlayNegitiveButtonSFX();
         }
     }
     private void BuyPiloting()
@@ -371,11 +393,16 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= mechanicsMemoryCost && GetMetalScore() >= mechanicsMetalCost && GetRareMetalScore() >= mechanicsRareMetalCost)
         {
+            PlayPositiveButtonSFX();
             ChangeMemory(-mechanicsMemoryCost);
             ChangeMetal(mechanicsMetalCost);
             ChangeRareMetal(mechanicsRareMetalCost);
             playerStatsManager.MultiplyMechanicsSkill();
             UpdateMemoryAndSkillsText();
+        }
+        else
+        {
+            PlayNegitiveButtonSFX();
         }
     }
     private void BuyMining()
@@ -393,22 +420,32 @@ public class ShipUpgradesUI : MonoBehaviour
     {
         if (GetMemoryScore() >= roboticsMemoryCost && GetMetalScore() >= roboticsMetalCost && GetRareMetalScore() >= roboticsRareMetalCost)
         {
+            PlayPositiveButtonSFX();
             ChangeMemory(-roboticsMemoryCost);
             ChangeMetal(roboticsMetalCost);
             ChangeRareMetal(roboticsRareMetalCost);
             playerStatsManager.MultiplyRoboticsSkill();
             UpdateMemoryAndSkillsText();
         }
+        else
+        {
+            PlayNegitiveButtonSFX();
+        }
     }
     private void BuyCombat()
     {
         if (GetMemoryScore() >= combatMemoryCost && GetMetalScore() >= combatMetalCost && GetRareMetalScore() >= combatRareMetalCost)
         {
+            PlayPositiveButtonSFX();
             ChangeMemory(-combatMemoryCost);
             ChangeMetal(combatMetalCost);
             ChangeRareMetal(combatRareMetalCost);
             playerStatsManager.MultiplyCombatSkill();
             UpdateMemoryAndSkillsText();
+        }
+        else
+        {
+            PlayNegitiveButtonSFX();
         }
     }
     public void ChangeMemory(float amount)
