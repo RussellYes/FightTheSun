@@ -48,9 +48,12 @@ public class DialogueManager : MonoBehaviour
     [Header("Dashboard Controls")]
     [SerializeField] private GameObject highLightArrowPrefab;
     [SerializeField] private GameObject healthPrefab;
+    private Transform missileButtonObjectRect;
+    private Transform miningClawButtonObjectRect;
     private Transform hullBarObjectRect;
     private Transform thrustBarObjectRect;
     private Transform CheckpointMeterObjectRect;
+   
 
     private GameObject currentArrowInstance;
 
@@ -69,10 +72,20 @@ public class DialogueManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Start()
+    private void OnDataInitialized()
     {
         gameManager = GameManager.Instance;
 
+        miningClawButtonObjectRect = GameObject.Find("MiningClawButton").transform;
+        if (miningClawButtonObjectRect == null)
+        {
+            Debug.LogError("DialogueManager Start - MiningClawButton object not found in the scene.");
+        }
+        missileButtonObjectRect = GameObject.Find("FireMissileButton").transform;
+        if (missileButtonObjectRect == null)
+        {
+            Debug.LogError("DialogueManager Start - MissileButton object not found in the scene.");
+        }
         hullBarObjectRect = GameObject.Find("HullBar").GetComponent<RectTransform>();
         if (hullBarObjectRect == null)
         {
@@ -102,12 +115,11 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("No GameObject with tag 'SpeakerPortraitUI' found");
         }
     }
-
     private void OnEnable()
     {
         PlayerStatsManager.GoalProgressEvent += MissionDialogue;
         GameManager.MissionDialogueEvent += MissionDialogue;
-        // DataPersister.InitializationComplete += ;
+        DataPersister.InitializationComplete += OnDataInitialized;
     }
 
     private void OnDisable()
@@ -247,7 +259,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
-            string endText = "Great flying. You're at the first planet.";
+            string endText = "Race to the sun or slow down for loot?";
 
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
@@ -262,7 +274,7 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueCount == 0)
         {
-            missionTitleText.text = "Mission 2: Speed Control";
+            missionTitleText.text = "Mission 2: Claw Forward";
 
             StartCoroutine(FadeInDialogueBox());
             StartGameCountdownEvent?.Invoke();
@@ -272,9 +284,27 @@ public class DialogueManager : MonoBehaviour
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
 
-            dialogueText.text = "Race to the sun or slow down for loot?";
+            dialogueText.text = "Have you used the mining claw? It crushes asteroids";
         }
-        else if (dialogueCount == 2)
+        else if (dialogueCount == 1)
+        {
+            StartCoroutine(FadeInDialogueBox());
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+            Vector3 arrowPosition = miningClawButtonObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, miningClawButtonObjectRect);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+
+            dialogueText.text = "Activate, aim, then wait for the claw to mine.";
+        }
+        else if (dialogueCount == 3)
         {
             StartCoroutine(FadeInDialogueBox());
 
@@ -307,7 +337,7 @@ public class DialogueManager : MonoBehaviour
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
             Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
-            string endText = "You've got skills. We arrived at the space station safely.";
+            string endText = "Yeah! We're at the space station. Check out the exchange.";
             StartCoroutine(EndDialogueScene(endText));
 
             dialogueCount = 4;
