@@ -6411,6 +6411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homeButton: {fileID: 1849300200010805689}
+  playButton: {fileID: 2750419501181825627}
   buttonSFX:
   - {fileID: 8300000, guid: 05684629bb7996b49805881fc0104948, type: 3}
   - {fileID: 8300000, guid: 607286f6c7f329d4e98ecd6e29bf712b, type: 3}
