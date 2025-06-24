@@ -125,7 +125,7 @@ public class ShipUIManager : MonoBehaviour
     private void OnInitializationComplete()
     {
         initialized = true;
-        UpdateMissileButton(DataPersister.Instance.CurrentGameData.missileCount);
+        UpdateMissileButton(DataPersister.Instance.CurrentGameData.savedMissileCount);
     }
     private void Update()
     {

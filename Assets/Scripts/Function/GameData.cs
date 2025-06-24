@@ -6,6 +6,11 @@ using UnityEngine;
 public class GameData
 {
 
+    [Header("Mining Missile Data")]
+    public int savedMissileCount;
+    public int savedLauncherLevel;
+    public bool savedLauncherActive;
+
     [Header("Game Data")]
     public List<PlayerSaveData> playerData;
 

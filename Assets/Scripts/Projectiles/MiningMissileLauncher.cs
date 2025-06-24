@@ -31,9 +31,23 @@ public class MiningMissileLauncher : MonoBehaviour
     public float MissileCount => missileCount;
     private void Start()
     {
-        missileCount = 0;
-        launcherLevel = 0;
-        isLauncherActive = false;
+
+    }
+
+    private void OnDataInitialized()
+    {
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            missileCount = DataPersister.Instance.CurrentGameData.savedMissileCount;
+            launcherLevel = DataPersister.Instance.CurrentGameData.savedLauncherLevel;
+            isLauncherActive = DataPersister.Instance.CurrentGameData.savedLauncherActive;
+        }
+        else 
+        {
+            missileCount = 0;
+            launcherLevel = 0;
+            isLauncherActive = false;
+        }
         UpdateLauncherVisual();
     }
 
@@ -41,11 +55,24 @@ public class MiningMissileLauncher : MonoBehaviour
     {
         ShipUIManager.FireMissilesEvent += FireMissiles;
         ObstacleMovement.MissilePickupEvent += MissilePickUp;
+        DataPersister.InitializationComplete += OnDataInitialized;
     }
     private void OnDisable()
     {
         ShipUIManager.FireMissilesEvent -= FireMissiles;
         ObstacleMovement.MissilePickupEvent -= MissilePickUp;
+        DataPersister.InitializationComplete -= OnDataInitialized;
+        SaveData();
+    }
+
+    private void SaveData()
+    {
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            DataPersister.Instance.CurrentGameData.savedMissileCount = missileCount;
+            DataPersister.Instance.CurrentGameData.savedLauncherLevel = launcherLevel;
+            DataPersister.Instance.CurrentGameData.savedLauncherActive = isLauncherActive;
+        }
     }
     private void MissilePickUp(int amt)
     {
@@ -53,6 +80,7 @@ public class MiningMissileLauncher : MonoBehaviour
         missileCount += amt;
         UpdateLauncherLevel();
         UpdateLauncherVisual();
+        SaveData();
     }
     private void UpdateLauncherVisual()
     {
