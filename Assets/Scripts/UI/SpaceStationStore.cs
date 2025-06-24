@@ -60,15 +60,10 @@ public class SpaceStationStore : MonoBehaviour
 
     private void OnInitializationComplete()
     {
-        // Get memories, money, metal, and rare metal values from DataPersister
-    }
-
-    private void Start()
-    {
         storeHolder.SetActive(false);
         sFXManager = SFXManager.Instance;
-
     }
+
     private void OpenStore()
     {
         storeHolder.SetActive(true);

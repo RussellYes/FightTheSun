@@ -10,8 +10,7 @@ public class MainMenuLevelScoreText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bestTimeText;
     [SerializeField] private TextMeshProUGUI bestMoneyText;
     [SerializeField] private TextMeshProUGUI bestObstaclesDestroyedText;
-    [SerializeField] private GameObject lockedPlanet;
-    [SerializeField] private GameObject lockedMoonStore;
+
 
     [SerializeField] private int levelNumber; // Set this in inspector for each level display
 
@@ -89,14 +88,6 @@ public class MainMenuLevelScoreText : MonoBehaviour
         else if (levelNumber >= 2 && levelNumber <= 10)
         {
             isLevelUnlocked = gameData.GetMissionUnlocked(levelNumber);
-        }
-
-        lockedPlanet.SetActive(!isLevelUnlocked);
-        Debug.Log($"Level {levelNumber} unlocked: {isLevelUnlocked}");
-
-        if (lockedMoonStore != null && levelNumber == 2)
-        {
-            lockedMoonStore.SetActive(!isLevelUnlocked);
         }
     }
 }
