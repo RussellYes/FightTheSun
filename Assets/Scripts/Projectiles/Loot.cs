@@ -53,6 +53,5 @@ public class Loot : MonoBehaviour
     private void OnDestroy()
     {
         PlayerGainsLootEvent?.Invoke((float)metal, (float)rareMetal);
-
     }
 }

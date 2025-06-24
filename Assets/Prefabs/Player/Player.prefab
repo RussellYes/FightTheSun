@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5755749830394830897}
   - component: {fileID: 7620781877623449145}
   - component: {fileID: 9038267331564975284}
+  - component: {fileID: 8706955363304484180}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -95,6 +96,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSwipeDistance: 50
   isMainMenu: 0
+--- !u!114 &8706955363304484180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5435460692217832303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a46fa07c36c92948a21aaa4a84d7a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popUpTextPrefab: {fileID: 1778058860984029159, guid: 9aa491b865080a641a0f941e2668844f, type: 3}
+  popUpTextCanvas: {fileID: 0}
+  damagePositiveColour: {r: 0.8509804, g: 0.7914561, b: 0.05882351, a: 1}
+  damageNegitiveColour: {r: 0.8396226, g: 0.04356533, b: 0.04356533, a: 1}
+  moneyColour: {r: 0.09547763, g: 0.8867924, b: 0.079476655, a: 1}
+  metalColour: {r: 1, g: 0.40481335, b: 0, a: 1}
+  rareMetalColour: {r: 0, g: 0.49037516, b: 0.9150943, a: 1}
+  missileColour: {r: 0.9716981, g: 0.041251317, b: 0.7069854, a: 1}
 --- !u!1001 &5547338391687447767
 PrefabInstance:
   m_ObjectHideFlags: 0

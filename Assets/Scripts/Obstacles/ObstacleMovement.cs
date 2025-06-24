@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ObstacleMovement : MonoBehaviour
 {
-    public static event Action MissilePickupEvent;
+    public static event Action <int> MissilePickupEvent;
 
     private PlayerStatsManager playerStatsManager;
     private SFXManager sFXManager;
@@ -169,7 +169,7 @@ public class ObstacleMovement : MonoBehaviour
 
             if (isMissilePickUp)
             {
-                MissilePickupEvent?.Invoke();
+                MissilePickupEvent?.Invoke(6);
                 Destroy(gameObject);
             }
 

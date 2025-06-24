@@ -46,10 +46,10 @@ public class MiningMissileLauncher : MonoBehaviour
         ShipUIManager.FireMissilesEvent -= FireMissiles;
         ObstacleMovement.MissilePickupEvent -= MissilePickUp;
     }
-    private void MissilePickUp()
+    private void MissilePickUp(int amt)
     {
         isLauncherActive = true;
-        missileCount += 6;
+        missileCount += amt;
         UpdateLauncherLevel();
         UpdateLauncherVisual();
     }

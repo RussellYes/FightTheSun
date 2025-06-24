@@ -1627,6 +1627,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2018881648140165616, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018881648140165616, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5435460692217832303, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: m_Name
       value: Player
