@@ -35,17 +35,18 @@ public class ShipUIManager : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private TextMeshProUGUI totalTimeText;
     private bool initialized = false;
+    public bool Initialized => initialized;
     [SerializeField] private AudioClip clockTimeIsUpSFX;
     private Color defaultTimeTextColor;
 
     [Header("Missile UI")]
-    [SerializeField] private Button fireMissileButton;
+    [SerializeField] private GameObject fireMissileButton;
     [SerializeField] private TextMeshProUGUI missileCountText;
     [SerializeField] private AudioClip[] buttonPositiveSFX;
     [SerializeField] private AudioClip buttonNegitiveSFX;
 
     [Header("MiningClaw")]
-    [SerializeField] private Button miningClawButton;
+    [SerializeField] private GameObject miningClawButton;
     [SerializeField] private GameObject miningClawJoyStickUIHolder;
     [SerializeField] private RectTransform miningClawJoystickBackground;
     [SerializeField] private RectTransform miningClawJoystickHandle;
@@ -69,19 +70,19 @@ public class ShipUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        fireMissileButton.onClick.AddListener(() => { FireMissileButton(); });
+        fireMissileButton.GetComponent<Button>().onClick.AddListener(() => { FireMissileButton(); });
         pauseButton.GetComponent<Button>().onClick.AddListener(() => { PauseButtonClicked(); });
         MiningMissileLauncher.LauncherActiveEvent += UpdateMissileButton;
         DataPersister.InitializationComplete += OnInitializationComplete;
-        miningClawButton.onClick.AddListener(() => { ActivateClawJoyStick(); });
+        miningClawButton.GetComponent<Button>().onClick.AddListener(() => { ActivateClawJoyStick(); });
     }
     private void OnDisable()
     {
-        fireMissileButton.onClick.RemoveListener(() => { FireMissileButton(); });
+        fireMissileButton.GetComponent<Button>().onClick.RemoveListener(() => { FireMissileButton(); });
         pauseButton.GetComponent<Button>().onClick.RemoveListener(() => { PauseButtonClicked(); });
         MiningMissileLauncher.LauncherActiveEvent -= UpdateMissileButton;
         DataPersister.InitializationComplete -= OnInitializationComplete;
-        miningClawButton.onClick.RemoveListener(() => { ActivateClawJoyStick(); });
+        miningClawButton.GetComponent<Button>().onClick.RemoveListener(() => { ActivateClawJoyStick(); });
     }
 
     private void PauseButtonClicked()
@@ -92,12 +93,12 @@ public class ShipUIManager : MonoBehaviour
 
     private void FireMissileButton()
     {
-        if (fireMissileButton.interactable)
+        if (fireMissileButton.GetComponent<Button>().interactable)
         {
             PlayButtonPositive();
             FireMissilesEvent?.Invoke();
         }
-        if (!fireMissileButton.interactable)
+        if (!fireMissileButton.GetComponent<Button>().interactable)
         {
             PlayButtonNegitive();
             Debug.LogWarning("FireMissileButton: Button is not interactable, cannot fire missiles.");
@@ -167,12 +168,12 @@ public class ShipUIManager : MonoBehaviour
     {
         if (missileCount > 0)
         {
-            fireMissileButton.interactable = true;
+            fireMissileButton.GetComponent<Button>().interactable = true;
             missileCountText.text = missileCount.ToString();
         }
         else if (missileCount <= 0)
         {
-            fireMissileButton.interactable = false;
+            fireMissileButton.GetComponent<Button>().interactable = false;
             missileCountText.text = "0";
         }
     }

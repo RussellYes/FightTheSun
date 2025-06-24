@@ -72,31 +72,38 @@ public class DialogueManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    private void Start()
+    {
+        OnDataInitialized();
+    }
     private void OnDataInitialized()
     {
+        Debug.Log("DialogueManager OnDataInitialized");
+
         gameManager = GameManager.Instance;
 
-        miningClawButtonObjectRect = GameObject.Find("MiningClawButton").transform;
+
+        miningClawButtonObjectRect = GameObject.FindFirstObjectByType<FindMiningClawButton>()?.GetComponent<RectTransform>();
         if (miningClawButtonObjectRect == null)
         {
             Debug.LogError("DialogueManager Start - MiningClawButton object not found in the scene.");
         }
-        missileButtonObjectRect = GameObject.Find("FireMissileButton").transform;
+        missileButtonObjectRect = GameObject.FindFirstObjectByType<FindMissileButton>()?.GetComponent<RectTransform>();
         if (missileButtonObjectRect == null)
         {
             Debug.LogError("DialogueManager Start - MissileButton object not found in the scene.");
         }
-        hullBarObjectRect = GameObject.Find("HullBar").GetComponent<RectTransform>();
+        hullBarObjectRect = GameObject.FindFirstObjectByType<FindHullBar>()?.GetComponent<RectTransform>();
         if (hullBarObjectRect == null)
         {
             Debug.LogError("DialogueManager Start - HullBar object not found in the scene.");
         }
-        thrustBarObjectRect = GameObject.Find("ThrustBar").GetComponent<RectTransform>();
+        thrustBarObjectRect = GameObject.FindFirstObjectByType<FindThrustBar>()?.GetComponent<RectTransform>();
         if (thrustBarObjectRect == null)
         {
             Debug.LogError("DialogueManager Start - ThrustBar object not found in the scene.");
         }
-        CheckpointMeterObjectRect = GameObject.Find("CheckpointMeter").GetComponent<RectTransform>();
+        CheckpointMeterObjectRect = GameObject.FindFirstObjectByType<FindCheckpointMeterObject>()?.GetComponent<RectTransform>();
         if (CheckpointMeterObjectRect == null)
         {
             Debug.LogError("DialogueManager Start - CheckpointMeter object not found in the scene.");
@@ -119,13 +126,14 @@ public class DialogueManager : MonoBehaviour
     {
         PlayerStatsManager.GoalProgressEvent += MissionDialogue;
         GameManager.MissionDialogueEvent += MissionDialogue;
-        DataPersister.InitializationComplete += OnDataInitialized;
+        //DataPersister.InitializationComplete += OnDataInitialized;
     }
 
     private void OnDisable()
     {
         PlayerStatsManager.GoalProgressEvent -= MissionDialogue;
         GameManager.MissionDialogueEvent -= MissionDialogue;
+        DataPersister.InitializationComplete -= OnDataInitialized;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 

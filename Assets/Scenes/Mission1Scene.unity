@@ -968,6 +968,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleSpawnerDeleteThis
       objectReference: {fileID: 0}
+    - target: {fileID: 799479467818313849, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2451845226028026601, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1175,7 +1179,7 @@ PrefabInstance:
       objectReference: {fileID: 1007728397}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: distanceToGoal
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: endConditionsUI
