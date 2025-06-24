@@ -6,6 +6,8 @@ public class StoreAccessUI : MonoBehaviour
     [SerializeField] private GameObject lockedPlanet2Store;
     [SerializeField] private bool isPlanet3Store;
     [SerializeField] private GameObject lockedPlanet3Store;
+    [SerializeField] private bool isPlanet4Store;
+    [SerializeField] private GameObject lockedPlanet4Store;
 
     private void OnEnable()
     {
@@ -23,6 +25,8 @@ public class StoreAccessUI : MonoBehaviour
             lockedPlanet2Store.SetActive(true);
         if (lockedPlanet3Store != null)
             lockedPlanet3Store.SetActive(true);
+        if (lockedPlanet4Store != null)
+            lockedPlanet4Store.SetActive(true);
 
         if (isPlanet2Store)
         {
@@ -44,7 +48,16 @@ public class StoreAccessUI : MonoBehaviour
                 }
             }
         }
-
+        if (isPlanet4Store)
+        {
+            if (DataPersister.Instance.CurrentGameData.isMission4Unlocked)
+            {
+                if (lockedPlanet4Store != null)
+                {
+                    lockedPlanet4Store.SetActive(false);
+                }
+            }
+        }
 
 
     }

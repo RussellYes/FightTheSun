@@ -229,6 +229,8 @@ public class GameData
         totalTime = 0f;
         totalObstaclesDestroyed = 0;
         sunCount = 0;
+        savedMissileCount = 0;
+        savedLauncherLevel = 1;
 
         // Reset achievements
         isMission1Complete = false;

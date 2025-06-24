@@ -56,15 +56,15 @@ public class MissileSellerUI : MonoBehaviour
     {
         storeHolder.SetActive(true);
         UpdateTexts();
-        playOpenCloseSFX();
-        OpenStoreLerp();
+        PlayOpenCloseSFX();
+        StartCoroutine(OpenStoreLerp());
     }
 
     private void CloseStore()
     {
         storeHolder.SetActive(false);
-        playOpenCloseSFX();
-        CloseStoreLerp();
+        PlayOpenCloseSFX();
+        StartCoroutine(CloseStoreLerp());
     }
 
     IEnumerator OpenStoreLerp()
@@ -105,7 +105,7 @@ public class MissileSellerUI : MonoBehaviour
         rectTransform.localPosition = originalPosition;
     }
 
-    private void playOpenCloseSFX()
+    private void PlayOpenCloseSFX()
     {
         AudioClip sFX = storeOpenCloseSFX[Random.Range(0, storeOpenCloseSFX.Length)];
 

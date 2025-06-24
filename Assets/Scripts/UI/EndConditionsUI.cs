@@ -491,6 +491,10 @@ public class EndConditionsUI : MonoBehaviour
         gameData.totalRareMetal = 0f;
         gameData.totalObstaclesDestroyed = 0;
 
+        // Reset missile and launcher data
+        gameData.savedMissileCount = 0;
+        gameData.savedLauncherLevel = 1;
+
         // Lock all levels except Level 1
         for (int i = 2; i <= 10; i++)
         {
