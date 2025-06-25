@@ -171,15 +171,15 @@ public class ShipUIManager : MonoBehaviour
         {
             fireMissileButton.GetComponent<Button>().interactable = true;
             missileCountText.text = missileCount.ToString();
-            int launcherLevel = DataPersister.Instance.CurrentGameData.savedLauncherLevel;
-            string[] launcherLevels = { "I", "II", "III", "IV", "V" };
-            missileLauncherLevelText.text = $"{launcherLevels}";
         }
         else if (missileCount <= 0)
         {
             fireMissileButton.GetComponent<Button>().interactable = false;
             missileCountText.text = "0";
         }
+        int launcherLevel = DataPersister.Instance.CurrentGameData.savedLauncherLevel;
+        string[] launcherLevels = { "I", "II", "III", "IV", "V" };
+        missileLauncherLevelText.text = $"{launcherLevels}";
     }
 
     private void KeepingTime()

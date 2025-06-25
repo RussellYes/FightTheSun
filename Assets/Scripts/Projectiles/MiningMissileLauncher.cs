@@ -22,17 +22,14 @@ public class MiningMissileLauncher : MonoBehaviour
     private bool isLauncherActive;
     private int launcherLevel;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Sprite Launcher1;
-    [SerializeField] private Sprite Launcher2;
-    [SerializeField] private Sprite Launcher3;
-    [SerializeField] private Sprite Launcher4;
-    [SerializeField] private Sprite Launcher5;
+    [SerializeField] private Sprite launcher1;
+    [SerializeField] private Sprite launcher2;
+    [SerializeField] private Sprite launcher3;
+    [SerializeField] private Sprite launcher4;
+    [SerializeField] private Sprite launcher5;
 
     public float MissileCount => missileCount;
-    private void Start()
-    {
 
-    }
 
     private void OnDataInitialized()
     {
@@ -45,9 +42,10 @@ public class MiningMissileLauncher : MonoBehaviour
         else 
         {
             missileCount = 0;
-            launcherLevel = 0;
+            launcherLevel = 1;
             isLauncherActive = false;
         }
+
         UpdateLauncherVisual();
     }
 
@@ -78,7 +76,6 @@ public class MiningMissileLauncher : MonoBehaviour
     {
         isLauncherActive = true;
         missileCount += amt;
-        UpdateLauncherLevel();
         UpdateLauncherVisual();
         SaveData();
     }
@@ -100,36 +97,29 @@ public class MiningMissileLauncher : MonoBehaviour
             }
 
             spriteRenderer.enabled = true;
+            if (launcherLevel == 1)
+            {
+                spriteRenderer.sprite = launcher1;
+            }
+            else if (launcherLevel == 2)
+            {
+                spriteRenderer.sprite = launcher2;
+            }
+            else if (launcherLevel == 3)
+            {
+                spriteRenderer.sprite = launcher3;
+            }
+            else if (launcherLevel == 4)
+            {
+                spriteRenderer.sprite = launcher4;
+            }
+            else if (launcherLevel >= 5)
+            {
+                spriteRenderer.sprite = launcher5;
+            }
         }
     }
-    private void UpdateLauncherLevel()
-    {
-        if (launcherLevel == 0)
-        {
-            spriteRenderer.sprite = Launcher1;
-            launcherLevel = 1;
-        }
-        else if (launcherLevel == 1)
-        {
-            spriteRenderer.sprite = Launcher2;
-            launcherLevel = 2;
-        }
-        else if (launcherLevel == 2)
-        {
-            spriteRenderer.sprite = Launcher3;
-            launcherLevel = 3;
-        }
-        else if (launcherLevel == 3)
-        {
-            spriteRenderer.sprite = Launcher4;
-            launcherLevel = 4;
-        }
-        else if (launcherLevel >= 4)
-        {
-            spriteRenderer.sprite = Launcher5;
-            launcherLevel = 5;
-        }
-    }
+
 
     private void FireMissiles()
     {
