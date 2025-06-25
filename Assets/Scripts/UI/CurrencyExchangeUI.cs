@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpaceStationStore : MonoBehaviour
+public class CurrencyExchangeUI : MonoBehaviour
 {
 
     private SFXManager sFXManager;
@@ -129,10 +129,10 @@ public class SpaceStationStore : MonoBehaviour
 
     private void UpdateTexts()
     {
-        memoriesText.text = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore.ToString();
-        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString();
-        metalText.text = DataPersister.Instance.CurrentGameData.totalMetal.ToString();
-        rareMetalText.text = DataPersister.Instance.CurrentGameData.totalRareMetal.ToString();
+        memoriesText.text = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore.ToString("0.0");
+        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString("0.0");
+        metalText.text = DataPersister.Instance.CurrentGameData.totalMetal.ToString("0.0");
+        rareMetalText.text = DataPersister.Instance.CurrentGameData.totalRareMetal.ToString("0.0");
     }
     private void TradeMemoriesForMoney()
     {

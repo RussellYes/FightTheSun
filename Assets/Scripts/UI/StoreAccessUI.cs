@@ -12,14 +12,26 @@ public class StoreAccessUI : MonoBehaviour
     private void OnEnable()
     {
         DataPersister.InitializationComplete += OnDataInitialized;
+        LevelUnlockerUI.LevelUnlockedEvent += OnLevelUnlocked;
+
     }
 
     private void OnDisable()
     {
         DataPersister.InitializationComplete -= OnDataInitialized;
+        LevelUnlockerUI.LevelUnlockedEvent -= OnLevelUnlocked;
     }
 
     private void OnDataInitialized()
+    {
+        UpdateLevelLock();
+    }
+    private void OnLevelUnlocked()
+    {
+        UpdateLevelLock();
+    }
+
+    private void UpdateLevelLock()
     {
         if (lockedPlanet2Store != null)
             lockedPlanet2Store.SetActive(true);
@@ -27,6 +39,7 @@ public class StoreAccessUI : MonoBehaviour
             lockedPlanet3Store.SetActive(true);
         if (lockedPlanet4Store != null)
             lockedPlanet4Store.SetActive(true);
+
 
         if (isPlanet2Store)
         {
@@ -58,9 +71,6 @@ public class StoreAccessUI : MonoBehaviour
                 }
             }
         }
-
-
     }
-
 
 }

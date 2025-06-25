@@ -109,7 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpTextPrefab: {fileID: 1778058860984029159, guid: 9aa491b865080a641a0f941e2668844f, type: 3}
-  popUpTextCanvas: {fileID: 0}
   damagePositiveColour: {r: 0.8509804, g: 0.7914561, b: 0.05882351, a: 1}
   damageNegitiveColour: {r: 0.8396226, g: 0.04356533, b: 0.04356533, a: 1}
   moneyColour: {r: 0.09547763, g: 0.8867924, b: 0.079476655, a: 1}
@@ -202,11 +201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6179345374534429898, guid: b2ffebb27913d1a4590a36e21eeaba84, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.32984
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6179345374534429898, guid: b2ffebb27913d1a4590a36e21eeaba84, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.6946199
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6179345374534429898, guid: b2ffebb27913d1a4590a36e21eeaba84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

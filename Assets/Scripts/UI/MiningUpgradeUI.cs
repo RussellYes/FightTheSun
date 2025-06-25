@@ -117,7 +117,7 @@ public class MiningUpgradeUI : MonoBehaviour
 
     private void UpdateTexts()
     {
-        rareMetalText.text = DataPersister.Instance.CurrentGameData.totalRareMetal.ToString("F1");
+        rareMetalText.text = DataPersister.Instance.CurrentGameData.totalRareMetal.ToString("0.0");
         launcherText.text = DataPersister.Instance.CurrentGameData.savedLauncherLevel.ToString();
     }
 

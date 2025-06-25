@@ -10,10 +10,10 @@ public class DestroyInSeconds : MonoBehaviour
         Destroy(gameObject, selfDestructTime);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         // Ensure the object is destroyed if it is disabled before the timer ends
-        if (gameObject != null)
+        if (gameObject != null && !gameObject.scene.isLoaded)
         {
             Destroy(gameObject);
         }
