@@ -2,26 +2,39 @@ using System.Collections;
 using System.Numerics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 // This script displays saved scores for each level in the main menu.
 
-public class MainMenuLevelScoreText : MonoBehaviour
+public class MainMenuPlanetLevelScoreText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI bestTimeText;
     [SerializeField] private TextMeshProUGUI bestMoneyText;
     [SerializeField] private TextMeshProUGUI bestObstaclesDestroyedText;
+    [SerializeField] private GameObject lockedLevelCheckerPlanet;
+    [SerializeField] private Button openUnlockerUIButton;
 
-
-    [SerializeField] private int levelNumber; // Set this in inspector for each level display
+    [SerializeField] private int levelNumber;
 
     private void OnEnable()
     {
         DataPersister.InitializationComplete += LoadLevelData;
+        LevelUnlockerUI.LevelUnlockedEvent += OnLevelUnlocked;
+
+        if (openUnlockerUIButton)
+        {
+            openUnlockerUIButton.onClick.AddListener(() =>
+            {
+                LevelUnlockerUI.Instance.OpenLevelUnlocker(levelNumber);
+            });
+        }
+
     }
 
     private void OnDisable()
     {
         DataPersister.InitializationComplete -= LoadLevelData;
+        LevelUnlockerUI.LevelUnlockedEvent -= OnLevelUnlocked;
     }
 
 
@@ -43,6 +56,7 @@ public class MainMenuLevelScoreText : MonoBehaviour
             UpdateTimeText(levelData.levelTime);
             UpdateMoneyText(levelData.levelMoney);
             UpdateObstaclesDestroyedText(levelData.levelObstaclesDestroyed);
+            UpdateLevelLock(levelNumber);
         }
         else
         {
@@ -51,6 +65,13 @@ public class MainMenuLevelScoreText : MonoBehaviour
 
         CheckLevelUnlockStatus(levelNumber);
     }
+
+    private void OnLevelUnlocked()
+    {
+        UpdateLevelLock(levelNumber);
+    }
+
+
     private void SetDefaultText()
     {
         bestTimeText.text = "--:--";
@@ -90,5 +111,13 @@ public class MainMenuLevelScoreText : MonoBehaviour
             isLevelUnlocked = gameData.GetMissionUnlocked(levelNumber);
         }
     }
+
+    private void UpdateLevelLock(float levelNumber)
+    {
+        bool isLevelUnlocked = DataPersister.Instance.CurrentGameData.GetMissionUnlocked((int)levelNumber);
+
+        lockedLevelCheckerPlanet.SetActive(!isLevelUnlocked);
+    }
+
 }
 

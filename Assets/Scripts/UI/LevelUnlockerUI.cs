@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LevelUnlockerUI : MonoBehaviour
 {
+    public static LevelUnlockerUI Instance { get; private set; }
     public static event Action LevelUnlockedEvent;
 
 
@@ -12,15 +13,16 @@ public class LevelUnlockerUI : MonoBehaviour
 
     public enum Level
     {
-        Level1,
-        Level2,
-        Level3,
-        Level4,
-        Level5,
-        Level6,
-        Level7,
-        Level8,
-        Level9
+        Level1 = 1,
+        Level2 = 2,
+        Level3 = 3,
+        Level4 = 4,
+        Level5 = 5,
+        Level6 = 6,
+        Level7 = 7,
+        Level8 = 8,
+        Level9 = 9,
+        Level10 = 10
     }
 
     [Header("Level Select")]
@@ -28,35 +30,44 @@ public class LevelUnlockerUI : MonoBehaviour
 
     [Header("Level Unlocker UI")]
     [SerializeField] private GameObject levelUnlockerHolder;
-    [SerializeField] private Button openUnlockerUIButton;
     [SerializeField] private Button closeUnlockerUIButon;
     [SerializeField] private Button unlockLevelButton;
     [SerializeField] private TextMeshProUGUI unlockLevelText;
     private float unlockCost = 118f;
-    [SerializeField] private AudioClip openCloseButtonSFX;
-    [SerializeField] private AudioClip[] buttonSuccessSFX;
+    [SerializeField] private AudioClip[] openCloseButtonSFX;
+    [SerializeField] private AudioClip buttonSuccessSFX;
     [SerializeField] private AudioClip buttonFailSFX;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
         sfxManager = SFXManager.Instance;
     }
     private void OnEnable()
     {
-        openUnlockerUIButton.onClick.AddListener(OpenLevelUnlocker);
         closeUnlockerUIButon.onClick.AddListener(CloseLevelUnlocker);
         unlockLevelButton.onClick.AddListener(UnlockLevel);
     }
 
     private void OnDisable()
     {
-        openUnlockerUIButton.onClick.RemoveListener(OpenLevelUnlocker);
         closeUnlockerUIButon.onClick.RemoveListener(CloseLevelUnlocker);
         unlockLevelButton.onClick.RemoveListener(UnlockLevel);
     }
 
-    private void OpenLevelUnlocker()
+    public void OpenLevelUnlocker(int levelNumber)
     {
+        selectedLevel = (Level)levelNumber;
         PlayOpenCloseButtonSFX();
         levelUnlockerHolder.SetActive(true);
         UpdateUnlockLevelText();
@@ -81,7 +92,7 @@ public class LevelUnlockerUI : MonoBehaviour
 
         float cost = unlockCost * levelNumber;
         float currentMemory = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
-        unlockLevelText.text = $"Unlock {selectedLevel} for {cost} Memory? (You have: {currentMemory})";
+        unlockLevelText.text = $"Unlock {selectedLevel} for {cost} Memory? You have: {currentMemory.ToString("F1")}";
     }
 
     private void UnlockLevel()
@@ -117,7 +128,7 @@ public class LevelUnlockerUI : MonoBehaviour
     {
         if (sfxManager != null && openCloseButtonSFX != null)
         {
-            sfxManager.PlaySFX(openCloseButtonSFX);
+            sfxManager.PlaySFX(openCloseButtonSFX[UnityEngine.Random.Range(0, openCloseButtonSFX.Length)]);
         }
     }
 
@@ -125,7 +136,7 @@ public class LevelUnlockerUI : MonoBehaviour
     {
         if (sfxManager != null && buttonSuccessSFX != null)
         {
-            sfxManager.PlaySFX(buttonSuccessSFX[UnityEngine.Random.Range(0, buttonSuccessSFX.Length)]);           
+            sfxManager.PlaySFX(buttonSuccessSFX);        
         }
     }
 
