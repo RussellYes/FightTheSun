@@ -368,9 +368,9 @@ public class EndConditionsUI : MonoBehaviour
         memoryScoreText.text = memoryScore.ToString("0") + " memories";
         PlayRandomTextSfx();
         yield return new WaitForSecondsRealtime(textAppearDelay);
-        
+
         // Calculate final memory score
-        float finalMemoryScore = memoryScore + (loseObstacles * loseMoney / loseTime);
+        float finalMemoryScore = memoryScore + (loseObstacles * 2 + loseMoney + (loseTime / 2));
 
         // Lerp all values simultaneously over 3 seconds
         float lerpDuration = 3f;

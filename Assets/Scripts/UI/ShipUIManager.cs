@@ -42,6 +42,7 @@ public class ShipUIManager : MonoBehaviour
     [Header("Missile UI")]
     [SerializeField] private GameObject fireMissileButton;
     [SerializeField] private TextMeshProUGUI missileCountText;
+    [SerializeField] private TextMeshProUGUI missileLauncherLevelText;
     [SerializeField] private AudioClip[] buttonPositiveSFX;
     [SerializeField] private AudioClip buttonNegitiveSFX;
 
@@ -170,6 +171,9 @@ public class ShipUIManager : MonoBehaviour
         {
             fireMissileButton.GetComponent<Button>().interactable = true;
             missileCountText.text = missileCount.ToString();
+            int launcherLevel = DataPersister.Instance.CurrentGameData.savedLauncherLevel;
+            string[] launcherLevels = { "I", "II", "III", "IV", "V" };
+            missileLauncherLevelText.text = $"{launcherLevels}";
         }
         else if (missileCount <= 0)
         {
