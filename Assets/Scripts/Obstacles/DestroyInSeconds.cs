@@ -9,4 +9,13 @@ public class DestroyInSeconds : MonoBehaviour
     {
         Destroy(gameObject, selfDestructTime);
     }
+
+    private void OnDisable()
+    {
+        // Ensure the object is destroyed if it is disabled before the timer ends
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

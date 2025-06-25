@@ -141,6 +141,12 @@ public class EndConditionsUI : MonoBehaviour
                 winBackground.sprite = winSprite;
                 endText.text = "You win";
 
+                if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null && DataPersister.Instance.CurrentGameData.playerData.Count > 0)
+                {
+                    memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+                    Debug.Log($"Initial memory score loaded: {memoryScore}");
+                }
+
                 // Update the money text
                 newMoneyText.text = $"Money: {scoreManager.GetLevelMoney()}";
 
@@ -304,6 +310,11 @@ public class EndConditionsUI : MonoBehaviour
         oldScoreSaveButtonFront.onClick.AddListener(() =>
         {
             DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
+            if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
+            {
+                DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
+                Debug.Log($"Saving memory score (old): {memoryScore}");
+            }
             DataPersister.Instance.SaveCurrentGame();
             LoadMainMenuScene();
         });
@@ -314,6 +325,11 @@ public class EndConditionsUI : MonoBehaviour
             Debug.Log("EndConditionsUI newScoreSaveButtonFront");
             EndConditionUIScoreChoiceEvent?.Invoke();
             DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
+            if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
+            {
+                DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
+                Debug.Log($"Saving memory score (old): {memoryScore}");
+            }
             DataPersister.Instance.SaveCurrentGame();
             LoadMainMenuScene();
         });
@@ -362,7 +378,7 @@ public class EndConditionsUI : MonoBehaviour
         {
             memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
         }
-
+        Debug.Log($"EndConditionsUI ShowLoseTextsWithDelay - memoryScore before calculations: {memoryScore}");
         lineText.gameObject.SetActive(true);
         memoryScoreText.gameObject.SetActive(true);
         memoryScoreText.text = memoryScore.ToString("0") + " memories";
@@ -371,7 +387,7 @@ public class EndConditionsUI : MonoBehaviour
 
         // Calculate final memory score
         float finalMemoryScore = memoryScore + (loseObstacles * 2 + loseMoney + (loseTime / 2));
-
+        Debug.Log($"EndConditionsUI ShowLoseTextsWithDelay - memoryScore after calculations: {finalMemoryScore}");
         // Lerp all values simultaneously over 3 seconds
         float lerpDuration = 3f;
         float elapsedTime = 0f;
@@ -455,14 +471,15 @@ public class EndConditionsUI : MonoBehaviour
             {
                 DataPersister.Instance.CurrentGameData.playerData.Add(new PlayerSaveData());
             }
-
-            DataPersister.Instance.SaveCurrentGame();
-
+            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - DataPersister memoryScore before saving: {DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore}");
+            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {memoryScore}");
             // Update memory score
             DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;        
     
             // Save the game
             DataPersister.Instance.SaveCurrentGame();
+            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore}");
+            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {memoryScore}");
         }
 
         yield return new WaitForSecondsRealtime(1);

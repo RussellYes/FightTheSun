@@ -18,7 +18,7 @@ public class DataPersister : MonoBehaviour
     }
     private void OnDisable()
     {
-        MainMenuUI.NewGameEvent += StartNewGame;
+        MainMenuUI.NewGameEvent -= StartNewGame;
     }
     void OnApplicationQuit()
     {
@@ -121,6 +121,10 @@ public class DataPersister : MonoBehaviour
         if (playerStats != null)
         {
             // Ensure player data exists
+            if (CurrentGameData.playerData == null)
+            {
+                CurrentGameData.playerData = new List<PlayerSaveData>();
+            }
             if (CurrentGameData.playerData.Count == 0)
             {
                 CurrentGameData.playerData.Add(new PlayerSaveData());
