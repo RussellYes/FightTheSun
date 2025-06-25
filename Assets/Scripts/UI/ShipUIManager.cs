@@ -179,7 +179,10 @@ public class ShipUIManager : MonoBehaviour
         }
         int launcherLevel = DataPersister.Instance.CurrentGameData.savedLauncherLevel;
         string[] launcherLevels = { "I", "II", "III", "IV", "V" };
-        missileLauncherLevelText.text = $"{launcherLevels}";
+
+        // Make sure the level is within bounds (0-4 for array indices)
+        int levelIndex = Mathf.Clamp(launcherLevel - 1, 0, launcherLevels.Length - 1);
+        missileLauncherLevelText.text = launcherLevels[levelIndex];
     }
 
     private void KeepingTime()
