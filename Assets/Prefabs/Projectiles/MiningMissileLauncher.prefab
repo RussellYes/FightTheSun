@@ -138,11 +138,11 @@ MonoBehaviour:
   miningMissileSpeed: 1
   missileCount: 0
   spriteRenderer: {fileID: 4828892425980559370}
-  Launcher1: {fileID: 21300000, guid: 48be2e7a1c7a60240887e94dd4b51e19, type: 3}
-  Launcher2: {fileID: 21300000, guid: 82d4c3c955ffc1b4198561c76788ca94, type: 3}
-  Launcher3: {fileID: 21300000, guid: 7946cc998914a284ba228eec195bfd46, type: 3}
-  Launcher4: {fileID: 21300000, guid: fe1e474b9ef030245af5d655760429b8, type: 3}
-  Launcher5: {fileID: 21300000, guid: 9f4663a6484174544834c5d75a2dcee5, type: 3}
+  launcher1: {fileID: 21300000, guid: 48be2e7a1c7a60240887e94dd4b51e19, type: 3}
+  launcher2: {fileID: 21300000, guid: 82d4c3c955ffc1b4198561c76788ca94, type: 3}
+  launcher3: {fileID: 21300000, guid: 7946cc998914a284ba228eec195bfd46, type: 3}
+  launcher4: {fileID: 21300000, guid: fe1e474b9ef030245af5d655760429b8, type: 3}
+  launcher5: {fileID: 21300000, guid: 9f4663a6484174544834c5d75a2dcee5, type: 3}
 --- !u!70 &1612854302182751477
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
