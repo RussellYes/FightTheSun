@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/_Loader.unity
+    guid: 4295d8c619b200d44a8ecc1839f91a33
+  - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
     guid: 464d346ca4be5a142b5649062a5dce51
   - enabled: 1
@@ -41,5 +44,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mission10Scene.unity
     guid: 11e87d0a29b87ac4b9e6b213602b216a
-  m_configObjects: {}
+  m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 70873d86dd467694ebae6c93f1c84e81, type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 297a586ccf2edb747bffe13c1dd310b5, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 71df5bd5d685dfc40970f7e67258592c, type: 2}
   m_UseUCBPForAssetBundles: 0

@@ -1,9 +1,15 @@
+
+
+
+
+
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using com.google.play.appupdate;
 
 public class DataPersister : MonoBehaviour
 {
@@ -60,13 +66,23 @@ public class DataPersister : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(DelayedInitialization());
+        StartCoroutine(WaitForUpdateAndInitialize());
     }
 
     IEnumerator DelayedInitialization()
     {
         yield return new WaitForEndOfFrame(); // Wait one frame
         LoadOrInitialize();
+    }
+    private IEnumerator WaitForUpdateAndInitialize()
+    {
+        while (!FlexibleUpdateManager.UpdateCheckComplete)
+        {
+            Debug.Log("DataPersister - Waiting for FlexibleUpdateManager to complete...");
+            yield return null; // Wait until the next frame
+        }
+
+        yield return DelayedInitialization();
     }
 
     public void LoadOrInitialize()
@@ -129,6 +145,7 @@ public class DataPersister : MonoBehaviour
             {
                 CurrentGameData.playerData.Add(new PlayerSaveData());
             }
+
             // Update all skills in playerData
             CurrentGameData.playerData[0].engineeringSkill = playerStats.EngineeringSkill;
             CurrentGameData.playerData[0].pilotingSkill = playerStats.PilotingSkill;
