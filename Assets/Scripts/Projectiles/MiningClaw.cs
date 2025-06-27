@@ -182,7 +182,19 @@ public class MiningClaw : MonoBehaviour
         if (currentLootTarget != null)
         {
             currentLootTarget.SpawnLoot();
-            Destroy(currentLootTarget.gameObject);
+
+            // Get the Obstacle component and call Die() if it exists
+            Obstacle obstacle = currentLootTarget.GetComponent<Obstacle>();
+            if (obstacle != null)
+            {
+                // true means it was killed by the player
+                obstacle.Die(true);
+            }
+            else
+            {
+                // Fallback to just destroying if no Obstacle component
+                Destroy(currentLootTarget.gameObject);
+            }
         }
         miningTarget = null; // Clear the target reference
         Retract();
