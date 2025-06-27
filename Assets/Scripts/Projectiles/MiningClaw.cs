@@ -25,6 +25,7 @@ public class MiningClaw : MonoBehaviour
     private float maxFlightTime = 2f;
     private float flightTimer;
     private Transform miningTarget;
+    private Loot carriedLoot;
 
     [Header("Collision Settings")]
     [SerializeField] private float colliderCheckRadius = 0.5f;
@@ -144,6 +145,14 @@ public class MiningClaw : MonoBehaviour
             return;
         }
 
+        Loot loot = collider.GetComponent<Loot>();
+        if (loot != null)
+        {
+            Debug.Log($"Claw grabbed loot: {loot.name}");
+            GrabLoot(loot);
+            return;
+        }
+
         CreateLoot lootTarget = collider.GetComponentInParent<CreateLoot>();
         if (lootTarget != null)
         {
@@ -181,23 +190,35 @@ public class MiningClaw : MonoBehaviour
     {
         if (currentLootTarget != null)
         {
+            // Spawn loot (this version doesn't return anything)
             currentLootTarget.SpawnLoot();
 
-            // Get the Obstacle component and call Die() if it exists
+            // Try to find any Loot objects near the mining target to grab
+            Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, 1f);
+            foreach (Collider2D col in nearbyColliders)
+            {
+                Loot loot = col.GetComponent<Loot>();
+                if (loot != null && loot.transform.parent == null) // Only grab loot that isn't already parented
+                {
+                    GrabLoot(loot);
+                    break; // Just grab the first one found
+                }
+            }
+
+            // Handle obstacle destruction
             Obstacle obstacle = currentLootTarget.GetComponent<Obstacle>();
             if (obstacle != null)
             {
-                // true means it was killed by the player
                 obstacle.Die(true);
             }
             else
             {
-                // Fallback to just destroying if no Obstacle component
                 Destroy(currentLootTarget.gameObject);
             }
+
+            miningTarget = null;
+            Retract();
         }
-        miningTarget = null; // Clear the target reference
-        Retract();
     }
 
     public void Retract()
@@ -212,9 +233,6 @@ public class MiningClaw : MonoBehaviour
     }
 
 
-
-
-
     private void UpdateCable()
     {
         if (cableLineRenderer != null && originTransform != null)
@@ -225,6 +243,20 @@ public class MiningClaw : MonoBehaviour
         }
     }
 
+    private void GrabLoot(Loot loot)
+    {
+        carriedLoot = loot;
+
+        // Parent the loot to the claw
+        loot.transform.SetParent(transform);
+
+        // Disable loot's collider to prevent further collisions
+        Collider2D lootCollider = loot.GetComponent<Collider2D>();
+        if (lootCollider != null) lootCollider.enabled = false;
+
+        // Start returning to ship
+        Retract();
+    }
 
     private void ReturnToShip()
     {
@@ -235,6 +267,19 @@ public class MiningClaw : MonoBehaviour
 
         if (Vector2.Distance(transform.position, originTransform.position) < 0.5f)
         {
+            // Drop any carried loot
+            if (carriedLoot != null)
+            {
+                carriedLoot.transform.SetParent(null);
+                carriedLoot.transform.position = originTransform.position;
+
+                // Re-enable collider if it exists
+                Collider2D lootCollider = carriedLoot.GetComponent<Collider2D>();
+                if (lootCollider != null) lootCollider.enabled = true;
+
+                carriedLoot = null;
+            }
+
             OnDestroyed?.Invoke();
             Destroy(gameObject);
         }
