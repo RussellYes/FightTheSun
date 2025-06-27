@@ -250,57 +250,58 @@ public class DialogueManager : MonoBehaviour
 
                 StartCoroutine(MissionDialogueDelay(5f, 6));
             }
-            else if (dialogueCount == 6)
-            {
-                StartCoroutine(FadeInDialogueBox());
-
-                // Apply offsets directly
-                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-                Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-                Vector3 arrowPosition = hullBarObjectRect.position + xOffset + yOffset;
-
-                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
-
-                // Ensure the arrow is rendered in front by setting its sibling index
-                currentArrowInstance.transform.SetAsLastSibling();
-                StartCoroutine(DestroyArrow(dialogueTimer));
-
-                dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
-            }
-            else if (dialogueCount == 2)
-            {
-                StartCoroutine(FadeInDialogueBox());
-
-                dialogueText.text = "Swipe up and down to change speed.";
-
-                StartCoroutine(MissionDialogueDelay(5f, 8));
-            }
-            else if (dialogueCount == 8)
-            {
-                StartCoroutine(FadeInDialogueBox());
-
-                // Apply offsets directly
-                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-                Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-                Vector3 arrowPosition = thrustBarObjectRect.position + xOffset + yOffset;
-                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
-                // Ensure the arrow is rendered in front by setting its sibling index
-                currentArrowInstance.transform.SetAsLastSibling();
-                StartCoroutine(DestroyArrow(dialogueTimer));
-                dialogueText.text = "This <b><color=blue>BLUE</color></b> gauge shows your speed.";
-            }
-            else if (dialogueCount == 4)
-            {
-                Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
-                string endText = "Race to the sun or slow down for loot?";
-
-                dialogueCount = 4;
-                MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
-                StartCoroutine(EndDialogueScene(endText));
-            }
         }
+        else if (dialogueCount == 6)
+        {
+            StartCoroutine(FadeInDialogueBox());
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+            Vector3 arrowPosition = hullBarObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+
+            dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
+        }
+        else if (dialogueCount == 2)
+        {
+            StartCoroutine(FadeInDialogueBox());
+
+            dialogueText.text = "Swipe up and down to change speed.";
+
+            StartCoroutine(MissionDialogueDelay(5f, 8));
+        }
+        else if (dialogueCount == 8)
+        {
+            StartCoroutine(FadeInDialogueBox());
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+            Vector3 arrowPosition = thrustBarObjectRect.position + xOffset + yOffset;
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+            dialogueText.text = "This <b><color=blue>BLUE</color></b> gauge shows your speed.";
+        }
+        else if (dialogueCount == 4)
+        {
+            Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
+            string endText = "Race to the sun or slow down for loot?";
+
+            dialogueCount = 4;
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
+            StartCoroutine(EndDialogueScene(endText));
+        }
+        
     }
     private void Mission2()
     {

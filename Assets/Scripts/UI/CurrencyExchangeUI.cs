@@ -69,14 +69,14 @@ public class CurrencyExchangeUI : MonoBehaviour
         storeHolder.SetActive(true);
         UpdateTexts();
         playOpenCloseSFX();
-        OpenStoreLerp();
+        StartCoroutine(OpenStoreLerp());
     }
 
     private void CloseStore()
     {
         storeHolder.SetActive(false);
         playOpenCloseSFX();
-        CloseStoreLerp();
+        StartCoroutine(CloseStoreLerp());
     }
 
     IEnumerator OpenStoreLerp()
