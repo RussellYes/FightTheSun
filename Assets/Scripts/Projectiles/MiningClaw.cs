@@ -168,7 +168,14 @@ public class MiningClaw : MonoBehaviour
     private bool ShouldIgnoreCollision(Collider2D collider)
     {
         // Ignore player
-        return collider.CompareTag("Player");
+        if (collider.CompareTag("Player"))
+            return true;
+
+        // Ignore solar flares
+        if (collider.CompareTag("SolarFlare"))
+            return true;
+
+        return false;
     }
     public void StartMining(float miningDuration, CreateLoot lootTarget)
     {

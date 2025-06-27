@@ -349,64 +349,65 @@ public class DialogueManager : MonoBehaviour
                 }
 
             }
-            else if (dialogueCount == 1)
-            {
-                StartCoroutine(FadeInDialogueBox());
-
-                // Apply offsets directly
-                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-                Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-                Vector3 arrowPosition = miningClawButtonObjectRect.position + xOffset + yOffset;
-
-                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, miningClawButtonObjectRect);
-
-                // Ensure the arrow is rendered in front by setting its sibling index
-                currentArrowInstance.transform.SetAsLastSibling();
-                StartCoroutine(DestroyArrow(dialogueTimer));
-
-                dialogueText.text = "Activate, aim, then wait for the claw to mine.";
-            }
-            else if (dialogueCount == 3)
-            {
-                StartCoroutine(FadeInDialogueBox());
-
-                // Apply offsets directly
-                Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
-                Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
-                Vector3 arrowPosition = CheckpointMeterObjectRect.position + xOffset + yOffset;
-
-                // Define the z axis rotation
-                Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
-
-                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, CheckpointMeterObjectRect.parent);
-
-                // Ensure the arrow is rendered in front by setting its sibling index
-                currentArrowInstance.transform.SetAsLastSibling();
-                StartCoroutine(DestroyArrow(dialogueTimer));
-
-                if (dialogueBoxPortraitImage != null)
-                {
-                    dialogueBoxPortraitImage.sprite = jermaPortraitImage;
-                }
-                dialogueText.text = "Look! This meter shows the progress to our checkpoint.";
-            }
-
-            else if (dialogueCount == 4)
-            {
-                if (dialogueBoxPortraitImage != null)
-                {
-                    dialogueBoxPortraitImage.sprite = mavisPortraitImage;
-                }
-                Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
-                string endText = "Yeah! We're at the space station. Check out the exchange.";
-                StartCoroutine(EndDialogueScene(endText));
-
-                dialogueCount = 4;
-                MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 2 Complete. Story unlocked.");
-            }
         }
+        else if (dialogueCount == 1)
+        {
+            StartCoroutine(FadeInDialogueBox());
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+            Vector3 arrowPosition = miningClawButtonObjectRect.position + xOffset + yOffset;
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, miningClawButtonObjectRect);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+
+            dialogueText.text = "Activate, aim, then wait for the claw to mine.";
+        }
+        else if (dialogueCount == 3)
+        {
+            StartCoroutine(FadeInDialogueBox());
+
+            // Apply offsets directly
+            Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
+            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
+            Vector3 arrowPosition = CheckpointMeterObjectRect.position + xOffset + yOffset;
+
+            // Define the z axis rotation
+            Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
+
+            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, CheckpointMeterObjectRect.parent);
+
+            // Ensure the arrow is rendered in front by setting its sibling index
+            currentArrowInstance.transform.SetAsLastSibling();
+            StartCoroutine(DestroyArrow(dialogueTimer));
+
+            if (dialogueBoxPortraitImage != null)
+            {
+                dialogueBoxPortraitImage.sprite = jermaPortraitImage;
+            }
+            dialogueText.text = "Look! This meter shows the progress to our checkpoint.";
+        }
+
+        else if (dialogueCount == 4)
+        {
+            if (dialogueBoxPortraitImage != null)
+            {
+                dialogueBoxPortraitImage.sprite = mavisPortraitImage;
+            }
+            Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
+            string endText = "Yeah! We're at the space station. Check out the exchange.";
+            StartCoroutine(EndDialogueScene(endText));
+
+            dialogueCount = 4;
+            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 2 Complete. Story unlocked.");
+        }
+        
     }
     
     private void Mission3()
@@ -706,7 +707,7 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueCount == 0)
         {
-            missionTitleText.text = "Mission 10: Pirate King";
+            missionTitleText.text = "Mission 10: Robber Barron";
 
             StartCoroutine(FadeInDialogueBox());
             StartGameCountdownEvent?.Invoke();
