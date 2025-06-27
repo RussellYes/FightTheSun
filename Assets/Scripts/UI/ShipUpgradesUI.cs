@@ -368,8 +368,8 @@ public class ShipUpgradesUI : MonoBehaviour
         {
             PlayPositiveButtonSFX();
             ChangeMemory(-engineeringMemoryCost);
-            ChangeMetal(engineeringMetalCost);
-            ChangeRareMetal(engineeringRareMetalCost);
+            ChangeMetal(-engineeringMetalCost);
+            ChangeRareMetal(-engineeringRareMetalCost);
             playerStatsManager.MultiplyEngineeringSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -383,8 +383,8 @@ public class ShipUpgradesUI : MonoBehaviour
         if (GetMemoryScore() >= pilotingMemoryCost && GetMetalScore() >= pilotingMetalCost && GetRareMetalScore() >= pilotingRareMetalCost)
         {
             ChangeMemory(-pilotingMemoryCost);
-            ChangeMetal(pilotingMetalCost);
-            ChangeRareMetal(pilotingRareMetalCost);
+            ChangeMetal(-pilotingMetalCost);
+            ChangeRareMetal(-pilotingRareMetalCost);
             playerStatsManager.MultiplyPilotingSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -395,8 +395,8 @@ public class ShipUpgradesUI : MonoBehaviour
         {
             PlayPositiveButtonSFX();
             ChangeMemory(-mechanicsMemoryCost);
-            ChangeMetal(mechanicsMetalCost);
-            ChangeRareMetal(mechanicsRareMetalCost);
+            ChangeMetal(-mechanicsMetalCost);
+            ChangeRareMetal(-mechanicsRareMetalCost);
             playerStatsManager.MultiplyMechanicsSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -410,8 +410,8 @@ public class ShipUpgradesUI : MonoBehaviour
         if (GetMemoryScore() >= miningMemoryCost && GetMetalScore() >= miningMetalCost && GetRareMetalScore() >= miningRareMetalCost)
         {
             ChangeMemory(-miningMemoryCost);
-            ChangeMetal(miningMetalCost);
-            ChangeRareMetal(miningRareMetalCost);
+            ChangeMetal(-miningMetalCost);
+            ChangeRareMetal(-miningRareMetalCost);
             playerStatsManager.MultiplyMiningSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -422,8 +422,8 @@ public class ShipUpgradesUI : MonoBehaviour
         {
             PlayPositiveButtonSFX();
             ChangeMemory(-roboticsMemoryCost);
-            ChangeMetal(roboticsMetalCost);
-            ChangeRareMetal(roboticsRareMetalCost);
+            ChangeMetal(-roboticsMetalCost);
+            ChangeRareMetal(-roboticsRareMetalCost);
             playerStatsManager.MultiplyRoboticsSkill();
             UpdateMemoryAndSkillsText();
         }
@@ -438,8 +438,8 @@ public class ShipUpgradesUI : MonoBehaviour
         {
             PlayPositiveButtonSFX();
             ChangeMemory(-combatMemoryCost);
-            ChangeMetal(combatMetalCost);
-            ChangeRareMetal(combatRareMetalCost);
+            ChangeMetal(-combatMetalCost);
+            ChangeRareMetal(-combatRareMetalCost);
             playerStatsManager.MultiplyCombatSkill();
             UpdateMemoryAndSkillsText();
         }
