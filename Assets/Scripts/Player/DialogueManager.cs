@@ -206,6 +206,7 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Mission 1 Dialogue Count = " + dialogueCount);
         shipUIManager.TurnOnShipUI();
+        int sunCountDialogue = DataPersister.Instance.CurrentGameData.sunCount;
 
         if (dialogueCount == 0)
         {
@@ -219,61 +220,87 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
-            dialogueText.text = "Asteroid! Swipe left and right to move.";
 
-            StartCoroutine(MissionDialogueDelay(5f, 6));
+            StartCoroutine(FlipFlopPic(4, 0.4f));
+
+            if (sunCountDialogue <= 1)
+            {
+                dialogueText.text = "Asteroid! Swipe left and right to move.";
+            }
+            if (sunCountDialogue > 1)
+            {
+                int randomPick = UnityEngine.Random.Range(0, 4);
+
+                if (randomPick == 0)
+                {
+                    dialogueText.text = "Asteroid... This is all so familiar.";
+                }
+                else if (randomPick == 1)
+                {
+                    dialogueText.text = "Left and right and left and right.";
+                }
+                else if (randomPick == 2)
+                {
+                    dialogueText.text = "Asteroid! Have we been here before?";
+                }
+                else
+                {
+                    dialogueText.text = "Asteroids! Don't fly into one this time.";
+                }
+
+                StartCoroutine(MissionDialogueDelay(5f, 6));
+            }
+            else if (dialogueCount == 6)
+            {
+                StartCoroutine(FadeInDialogueBox());
+
+                // Apply offsets directly
+                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+                Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+                Vector3 arrowPosition = hullBarObjectRect.position + xOffset + yOffset;
+
+                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
+
+                // Ensure the arrow is rendered in front by setting its sibling index
+                currentArrowInstance.transform.SetAsLastSibling();
+                StartCoroutine(DestroyArrow(dialogueTimer));
+
+                dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
+            }
+            else if (dialogueCount == 2)
+            {
+                StartCoroutine(FadeInDialogueBox());
+
+                dialogueText.text = "Swipe up and down to change speed.";
+
+                StartCoroutine(MissionDialogueDelay(5f, 8));
+            }
+            else if (dialogueCount == 8)
+            {
+                StartCoroutine(FadeInDialogueBox());
+
+                // Apply offsets directly
+                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+                Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+                Vector3 arrowPosition = thrustBarObjectRect.position + xOffset + yOffset;
+                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
+                // Ensure the arrow is rendered in front by setting its sibling index
+                currentArrowInstance.transform.SetAsLastSibling();
+                StartCoroutine(DestroyArrow(dialogueTimer));
+                dialogueText.text = "This <b><color=blue>BLUE</color></b> gauge shows your speed.";
+            }
+            else if (dialogueCount == 4)
+            {
+                Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
+                string endText = "Race to the sun or slow down for loot?";
+
+                dialogueCount = 4;
+                MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
+                StartCoroutine(EndDialogueScene(endText));
+            }
         }
-        else if (dialogueCount == 6)
-        {
-            StartCoroutine(FadeInDialogueBox());
-
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-            Vector3 arrowPosition = hullBarObjectRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
-
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
-
-            dialogueText.text = "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.";
-        }
-        else if (dialogueCount == 2)
-        {
-            StartCoroutine(FadeInDialogueBox());
-
-            dialogueText.text = "Swipe up and down to change speed.";
-
-            StartCoroutine(MissionDialogueDelay(5f, 8));
-        }
-        else if (dialogueCount == 8)
-        {
-            StartCoroutine(FadeInDialogueBox());
-
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-            Vector3 arrowPosition = thrustBarObjectRect.position + xOffset + yOffset;
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
-            dialogueText.text = "This <b><color=blue>BLUE</color></b> gauge shows your speed.";
-        }
-        else if (dialogueCount == 4)
-        {
-            Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
-            string endText = "Race to the sun or slow down for loot?";
-
-            dialogueCount = 4;
-            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
-            StartCoroutine(EndDialogueScene(endText));
-        }
-
     }
     private void Mission2()
     {
@@ -292,64 +319,92 @@ public class DialogueManager : MonoBehaviour
                 dialogueBoxPortraitImage.sprite = mavisPortraitImage;
             }
 
-            dialogueText.text = "Have you used the mining claw? It crushes asteroids";
-        }
-        else if (dialogueCount == 1)
-        {
-            StartCoroutine(FadeInDialogueBox());
+            int sunCountDialogue = DataPersister.Instance.CurrentGameData.sunCount;
 
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-            Vector3 arrowPosition = miningClawButtonObjectRect.position + xOffset + yOffset;
-
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, miningClawButtonObjectRect);
-
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
-
-            dialogueText.text = "Activate, aim, then wait for the claw to mine.";
-        }
-        else if (dialogueCount == 3)
-        {
-            StartCoroutine(FadeInDialogueBox());
-
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
-            Vector3 arrowPosition = CheckpointMeterObjectRect.position + xOffset + yOffset;
-
-            // Define the z axis rotation
-            Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
-
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, CheckpointMeterObjectRect.parent);
-
-            // Ensure the arrow is rendered in front by setting its sibling index
-            currentArrowInstance.transform.SetAsLastSibling();
-            StartCoroutine(DestroyArrow(dialogueTimer));
-
-            if (dialogueBoxPortraitImage != null)
+            if (sunCountDialogue <= 1)
             {
-                dialogueBoxPortraitImage.sprite = jermaPortraitImage;
+                dialogueText.text = "Use the mining claw to collect ore.";
             }
-            dialogueText.text = "Look! This meter shows the progress to our checkpoint.";
-        }
 
-        else if (dialogueCount == 4)
-        {
-            if (dialogueBoxPortraitImage != null)
+            if (sunCountDialogue > 1)
             {
-                dialogueBoxPortraitImage.sprite = mavisPortraitImage;
-            }
-            Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
-            string endText = "Yeah! We're at the space station. Check out the exchange.";
-            StartCoroutine(EndDialogueScene(endText));
+                int randomPick = UnityEngine.Random.Range(0, 4);
 
-            dialogueCount = 4;
-            MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 2 Complete. Story unlocked.");
+                if (randomPick == 0)
+                {
+                    dialogueText.text = "Have you used the mining claw? It crushes asteroids";
+                }
+                else if (randomPick == 1)
+                {
+                    dialogueText.text = "THE CLAAAAAW.";
+                }
+                else if (randomPick == 2)
+                {
+                    dialogueText.text = "Can the claw mine faster?";
+                }
+                else
+                {
+                    dialogueText.text = "What can the Claw... claw?";
+                }
+
+            }
+            else if (dialogueCount == 1)
+            {
+                StartCoroutine(FadeInDialogueBox());
+
+                // Apply offsets directly
+                Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
+                Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
+                Vector3 arrowPosition = miningClawButtonObjectRect.position + xOffset + yOffset;
+
+                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, miningClawButtonObjectRect);
+
+                // Ensure the arrow is rendered in front by setting its sibling index
+                currentArrowInstance.transform.SetAsLastSibling();
+                StartCoroutine(DestroyArrow(dialogueTimer));
+
+                dialogueText.text = "Activate, aim, then wait for the claw to mine.";
+            }
+            else if (dialogueCount == 3)
+            {
+                StartCoroutine(FadeInDialogueBox());
+
+                // Apply offsets directly
+                Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
+                Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
+                Vector3 arrowPosition = CheckpointMeterObjectRect.position + xOffset + yOffset;
+
+                // Define the z axis rotation
+                Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
+
+                // Instantiate the arrow prefab with the specified position and rotation, and set its parent
+                currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, CheckpointMeterObjectRect.parent);
+
+                // Ensure the arrow is rendered in front by setting its sibling index
+                currentArrowInstance.transform.SetAsLastSibling();
+                StartCoroutine(DestroyArrow(dialogueTimer));
+
+                if (dialogueBoxPortraitImage != null)
+                {
+                    dialogueBoxPortraitImage.sprite = jermaPortraitImage;
+                }
+                dialogueText.text = "Look! This meter shows the progress to our checkpoint.";
+            }
+
+            else if (dialogueCount == 4)
+            {
+                if (dialogueBoxPortraitImage != null)
+                {
+                    dialogueBoxPortraitImage.sprite = mavisPortraitImage;
+                }
+                Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
+                string endText = "Yeah! We're at the space station. Check out the exchange.";
+                StartCoroutine(EndDialogueScene(endText));
+
+                dialogueCount = 4;
+                MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 2 Complete. Story unlocked.");
+            }
         }
     }
     
@@ -794,6 +849,22 @@ public class DialogueManager : MonoBehaviour
         MissionDialogue(amt);
     }
 
+    IEnumerator FlipFlopPic(int flipCount, float flipWaitTime)
+    {
+        if (dialogueBoxPortraitImage == null) yield break;
 
+        Transform portraitTransform = dialogueBoxPortraitImage.transform;
+
+        for (int i = 0; i < flipCount; i++)
+        {
+            // Flip
+            portraitTransform.localScale = new Vector3(-1, 1, 1);
+            yield return new WaitForSeconds(flipWaitTime);
+
+            // Unflip
+            portraitTransform.localScale = Vector3.one; // Same as new Vector3(1, 1, 1)
+            yield return new WaitForSeconds(flipWaitTime);
+        }
+    }
 
 }
