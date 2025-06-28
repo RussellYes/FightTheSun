@@ -5,7 +5,7 @@ public class IfOnThenOff : MonoBehaviour
     [SerializeField] private GameObject ifOnObject;
     [SerializeField] private GameObject thenOffObject;
 
-    private void Start()
+    private void Update()
     {
         if (ifOnObject == null || thenOffObject == null)
         {
