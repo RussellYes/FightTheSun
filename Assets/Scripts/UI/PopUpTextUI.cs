@@ -35,7 +35,7 @@ public class PopUpTextUI : MonoBehaviour
             TextMesh textComponent = prefab.GetComponentInChildren<TextMesh>();
             if (!textComponent) return;
 
-            textComponent.text = damageAmt >= 0 ? damageAmt.ToString("F1") : damageAmt.ToString("F1");
+            textComponent.text = damageAmt >= 0 ? damageAmt.ToString("F0") : damageAmt.ToString("F0");
 
             Renderer textRenderer = prefab.GetComponentInChildren<Renderer>();
             if (textRenderer)
