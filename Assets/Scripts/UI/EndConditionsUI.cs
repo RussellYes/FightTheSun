@@ -53,7 +53,7 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private GameObject loseComicHolder;
     [SerializeField] private Image loseBackground;
     [SerializeField] private Sprite[] loseComics;
-    [SerializeField] private float loseComicPanelDisplayTime = 2f;
+    [SerializeField] private float loseComicPanelDisplayTime = 3f;
     [SerializeField] private Button skipComicButton;
 
     private float memoryScore;
@@ -196,7 +196,14 @@ public class EndConditionsUI : MonoBehaviour
                     yield return null; // Wait each frame until time passes
                 }
             }
-        
+
+        // Set hasLost flag when player sees lose comics
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            DataPersister.Instance.CurrentGameData.hasLost = true;
+            DataPersister.Instance.SaveCurrentGame();
+        }
+
         loseComicHolder.SetActive(false);
         StartCoroutine(ShowLoseTextsWithDelay());
     }

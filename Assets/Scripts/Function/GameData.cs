@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    [Header("Game State")]
+    public bool hasLost; // Track if player has lost a game
 
     [Header("Mining Missile Data")]
     public int savedMissileCount;
@@ -202,6 +204,9 @@ public class GameData
 
     public void ResetDataOnNewGame()
     {
+        // Reset game state
+        hasLost = false;
+
         // Reset player data
         playerData.Clear();
         playerData.Add(new PlayerSaveData()

@@ -13,7 +13,7 @@ public class ShipUpgradesUI : MonoBehaviour
     [SerializeField] private GameObject upgradeButtonHolder;
     [SerializeField] private Button shipUpgradeOpenButton;
     [SerializeField] private Button shipUpgradeCloseButton;
-    [SerializeField] private float uIOpenCloseLerpTime = 1f;
+    [SerializeField] private float uIOpenCloseLerpTime = 2f;
     [SerializeField] private AudioClip[] shipUpgradeMenuOpenCloseSFX;
     [SerializeField] private AudioClip[] buttonPositiveSFX;
     [SerializeField] private AudioClip buttonNegitiveSFX;

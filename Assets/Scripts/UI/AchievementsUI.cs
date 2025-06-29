@@ -64,11 +64,12 @@ public class AchievementsUI : MonoBehaviour
         
         var gameData = DataPersister.Instance.CurrentGameData;
 
+        Debug.Log($"Mission {missionNumber} completed: {message}");
+        gameData.SetMissionComplete(missionNumber, true);
+
         // Check if mission was already completed
         if (!gameData.GetMissionComplete(missionNumber))
         {
-            Debug.Log($"Mission {missionNumber} completed: {message}");
-            gameData.SetMissionComplete(missionNumber, true);
             ShowAchievementMessage(message);
         }
 
