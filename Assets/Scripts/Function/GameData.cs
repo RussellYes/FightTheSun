@@ -39,6 +39,9 @@ public class GameData
     public bool isMission9Complete;
     public bool isMission10Complete;
 
+    public bool hasOpenedComics;
+    public bool hasOpenedShipUpgrades;
+
     [Header("Level Unlocks")]
     public bool isMission1Unlocked;
     public bool isMission2Unlocked;
@@ -95,6 +98,9 @@ public class GameData
         isMission8Complete = false;
         isMission9Complete = false;
         isMission10Complete = false;
+
+        hasOpenedComics = false;
+        hasOpenedShipUpgrades = false;
 
         isMission1Unlocked = true; //Level 1 is always unlocked.
         isMission2Unlocked = false;
@@ -248,6 +254,9 @@ public class GameData
         isMission8Complete = false;
         isMission9Complete = false;
         isMission10Complete = false;
+
+        hasOpenedComics = false;
+        hasOpenedShipUpgrades = false;
 
         // Reset level unlocks
         isMission1Unlocked = true; // Level 1 is always unlocked

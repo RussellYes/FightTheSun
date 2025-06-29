@@ -47,6 +47,13 @@ public class ComicsUI : MonoBehaviour
 
     private int currentPanelIndex = 0;
 
+    [Header("Greeting")]
+    [SerializeField] private GameObject greetingHolder;
+    [SerializeField] private Button closeGreetingButton;
+    [SerializeField] private Button openGreetingButton;
+    [SerializeField] private TextMeshProUGUI greetingText;
+    private int greetingTextIndex = 0;
+
     private void OnEnable()
     {
         DataPersister.InitializationComplete += Initalize;
@@ -55,6 +62,8 @@ public class ComicsUI : MonoBehaviour
         forwardButton.onClick.AddListener(ShowNextPanel);
         backButton.onClick.AddListener(ShowPreviousPanel);
         unlockComicButton.onClick.AddListener(UnlockComicPanel);
+        openGreetingButton.onClick.AddListener(() => GreetingsWindow());
+        closeGreetingButton.onClick.AddListener(() => GreetingsDialogue());
     }
 
     private void OnDisable()
@@ -65,6 +74,8 @@ public class ComicsUI : MonoBehaviour
         forwardButton.onClick.RemoveListener(ShowNextPanel);
         backButton.onClick.RemoveListener(ShowPreviousPanel);
         unlockComicButton.onClick.RemoveListener(UnlockComicPanel);
+        openGreetingButton.onClick.RemoveListener(() => GreetingsWindow());
+        closeGreetingButton.onClick.RemoveListener(() => GreetingsDialogue());
     }
 
     private void Initalize()
@@ -101,6 +112,73 @@ public class ComicsUI : MonoBehaviour
             yield return null;
         }
         rectTransform.localPosition = originalPosition;
+
+        if (!DataPersister.Instance.CurrentGameData.hasOpenedComics)
+        {
+            // If this is the first time opening comics, show the greeting window
+            GreetingsWindow();
+        }
+        else
+        {
+            // Otherwise, just show the comic menu
+            comicHolder.SetActive(true);
+        }
+        GreetingsWindow();
+    }
+
+    private void GreetingsWindow()
+    {
+        greetingHolder.SetActive(true);
+        DataPersister.Instance.CurrentGameData.hasOpenedComics = true;
+        GreetingsDialogue();
+    }
+
+    private void GreetingsDialogue()
+    {
+        // Play SFX
+        if (sFXManager != null && buttonSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+        }
+
+        if (greetingTextIndex == 0)
+        {
+            greetingText.text = "Hi, I'm Jerma.";
+            greetingTextIndex = 1;
+            return;
+        }
+        if (greetingTextIndex == 1)
+        {
+            greetingText.text = "Time travel messes with the mind. I can help you remember.";
+            greetingTextIndex = 2;
+            return;
+        }
+        if (greetingTextIndex == 2)
+        {
+            greetingText.text = "Unlock comics to get bigger time capsules.";
+            greetingTextIndex = 3;
+            return;
+        }
+        if (greetingTextIndex == 3)
+        {
+            greetingText.text = "Time capsules save some of your items through time.";
+            greetingTextIndex = 4;
+            return;
+        }
+        if (greetingTextIndex == 4)
+        {
+            int unlockedComics = DataPersister.Instance.CurrentGameData.comicData.Count(kvp => kvp.Value.isUnlocked);
+            int totalComics = comicNumbers.Length;
+            float comicUnlockPercent = (float)unlockedComics / totalComics * 100f;
+            greetingText.text = $"Comics unlocked {unlockedComics} of {totalComics} {comicUnlockPercent:F0}%)";
+            greetingTextIndex = 5;
+            return;
+        }
+        if (greetingTextIndex >= 5)
+        {
+            greetingHolder.SetActive(false);
+            greetingTextIndex = 0; // Reset for next time
+        }
     }
 
     IEnumerator CloseComicMenu()
