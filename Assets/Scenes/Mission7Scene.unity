@@ -597,7 +597,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
 --- !u!114 &733741047 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2750419501181825627, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2840483587657547735, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
   m_PrefabInstance: {fileID: 733741046}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1913,7 +1913,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: 'obstacles.Array.data[0]'
       value: 
-      objectReference: {fileID: 4301909746815339928, guid: 221fe5bbe22138940bc3652c2df5fd42, type: 3}
+      objectReference: {fileID: 9116417187101513141, guid: e22493a3947e0cd438e4f0a7fa48b6b1, type: 3}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: 'obstacles.Array.data[1]'
       value: 

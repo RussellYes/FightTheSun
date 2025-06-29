@@ -881,7 +881,7 @@ PrefabInstance:
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: unpauseButton
       value: 
-      objectReference: {fileID: 1161391109}
+      objectReference: {fileID: 1506791439}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: distanceToGoal
       value: 450
@@ -1120,7 +1120,7 @@ PrefabInstance:
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: 'obstacles.Array.data[0]'
       value: 
-      objectReference: {fileID: 4301909746815339928, guid: 221fe5bbe22138940bc3652c2df5fd42, type: 3}
+      objectReference: {fileID: 9116417187101513141, guid: e22493a3947e0cd438e4f0a7fa48b6b1, type: 3}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
       propertyPath: 'obstacles.Array.data[1]'
       value: 
@@ -1502,17 +1502,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16e94795d6ee3ac4d921702535625583, type: 3}
---- !u!114 &1161391109 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2750419501181825627, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
-  m_PrefabInstance: {fileID: 1506791437}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1176018517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1940,6 +1929,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1506791439 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2840483587657547735, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+  m_PrefabInstance: {fileID: 1506791437}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1599815671 stripped

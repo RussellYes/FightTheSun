@@ -317,7 +317,7 @@ public class DialogueManager : MonoBehaviour
 
             if (dialogueBoxPortraitImage != null)
             {
-                dialogueBoxPortraitImage.sprite = mavisPortraitImage;
+                dialogueBoxPortraitImage.sprite = jermaPortraitImage;
             }
 
             int sunCountDialogue = DataPersister.Instance.CurrentGameData.sunCount;
@@ -629,6 +629,11 @@ public class DialogueManager : MonoBehaviour
 
             StartCoroutine(FadeInDialogueBox());
             StartGameCountdownEvent?.Invoke();
+
+            if (dialogueBoxPortraitImage != null)
+            {
+                dialogueBoxPortraitImage.sprite = jermaPortraitImage;
+            }
 
             dialogueText.text = "This area shows multiple distress signals.";
         }

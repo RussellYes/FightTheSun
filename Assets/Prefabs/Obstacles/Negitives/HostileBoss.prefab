@@ -53,7 +53,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6573171121537117768
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -64,8 +64,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -86,6 +86,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4301909746815339928}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -109,7 +110,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.12}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -120,7 +122,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 2, y: 0.8}
   m_EdgeRadius: 0
 --- !u!114 &2156760109146772271
@@ -139,6 +140,7 @@ MonoBehaviour:
   isGravityWell: 0
   isTurbulance: 0
   isLoot: 0
+  isMissilePickUp: 0
   obstacle: {fileID: 2529052306193900648}
   obstacleSpeedMultiplier: 0.02
   rotationSpeedMin: 0
@@ -149,7 +151,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 96f103f795d0a6245869563708fb8366, type: 3}
   - {fileID: 8300000, guid: 25549d0ebde93084f844aa4499982089, type: 3}
   - {fileID: 8300000, guid: 1debd04dff0b66240b7452aab6a18ee8, type: 3}
+  thunderSound: {fileID: 0}
   collisionParticles: {fileID: 1517886618772211621, guid: a4455e0a17801714883181b3e95e8029, type: 3}
+  lightningParticles: {fileID: 0}
 --- !u!114 &238012368465338199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 500
+  solarFlare2: 0
+  solarFlare3: 0
 --- !u!114 &2529052306193900648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +276,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -293,7 +302,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 64cdaabaa330d6a4285013f44a73d64e, type: 3}
   m_Color: {r: 0.5849056, g: 0.052420773, b: 0.052420773, a: 1}
   m_FlipX: 0
@@ -402,7 +411,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
-      propertyPath: obstacles.Array.data[0]
+      propertyPath: 'obstacles.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
@@ -603,7 +612,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
-      propertyPath: obstacles.Array.data[0]
+      propertyPath: 'obstacles.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
@@ -799,7 +808,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
-      propertyPath: obstacles.Array.data[0]
+      propertyPath: 'obstacles.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -913,7 +922,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
-      propertyPath: obstacles.Array.data[0]
+      propertyPath: 'obstacles.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
@@ -1007,7 +1016,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
-      propertyPath: obstacles.Array.data[0]
+      propertyPath: 'obstacles.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1464,7 +1473,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6115934340230371237, guid: acf533d79c619d142aca757d9ab1c23c, type: 3}
-      propertyPath: obstacles.Array.data[0]
+      propertyPath: 'obstacles.Array.data[0]'
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []

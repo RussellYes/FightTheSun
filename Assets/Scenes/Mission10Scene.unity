@@ -918,7 +918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8054099233051505604, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: hullMax
-      value: 10000
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8553710876239452228, guid: 00bac9969052e2d4eb65b7170d7963de, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1541,6 +1541,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1305399850 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2840483587657547735, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+  m_PrefabInstance: {fileID: 1663094774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1407221696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1897,17 +1908,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
---- !u!114 &1663094775 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2750419501181825627, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
-  m_PrefabInstance: {fileID: 1663094774}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1663094776 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8542312276769653555, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
@@ -2323,7 +2323,7 @@ PrefabInstance:
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: unpauseButton
       value: 
-      objectReference: {fileID: 1663094775}
+      objectReference: {fileID: 1305399850}
     - target: {fileID: 3719152293307757988, guid: 867acb3595feea1439fb01225c01701f, type: 3}
       propertyPath: distanceToGoal
       value: 500
