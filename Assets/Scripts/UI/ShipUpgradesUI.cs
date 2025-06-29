@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -85,6 +86,12 @@ public class ShipUpgradesUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI combatRareMetalCostText;
     private float combatRareMetalCost;
 
+    [Header("Greeting")]
+    [SerializeField] private GameObject greetingHolder;
+    [SerializeField] private Button closeGreetingButton;
+    [SerializeField] private Button openGreetingButton;
+    [SerializeField] private TextMeshProUGUI greetingText;
+    private int greetingTextIndex = 0;
     private void Start()
     {
         playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
@@ -119,6 +126,8 @@ public class ShipUpgradesUI : MonoBehaviour
         miningButton.onClick.AddListener(() => { BuyMining(); });
         roboticsButton.onClick.AddListener(() => { BuyRobotics(); });
         combatButton.onClick.AddListener(() => { BuyCombat(); });
+        openGreetingButton.onClick.AddListener(() => GreetingsWindow());
+        closeGreetingButton.onClick.AddListener(() => GreetingsDialogue());
     }
 
     private void OnDisable()
@@ -133,6 +142,8 @@ public class ShipUpgradesUI : MonoBehaviour
         miningButton.onClick.RemoveListener(() => { BuyMining(); });
         roboticsButton.onClick.RemoveListener(() => { BuyRobotics(); });
         combatButton.onClick.RemoveListener(() => { BuyCombat(); });
+        openGreetingButton.onClick.RemoveListener(() => GreetingsWindow());
+        closeGreetingButton.onClick.RemoveListener(() => GreetingsDialogue());
     }
 
     IEnumerator OpenShipUpgradeMenu()
@@ -163,6 +174,53 @@ public class ShipUpgradesUI : MonoBehaviour
             yield return null;
         }
         rectTransform.localPosition = originalPosition;
+
+        if (!DataPersister.Instance.CurrentGameData.hasOpenedShipUpgrades)
+        {
+            // If this is the first time opening ShipUpgrades, show the greeting window
+            GreetingsWindow();
+        }
+    }
+
+    private void GreetingsWindow()
+    {
+        greetingHolder.SetActive(true);
+        DataPersister.Instance.CurrentGameData.hasOpenedShipUpgrades = true;
+        GreetingsDialogue();
+    }
+
+    private void GreetingsDialogue()
+    {
+        // Play SFX
+        if (sFXManager != null && buttonPositiveSFX.Length > 0)
+        {
+            sFXManager.PlaySFX(buttonPositiveSFX[UnityEngine.Random.Range(0, buttonPositiveSFX.Length)]);
+        }
+
+        if (greetingTextIndex == 0)
+        {
+            greetingText.text = "Hi, I'm Mavis.";
+            greetingTextIndex = 1;
+            return;
+        }
+        if (greetingTextIndex == 1)
+        {
+            greetingText.text = "I can upgrade your ship for a price.";
+            greetingTextIndex = 2;
+            return;
+        }
+        if (greetingTextIndex == 2)
+        {
+            greetingText.text = "My repairs last forever. Just like me. Timeless.";
+            greetingTextIndex = 3;
+            return;
+        }
+        if (greetingTextIndex >= 3)
+        {
+            greetingHolder.SetActive(false);
+            greetingTextIndex = 0; // Reset for next time
+        }
+
     }
 
     IEnumerator CloseShipUpgradeMenu()

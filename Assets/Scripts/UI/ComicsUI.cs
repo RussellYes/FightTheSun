@@ -118,12 +118,6 @@ public class ComicsUI : MonoBehaviour
             // If this is the first time opening comics, show the greeting window
             GreetingsWindow();
         }
-        else
-        {
-            // Otherwise, just show the comic menu
-            comicHolder.SetActive(true);
-        }
-        GreetingsWindow();
     }
 
     private void GreetingsWindow()
