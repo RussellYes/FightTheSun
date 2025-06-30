@@ -45,6 +45,14 @@ public class MainMenuPlanetLevelScoreText : MonoBehaviour
 
         SetDefaultText();
 
+        Debug.Log($"Checking unlock status for level {levelNumber}");
+
+        var gameData = DataPersister.Instance.CurrentGameData;
+        bool isUnlocked = gameData.GetMissionUnlocked(levelNumber);
+
+        Debug.Log($"^ Level {levelNumber} unlocked: {isUnlocked}");
+        UpdateLevelLock(levelNumber);
+
         // Try to get level data
         if (DataPersister.Instance.CurrentGameData.levelData.TryGetValue(levelNumber, out LevelData levelData))
         {
@@ -116,6 +124,7 @@ public class MainMenuPlanetLevelScoreText : MonoBehaviour
     {
         bool isLevelUnlocked = DataPersister.Instance.CurrentGameData.GetMissionUnlocked((int)levelNumber);
 
+        Debug.Log("MainMenuPlanetLevelScoreText UpdateLevelLock: " + $"Level {levelNumber} unlocked: {isLevelUnlocked}");
         lockedLevelCheckerPlanet.SetActive(!isLevelUnlocked);
     }
 
