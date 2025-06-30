@@ -82,6 +82,10 @@ public class DataPersister : MonoBehaviour
             Debug.Log("DataPersister - Creating new GameData");
             CurrentGameData = new GameData();
         }
+        else
+        {
+            CurrentGameData.RebuildComicDictionary();
+        }
 
         // Ensure all dictionaries and lists are initialized
         CurrentGameData.levelData ??= new Dictionary<int, LevelData>();
@@ -107,6 +111,7 @@ public class DataPersister : MonoBehaviour
     public void SaveCurrentGame()
     {
         UpdateGameData();
+        CurrentGameData.PrepareComicsForSaving();
         SaveSystem.SaveGame(CurrentGameData);
         Debug.Log("DataPersister - SaveCurrentGame");
     }

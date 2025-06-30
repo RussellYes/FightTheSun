@@ -15,6 +15,7 @@ public class GameData
 
     [Header("Game Data")]
     public List<PlayerSaveData> playerData;
+    [SerializeField] private List<ComicDataEntry> _serializedComicData = new List<ComicDataEntry>();
 
     [Header("Score Manager Data")]
     // Persistent totals across all levels
@@ -271,6 +272,24 @@ public class GameData
         isMission10Unlocked = false;
     }
 
+    public void PrepareComicsForSaving()
+    {
+        _serializedComicData.Clear();
+        foreach (var kvp in comicData)
+        {
+            _serializedComicData.Add(new ComicDataEntry(kvp.Key, kvp.Value));
+        }
+    }
+
+    public void RebuildComicDictionary()
+    {
+        comicData.Clear();
+        foreach (var entry in _serializedComicData)
+        {
+            comicData[entry.comicNumber] = entry.comicData;
+        }
+    }
+
 }
 
 // Helper class for dictionary serialization
@@ -325,5 +344,18 @@ public class ComicData
     {
         comicNumber = number;
         isUnlocked = unlocked;
+    }
+}
+
+[System.Serializable]
+public class ComicDataEntry
+{
+    public float comicNumber;
+    public ComicData comicData;
+
+    public ComicDataEntry(float number, ComicData data)
+    {
+        comicNumber = number;
+        comicData = data;
     }
 }

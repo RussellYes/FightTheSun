@@ -32,8 +32,8 @@ public class ComicsUI : MonoBehaviour
     [SerializeField] private AudioClip buyFailSFX;
     private float unlockMemoryCost;
     private float unlockMoneyCost;
-    private float memoryCostMultiplier = 1003f;
-    private float moneyCostMultiplier = 107f;
+    private float memoryCostMultiplier = 0f;
+    private float moneyCostMultiplier = 0f;
 
 
     [Header("Navigation")]
@@ -219,6 +219,8 @@ public class ComicsUI : MonoBehaviour
             return;
         }
 
+        UnlockComicsBasedOnProgress();
+
         // Initialize data if available, otherwise use default locked state
         if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
         {
@@ -235,9 +237,31 @@ public class ComicsUI : MonoBehaviour
         UnlockComicsBasedOnProgress();
     }
 
+    private void InitializeAllComics()
+    {
+        if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
+        {
+            Debug.LogError("DataPersister not ready!");
+            return;
+        }
+
+        var gameData = DataPersister.Instance.CurrentGameData;
+
+        foreach (float number in comicNumbers)
+        {
+            if (!gameData.comicData.ContainsKey(number))
+            {
+                gameData.comicData[number] = new ComicData(number, false);
+                Debug.Log($"Initialized comic {number} (locked)");
+            }
+        }
+    }
     private void UnlockComicsBasedOnProgress()
     {
+        InitializeAllComics();
+
         var gameData = DataPersister.Instance.CurrentGameData;
+
 
         Debug.Log($"ComicsUI UnlockComicsBasedOnProgress BeforeCheck - Mission 1: {gameData.isMission1Complete}, Comic 0 (Mission 1): {IsComicUnlocked(0)} hasLost: {gameData.hasLost}");
         if (gameData.isMission1Complete) UnlockComic(0);
@@ -294,6 +318,7 @@ public class ComicsUI : MonoBehaviour
         {
             Debug.Log($"Unlocking comic {comicNumber}");
             gameData.comicData[comicNumber].isUnlocked = true;
+            DataPersister.Instance.SaveCurrentGame();
         }
         else
         {
