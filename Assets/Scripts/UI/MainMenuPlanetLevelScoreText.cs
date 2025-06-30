@@ -50,7 +50,7 @@ public class MainMenuPlanetLevelScoreText : MonoBehaviour
         var gameData = DataPersister.Instance.CurrentGameData;
         bool isUnlocked = gameData.GetMissionUnlocked(levelNumber);
 
-        Debug.Log($"^ Level {levelNumber} unlocked: {isUnlocked}");
+        Debug.Log($"Level {levelNumber} unlocked: {isUnlocked}");
         UpdateLevelLock(levelNumber);
 
         // Try to get level data

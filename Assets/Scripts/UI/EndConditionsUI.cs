@@ -162,6 +162,20 @@ public class EndConditionsUI : MonoBehaviour
             }
             else
             {
+                // Set hasLost flag when player sees lose comics
+                if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+                {
+                    DataPersister.Instance.CurrentGameData.hasLost = true;
+                    Debug.Log("^ EndConditionsUI DisplayLoseComics: " + $"{DataPersister.Instance.CurrentGameData.hasLost}");
+                    DataPersister.Instance.SaveCurrentGame();
+                }
+                if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
+                {
+                    Debug.LogError("EndConditionsUI DisplayLoseComics - DataPersister not initialized!");
+
+                }
+
+
                 StartCoroutine(DisplayLoseComics());
             }
         }
@@ -196,13 +210,6 @@ public class EndConditionsUI : MonoBehaviour
                     yield return null; // Wait each frame until time passes
                 }
             }
-
-        // Set hasLost flag when player sees lose comics
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
-        {
-            DataPersister.Instance.CurrentGameData.hasLost = true;
-            DataPersister.Instance.SaveCurrentGame();
-        }
 
         loseComicHolder.SetActive(false);
         StartCoroutine(ShowLoseTextsWithDelay());
