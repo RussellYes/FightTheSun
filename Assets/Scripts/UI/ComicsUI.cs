@@ -45,6 +45,7 @@ public class ComicsUI : MonoBehaviour
     [Header("Comic Data")]
     [SerializeField] private Sprite[] comicSprites;
     [SerializeField] private float[] comicNumbers;
+    public float[] ComicNumbers => comicNumbers; // Expose comic numbers for other scripts
     private float currentComicNumber;
 
     private int currentPanelIndex = 0;
@@ -257,6 +258,13 @@ public class ComicsUI : MonoBehaviour
     }
     private void UnlockComicsBasedOnProgress()
     {
+        // Save the total comics count to GameData
+        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        {
+            DataPersister.Instance.CurrentGameData.comicNumbersLength = comicNumbers.Length;
+            Debug.Log($"Saved total comics count: {DataPersister.Instance.CurrentGameData.comicNumbersLength}");
+        }
+
         var gameData = DataPersister.Instance.CurrentGameData;
 
         // Mission unlocks

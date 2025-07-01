@@ -337,7 +337,7 @@ public class DialogueManager : MonoBehaviour
                 }
                 else if (randomPick == 1)
                 {
-                    dialogueText.text = "THE CLAAAAAW.";
+                    dialogueText.text = "THE CLAAAAAW!!";
                 }
                 else if (randomPick == 2)
                 {
@@ -345,7 +345,7 @@ public class DialogueManager : MonoBehaviour
                 }
                 else
                 {
-                    dialogueText.text = "What can the Claw... claw?";
+                    dialogueText.text = "What can the mining claw... claw?";
                 }
 
             }

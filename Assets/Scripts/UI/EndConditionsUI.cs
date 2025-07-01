@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -56,6 +57,8 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private float loseComicPanelDisplayTime = 3f;
     [SerializeField] private Button skipComicButton;
 
+    [SerializeField] private TextMeshProUGUI timeCapsuleCompletionText;
+    private float capsuledLoseMoney;
     private float memoryScore;
 
     [Header("Upgrade Buttons")]
@@ -363,6 +366,7 @@ public class EndConditionsUI : MonoBehaviour
         float loseTime = DataPersister.Instance.CurrentGameData.totalTime + gameManager.LevelTime;
         int loseObstacles = scoreManager.GetTotalObstaclesDestroyed() + scoreManager.GetLevelObstaclesDestroyed();
         float loseMoney = scoreManager.GetTotalMoney() + scoreManager.GetLevelMoney();
+        Debug.Log($"@ loseMoney {loseMoney}");
 
         // Update the time text
         int minutes2 = Mathf.FloorToInt(loseTime / 60);
@@ -402,6 +406,17 @@ public class EndConditionsUI : MonoBehaviour
         // Calculate final memory score
         float finalMemoryScore = memoryScore + (loseObstacles * 2 + loseMoney + (loseTime / 2));
         Debug.Log($"EndConditionsUI ShowLoseTextsWithDelay - memoryScore after calculations: {finalMemoryScore}");
+
+        // Get comic unlocked data
+        int unlockedComics = DataPersister.Instance.CurrentGameData.comicData.Count(kvp => kvp.Value.isUnlocked);
+        int totalComics = DataPersister.Instance.CurrentGameData.comicNumbersLength;
+        float comicUnlockPercent = (float)unlockedComics / totalComics * 100f;
+        timeCapsuleCompletionText.text = $"{comicUnlockPercent:F0}%";
+
+        // calculate new currentMoney with comic data
+        capsuledLoseMoney = loseMoney * (comicUnlockPercent / 100f);
+        Debug.Log($"@ capsuledLoseMoney {capsuledLoseMoney}");
+
         // Lerp all values simultaneously over 3 seconds
         float lerpDuration = 3f;
         float elapsedTime = 0f;
@@ -423,7 +438,7 @@ public class EndConditionsUI : MonoBehaviour
             float currentObstacles = Mathf.Lerp(loseObstacles, 0, progress);
             totalObstaclesDestroyedText.text = $"Destroyed: {Mathf.RoundToInt(currentObstacles)}";
 
-            float currentMoney = Mathf.Lerp(loseMoney, 0, progress);
+            float currentMoney = Mathf.Lerp(loseMoney, capsuledLoseMoney, progress);
             totalMoneyText.text = $"Money: {Mathf.RoundToInt(currentMoney)}";
 
             elapsedTime += Time.unscaledDeltaTime;
@@ -432,12 +447,6 @@ public class EndConditionsUI : MonoBehaviour
 
         memoryScore = finalMemoryScore;
 
-        // Ensure final values are exact
-        memoryScoreText.text = Mathf.RoundToInt(memoryScore).ToString("0") + " memories";
-        totalGameTimeText.text = "Time: 00:00";
-        totalObstaclesDestroyedText.text = "Destroyed: 0";
-        totalMoneyText.text = "Money: 0";
-        
         // Show save button halves
         saveButtonHolder.gameObject.SetActive(true);
         saveButtonFront.gameObject.SetActive(true);
@@ -515,11 +524,16 @@ public class EndConditionsUI : MonoBehaviour
             gameData.levelData[i] = new LevelData(0, 0, 0);
         }
 
+        // Get comic unlock data to use as a multiplier for currencies.
+        int unlockedComics = DataPersister.Instance.CurrentGameData.comicData.Count(kvp => kvp.Value.isUnlocked);
+        int totalComics = DataPersister.Instance.CurrentGameData.comicNumbersLength;
+        float comicUnlockRawPercent = (float)unlockedComics / totalComics;
+
         // Reset all resource totals
-        gameData.totalMoney = 0f;
+        gameData.totalMoney = capsuledLoseMoney;
         gameData.totalTime = 0f;
-        gameData.totalMetal = 0f;
-        gameData.totalRareMetal = 0f;
+        gameData.totalMetal = gameData.totalMetal * comicUnlockRawPercent;
+        gameData.totalRareMetal = gameData.totalRareMetal * comicUnlockRawPercent;
         gameData.totalObstaclesDestroyed = 0;
 
         // Reset missile and launcher data

@@ -1177,6 +1177,10 @@ PrefabInstance:
       propertyPath: playButton
       value: 
       objectReference: {fileID: 2296483828125056724}
+    - target: {fileID: 2069793252135879687, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2256408781506312224, guid: 08b6a2aef5d467e4fb80bd50e5974b21, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
