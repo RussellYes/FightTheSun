@@ -238,8 +238,6 @@ public class ComicsUI : MonoBehaviour
     {
         var gameData = DataPersister.Instance.CurrentGameData;
 
-        Debug.Log($"^ ComicsUI UnlockComicsBasedOnProgress BeforeCheck - Mission 1: {gameData.isMission1Complete}, Comic 0 (Mission 1): {IsComicUnlocked(0)} hasLost: {gameData.hasLost}");
-
         // Mission unlocks
         if (gameData.isMission1Complete) UnlockComic(0);
         if (gameData.isMission2Complete) UnlockComic(4);
@@ -270,7 +268,8 @@ public class ComicsUI : MonoBehaviour
                 UnlockComic(i);
             }
         }
-        Debug.Log($"^ ComicsUI UnlockComicsBasedOnProgress AfterCheck - Mission 1: {gameData.isMission1Complete}, Comic 0 (Mission 1): {IsComicUnlocked(0)} hasLost: {gameData.hasLost}");
+
+        DebugUnlockStatus("UnlockComicsBasedOnProgress");
 
         // Save after unlocking
         DataPersister.Instance.SaveCurrentGame();
@@ -322,46 +321,32 @@ public class ComicsUI : MonoBehaviour
         panelNumberText.text = $"Comic {comicNumbers[currentPanelIndex]}";
 
         // Show costs if locked
-        currentComicNumber = comicNumbers[currentPanelIndex];
-        bool isUnlocked = IsComicUnlocked(currentComicNumber);
-        bool isMissionUnlocked = CheckMissionUnlock(currentComicNumber, DataPersister.Instance.CurrentGameData);
+        if (IsComicUnlocked(currentPanelIndex))
+        {
+            unlockComicHolder.SetActive(false);
+        }
+        else
+        {
+            unlockComicHolder.SetActive(true);
+            unlockMemoryCost = Mathf.RoundToInt(memoryCostMultiplier * currentPanelIndex);
+            unlockMoneyCost = Mathf.RoundToInt(moneyCostMultiplier * currentPanelIndex);
+            unlockComicMemoryCostText.text = $"{unlockMemoryCost}";
+            unlockComicMoneyCostText.text = $"{unlockMoneyCost}";
+        }
+
         bool hasLost = DataPersister.Instance.CurrentGameData.hasLost;
 
-        // FINAL LOCK STATE - lock should be INACTIVE if:
-        // - Comic is unlocked OR
-        // - It's a lose comic and hasLost is true OR
-        // - It's unlocked by mission
-        bool shouldShowLock = !(isUnlocked || isMissionUnlocked);
+        // Lock should be INACTIVE if comic is unlocked. Unlocked state is determined in InitializeComicData
+
+        DebugUnlockStatus("ShowCurrentPanel");
+
         Debug.Log($"# ComicsUI ShowCurrentPanel - " +
                   $"Diplaying panel index {currentPanelIndex}, " +
                   $"ComicNumber: {currentComicNumber}, " +
-                  $"isUnlocked: {isUnlocked}, " +
-                  $"isMissionUnlocked: {isMissionUnlocked}, " +
-                  $"hasLost: {hasLost}, " +
-                  $"shouldShowLock: {shouldShowLock}");
-        lockImage.SetActive(shouldShowLock);
-            unlockComicHolder.SetActive(shouldShowLock);
+                  $"isUnlocked: {IsComicUnlocked(currentPanelIndex)}, " +
+                  $"hasLost: {hasLost}");
+        lockImage.SetActive(!IsComicUnlocked(currentPanelIndex));
 
-            // Only show costs if comic is locked AND purchaseable
-            if (!isUnlocked && !isMissionUnlocked)
-            {
-                unlockMemoryCost = Mathf.RoundToInt(memoryCostMultiplier * currentComicNumber);
-                unlockMoneyCost = Mathf.RoundToInt(moneyCostMultiplier * currentComicNumber);
-                unlockComicMemoryCostText.text = $"{unlockMemoryCost}";
-                unlockComicMoneyCostText.text = $"{unlockMoneyCost}";
-
-                Debug.Log($"# ComicsUI ShowCurrentPanel - Comic {currentComicNumber} - " + $"Unlocked:{isUnlocked} " + $"MissionUnlocked:{isMissionUnlocked} " + $"LockVisible:{shouldShowLock}");
-            }
-        
-        UpdateNavigationButtons();
-    }
-
-    private void UpdateNavigationButtons()
-    {
-        /*
-        backButton.interactable = currentPanelIndex > 0;
-        forwardButton.interactable = currentPanelIndex < comicSprites.Length - 1;
-        */
     }
 
     private void ShowNextPanel()
@@ -472,26 +457,6 @@ public class ComicsUI : MonoBehaviour
             }
         }
     }
-
-    private bool CheckMissionUnlock(float comicNumber, GameData gameData)
-    {
-        return comicNumber switch
-        {
-            0 => gameData.isMission1Complete,
-            4 => gameData.isMission2Complete,
-            8 => gameData.isMission3Complete,
-            12 => gameData.isMission4Complete,
-            16 => gameData.isMission5Complete,
-            20 => gameData.isMission6Complete,
-            24 => gameData.isMission7Complete,
-            28 => gameData.isMission8Complete,
-            32 => gameData.isMission9Complete,
-            36 => gameData.isMission10Complete,
-            >= 40 and <= 43 => gameData.hasLost,
-            >= 44 and <= 47 => gameData.isMission10Complete,
-            _ => false
-        };
-    }
     private bool IsComicUnlocked(float comicNumber)
     {
         if (DataPersister.Instance.CurrentGameData.comicData.TryGetValue(comicNumber, out ComicData data))
@@ -499,6 +464,24 @@ public class ComicsUI : MonoBehaviour
             return data.isUnlocked;
         }
         return false;
+    }
+
+    private void DebugUnlockStatus(string method)
+    {
+        var gameData = DataPersister.Instance.CurrentGameData;
+
+        Debug.Log($"# ComicsUI {method} - Mission 1: {gameData.isMission1Complete}, Comic 0 (Mission 1): {IsComicUnlocked(0)}");
+        Debug.Log($"# ComicsUI {method} - Mission 2: {gameData.isMission2Complete}, Comic 4 (Mission 2): {IsComicUnlocked(4)}");
+        Debug.Log($"# ComicsUI {method} - Mission 3: {gameData.isMission3Complete}, Comic 8 (Mission 3): {IsComicUnlocked(8)}");
+        Debug.Log($"# ComicsUI {method} - Mission 4: {gameData.isMission4Complete}, Comic 12 (Mission 4): {IsComicUnlocked(12)}");
+        Debug.Log($"# ComicsUI {method} - Mission 5: {gameData.isMission5Complete}, Comic 16 (Mission 5): {IsComicUnlocked(16)}");
+        Debug.Log($"# ComicsUI {method} - Mission 6: {gameData.isMission6Complete}, Comic 20 (Mission 6): {IsComicUnlocked(20)}");
+        Debug.Log($"# ComicsUI {method} - Mission 7: {gameData.isMission7Complete}, Comic 24 (Mission 7): {IsComicUnlocked(24)}");
+        Debug.Log($"# ComicsUI {method} - Mission 8: {gameData.isMission8Complete}, Comic 28 (Mission 8): {IsComicUnlocked(28)}");
+        Debug.Log($"# ComicsUI {method} - Mission 9: {gameData.isMission9Complete}, Comic 32 (Mission 9): {IsComicUnlocked(32)}");
+        Debug.Log($"# ComicsUI {method} - Mission 10: {gameData.isMission10Complete}, Comic 36 (Mission 10): {IsComicUnlocked(36)}");
+        Debug.Log($"# ComicsUI {method} - Mission 10: {gameData.isMission10Complete}, Comic 36 (Mission 10): {IsComicUnlocked(36)} Comic 44 {IsComicUnlocked(44)} Comic 45 {IsComicUnlocked(45)} Comic 46 {IsComicUnlocked(46)} Comic 47 {IsComicUnlocked(47)}");
+        Debug.Log($"# ComicsUI {method} - hasLost: {gameData.hasLost}, Comic 40: {IsComicUnlocked(40)} Comic 41 {IsComicUnlocked(41)} Comic 42 {IsComicUnlocked(42)} Comic 43 {IsComicUnlocked(43)}");
     }
 
 }
