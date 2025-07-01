@@ -57,9 +57,13 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private float loseComicPanelDisplayTime = 3f;
     [SerializeField] private Button skipComicButton;
 
+    [Header("Time Capsule")]
     [SerializeField] private TextMeshProUGUI timeCapsuleCompletionText;
     private float capsuledLoseMoney;
     private float memoryScore;
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI ironText;
+    [SerializeField] private TextMeshProUGUI cobaltText;
 
     [Header("Upgrade Buttons")]
     [SerializeField] private TextMeshProUGUI memoryScoreText;
@@ -377,7 +381,7 @@ public class EndConditionsUI : MonoBehaviour
         totalObstaclesDestroyedText.text = $"Destroyed: " + loseObstacles;
 
         // Update the money text
-        totalMoneyText.text = $"Money: " + loseMoney;
+        totalMoneyText.text = $"Money: {loseMoney.ToString("0")}";
 
         endText.gameObject.SetActive(false);
 
@@ -416,6 +420,17 @@ public class EndConditionsUI : MonoBehaviour
         // calculate new currentMoney with comic data
         capsuledLoseMoney = loseMoney * (comicUnlockPercent / 100f);
         Debug.Log($"@ capsuledLoseMoney {capsuledLoseMoney}");
+
+        // Calculate an display time capsule items with comic data
+        GameData gameData = DataPersister.Instance.CurrentGameData;
+        // Money
+        moneyText.text = $"{capsuledLoseMoney:F0}";
+        // Iron
+        float timeCapsuledIron = gameData.totalMetal * (comicUnlockPercent / 100f);
+        ironText.text = $"{timeCapsuledIron:F0}";
+        // Cobalt
+        float timeCapsuledCobalt = gameData.totalRareMetal * (comicUnlockPercent / 100f);
+        cobaltText.text = $"{timeCapsuledCobalt:F0}";
 
         // Lerp all values simultaneously over 3 seconds
         float lerpDuration = 3f;
