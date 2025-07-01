@@ -145,6 +145,13 @@ public class MiningClaw : MonoBehaviour
             return;
         }
 
+        if (collider.gameObject.layer == LayerMask.NameToLayer("WorldBarrier"))
+        {
+            Debug.Log($"Claw collided: {name}");
+            Retract();
+            return;
+        }
+
         Loot loot = collider.GetComponent<Loot>();
         if (loot != null)
         {
