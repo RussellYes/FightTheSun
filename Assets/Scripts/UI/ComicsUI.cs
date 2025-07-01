@@ -25,6 +25,8 @@ public class ComicsUI : MonoBehaviour
     [SerializeField] private GameObject lockImage;
     [SerializeField] private Button unlockComicButton;
     [SerializeField] private GameObject unlockComicHolder;
+    [SerializeField] private GameObject unlockProgressComicHolder;
+    [SerializeField] private TextMeshProUGUI unlockProgressComicText;
     [SerializeField] private TextMeshProUGUI unlockComicMemoryCostText;
     [SerializeField] private TextMeshProUGUI unlockComicMoneyCostText;
     [SerializeField] private TextMeshProUGUI panelNumberText;
@@ -32,8 +34,8 @@ public class ComicsUI : MonoBehaviour
     [SerializeField] private AudioClip buyFailSFX;
     private float unlockMemoryCost;
     private float unlockMoneyCost;
-    private float memoryCostMultiplier = 0f;
-    private float moneyCostMultiplier = 0f;
+    private float memoryCostMultiplier = 107f;
+    private float moneyCostMultiplier = 21f;
 
 
     [Header("Navigation")]
@@ -323,10 +325,69 @@ public class ComicsUI : MonoBehaviour
         // Show costs if locked
         if (IsComicUnlocked(currentPanelIndex))
         {
+            unlockProgressComicHolder.SetActive(false);
             unlockComicHolder.SetActive(false);
+        }
+        else if (new[] { 0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 41, 42, 43, 44, 45, 46, 47 }.Contains(currentPanelIndex))
+        {
+            unlockProgressComicHolder.SetActive(true);
+            unlockComicHolder.SetActive(false);
+            
+           string progressGoal = "?";
+            if (currentPanelIndex == 0)
+            {
+                progressGoal = "level 1";
+            }
+            if (currentPanelIndex == 4)
+            {
+                progressGoal = "level 2";
+            }
+            else if (currentPanelIndex == 8)
+            {
+                progressGoal = "level 3";
+            }
+            else if (currentPanelIndex == 12)
+            {
+                progressGoal = "level 4";
+            }
+            else if (currentPanelIndex == 16)
+            {
+                progressGoal = "level 5";
+            }
+            else if (currentPanelIndex == 20)
+            {
+                progressGoal = "level 6";
+            }
+            else if (currentPanelIndex == 24)
+            {
+                progressGoal = "level 7";
+            }
+            else if (currentPanelIndex == 28)
+            {
+                progressGoal = "level 8";
+            }
+            else if (currentPanelIndex == 32)
+            {
+                progressGoal = "level 9";
+            }
+            else if (currentPanelIndex == 36)
+            {
+                progressGoal = "level 10";
+            }
+            else if (currentPanelIndex >= 40 && currentPanelIndex <= 43)
+            {
+                progressGoal = "losing";
+            }
+            else if (currentPanelIndex >= 44 && currentPanelIndex <= 47)
+            {
+                progressGoal = "winning";
+            }
+
+            unlockProgressComicText.text = $"Unlocked by completing {progressGoal}";
         }
         else
         {
+            unlockProgressComicHolder.SetActive(false);
             unlockComicHolder.SetActive(true);
             unlockMemoryCost = Mathf.RoundToInt(memoryCostMultiplier * currentPanelIndex);
             unlockMoneyCost = Mathf.RoundToInt(moneyCostMultiplier * currentPanelIndex);
@@ -340,11 +401,6 @@ public class ComicsUI : MonoBehaviour
 
         DebugUnlockStatus("ShowCurrentPanel");
 
-        Debug.Log($"# ComicsUI ShowCurrentPanel - " +
-                  $"Diplaying panel index {currentPanelIndex}, " +
-                  $"ComicNumber: {currentComicNumber}, " +
-                  $"isUnlocked: {IsComicUnlocked(currentPanelIndex)}, " +
-                  $"hasLost: {hasLost}");
         lockImage.SetActive(!IsComicUnlocked(currentPanelIndex));
 
     }
