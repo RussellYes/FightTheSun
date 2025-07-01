@@ -56,6 +56,12 @@ public class ComicsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI greetingText;
     private int greetingTextIndex = 0;
 
+    [Header("Time Capsule")]
+    [SerializeField] private GameObject timeCapsuleHolder;
+    [SerializeField] private TextMeshProUGUI timeCapsuleText;
+    [SerializeField] private TextMeshProUGUI jermaTimeCapsuleText;
+    [SerializeField] private Button timeCapsuleCloseButton;
+
     private void OnEnable()
     {
         DataPersister.InitializationComplete += Initalize;
@@ -66,6 +72,7 @@ public class ComicsUI : MonoBehaviour
         unlockComicButton.onClick.AddListener(UnlockComicPanel);
         openGreetingButton.onClick.AddListener(() => GreetingsWindow());
         closeGreetingButton.onClick.AddListener(() => GreetingsDialogue());
+        timeCapsuleCloseButton.onClick.AddListener(() => timeCapsuleHolder.SetActive(false));
     }
 
     private void OnDisable()
@@ -78,6 +85,7 @@ public class ComicsUI : MonoBehaviour
         unlockComicButton.onClick.RemoveListener(UnlockComicPanel);
         openGreetingButton.onClick.RemoveListener(() => GreetingsWindow());
         closeGreetingButton.onClick.RemoveListener(() => GreetingsDialogue());
+        timeCapsuleCloseButton.onClick.RemoveListener(() => timeCapsuleHolder.SetActive(false));
     }
 
     private void Initalize()
@@ -92,6 +100,7 @@ public class ComicsUI : MonoBehaviour
         UnlockComicsBasedOnProgress();
 
         comicMenuHolder.SetActive(true);
+        DisplayTimeCapsule();
 
         //Play SFX
         if (sFXManager != null && comicMenuOpenCloseSFX.Length > 0)
@@ -175,6 +184,16 @@ public class ComicsUI : MonoBehaviour
             greetingHolder.SetActive(false);
             greetingTextIndex = 0; // Reset for next time
         }
+    }
+
+    private void DisplayTimeCapsule()
+    {
+        timeCapsuleHolder.SetActive(true);
+        int unlockedComics = DataPersister.Instance.CurrentGameData.comicData.Count(kvp => kvp.Value.isUnlocked);
+        int totalComics = comicNumbers.Length;
+        float comicUnlockPercent = (float)unlockedComics / totalComics * 100f;
+        jermaTimeCapsuleText.text = $"Hey! {unlockedComics} of {totalComics} comics. Keep unlocking comics to upgrade the time capsule.";
+        timeCapsuleText.text = $"{comicUnlockPercent:F0}%";
     }
 
     IEnumerator CloseComicMenu()
