@@ -19,13 +19,12 @@ public class GameManager : MonoBehaviour
     public static event EndGameAction EndGameEvent;
     public static event Action EndGameDataSaveEvent;
     public static event Action <float> ChangeThrottleEvent;
-    [SerializeField] private GameObject endConditionsUI;
-
     public delegate void SpawningAction();
     public static event SpawningAction StopSpawning;
     public static event SpawningAction StartSpawning;
+    public static event Action activateEndConditionsUIEvent;
+    public static event Action<bool> pauseMenuUIEvent;
 
-    [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button unpauseButton;
     [SerializeField] private AudioClip[] buttonSFX;
@@ -87,8 +86,6 @@ public class GameManager : MonoBehaviour
 
         // Log the initial state
         Debug.Log("Initial GameState: " + GameManager.Instance.CurrentState.ToString());
-
-        endConditionsUI.SetActive(false);
     }
 
     private void OnEnable()
@@ -189,7 +186,6 @@ public class GameManager : MonoBehaviour
         DialogueDuringPlay, // State 3: Show dialogue boxes during gameplay
         BossBattle,     // State 4: Boss battle
         EndDialogue,    // State 5: Show dialogue boxes at the end
-        EndUI           // State 6: End UI active, game paused
     }
 
     public void SetState(GameState newState)
@@ -221,9 +217,6 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.EndDialogue:
                 HandleEndDialogue();
-                break;
-            case GameState.EndUI:
-                HandleEndUI();
                 break;
         }
     }
@@ -265,7 +258,7 @@ public class GameManager : MonoBehaviour
         MusicManager.Instance.MuteMusic(false);
         SFXManager.Instance.MuteSFX(false);
 
-        pauseMenuUI.gameObject.SetActive(false);
+        pauseMenuUIEvent?.Invoke(false);
     }
     private void HandlePaused()
     {
@@ -274,7 +267,7 @@ public class GameManager : MonoBehaviour
         SFXManager.Instance.MuteSFX(true);
 
         // Show the pause menu
-        pauseMenuUI.gameObject.SetActive(true);
+        pauseMenuUIEvent?.Invoke(true);
 
         // Pause the game time
         Time.timeScale = 0;
@@ -302,7 +295,7 @@ public class GameManager : MonoBehaviour
         SFXManager.Instance.MuteSFX(false);
 
         // Show the pause menu
-        pauseMenuUI.gameObject.SetActive(false);
+        pauseMenuUIEvent?.Invoke(false);
 
         // Pause the game time
         Time.timeScale = 1;
@@ -367,7 +360,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"EndGame called with isWin = {isWin}");
 
-        SetState(GameState.EndUI);
+        // Stop goal progress
+        StopGoalProgress();
 
         // Trigger the EndGameEvent
         EndGameEvent?.Invoke(isWin);
@@ -380,16 +374,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    private void HandleEndUI()
-    {
-        Debug.Log("GameManager HandleEndUI");
-
-        // Stop goal progress
-        StopGoalProgress();
-
-        // Show end UI
-        endConditionsUI.SetActive(true); // Activate the end conditions UI GameObject
-    }
     private void StartSpawners()
     {
         StartSpawning?.Invoke();  

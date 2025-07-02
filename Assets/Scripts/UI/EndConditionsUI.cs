@@ -18,6 +18,8 @@ public class EndConditionsUI : MonoBehaviour
     public static event Action EndConditionUIScoreChoiceEvent;
     public static event Action reviveEvent;
 
+    [SerializeField] private GameObject endConditionsUIHolder;
+
     [Header("Winning UI")]
     [SerializeField] private bool isWin;
     [SerializeField] private Image winBackground;
@@ -106,6 +108,7 @@ public class EndConditionsUI : MonoBehaviour
     private void HideUI()
     {
         // Initially hide all text elements and their shine bars
+        endConditionsUIHolder.SetActive(false);
         winBackground.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
         newMoneyText.gameObject.SetActive(false);
@@ -136,6 +139,8 @@ public class EndConditionsUI : MonoBehaviour
 
     private void EndGame(bool abool)
     {
+        endConditionsUIHolder.SetActive(true);
+
         isWin = abool;
         if (scoreManager != null && gameManager != null)
         {

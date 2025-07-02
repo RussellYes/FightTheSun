@@ -12,6 +12,7 @@ public class PauseMenuUI : MonoBehaviour
 {
     public static PauseMenuUI Instance; // Singleton instance
 
+    [SerializeField] private GameObject pauseMenuUIHolder;
     [SerializeField] private Button homeButton;
     [SerializeField] private Button playButton;
     [SerializeField] private AudioClip[] buttonSFX;
@@ -69,7 +70,7 @@ public class PauseMenuUI : MonoBehaviour
 
     private void OnEnable()
     {
-        OnPause();
+        GameManager.pauseMenuUIEvent += OnPauseEvent;
 
         homeButton.onClick.AddListener(() => {
             SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
@@ -87,6 +88,7 @@ public class PauseMenuUI : MonoBehaviour
 
     private void OnDisable()
     {
+        GameManager.pauseMenuUIEvent -= OnPauseEvent;
         homeButton.onClick.RemoveAllListeners();
         musicVolumeSlider.onValueChanged.RemoveAllListeners();
         sFXVolumeSlider.onValueChanged.RemoveAllListeners();
@@ -109,8 +111,21 @@ public class PauseMenuUI : MonoBehaviour
         UpdateSFXIcon();
     }
 
+    private void OnPauseEvent(bool pause)
+    {
+        if (pause)
+        {
+            OnPause();
+        }
+        else
+        {
+            pauseMenuUIHolder.SetActive(false);
+        }
+    }
     public void OnPause()
     {
+        pauseMenuUIHolder.SetActive(true);
+
         isPaused = true; // Game is paused
 
         // Store the original music clip

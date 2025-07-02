@@ -13,7 +13,7 @@ public class MissileSellerUI : MonoBehaviour
     [SerializeField] private GameObject storeHolder;
     [SerializeField] private GameObject storeButtonHolder;
     [SerializeField] private AudioClip[] storeOpenCloseSFX;
-    [SerializeField] private float uIOpenCloseLerpTime = 1;
+    [SerializeField] private float uIOpenCloseLerpTime = 2;
 
     [Header("Currency Displays")]
     [SerializeField] private TextMeshProUGUI moneyText;
@@ -117,7 +117,7 @@ public class MissileSellerUI : MonoBehaviour
 
     private void UpdateTexts()
     {
-        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString();
+        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString("F0");
         missileText.text = DataPersister.Instance.CurrentGameData.savedMissileCount.ToString();
     }
 

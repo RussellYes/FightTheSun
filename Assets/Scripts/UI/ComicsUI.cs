@@ -469,7 +469,7 @@ public class ComicsUI : MonoBehaviour
 
     private void UnlockComicPanel()
     {
-        currentComicNumber = comicNumbers[currentPanelIndex];
+        currentComicNumber = currentPanelIndex;
 
         // Check if this comic is unlocked by missions
         var gameData = DataPersister.Instance.CurrentGameData;
