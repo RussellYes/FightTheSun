@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LegendUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI memoyText;
+    [SerializeField] private TextMeshProUGUI memoryText;
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI toolText;
@@ -45,10 +45,15 @@ public class LegendUI : MonoBehaviour
         GameData gameData = DataPersister.Instance.CurrentGameData;
 
         // Memory
-        memoyText.text = $"Memory {gameData.playerData[0].playerMemoryScore:F0}";
+        memoryText.text = $"Memory {gameData.playerData[0].playerMemoryScore:F0}";
 
         // Money
         moneyText.text = $"Money {gameData.totalMoney:F0}";
+        moneyText.text = $"Money {DataPersister.Instance.CurrentGameData.totalMoney:F0}";
+        
+        
+        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString("0");
+
 
         // Time
         float timeRemaining = gameData.totalTime;

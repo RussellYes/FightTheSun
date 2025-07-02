@@ -130,7 +130,7 @@ public class CurrencyExchangeUI : MonoBehaviour
     private void UpdateTexts()
     {
         memoriesText.text = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore.ToString("0.0");
-        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString("0.0");
+        moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString("0");
         metalText.text = DataPersister.Instance.CurrentGameData.totalMetal.ToString("0.0");
         rareMetalText.text = DataPersister.Instance.CurrentGameData.totalRareMetal.ToString("0.0");
     }

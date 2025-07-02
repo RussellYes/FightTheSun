@@ -5187,7 +5187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35bdf655c95840b43949d91c696fed38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memoyText: {fileID: 6581309742365402027}
+  memoryText: {fileID: 6581309742365402027}
   moneyText: {fileID: 5991853975307585490}
   timeText: {fileID: 1275034535570778142}
   toolText: {fileID: 7416759741554125825}
