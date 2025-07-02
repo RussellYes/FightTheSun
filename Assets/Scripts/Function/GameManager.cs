@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     public delegate void SpawningAction();
     public static event SpawningAction StopSpawning;
     public static event SpawningAction StartSpawning;
-    public static event Action activateEndConditionsUIEvent;
     public static event Action<bool> pauseMenuUIEvent;
 
     [SerializeField] private Button pauseButton;
