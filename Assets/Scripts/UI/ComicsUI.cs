@@ -29,6 +29,8 @@ public class ComicsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI unlockProgressComicText;
     [SerializeField] private TextMeshProUGUI unlockComicMemoryCostText;
     [SerializeField] private TextMeshProUGUI unlockComicMoneyCostText;
+    [SerializeField] private TextMeshProUGUI memoryPlayerText;
+    [SerializeField] private TextMeshProUGUI moneyPlayerText;
     [SerializeField] private TextMeshProUGUI panelNumberText;
     [SerializeField] private AudioClip buySucessSFX;
     [SerializeField] private AudioClip buyFailSFX;
@@ -420,6 +422,7 @@ public class ComicsUI : MonoBehaviour
             unlockMoneyCost = Mathf.RoundToInt(moneyCostMultiplier * currentPanelIndex);
             unlockComicMemoryCostText.text = $"{unlockMemoryCost}";
             unlockComicMoneyCostText.text = $"{unlockMoneyCost}";
+            UpdatePlayerCurrencyUI();
         }
 
         bool hasLost = DataPersister.Instance.CurrentGameData.hasLost;
@@ -549,6 +552,17 @@ public class ComicsUI : MonoBehaviour
         return false;
     }
 
+    private void UpdatePlayerCurrencyUI()
+    {
+        if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
+        {
+            Debug.LogError("ComicsUI UpdatePlayerCurrencyUI - DataPersister or CurrentGameData is not initialized.");
+            return;
+        }
+        var gameData = DataPersister.Instance.CurrentGameData;
+        memoryPlayerText.text = $"{gameData.playerData[0].playerMemoryScore:F0}";
+        moneyPlayerText.text = $"{gameData.totalMoney:F0}";
+    }
     private void DebugUnlockStatus(string method)
     {
         var gameData = DataPersister.Instance.CurrentGameData;
