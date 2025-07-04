@@ -75,14 +75,13 @@ public class PauseMenuUI : MonoBehaviour
         homeButton.onClick.AddListener(() => {
             SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
             Loader.Load(Loader.Scene.MainMenuScene);
-            Debug.Log("Loading Scene");
+            Debug.Log("PauseMenuUI OnEnable - Loading Scene");
         });
 
         playButton.onClick.AddListener(() =>
         {
             SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
             isPaused = false; // Game is no longer paused
-            gameObject.SetActive(false); // Hide the pause menu
         });
     }
 
@@ -113,6 +112,7 @@ public class PauseMenuUI : MonoBehaviour
 
     private void OnPauseEvent(bool pause)
     {
+        Debug.Log($"PauseMenuUI OnPauseEvent");
         if (pause)
         {
             OnPause();
@@ -124,6 +124,7 @@ public class PauseMenuUI : MonoBehaviour
     }
     public void OnPause()
     {
+        Debug.Log("PauseMenuUI OnPause");
         pauseMenuUIHolder.SetActive(true);
 
         isPaused = true; // Game is paused
