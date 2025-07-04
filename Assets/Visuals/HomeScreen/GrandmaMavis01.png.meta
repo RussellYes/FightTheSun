@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a9d4a7970134f284d869917b0fa307b8
+guid: c8cefacd76dee3240b09a4c4ca894666
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6569875896032956547
-    second: GrandmaMavis_0
+      213: 443128214143376075
+    second: GrandmaMavis01_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,12 +113,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GrandmaMavis_0
+      name: GrandmaMavis01_0
       rect:
         serializedVersion: 2
         x: 158
         y: 365
-        width: 805
+        width: 727
         height: 1197
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38012799153ec2b50800000000000000
-      internalID: 6569875896032956547
+      spriteID: bca18f153ce462600800000000000000
+      internalID: 443128214143376075
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      GrandmaMavis_0: 6569875896032956547
+      GrandmaMavis01_0: 443128214143376075
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

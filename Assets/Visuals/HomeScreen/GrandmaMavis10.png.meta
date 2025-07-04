@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 55a470ca4e3eeac4496910601293305b
+guid: 5fa665d1dc18086499aa96f34b7b2672
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1767346776724541288
-    second: Jerma_0
+      213: 7313543882708985784
+    second: GrandmaMavis10_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jerma_0
+      name: GrandmaMavis10_0
       rect:
         serializedVersion: 2
-        x: 305
-        y: 385
-        width: 604
-        height: 927
+        x: 158
+        y: 365
+        width: 727
+        height: 1197
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 890f66a687f1977e0800000000000000
-      internalID: -1767346776724541288
+      spriteID: 8b7a91a996dee7560800000000000000
+      internalID: 7313543882708985784
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Jerma_0: -1767346776724541288
+      GrandmaMavis10_0: 7313543882708985784
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
