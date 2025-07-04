@@ -312,23 +312,14 @@ public class PlayerStatsManager : MonoBehaviour
                     // Check if the goal has been reached
                     if (distanceTraveled >= gameManager.DistanceToGoal)
                     {
-                        gameManager.SetState(GameState.EndDialogue);
-                        StartCoroutine(DoubleCheckGameStateEndDialogue());
-                        Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal reached. Setting game state to EndDialogue.");
+                        GoalProgressEvent?.Invoke(4);
+                        Debug.Log("PlayerStatsManager - UpdateDistanceTraveled - Goal reached.");
                     }
                 }
             }
         }
     }
 
-    IEnumerator DoubleCheckGameStateEndDialogue()
-    {
-        yield return new WaitForSeconds(0.1f); // Wait a short time to ensure the state has been set
-        if (gameManager.CurrentState != GameState.EndDialogue)
-        {
-            gameManager.SetState(GameState.EndDialogue);
-        }
-    }
     public void LoadData()
     {
         // Check if DataPersister exists and has valid data

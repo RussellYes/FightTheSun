@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
                 HandleBossBattle();
                 break;
             case GameState.EndDialogue:
-                HandleEndDialogue();
+                StartCoroutine(HandleEndDialogue());
                 break;
         }
     }
@@ -323,29 +323,26 @@ public class GameManager : MonoBehaviour
         StopGoalProgress();
     }
 
-    private void HandleEndDialogue()
+    IEnumerator HandleEndDialogue()
     {
         // Stop spawners
         StopSpawning?.Invoke();
-
         isBossBattle = false;
-
         // Stop goal progress
         StopGoalProgress();
 
-        StartCoroutine(WaitToClearPlayArea());
-    }
-
-    IEnumerator WaitToClearPlayArea()
-    {
         //Wait for a few seconds to let the game area clear obstacles
-        yield return new WaitForSeconds(2);
-
-        MissionDialogueEvent?.Invoke(4);
+        float clearAreaTime = 3f;
+        yield return new WaitForSeconds(clearAreaTime);
 
         // Set player speed to 25%
         ChangeThrottleEvent?.Invoke(-1f);
+
+        yield return new WaitForSeconds(clearAreaTime);
+        Debug.Log("GameManager HandleEndDialogue");
+        EndGame(true);
     }
+
     private void StopGoalProgress()
     {
         isGoalActive = false;
@@ -358,16 +355,14 @@ public class GameManager : MonoBehaviour
     public void EndGame(bool isWin)
     {
         Debug.Log($"EndGame called with isWin = {isWin}");
-
+        // Stop all spawning
+        StopSpawning?.Invoke();
         // Stop goal progress
         StopGoalProgress();
 
         // Trigger the EndGameEvent
         EndGameEvent?.Invoke(isWin);
         EndGameDataSaveEvent?.Invoke();
-
-        // Stop all spawning
-        StopSpawning?.Invoke();
 
         // Pause the game time
         Time.timeScale = 0;

@@ -1,23 +1,54 @@
 using System.Collections;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
+using TMPro;
 
 public class AchievementsUI : MonoBehaviour
 {
+    [Header("UI Elements")]
     [SerializeField] private GameObject achievementHolder;
     [SerializeField] private TextMeshProUGUI achievementText;
     [SerializeField] private CanvasGroup achievementCanvasGroup;
-
-    [Header("Achievement Backing")]
     [SerializeField] private Image achievementBackingImage;
-    [SerializeField] private Color achievementColor1;
-    [SerializeField] private Color achievementColor2;
-    private float dialogueTime = 5f;
+
+    [Header("Gradient Settings")]
+    [SerializeField] private Color achievementColor1 = Color.red;
+    [SerializeField] private Color achievementColor2 = Color.blue;
+    [SerializeField] private float colorCycleSpeed = 4f;
+
+    private Material gradientMaterial;
     private Coroutine currentFadeCoroutine;
-    private Coroutine gradientCoroutine;
-    private bool isShowingAchievement = false;
+    private bool isShowingAchievement;
+
+    private void Awake()
+    {
+        // Load the shader
+        Shader gradientShader = Shader.Find("Custom/RadialGradientWithMask");
+        if (gradientShader == null)
+        {
+            Debug.LogError("Shader not found! Make sure it's named correctly.");
+            return;
+        }
+
+        // Create material with the shader
+        gradientMaterial = new Material(gradientShader)
+        {
+            mainTexture = achievementBackingImage.mainTexture
+        };
+
+        achievementBackingImage.material = gradientMaterial;
+        achievementBackingImage.material.SetFloat("_RotationSpeed", colorCycleSpeed);
+        UpdateGradientColors();
+    }
+
+    private void UpdateGradientColors()
+    {
+        if (gradientMaterial != null)
+        {
+            gradientMaterial.SetColor("_Color1", achievementColor1);
+            gradientMaterial.SetColor("_Color2", achievementColor2);
+        }
+    }
 
     private void OnEnable()
     {
@@ -32,42 +63,17 @@ public class AchievementsUI : MonoBehaviour
     private void Start()
     {
         achievementHolder.SetActive(false);
-        if (achievementCanvasGroup != null) achievementCanvasGroup.alpha = 0f;
-    }
-
-    private void OnApplicationPause(bool pauseStatus)
-    {
-        if (pauseStatus)
-        {
-            SaveAchievements();
-        }
-    }
-
-    private void SaveAchievements()
-    {
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
-        {
-            DataPersister.Instance.SaveCurrentGame();
-            Debug.Log("Achievements saved to game data");
-        }
-        else
-        {
-            Debug.LogWarning("DataPersister or GameData not available when saving achievements");
-        }
+        achievementCanvasGroup.alpha = 0f;
     }
 
     private void HandleMissionComplete(int missionNumber, string message)
     {
-        Debug.Log("AchievementUI HandleMissionComplete");
-        
         var gameData = DataPersister.Instance.CurrentGameData;
-
-        Debug.Log($"Mission {missionNumber} completed: {message}");
-        gameData.SetMissionComplete(missionNumber, true);
 
         // Check if mission was already completed
         if (!gameData.GetMissionComplete(missionNumber))
         {
+            Debug.Log("AchievementsUI HandleMissionComplete - showing achievement message.");
             ShowAchievementMessage(message);
         }
 
@@ -78,14 +84,17 @@ public class AchievementsUI : MonoBehaviour
             Debug.Log($"Unlocked Level {missionNumber + 1}");
         }
 
+        Debug.Log($"AchievementsUI HandleMissionComplete Mission {missionNumber} completed: {message}");
+        gameData.SetMissionComplete(missionNumber, true);
+
         // Save progress
         DataPersister.Instance.SaveCurrentGame();
     }
 
-
     private void ShowAchievementMessage(string message)
     {
         if (isShowingAchievement) return;
+
         isShowingAchievement = true;
         achievementText.text = message;
 
@@ -100,91 +109,50 @@ public class AchievementsUI : MonoBehaviour
 
     private IEnumerator FadeSequence()
     {
-        // Start gradient effect
-        if (gradientCoroutine != null)
-        {
-            StopCoroutine(gradientCoroutine);
-        }
-        gradientCoroutine = StartCoroutine(SpinningGradientBacking());
+        isShowingAchievement = true;
 
-        // Fade in
+        // Fade in all elements together
         achievementHolder.SetActive(true);
-        achievementCanvasGroup.alpha = 0f; // Reset alpha
+        yield return StartCoroutine(Fade(0f, 1f, 0.2f));
 
-        float elapsedTime = 0f;
-        float fadeDuration = 0.2f;
+        // Show for duration
+        yield return new WaitForSeconds(5f);
 
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            achievementCanvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
-            yield return null;
-        }
-        achievementCanvasGroup.alpha = 1f;
+        // Fade out all elements together
+        yield return StartCoroutine(Fade(1f, 0f, 0.2f));
 
-        // Wait before fading out
-        yield return new WaitForSeconds(dialogueTime);
-
-        // Fade out
-        elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            achievementCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-            yield return null;
-        }
-        achievementCanvasGroup.alpha = 0f;
-
-        // Clean up
+        // Only deactivate after everything has faded
         achievementHolder.SetActive(false);
-        if (gradientCoroutine != null)
-        {
-            StopCoroutine(gradientCoroutine);
-        }
         isShowingAchievement = false;
     }
 
-    IEnumerator FadeInDialogueBox()
+    private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
     {
-        achievementHolder.SetActive(true);
-        StartCoroutine(SpinningGradientBacking());
-
-        CanvasGroup canvasGroup = achievementHolder.GetComponent<CanvasGroup>();
-        float fadeDuration = 0.2f; // Duration of the fade in seconds
-        float elapsedTime = 0f;
-
-        if (canvasGroup != null)
+        float elapsed = 0f;
+        while (elapsed < duration)
         {
-            // Fade out the dialogue box
-            while (elapsedTime < fadeDuration)
+            float currentAlpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+
+            // Fade canvas group
+            achievementCanvasGroup.alpha = currentAlpha;
+
+            // Fade gradient material
+            if (gradientMaterial != null)
             {
-                elapsedTime += Time.deltaTime;
-                canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
-                yield return null;
+                gradientMaterial.SetFloat("_FadeAmount", currentAlpha);
             }
 
-            // Ensure the alpha is set to 1 at the end
-            canvasGroup.alpha = 1f;
-        }
-    }
-
-    IEnumerator SpinningGradientBacking()
-    {
-        // Repeatly rotate the gradient backing image
-        while (true)
-        {
-            if (achievementBackingImage != null)
-            {
-                achievementBackingImage.color = Color.Lerp(
-                    achievementColor1,
-                    achievementColor2,
-                    Mathf.PingPong(Time.time * 0.5f, 1)
-                );
-            }
+            elapsed += Time.deltaTime;
             yield return null;
         }
+
+        // Ensure final values
+        achievementCanvasGroup.alpha = endAlpha;
+        if (gradientMaterial != null)
+        {
+            gradientMaterial.SetFloat("_FadeAmount", endAlpha);
+        }
     }
 
-    
 
 }

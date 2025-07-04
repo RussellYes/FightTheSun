@@ -23,8 +23,7 @@ public class DialogueManager : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] private ShipUIManager shipUIManager;
 
-    [Header("Dialogue UI")]
-    [SerializeField] private Button continueStartDialogueButton;
+    [Header("Dialogue")]
     private int dialogueCount = 99;
 
     [Header("Mission Title / Countdown")]
@@ -269,10 +268,9 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 1 - Dialogue Count 4");
-            StartDialogueEvent?.Invoke("mavis", "Race to the sun or slow down for loot?", 4f);
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 1 Complete. Story unlocked.");
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "Race to the sun or slow down for loot?", 4f));
         }
         
     }
@@ -358,9 +356,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 2 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("mavis", "Yeah! We're at the space station. Check out the exchange.", 4f);
-
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "Yeah! We're at the space station. Check out the exchange.", 4f));
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 2 Complete. Story unlocked.");
         }
@@ -388,8 +384,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 3 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("mavis", "Life moves fast. If you're slow, buy upgrades.", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "Life moves fast.If you're slow, buy upgrades.", 4f));
 
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 3 Complete. Story unlocked.");
         }
@@ -416,8 +411,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 4 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("mavis", "Repairs will be needed.", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "Repairs will be needed.", 4f));
 
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 4 Complete. Story unlocked.");
@@ -444,8 +438,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 5 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("jerma", "We need ore for buying upgrades.", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("jerma", "We need ore for buying upgrades.", 4f));
 
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 5 Complete. Story unlocked.");
@@ -479,8 +472,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager Mission6 Dialogue Count2");
-            StartDialogueEvent?.Invoke("mavis", "What a fortune!", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "What a fortune!", 4f));
 
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 6 Complete. Story unlocked.");
@@ -507,8 +499,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 7 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("mavis", "How can we possibly survive?", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "How can we possibly survive?", 4f));
             dialogueCount = 0;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 7 Complete. Story unlocked.");
         }
@@ -535,8 +526,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 8 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("mavis", "You've traveled farther than most. Keep going.", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "You've traveled farther than most. Keep going.", 4f));
 
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 8 Complete. Story unlocked.");
@@ -563,8 +553,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 9 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("mavis", "Thank you for flying. We're all cheering for you at home.", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "Thank you for flying. We're all cheering for you at home.", 4f));
 
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 9 Complete. Story unlocked.");
@@ -595,8 +584,7 @@ public class DialogueManager : MonoBehaviour
         else if (dialogueCount == 4)
         {
             Debug.Log("DialogueManager - Mission 10 - Dialogue Count 2");
-            StartDialogueEvent?.Invoke("mavis", "Our hero! You reached the Sun.", 4f);
-            StartCoroutine(EndDialogueScene());
+            StartCoroutine(EndDialogueScene("mavis", "Our hero! You reached the Sun.", 4f));
 
             dialogueCount = 4;
             MissionCompleteEvent?.Invoke(GameManager.Instance.CurrentMission, "Mission 10 Complete. World Saved?");
@@ -628,7 +616,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    IEnumerator EndDialogueScene()
+    IEnumerator EndDialogueScene(string name, string text, float waitTime)
     {
         Debug.Log("DialogueManager - End Dialogue Scene");
         gameManager.SetState(GameManager.GameState.EndDialogue);
@@ -638,8 +626,7 @@ public class DialogueManager : MonoBehaviour
         float planetMoveTime = 3f;
         yield return new WaitForSeconds(planetMoveTime);
 
-        //Trigger end
-        gameManager.EndGame(true);
+        StartDialogueEvent?.Invoke(name, text, waitTime);
     }
 
     IEnumerator MissionDialogueDelay(float delayTime, int amt)
