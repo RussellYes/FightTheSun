@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d41dc6877999ce24aabe1d274a855c54
+guid: fd1a5aaa63c2a5e43a36c7c7b97d9237
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6429660314705228601
-    second: AchievementMonument_0
+      213: -8443073402500661549
+    second: LeafBackground_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AchievementMonument_0
+      name: LeafBackground_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 15
-        width: 141
-        height: 142
+        x: 0
+        y: 0
+        width: 1080
+        height: 1920
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7cc8193720245c6a0800000000000000
-      internalID: -6429660314705228601
+      spriteID: 3de3667497d24da80800000000000000
+      internalID: -8443073402500661549
       vertices: []
       indices: 
       edges: []
@@ -148,9 +148,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AchievementMonument_0: -6429660314705228601
+      LeafBackground_0: -8443073402500661549
   mipmapLimitGroupName: 
-  pSDRemoveMatte: 1
+  pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

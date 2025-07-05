@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d41dc6877999ce24aabe1d274a855c54
+guid: f981e019f9812cc419e0efbd73a50a5c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6429660314705228601
-    second: AchievementMonument_0
+      213: 2260070966209132274
+    second: BossOfficeBackground_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AchievementMonument_0
+      name: BossOfficeBackground_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 15
-        width: 141
-        height: 142
+        x: 0
+        y: 0
+        width: 1080
+        height: 1920
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7cc8193720245c6a0800000000000000
-      internalID: -6429660314705228601
+      spriteID: 2f6b114c1926d5f10800000000000000
+      internalID: 2260070966209132274
       vertices: []
       indices: 
       edges: []
@@ -148,9 +148,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AchievementMonument_0: -6429660314705228601
+      BossOfficeBackground_0: 2260070966209132274
   mipmapLimitGroupName: 
-  pSDRemoveMatte: 1
+  pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

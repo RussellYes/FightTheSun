@@ -14,6 +14,7 @@ public class AchievementsMainMenuUI : MonoBehaviour
     [SerializeField] private GameObject achievementsButtonHolder;
     [SerializeField] private AudioClip[] achievementsOpenCloseSFX;
     [SerializeField] private float uIOpenCloseLerpTime = 2;
+    [SerializeField] private TextMeshProUGUI percentCompleteText;
 
     [Header("Level Achievements")]
     [SerializeField] private GameObject level1CompleteAchievement;
@@ -165,6 +166,22 @@ public class AchievementsMainMenuUI : MonoBehaviour
         VisitLauncherUpgradesAchievement.SetActive(gameData.GetVisitLauncherUpgrades());
         */
 
+        int completeCount = 0;
+        int totalCount = 10;
+
+        if (gameData.GetMissionComplete(1)) completeCount++;
+        if (gameData.GetMissionComplete(2)) completeCount++;
+        if (gameData.GetMissionComplete(3)) completeCount++;
+        if (gameData.GetMissionComplete(4)) completeCount++;
+        if (gameData.GetMissionComplete(5)) completeCount++;
+        if (gameData.GetMissionComplete(6)) completeCount++;
+        if (gameData.GetMissionComplete(7)) completeCount++;
+        if (gameData.GetMissionComplete(8)) completeCount++;
+        if (gameData.GetMissionComplete(9)) completeCount++;
+        if (gameData.GetMissionComplete(10)) completeCount++;
+
+        float percentComplete = (float)completeCount / totalCount * 100f;
+        percentCompleteText.text = $"{percentComplete}%";
     }
 
 }
