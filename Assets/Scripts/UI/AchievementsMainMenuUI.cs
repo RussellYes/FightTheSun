@@ -10,6 +10,7 @@ public class AchievementsMainMenuUI : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private Button openAchievementsButton;
     [SerializeField] private Button closeAchievementsButton;
+    [SerializeField] private GameObject closeAchievementsButtonHolder;
     [SerializeField] private GameObject achievementsHolder;
     [SerializeField] private GameObject achievementsButtonHolder;
     [SerializeField] private AudioClip[] achievementsOpenCloseSFX;
@@ -67,7 +68,7 @@ public class AchievementsMainMenuUI : MonoBehaviour
     {
         achievementsHolder.SetActive(false);
         sFXManager = SFXManager.Instance;
-
+        closeAchievementsButtonHolder.gameObject.SetActive(false);
     }
     private void OpenStore()
     {
@@ -79,7 +80,6 @@ public class AchievementsMainMenuUI : MonoBehaviour
 
     private void CloseStore()
     {
-        achievementsHolder.SetActive(false);
         PlayOpenCloseSFX();
         StartCoroutine(CloseStoreLerp());
     }
@@ -101,9 +101,12 @@ public class AchievementsMainMenuUI : MonoBehaviour
             yield return null;
         }
         rectTransform.localPosition = originalPosition;
+        closeAchievementsButtonHolder.gameObject.SetActive(true);
     }
     IEnumerator CloseStoreLerp()
     {
+        closeAchievementsButtonHolder.gameObject.SetActive(false);
+
         // lerp storeButtonHolder's position from its original position to +2000 y over UIOpenCloseLerpTime seconds.
         RectTransform rectTransform = achievementsButtonHolder.GetComponent<RectTransform>();
         Vector3 originalPosition = rectTransform.localPosition;
@@ -120,6 +123,8 @@ public class AchievementsMainMenuUI : MonoBehaviour
 
         // without delay, move comicHolder down 2000 on the y axis back to its original position.
         rectTransform.localPosition = originalPosition;
+
+        achievementsHolder.SetActive(false);
     }
 
     private void PlayOpenCloseSFX()
