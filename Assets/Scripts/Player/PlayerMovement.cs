@@ -19,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion targetRotation;
     private float yAxisRotationSpeed = 1f;
 
+    [Header("Player death settings")]
+    private bool dead = false;
+    private float playerDeathRotation;
+    [SerializeField] private float playerRotationSpeedMin;
+    [SerializeField] private float playerRotationSpeedMax;
 
     private void OnEnable()
     {
@@ -28,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         SwipeControls.OnSwipeRight += MoveRight;
         SwipeControls.OnSwipeUp += SpeedUp;
         SwipeControls.OnSwipeDown += SpeedDown;
+        PlayerStatsManager.PlayerHullPercentEvent += PrepareDeathMovement;
 
     }
 
@@ -39,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         SwipeControls.OnSwipeRight -= MoveRight;
         SwipeControls.OnSwipeUp -= SpeedUp;
         SwipeControls.OnSwipeDown -= SpeedDown;
+        PlayerStatsManager.PlayerHullPercentEvent -= PrepareDeathMovement;
     }
 
     private void Start()
@@ -54,11 +61,28 @@ public class PlayerMovement : MonoBehaviour
 
         // Initialize target rotation to the current rotation
         targetRotation = transform.rotation;
+
+        // Initialize rotation speed with a random direction (-1 or +1)
+        int randomDirection = Random.Range(0, 2) * 2 - 1; // Generates -1 or +1
+        playerDeathRotation = Random.Range(playerRotationSpeedMin, playerRotationSpeedMax) * randomDirection;
     }
 
 
 
     void Update()
+    {
+        if (!dead)
+        {
+            MoveToGoal();
+        }
+        if (dead)
+        {
+            DeathMovement();
+            return;
+        }
+    }
+
+    private void MoveToGoal()
     {
         // Calculate the target position based on the target lane
         Vector3 targetPosition = transform.position;
@@ -148,6 +172,19 @@ public class PlayerMovement : MonoBehaviour
     {
         // Move down logic here
         Debug.Log("PlayerMovement MoveDown");
+    }
+
+    private void PrepareDeathMovement(int hull)
+    {
+        if ( hull <= 0)
+        {
+            dead = true;
+        }
+    }
+
+    private void DeathMovement()
+    {
+        transform.Rotate(Vector3.forward * playerDeathRotation * Time.deltaTime, Space.World);
     }
 
 }

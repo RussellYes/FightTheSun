@@ -251,8 +251,14 @@ public class PlayerStatsManager : MonoBehaviour
         {
             Debug.Log("hull <= 0 triggering Die()");
             playerCurrentHull = 0;
-            Die();
+            StartCoroutine(PrepareToDie());
         }
+    }
+
+   IEnumerator PrepareToDie()
+    {
+        yield return new WaitForSeconds(2f); // Wait for 1 second before dying
+        Die();
     }
 
     private void Die()

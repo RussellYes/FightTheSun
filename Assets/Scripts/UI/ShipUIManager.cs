@@ -76,6 +76,7 @@ public class ShipUIManager : MonoBehaviour
         MiningMissileLauncher.LauncherActiveEvent += UpdateMissileButton;
         DataPersister.InitializationComplete += OnInitializationComplete;
         miningClawButton.GetComponent<Button>().onClick.AddListener(() => { ActivateClawJoyStick(); });
+        PlayerStatsManager.PlayerHullPercentEvent += HidePauseButtonOnDeath;
     }
     private void OnDisable()
     {
@@ -84,6 +85,7 @@ public class ShipUIManager : MonoBehaviour
         MiningMissileLauncher.LauncherActiveEvent -= UpdateMissileButton;
         DataPersister.InitializationComplete -= OnInitializationComplete;
         miningClawButton.GetComponent<Button>().onClick.RemoveListener(() => { ActivateClawJoyStick(); });
+        PlayerStatsManager.PlayerHullPercentEvent -= HidePauseButtonOnDeath;
     }
 
     private void PauseButtonClicked()
@@ -357,6 +359,19 @@ public class ShipUIManager : MonoBehaviour
             Debug.LogWarning("SFXManager or buttonSFX is not set up correctly.");
         }
     }
+
+    private void HidePauseButtonOnDeath(int hull)
+    {
+        if (hull <= 0)
+        {
+            pauseButton.SetActive(false);
+        }
+        else
+        {
+            pauseButton.SetActive(true);
+        }
+    }
+
 
 
 }

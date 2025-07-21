@@ -55,6 +55,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5409404f4763aa0449ef775970711461, type: 3}
   - {fileID: 8300000, guid: 3c365d04cd6d5df47b4c12f9bd5150ee, type: 3}
   - {fileID: 8300000, guid: 981251ea35b653049ae52b8d03a50bea, type: 3}
+  playerRotationSpeedMin: 5
+  playerRotationSpeedMax: 30
 --- !u!50 &7620781877623449145
 Rigidbody2D:
   serializedVersion: 5

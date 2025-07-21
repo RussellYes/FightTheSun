@@ -560,6 +560,10 @@ public class EndConditionsUI : MonoBehaviour
         gameData.savedMissileCount = 0;
         gameData.savedLauncherLevel = 1;
 
+        /* // This code is for a proper hardcore game mode where the player loses level progress on death.
+        // Keep it commented out because the audiance are casual players.
+        // Maybe include hardcore mode in the future.
+
         // Lock all levels except Level 1
         for (int i = 2; i <= 10; i++)
         {
@@ -568,6 +572,8 @@ public class EndConditionsUI : MonoBehaviour
         Debug.Log($"EndConditionsUI Revive - gameData.totalTime: {gameData.totalTime} FindTime");
         Debug.Log($"EndConditionsUI Revive - Total: {DataPersister.Instance.CurrentGameData.totalTime}, " +
           $"Level: {gameManager.LevelTime}, Remaining: {gameManager.TimeRemaining} FindTime");
+        */
+
         LoadMainMenuScene();
     }
 }

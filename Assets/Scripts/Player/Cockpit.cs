@@ -23,6 +23,7 @@ public class Cockpit : MonoBehaviour
     [SerializeField] private Sprite hull75;
     [SerializeField] private Sprite hull50;
     [SerializeField] private Sprite hull25;
+    [SerializeField] private Sprite hull0;
 
 
     private void OnEnable()
@@ -72,7 +73,10 @@ public class Cockpit : MonoBehaviour
         {
             hullSpriteRenderer.sprite = hull25;
         }
-
+        else
+        {
+            hullSpriteRenderer.sprite = hull0;
+        }
     }
 
 
