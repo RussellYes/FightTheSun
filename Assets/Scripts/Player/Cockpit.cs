@@ -73,7 +73,7 @@ public class Cockpit : MonoBehaviour
         {
             hullSpriteRenderer.sprite = hull25;
         }
-        else
+        else if (percentHull > 0)
         {
             hullSpriteRenderer.sprite = hull0;
         }

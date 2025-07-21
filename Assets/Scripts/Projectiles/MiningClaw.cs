@@ -74,6 +74,13 @@ public class MiningClaw : MonoBehaviour
         UpdateCable();
         UpdateRotation();
 
+        if (isMining && miningTarget == null)
+        {
+            Debug.Log("Mining target destroyed - forcing retract");
+            Retract();
+            return;
+        }
+
         if (!isMining && !isReturning)
         {
             flightTimer -= Time.deltaTime;
@@ -204,7 +211,10 @@ public class MiningClaw : MonoBehaviour
     {
         if (currentLootTarget != null)
         {
-            // Spawn loot (this version doesn't return anything)
+            // Store reference before potential destruction
+            var target = currentLootTarget.gameObject;
+
+            // Spawn loot
             currentLootTarget.SpawnLoot();
 
             // Try to find any Loot objects near the mining target to grab
@@ -227,10 +237,11 @@ public class MiningClaw : MonoBehaviour
             }
             else
             {
-                Destroy(currentLootTarget.gameObject);
+                Destroy(target);
             }
 
             miningTarget = null;
+            currentLootTarget = null;
             Retract();
         }
     }

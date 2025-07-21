@@ -65,6 +65,7 @@ public class ShipUIManager : MonoBehaviour
     {
         swipeControls = FindFirstObjectByType<SwipeControls>();
         defaultTimeTextColor = totalTimeText.color;
+        Input.multiTouchEnabled = false;
 
         InitializeMiningClawJoystick();
     }
@@ -255,13 +256,25 @@ public class ShipUIManager : MonoBehaviour
     IEnumerator EnableJoystickAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        // After delay, check for current touch and use that position if available
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            joystickCenter = touch.position;
+            miningClawJoystickBackground.position = joystickCenter;
+            miningClawJoystickHandle.position = joystickCenter;
+        }
         // Ready for joystick input
         isJoystickActive = true;
     }
     private void HandleMiningClawJoystick()
     {
+        Debug.Log($"ShipUIManager HandleMiningClawJoystick - Joystick active: {isJoystickActive}, Touch count: {Input.touchCount}");
+
         if (Input.touchCount == 0)
         {
+            Debug.Log("ShipUIManager HandleMiningClawJoystick - No touches detected");
             // Turn off line renderer when not touching
             if (aimMiningClawLR.enabled)
             {
@@ -271,6 +284,10 @@ public class ShipUIManager : MonoBehaviour
         }
 
         Touch touch = Input.GetTouch(0);
+        Debug.Log($"ShipUIManager HandleMiningClawJoystick - Touch phase: {touch.phase}, Position: {touch.position}");
+
+        // Prevent potential multi-touch scenarios
+        if (touch.fingerId != 0) return;
 
         switch (touch.phase)
         {
