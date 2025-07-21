@@ -1429,7 +1429,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4d82d88a22889ab419000bd2efefcd83, type: 3}
   - {fileID: 21300000, guid: d39b16dff78695c47ab5c2c4c05211d3, type: 3}
   - {fileID: 21300000, guid: 7838554c24a36e848b8ed3ec60bc3362, type: 3}
-  loseComicPanelDisplayTime: 2
+  loseComicPanelDisplayTime: 3
   skipComicButton: {fileID: 7314292916022741453}
   timeCapsuleCompletionText: {fileID: 8057249644917263201}
   moneyText: {fileID: 1812862037019232790}

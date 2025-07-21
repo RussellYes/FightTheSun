@@ -325,9 +325,16 @@ public class ShipUIManager : MonoBehaviour
                 aimMiningClawLR.enabled = false;
                 isJoystickActive = false;
                 miningClawJoyStickUIHolder.SetActive(false);
-                swipeControls.EnableTouchControls(true);
+                StartCoroutine(DelayTouchControlsDuringMiningLaunch());
                 break;
         }
+    }
+
+    IEnumerator DelayTouchControlsDuringMiningLaunch()
+    {
+        float controlDelay = 0.5f;
+        yield return new WaitForSeconds(controlDelay);
+        swipeControls.EnableTouchControls(true);
     }
 
     private bool IsTouchOnJoystick(Vector2 touchPosition)
