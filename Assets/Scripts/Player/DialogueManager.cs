@@ -232,16 +232,23 @@ public class DialogueManager : MonoBehaviour
             float dialogueTimer = 4f;
             StartDialogueEvent?.Invoke("mavis", "Protect the ship's hull, this <b><color=red>RED</color></b>  gauge.", dialogueTimer);
 
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-            Vector3 arrowPosition = hullBarObjectRect.position + xOffset + yOffset;
+            // Instantiate the arrow as child of the hull bar first
+            currentArrowInstance = Instantiate(highLightArrowPrefab, hullBarObjectRect);
 
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
+            // Set local position with offset
+            Vector2 anchoredOffset = new Vector2(0, 150); // Y offset only
+            RectTransform arrowRect = currentArrowInstance.GetComponent<RectTransform>();
 
-            // Ensure the arrow is rendered in front by setting its sibling index
+            // Reset scale and rotation to avoid inherited transformations
+            arrowRect.localScale = Vector3.one;
+            arrowRect.localRotation = Quaternion.identity;
+
+            // Set anchored position (this works in local space of the parent)
+            arrowRect.anchoredPosition = anchoredOffset;
+
+            // Ensure the arrow is rendered in front
             currentArrowInstance.transform.SetAsLastSibling();
+
             StartCoroutine(DestroyArrow(dialogueTimer));
         }
         else if (dialogueCount == 2)
@@ -255,14 +262,23 @@ public class DialogueManager : MonoBehaviour
             float dialogueTimer = 4f;
             StartDialogueEvent?.Invoke("mavis", "This <b><color=blue>BLUE</color></b> gauge shows your speed", dialogueTimer);
 
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-            Vector3 arrowPosition = thrustBarObjectRect.position + xOffset + yOffset;
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, hullBarObjectRect);
-            // Ensure the arrow is rendered in front by setting its sibling index
+            // Instantiate the arrow as child of the hull bar first
+            currentArrowInstance = Instantiate(highLightArrowPrefab, thrustBarObjectRect);
+
+            // Set local position with offset
+            Vector2 anchoredOffset = new Vector2(0, 150); // Y offset only
+            RectTransform arrowRect = currentArrowInstance.GetComponent<RectTransform>();
+
+            // Reset scale and rotation to avoid inherited transformations
+            arrowRect.localScale = Vector3.one;
+            arrowRect.localRotation = Quaternion.identity;
+
+            // Set anchored position (this works in local space of the parent)
+            arrowRect.anchoredPosition = anchoredOffset;
+
+            // Ensure the arrow is rendered in front
             currentArrowInstance.transform.SetAsLastSibling();
+
             StartCoroutine(DestroyArrow(dialogueTimer));
         }
         else if (dialogueCount == 4)
@@ -320,16 +336,23 @@ public class DialogueManager : MonoBehaviour
             float dialogueTimer = 4f;
             StartDialogueEvent?.Invoke("jerma", "Activate, aim, then wait for the claw to mine.", dialogueTimer);
 
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(0, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 150, 0); // Adjust these values as needed
-            Vector3 arrowPosition = miningClawButtonObjectRect.position + xOffset + yOffset;
+            // Instantiate the arrow as child of the hull bar first
+            currentArrowInstance = Instantiate(highLightArrowPrefab, miningClawButtonObjectRect);
 
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, Quaternion.identity, miningClawButtonObjectRect);
+            // Set local position with offset
+            Vector2 anchoredOffset = new Vector2(0, 150); // Y offset only
+            RectTransform arrowRect = currentArrowInstance.GetComponent<RectTransform>();
 
-            // Ensure the arrow is rendered in front by setting its sibling index
+            // Reset scale and rotation to avoid inherited transformations
+            arrowRect.localScale = Vector3.one;
+            arrowRect.localRotation = Quaternion.identity;
+
+            // Set anchored position (this works in local space of the parent)
+            arrowRect.anchoredPosition = anchoredOffset;
+
+            // Ensure the arrow is rendered in front
             currentArrowInstance.transform.SetAsLastSibling();
+
             StartCoroutine(DestroyArrow(dialogueTimer));
         }
         else if (dialogueCount == 3)
@@ -337,19 +360,23 @@ public class DialogueManager : MonoBehaviour
             float dialogueTimer = 4f;
             StartDialogueEvent?.Invoke("jerma", "Look! This meter shows the progress to our checkpoint.", dialogueTimer);
 
-            // Apply offsets directly
-            Vector3 xOffset = new Vector3(-50, 0, 0); // Adjust these values as needed
-            Vector3 yOffset = new Vector3(0, 100, 0); // Adjust these values as needed
-            Vector3 arrowPosition = CheckpointMeterObjectRect.position + xOffset + yOffset;
+            // Instantiate the arrow as child of the hull bar first
+            currentArrowInstance = Instantiate(highLightArrowPrefab, CheckpointMeterObjectRect);
 
-            // Define the z axis rotation
-            Quaternion rotation = Quaternion.Euler(0, 0, 90); // Rotate 90 degrees around the Z axis
+            // Set local position with offset
+            RectTransform arrowRect = currentArrowInstance.GetComponent<RectTransform>();
 
-            // Instantiate the arrow prefab with the specified position and rotation, and set its parent
-            currentArrowInstance = Instantiate(highLightArrowPrefab, arrowPosition, rotation, CheckpointMeterObjectRect.parent);
+            // Reset scale and rotation to avoid inherited transformations
+            arrowRect.localScale = Vector3.one;
+            arrowRect.localRotation = Quaternion.Euler(0, 0, 90);
+            Vector2 anchoredOffset = new Vector2(-50, 100);
 
-            // Ensure the arrow is rendered in front by setting its sibling index
+            // Set anchored position (this works in local space of the parent)
+            arrowRect.anchoredPosition = anchoredOffset;
+
+            // Ensure the arrow is rendered in front
             currentArrowInstance.transform.SetAsLastSibling();
+
             StartCoroutine(DestroyArrow(dialogueTimer));
         }
 
