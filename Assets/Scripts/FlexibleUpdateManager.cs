@@ -9,15 +9,6 @@ using System;
 using UnityEngine.InputSystem;
 #endif
 
-// Runs a flexible in-app update with zero Inspector hookups.
-// Behavior:
-// - Checks for update on startup (and on resume, debounced).
-// - If found, downloads silently in background.
-// - When download finishes, shows a one-line banner at the bottom:
-//     "Update downloaded. Restart to complete update."
-// - When the app exits, it calls CompleteUpdate() to apply it.
-//
-// Class name kept for compatibility with existing code.
 namespace com.Google.Play.AppUpdate
 {
     public class FlexibleUpdateManager : MonoBehaviour
@@ -31,12 +22,15 @@ namespace com.Google.Play.AppUpdate
         private AppUpdateRequest updateRequest;
 
         private static FlexibleUpdateManager _instance;
+
         private bool _checking;
         private float _lastCheckAt = -999f;
         private const float MinSecondsBetweenChecks = 90f;
         private bool _updateDownloaded = false;
+        private bool _notified = false; 
 
         private TMP_Text _bottomBannerText;
+        private CanvasGroup _bannerCanvasGroup; 
 
         private void Awake()
         {
@@ -51,13 +45,13 @@ namespace com.Google.Play.AppUpdate
             {
                 Debug.Log("[FlexibleUpdate] Testing mode: not creating AppUpdateManager.");
                 TestingWithoutUpdateManagerEvent?.Invoke();
+                SafeNotifyOnce();
                 return;
             }
 
             updateManager = new AppUpdateManager();
             EnsureBottomBanner();
             DetectInputSystem();
-
             StartSafeCheck("startup");
         }
 
@@ -74,11 +68,7 @@ namespace com.Google.Play.AppUpdate
         private void StartSafeCheck(string reason)
         {
             if (_checking) return;
-            if (Time.realtimeSinceStartup - _lastCheckAt < MinSecondsBetweenChecks)
-            {
-                Debug.Log($"[FlexibleUpdate] Debounced recheck ({reason})");
-                return;
-            }
+            if (Time.realtimeSinceStartup - _lastCheckAt < MinSecondsBetweenChecks) return;
             _lastCheckAt = Time.realtimeSinceStartup;
             StartCoroutine(CheckForUpdates(reason));
         }
@@ -86,8 +76,10 @@ namespace com.Google.Play.AppUpdate
         private IEnumerator CheckForUpdates(string reason)
         {
             _checking = true;
+            _notified = false; 
             Debug.Log($"[FlexibleUpdate] Check start reason={reason}");
 
+       
             yield return new WaitForSecondsRealtime(1.0f);
 
             var infoTask = updateManager.GetAppUpdateInfo();
@@ -104,7 +96,7 @@ namespace com.Google.Play.AppUpdate
             {
                 Debug.LogWarning($"[FlexibleUpdate] GetAppUpdateInfo failed/timeout. done={infoTask.IsDone} ok={infoTask.IsSuccessful}");
                 _checking = false;
-                NotifyCompleteSafely();
+                SafeNotifyOnce(); 
                 yield break;
             }
 
@@ -114,51 +106,55 @@ namespace com.Google.Play.AppUpdate
 
             if (info.UpdateAvailability == UpdateAvailability.DeveloperTriggeredUpdateInProgress)
             {
-                // Resume the ongoing flexible update
-                try
-                {
-                    updateRequest = updateManager.StartUpdate(info, flexible);
-                    Debug.Log("[FlexibleUpdate] Resuming in-progress update.");
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning("[FlexibleUpdate] Resume StartUpdate exception: " + e);
-                    _checking = false;
-                    NotifyCompleteSafely();
-                    yield break;
-                }
-
-                while (!updateRequest.IsDone)
-                    yield return null;
-
-                if (updateRequest.Error != AppUpdateErrorCode.NoError)
-                {
-                    Debug.LogWarning($"[FlexibleUpdate] Resume failed: {updateRequest.Error}");
-                    _checking = false;
-                    NotifyCompleteSafely();
-                    yield break;
-                }
-
-                while (!updateRequest.IsDone)
-                    yield return null;
-
-                if (updateRequest.Error != AppUpdateErrorCode.NoError)
-                {
-                    Debug.LogWarning($"[FlexibleUpdate] Resume failed: {updateRequest.Error}");
-                    _checking = false;
-                    NotifyCompleteSafely();
-                    yield break;
-                }
-
-                OnDownloadedReady();
+                yield return StartOrResumeDownload(info, flexible, isResume:true);
+                _checking = false;
+                yield break;
             }
-            else
+
+            if (info.UpdateAvailability == UpdateAvailability.UpdateAvailable &&
+                info.IsUpdateTypeAllowed(flexible))
             {
-                Debug.Log("[FlexibleUpdate] No update available or not allowed.");
-                NotifyCompleteSafely();
+                yield return StartOrResumeDownload(info, flexible, isResume:false);
+                _checking = false;
+                yield break;
             }
 
+
+            Debug.Log("[FlexibleUpdate] No update available or not allowed.");
             _checking = false;
+            SafeNotifyOnce(); 
+        }
+
+        private IEnumerator StartOrResumeDownload(AppUpdateInfo info, AppUpdateOptions flexible, bool isResume)
+        {
+            try
+            {
+                updateRequest = updateManager.StartUpdate(info, flexible);
+                Debug.Log(isResume
+                    ? "[FlexibleUpdate] Resuming in-progress update."
+                    : "[FlexibleUpdate] Flexible update started.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[FlexibleUpdate] StartUpdate exception: " + e);
+                SafeNotifyOnce();
+                yield break;
+            }
+
+ 
+            while (!updateRequest.IsDone)
+                yield return null;
+
+            if (updateRequest.Error != AppUpdateErrorCode.NoError)
+            {
+                Debug.LogWarning($"[FlexibleUpdate] Download failed: {updateRequest.Error}");
+                SafeNotifyOnce(); 
+                yield break;
+            }
+
+ 
+            OnDownloadedReady(); 
+            SafeNotifyOnce();   
         }
 
         private void OnDownloadedReady()
@@ -168,28 +164,21 @@ namespace com.Google.Play.AppUpdate
             ShowBottomMessage("Update downloaded. Restart to complete update.");
         }
 
-        public void InstallNow()
-        {
-            if (_updateDownloaded)
-            {
-                Debug.Log("[FlexibleUpdate] InstallNow ? CompleteUpdate()");
-                updateManager.CompleteUpdate(); // App restarts and applies the update.
-            }
-        }
-
+ 
         private void OnApplicationQuit()
         {
             if (_updateDownloaded)
             {
-                Debug.Log("[FlexibleUpdate] OnApplicationQuit ? CompleteUpdate()");
+                Debug.Log("[FlexibleUpdate] OnApplicationQuit → CompleteUpdate()");
                 updateManager.CompleteUpdate();
             }
         }
 
-        private void NotifyCompleteSafely()
+        private void SafeNotifyOnce()
         {
-
-            StartCoroutine(InvokeUpdateCompleteEventAfterDelay(0.5f));
+            if (_notified) return;
+            _notified = true;
+            StartCoroutine(InvokeUpdateCompleteEventAfterDelay(0.1f));
         }
 
         private IEnumerator InvokeUpdateCompleteEventAfterDelay(float delay)
@@ -207,29 +196,36 @@ namespace com.Google.Play.AppUpdate
 #endif
         }
 
+
         private void EnsureBottomBanner()
         {
             if (_bottomBannerText != null) return;
 
+            // Overlay canvas on top of everything
             var canvasGO = new GameObject("InAppUpdateCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             var canvas = canvasGO.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = short.MaxValue;
+            canvas.sortingOrder = short.MaxValue; // top-most
             var scaler = canvasGO.GetComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             DontDestroyOnLoad(canvasGO);
 
-            var panelGO = new GameObject("InAppUpdatePanel", typeof(RectTransform), typeof(Image));
+
+            var panelGO = new GameObject("InAppUpdatePanel", typeof(RectTransform), typeof(Image), typeof(CanvasGroup));
             panelGO.transform.SetParent(canvasGO.transform, false);
 
             var rtPanel = panelGO.GetComponent<RectTransform>();
             rtPanel.anchorMin = new Vector2(0f, 0f);
             rtPanel.anchorMax = new Vector2(1f, 0f);
             rtPanel.pivot = new Vector2(0.5f, 0f);
-            rtPanel.anchoredPosition = new Vector2(0f, 10f);
-            rtPanel.sizeDelta = new Vector2(0f, 20f);
+            rtPanel.anchoredPosition = new Vector2(0f, 10f); 
+            rtPanel.sizeDelta = new Vector2(0f, 20f);       
             panelGO.GetComponent<Image>().color = Color.white;
 
+            _bannerCanvasGroup = panelGO.GetComponent<CanvasGroup>();
+            _bannerCanvasGroup.alpha = 0f; 
+
+        
             var textGO = new GameObject("InAppUpdateText", typeof(RectTransform), typeof(TextMeshProUGUI));
             textGO.transform.SetParent(panelGO.transform, false);
 
@@ -244,31 +240,37 @@ namespace com.Google.Play.AppUpdate
             _bottomBannerText.alignment = TextAlignmentOptions.Center;
             _bottomBannerText.textWrappingMode = TextWrappingModes.NoWrap;
             _bottomBannerText.fontSize = 18;
-            var cookies = Resources.Load<TMP_FontAsset>("Cookies SDF");
+            var cookies = Resources.Load<TMP_FontAsset>("Cookies SDF"); 
             if (cookies != null) _bottomBannerText.font = cookies;
             _bottomBannerText.color = Color.black;
-            StartCoroutine(FadeInBanner());
+            _bottomBannerText.text = "";
         }
+
         private void ShowBottomMessage(string msg)
         {
             if (_bottomBannerText == null) EnsureBottomBanner();
             _bottomBannerText.text = msg;
-        }
-        private IEnumerator FadeInBanner()
-        {
-            CanvasGroup cg = _bottomBannerText.GetComponentInParent<CanvasGroup>();
-            if (cg == null)
-            {
-                cg = _bottomBannerText.transform.parent.gameObject.AddComponent<CanvasGroup>();
-                cg.alpha = 0f;
-            }
-            for (float t = 0; t < 1f; t += Time.unscaledDeltaTime)
-            {
-                cg.alpha = Mathf.Clamp01(t / 0.5f); // fade over 0.5 seconds
-                yield return null;
-            }
-            cg.alpha = 1f;
+            StopAllCoroutines();
+            StartCoroutine(FadeInBanner());
         }
 
+        private IEnumerator FadeInBanner()
+        {
+            if (_bannerCanvasGroup == null)
+            {
+                // Fallback: try to find on parent
+                _bannerCanvasGroup = _bottomBannerText.GetComponentInParent<CanvasGroup>();
+                if (_bannerCanvasGroup == null) yield break;
+            }
+
+            float dur = 0.5f, t = 0f;
+            while (t < dur)
+            {
+                t += Time.unscaledDeltaTime;
+                _bannerCanvasGroup.alpha = Mathf.Clamp01(t / dur);
+                yield return null;
+            }
+            _bannerCanvasGroup.alpha = 1f;
+        }
     }
 }
