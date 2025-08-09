@@ -15,6 +15,10 @@ namespace com.Google.Play.AppUpdate
     public class FlexibleUpdateManager : MonoBehaviour
     {
         public static event Action OnUpdateProcessComplete;
+
+        public static event Action TestingWithoutUpdateManagerEvent;
+        [SerializeField] private bool isTesting = false;
+
         [Header("Progress UI")]
         [SerializeField] private Slider progressBar;
         [SerializeField] private TMP_Text statusText;
@@ -32,13 +36,23 @@ namespace com.Google.Play.AppUpdate
         private void Start()
         {
             Debug.Log("[FlexibleUpdate] Start()");
-            progressBar.value = 0f;
-            restartPopup.SetActive(false);
-            updateManager = new AppUpdateManager();
+            if (!isTesting)
+            {
+                Debug.Log("[FlexibleUpdate] Start() !isTesting");
+                progressBar.value = 0f;
+                restartPopup.SetActive(false);
+                updateManager = new AppUpdateManager();
 
-            DetectInputSystem();
-            Debug.Log("[FlexibleUpdate] Initialized AppUpdateManager, starting update check...");
-            StartCoroutine(CheckForUpdates());
+                DetectInputSystem();
+                Debug.Log("[FlexibleUpdate] Initialized AppUpdateManager, starting update check...");
+                StartCoroutine(CheckForUpdates());
+            }
+            if (isTesting)
+            {
+                Debug.Log("[FlexibleUpdate] Start() isTesting");
+                TestingWithoutUpdateManagerEvent?.Invoke();
+            }
+
         }
 
          private void DetectInputSystem()

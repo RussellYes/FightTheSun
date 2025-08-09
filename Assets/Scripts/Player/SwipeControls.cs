@@ -79,56 +79,67 @@ public class SwipeControls : MonoBehaviour
         // Check if touch is pressed (equivalent to Input.touchCount > 0)
         if (touchPressAction.ReadValue<float>() > 0.5f)
         {
+            Debug.Log("SwipeControls HandleTouchInput - touchPressAction.ReadValue");
             Vector2 currentTouchPos = touchPositionAction.ReadValue<Vector2>();
 
             // Simulate TouchPhase.Began
             if (touchPressAction.triggered)
             {
+                Debug.Log("SwipeControls HandleTouchInput - touchPressAction.triggered");
                 touchStartPos = currentTouchPos;
             }
+        }
 
-            // Simulate TouchPhase.Ended
-            if (touchPressAction.WasReleasedThisFrame())
+        // Check for touch release separately
+        if (touchPressAction.WasReleasedThisFrame())
+        {
+            Debug.Log("SwipeControls HandleTouchInput - touchPressAction.WasReleasedThisFrame");
+            Vector2 touchEndPos = touchPositionAction.ReadValue<Vector2>();
+            float swipeDistanceX = touchEndPos.x - touchStartPos.x;
+            float swipeDistanceY = touchEndPos.y - touchStartPos.y;
+
+            Debug.Log($"SwipeControls HandleTouchInput - Swipe delta: X={swipeDistanceX}, Y={swipeDistanceY}");
+
+            if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
             {
-                Vector2 touchEndPos = currentTouchPos;
-                float swipeDistanceX = touchEndPos.x - touchStartPos.x;
-                float swipeDistanceY = touchEndPos.y - touchStartPos.y;
-
-                if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
+                if (swipeDistanceX > 0)
                 {
-                    if (swipeDistanceX > 0)
-                    {
-                        OnSwipeRight?.Invoke();
-                    }
-                    else
-                    {
-                        OnSwipeLeft?.Invoke();
-                    }
-                }
-                else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
-                {
-                    if (swipeDistanceY > 0)
-                    {
-                        OnSwipeUp?.Invoke();
-                    }
-                    else
-                    {
-                        OnSwipeDown?.Invoke();
-                    }
+                    Debug.Log("SwipeControls HandleTouchInput - Swipe RIGHT detected");
+                    OnSwipeRight?.Invoke();
                 }
                 else
                 {
-                    // Simple tap control (unchanged)
-                    float screenCenter = Screen.width / 2f;
-                    if (touchEndPos.x > screenCenter)
-                    {
-                        OnSwipeRight?.Invoke();
-                    }
-                    else
-                    {
-                        OnSwipeLeft?.Invoke();
-                    }
+                    Debug.Log("SwipeControls HandleTouchInput - Swipe LEFT detected");
+                    OnSwipeLeft?.Invoke();
                 }
+                return;
+            }
+
+            if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
+            {
+                if (swipeDistanceY > 0)
+                {
+                    Debug.Log("SwipeControls HandleTouchInput - Swipe UP detected");
+                    OnSwipeUp?.Invoke();
+                }
+                else
+                {
+                    Debug.Log("SwipeControls HandleTouchInput - Swipe DOWN detected");
+                    OnSwipeDown?.Invoke();
+                }
+                return;
+            }
+
+            // Simple tap control
+            Debug.Log("SwipeControls HandleTouchInput - Tap detected");
+            float screenCenter = Screen.width / 2f;
+            if (touchEndPos.x > screenCenter)
+            {
+                OnSwipeRight?.Invoke();
+            }
+            else
+            {
+                OnSwipeLeft?.Invoke();
             }
         }
     }

@@ -17,11 +17,13 @@ public class DataPersister : MonoBehaviour
     {
         MainMenuUI.NewGameEvent += StartNewGame;
         FlexibleUpdateManager.OnUpdateProcessComplete += LoadOrInitialize;
+        FlexibleUpdateManager.TestingWithoutUpdateManagerEvent += LoadOrInitialize;
     }
     private void OnDisable()
     {
         MainMenuUI.NewGameEvent -= StartNewGame;
         FlexibleUpdateManager.OnUpdateProcessComplete -= LoadOrInitialize;
+        FlexibleUpdateManager.TestingWithoutUpdateManagerEvent -= LoadOrInitialize;
     }
     void OnApplicationQuit()
     {
@@ -58,6 +60,7 @@ public class DataPersister : MonoBehaviour
         {
             Debug.Log("DataPersister - Duplicate instance found, destroying this one.");
             Destroy(gameObject);
+
         }
     }
 
