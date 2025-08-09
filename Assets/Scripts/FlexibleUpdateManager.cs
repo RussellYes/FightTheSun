@@ -1,61 +1,204 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.Events;   
 using TMPro;
 using Google.Play.AppUpdate;
 using System.Collections;
 using System;
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
+// Runs a flexible in-app update with zero Inspector hookups.
+// Behavior:
+// - Checks for update on startup (and on resume, debounced).
+// - If found, downloads silently in background.
+// - When download finishes, shows a one-line banner at the bottom:
+//     "Update downloaded. Restart to complete update."
+// - When the app exits, it calls CompleteUpdate() to apply it.
+//
+// Class name kept for compatibility with existing code.
 namespace com.Google.Play.AppUpdate
 {
     public class FlexibleUpdateManager : MonoBehaviour
     {
         public static event Action OnUpdateProcessComplete;
-
         public static event Action TestingWithoutUpdateManagerEvent;
+
         [SerializeField] private bool isTesting = false;
-
-        [Header("Progress UI")]
-        [SerializeField] private Slider progressBar;
-        [SerializeField] private TMP_Text statusText;
-
-        [Header("Restart Prompt")]
-        [SerializeField] private GameObject restartPopup;
-        [SerializeField] private TMP_Text readyText;
-        [SerializeField] private Button yesButton;
-        [SerializeField] private Button noButton;
-
 
         private AppUpdateManager updateManager;
         private AppUpdateRequest updateRequest;
 
-        private void Start()
+        private static FlexibleUpdateManager _instance;
+        private bool _checking;
+        private float _lastCheckAt = -999f;
+        private const float MinSecondsBetweenChecks = 90f;
+        private bool _updateDownloaded = false;
+
+        private TMP_Text _bottomBannerText;
+
+        private void Awake()
         {
-            Debug.Log("[FlexibleUpdate] Start()");
-            if (!isTesting)
-            {
-                Debug.Log("[FlexibleUpdate] Start() !isTesting");
-                progressBar.value = 0f;
-                restartPopup.SetActive(false);
-                updateManager = new AppUpdateManager();
-
-                DetectInputSystem();
-                Debug.Log("[FlexibleUpdate] Initialized AppUpdateManager, starting update check...");
-                StartCoroutine(CheckForUpdates());
-            }
-            if (isTesting)
-            {
-                Debug.Log("[FlexibleUpdate] Start() isTesting");
-                TestingWithoutUpdateManagerEvent?.Invoke();
-            }
-
+            if (_instance != null) { Destroy(gameObject); return; }
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
-         private void DetectInputSystem()
+        private void Start()
+        {
+            if (isTesting)
+            {
+                Debug.Log("[FlexibleUpdate] Testing mode: not creating AppUpdateManager.");
+                TestingWithoutUpdateManagerEvent?.Invoke();
+                return;
+            }
+
+            updateManager = new AppUpdateManager();
+            EnsureBottomBanner();
+            DetectInputSystem();
+
+            StartSafeCheck("startup");
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (hasFocus) StartSafeCheck("focus");
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            if (!paused) StartSafeCheck("resume");
+        }
+
+        private void StartSafeCheck(string reason)
+        {
+            if (_checking) return;
+            if (Time.realtimeSinceStartup - _lastCheckAt < MinSecondsBetweenChecks)
+            {
+                Debug.Log($"[FlexibleUpdate] Debounced recheck ({reason})");
+                return;
+            }
+            _lastCheckAt = Time.realtimeSinceStartup;
+            StartCoroutine(CheckForUpdates(reason));
+        }
+
+        private IEnumerator CheckForUpdates(string reason)
+        {
+            _checking = true;
+            Debug.Log($"[FlexibleUpdate] Check start reason={reason}");
+
+            yield return new WaitForSecondsRealtime(1.0f);
+
+            var infoTask = updateManager.GetAppUpdateInfo();
+
+            const float INFO_TIMEOUT = 12f;
+            float t = 0f;
+            while (!infoTask.IsDone && t < INFO_TIMEOUT)
+            {
+                t += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            if (!infoTask.IsDone || !infoTask.IsSuccessful)
+            {
+                Debug.LogWarning($"[FlexibleUpdate] GetAppUpdateInfo failed/timeout. done={infoTask.IsDone} ok={infoTask.IsSuccessful}");
+                _checking = false;
+                NotifyCompleteSafely();
+                yield break;
+            }
+
+            var info = infoTask.GetResult();
+            var flexible = AppUpdateOptions.FlexibleAppUpdateOptions();
+            Debug.Log($"[FlexibleUpdate] availability={info.UpdateAvailability} allowed={info.IsUpdateTypeAllowed(flexible)}");
+
+            if (info.UpdateAvailability == UpdateAvailability.DeveloperTriggeredUpdateInProgress)
+            {
+                // Resume the ongoing flexible update
+                try
+                {
+                    updateRequest = updateManager.StartUpdate(info, flexible);
+                    Debug.Log("[FlexibleUpdate] Resuming in-progress update.");
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("[FlexibleUpdate] Resume StartUpdate exception: " + e);
+                    _checking = false;
+                    NotifyCompleteSafely();
+                    yield break;
+                }
+
+                while (!updateRequest.IsDone)
+                    yield return null;
+
+                if (updateRequest.Error != AppUpdateErrorCode.NoError)
+                {
+                    Debug.LogWarning($"[FlexibleUpdate] Resume failed: {updateRequest.Error}");
+                    _checking = false;
+                    NotifyCompleteSafely();
+                    yield break;
+                }
+
+                while (!updateRequest.IsDone)
+                    yield return null;
+
+                if (updateRequest.Error != AppUpdateErrorCode.NoError)
+                {
+                    Debug.LogWarning($"[FlexibleUpdate] Resume failed: {updateRequest.Error}");
+                    _checking = false;
+                    NotifyCompleteSafely();
+                    yield break;
+                }
+
+                OnDownloadedReady();
+            }
+            else
+            {
+                Debug.Log("[FlexibleUpdate] No update available or not allowed.");
+                NotifyCompleteSafely();
+            }
+
+            _checking = false;
+        }
+
+        private void OnDownloadedReady()
+        {
+            _updateDownloaded = true;
+            Debug.Log("[FlexibleUpdate] Update downloaded. Will apply on app exit.");
+            ShowBottomMessage("Update downloaded. Restart to complete update.");
+        }
+
+        public void InstallNow()
+        {
+            if (_updateDownloaded)
+            {
+                Debug.Log("[FlexibleUpdate] InstallNow ? CompleteUpdate()");
+                updateManager.CompleteUpdate(); // App restarts and applies the update.
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (_updateDownloaded)
+            {
+                Debug.Log("[FlexibleUpdate] OnApplicationQuit ? CompleteUpdate()");
+                updateManager.CompleteUpdate();
+            }
+        }
+
+        private void NotifyCompleteSafely()
+        {
+
+            StartCoroutine(InvokeUpdateCompleteEventAfterDelay(0.5f));
+        }
+
+        private IEnumerator InvokeUpdateCompleteEventAfterDelay(float delay)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            OnUpdateProcessComplete?.Invoke();
+        }
+
+        private void DetectInputSystem()
         {
 #if ENABLE_INPUT_SYSTEM
             Debug.Log("[FlexibleUpdate] New Input System detected.");
@@ -64,129 +207,68 @@ namespace com.Google.Play.AppUpdate
 #endif
         }
 
-        private IEnumerator CheckForUpdates()
+        private void EnsureBottomBanner()
         {
-            Debug.Log("[FlexibleUpdate] Checking for updates...");
-            statusText.text = "Checking for updates...";
-            progressBar.value = 0.05f;
+            if (_bottomBannerText != null) return;
 
-            var updateInfoTask = updateManager.GetAppUpdateInfo();
-            Debug.Log("[FlexibleUpdate] Awaiting update info task...");
-            yield return new WaitUntil(() => updateInfoTask.IsDone);
+            var canvasGO = new GameObject("InAppUpdateCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+            var canvas = canvasGO.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = short.MaxValue;
+            var scaler = canvasGO.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            DontDestroyOnLoad(canvasGO);
 
-            if (!updateInfoTask.IsSuccessful)
-            {
-                Debug.LogError($"[FlexibleUpdate] Update check failed: {updateInfoTask.Error}");
-                NotifyUpdateComplete("Starting without update.");
-                yield break;
-            }
+            var panelGO = new GameObject("InAppUpdatePanel", typeof(RectTransform), typeof(Image));
+            panelGO.transform.SetParent(canvasGO.transform, false);
 
-            var updateInfo = updateInfoTask.GetResult();
-            Debug.Log($"[FlexibleUpdate] Update availability: {updateInfo.UpdateAvailability}");
-            Debug.Log($"[FlexibleUpdate] Update allowed: {updateInfo.IsUpdateTypeAllowed(AppUpdateOptions.FlexibleAppUpdateOptions())}");
+            var rtPanel = panelGO.GetComponent<RectTransform>();
+            rtPanel.anchorMin = new Vector2(0f, 0f);
+            rtPanel.anchorMax = new Vector2(1f, 0f);
+            rtPanel.pivot = new Vector2(0.5f, 0f);
+            rtPanel.anchoredPosition = new Vector2(0f, 10f);
+            rtPanel.sizeDelta = new Vector2(0f, 20f);
+            panelGO.GetComponent<Image>().color = Color.white;
 
-            var flexibleOptions = AppUpdateOptions.FlexibleAppUpdateOptions();
+            var textGO = new GameObject("InAppUpdateText", typeof(RectTransform), typeof(TextMeshProUGUI));
+            textGO.transform.SetParent(panelGO.transform, false);
 
-            if (updateInfo.UpdateAvailability == UpdateAvailability.UpdateAvailable &&
-                updateInfo.IsUpdateTypeAllowed(flexibleOptions))
-            {
-                Debug.Log("[FlexibleUpdate] Update is available and allowed. Starting flexible update...");
-                yield return StartFlexibleUpdate(updateInfo);
-            }
-            else
-            {
-                Debug.Log("[FlexibleUpdate] No update available or update type not allowed.");
-                NotifyUpdateComplete("No update available.");
-            }
+            var rtText = textGO.GetComponent<RectTransform>();
+            rtText.anchorMin = new Vector2(0f, 0f);
+            rtText.anchorMax = new Vector2(1f, 1f);
+            rtText.pivot = new Vector2(0.5f, 0.5f);
+            rtText.anchoredPosition = Vector2.zero;
+            rtText.sizeDelta = Vector2.zero;
+
+            _bottomBannerText = textGO.GetComponent<TextMeshProUGUI>();
+            _bottomBannerText.alignment = TextAlignmentOptions.Center;
+            _bottomBannerText.textWrappingMode = TextWrappingModes.NoWrap;
+            _bottomBannerText.fontSize = 18;
+            var cookies = Resources.Load<TMP_FontAsset>("Cookies SDF");
+            if (cookies != null) _bottomBannerText.font = cookies;
+            _bottomBannerText.color = Color.black;
+            StartCoroutine(FadeInBanner());
         }
-
-        private IEnumerator StartFlexibleUpdate(AppUpdateInfo info)
+        private void ShowBottomMessage(string msg)
         {
-            Debug.Log("[FlexibleUpdate] Entered StartFlexibleUpdate()");
-            statusText.text = "Downloading update...";
-            progressBar.value = 0.05f;
-
-            var options = AppUpdateOptions.FlexibleAppUpdateOptions();
-
-            bool startUpdateFailed = false;
-
-            try
+            if (_bottomBannerText == null) EnsureBottomBanner();
+            _bottomBannerText.text = msg;
+        }
+        private IEnumerator FadeInBanner()
+        {
+            CanvasGroup cg = _bottomBannerText.GetComponentInParent<CanvasGroup>();
+            if (cg == null)
             {
-                Debug.Log("[FlexibleUpdate] Attempting to start update...");
-                updateRequest = updateManager.StartUpdate(info, options);
+                cg = _bottomBannerText.transform.parent.gameObject.AddComponent<CanvasGroup>();
+                cg.alpha = 0f;
             }
-            catch (System.Exception e)
+            for (float t = 0; t < 1f; t += Time.unscaledDeltaTime)
             {
-                Debug.LogError("[FlexibleUpdate] StartUpdate threw an exception: " + e);
-                startUpdateFailed = true;
-            }
-
-            if (startUpdateFailed)
-            {
-                Debug.Log("[FlexibleUpdate] Update failed to start. Proceeding to game.");
-                NotifyUpdateComplete("Update failed. Starting app.");
-                yield break;
-            }
-
-            Debug.Log("[FlexibleUpdate] Update download started. Monitoring progress...");
-            while (!updateRequest.IsDone)
-            {
-                float progress = Mathf.Clamp01(updateRequest.DownloadProgress);
-                progressBar.value = 0.05f + progress * 0.95f;
-                statusText.text = $"Downloading... {Mathf.RoundToInt(progress * 100)}%";
+                cg.alpha = Mathf.Clamp01(t / 0.5f); // fade over 0.5 seconds
                 yield return null;
             }
-
-            if (updateRequest.Error != AppUpdateErrorCode.NoError)
-            {
-                Debug.LogError($"[FlexibleUpdate] Download failed: {updateRequest.Error}");
-                NotifyUpdateComplete("Update failed. Starting app.");
-            }
-            else
-            {
-                Debug.Log("[FlexibleUpdate] Update downloaded successfully. Showing restart prompt.");
-                statusText.text = "Update ready.";
-                progressBar.value = 1f;
-                ShowRestartPrompt();
-            }
+            cg.alpha = 1f;
         }
 
-        private void ShowRestartPrompt()
-        {
-            Debug.Log("[FlexibleUpdate] Showing restart popup...");
-            readyText.text = "Update downloaded. Restart now?";
-            restartPopup.SetActive(true);
-
-            yesButton.onClick.RemoveAllListeners();
-            noButton.onClick.RemoveAllListeners();
-
-            yesButton.onClick.AddListener(() =>
-            {
-                Debug.Log("[FlexibleUpdate] User chose to restart. Completing update...");
-                updateManager.CompleteUpdate();
-            });
-
-            noButton.onClick.AddListener(() =>
-            {
-                Debug.Log("[FlexibleUpdate] User chose to restart later.");
-                restartPopup.SetActive(false);
-                NotifyUpdateComplete("Update downloaded, but not applied.");
-            });
-        }
-
-         private void NotifyUpdateComplete(string message)
-        {
-            Debug.Log($"[FlexibleUpdate] NotifyUpdateComplete() called: {message}");
-            statusText.text = message;
-            progressBar.value = 1f;
-            StartCoroutine(InvokeUpdateCompleteEventAfterDelay(1f));
-        }
-
-        private IEnumerator InvokeUpdateCompleteEventAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            Debug.Log("[FlexibleUpdate] Invoking OnUpdateProcessComplete event.");
-            OnUpdateProcessComplete?.Invoke();
-        }
     }
 }
