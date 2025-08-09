@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class SwipeControls : MonoBehaviour
 {
@@ -14,6 +15,27 @@ public class SwipeControls : MonoBehaviour
     private Vector2 touchStartPos;
     private bool touchEnabled = true;
     [SerializeField] private bool isMainMenu;
+
+    // New Input System variables
+    private Touchscreen touchscreen;
+    private InputAction touchPositionAction;
+    private InputAction touchPressAction;
+
+
+    private void Awake()
+    {
+        // Initialize touchscreen
+        touchscreen = Touchscreen.current;
+
+        // Set up input actions
+        touchPositionAction = new InputAction(binding: "<Touchscreen>/primaryTouch/position");
+        touchPressAction = new InputAction(binding: "<Touchscreen>/primaryTouch/press");
+
+        // Enable actions
+        touchPositionAction.Enable();
+        touchPressAction.Enable();
+    }
+
     private void OnEnable()
     {
         ShipUIManager.FireMissilesEvent += BlockTouchInput;
@@ -23,6 +45,10 @@ public class SwipeControls : MonoBehaviour
     {
         ShipUIManager.FireMissilesEvent -= BlockTouchInput;
         ShipUIManager.PauseButtonEvent -= BlockTouchInput;
+
+        // Clean up input actions
+        touchPositionAction.Disable();
+        touchPressAction.Disable();
     }
 
     private void Start()
@@ -50,120 +76,65 @@ public class SwipeControls : MonoBehaviour
     }
     private void HandleTouchInput()
     {
-        if (Input.touchCount > 0)
+        // Check if touch is pressed (equivalent to Input.touchCount > 0)
+        if (touchPressAction.ReadValue<float>() > 0.5f)
         {
-            Touch touch = Input.GetTouch(0);
+            Vector2 currentTouchPos = touchPositionAction.ReadValue<Vector2>();
 
-            if (isMainMenu)
+            // Simulate TouchPhase.Began
+            if (touchPressAction.triggered)
             {
-                switch (touch.phase)
-                {
-                    case TouchPhase.Began:
-                        touchStartPos = touch.position;
-                        break;
-
-                    case TouchPhase.Ended:
-                        Vector2 touchEndPos = touch.position;
-                        float swipeDistanceX = touchEndPos.x - touchStartPos.x;
-                        float swipeDistanceY = touchEndPos.y - touchStartPos.y;
-
-                        if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
-                        {
-                            if (swipeDistanceX > 0)
-                            {
-                                OnSwipeRight?.Invoke();
-                            }
-                            else
-                            {
-                                OnSwipeLeft?.Invoke();
-                            }
-                        }
-                        else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
-                        {
-                            if (swipeDistanceY > 0)
-                            {
-                                OnSwipeUp?.Invoke();
-                            }
-                            else
-                            {
-                                OnSwipeDown?.Invoke();
-                            }
-                        }
-
-                        else
-                        {
-                            // Simple tap control
-                            float screenCenter = Screen.width / 2f;
-                            if (touchEndPos.x > screenCenter)
-                            {
-                                OnSwipeRight?.Invoke();
-                            }
-                            else
-                            {
-                                OnSwipeLeft?.Invoke();
-                            }
-                        }
-                        break;
-                }
+                touchStartPos = currentTouchPos;
             }
 
-            if (!isMainMenu)
+            // Simulate TouchPhase.Ended
+            if (touchPressAction.WasReleasedThisFrame())
             {
-                switch (touch.phase)
+                Vector2 touchEndPos = currentTouchPos;
+                float swipeDistanceX = touchEndPos.x - touchStartPos.x;
+                float swipeDistanceY = touchEndPos.y - touchStartPos.y;
+
+                if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
                 {
-                    case TouchPhase.Began:
-                        touchStartPos = touch.position;
-                        break;
-
-                    case TouchPhase.Ended:
-                        Vector2 touchEndPos = touch.position;
-                        float swipeDistanceX = touchEndPos.x - touchStartPos.x;
-                        float swipeDistanceY = touchEndPos.y - touchStartPos.y;
-
-                        if (Mathf.Abs(swipeDistanceX) > minSwipeDistance)
-                        {
-                            if (swipeDistanceX > 0)
-                            {
-                                OnSwipeRight?.Invoke();
-                            }
-                            else
-                            {
-                                OnSwipeLeft?.Invoke();
-                            }
-                        }
-                        else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
-                        {
-                            if (swipeDistanceY > 0)
-                            {
-                                OnSwipeUp?.Invoke();
-                            }
-                            else
-                            {
-                                OnSwipeDown?.Invoke();
-                            }
-                        }
-
-                        else
-                        {
-                            // Simple tap control
-                            float screenCenter = Screen.width / 2f;
-                            if (touchEndPos.x > screenCenter)
-                            {
-                                OnSwipeRight?.Invoke();
-                            }
-                            else
-                            {
-                                OnSwipeLeft?.Invoke();
-                            }
-                        }
-                        break;
+                    if (swipeDistanceX > 0)
+                    {
+                        OnSwipeRight?.Invoke();
+                    }
+                    else
+                    {
+                        OnSwipeLeft?.Invoke();
+                    }
+                }
+                else if (Mathf.Abs(swipeDistanceY) > minSwipeDistance)
+                {
+                    if (swipeDistanceY > 0)
+                    {
+                        OnSwipeUp?.Invoke();
+                    }
+                    else
+                    {
+                        OnSwipeDown?.Invoke();
+                    }
+                }
+                else
+                {
+                    // Simple tap control (unchanged)
+                    float screenCenter = Screen.width / 2f;
+                    if (touchEndPos.x > screenCenter)
+                    {
+                        OnSwipeRight?.Invoke();
+                    }
+                    else
+                    {
+                        OnSwipeLeft?.Invoke();
+                    }
                 }
             }
         }
     }
 
 
-            
+
 
 
     public void EnableTouchControls(bool enable)
