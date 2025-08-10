@@ -5,6 +5,7 @@ public class UpdateScene : MonoBehaviour
 {
     private void OnEnable()
     {
+        Debug.Log("UpdateScene OnEnable");
         FlexibleUpdateManager.OnUpdateProcessComplete += LoadNextScene;
         FlexibleUpdateManager.TestingWithoutUpdateManagerEvent += LoadNextScene;
     }

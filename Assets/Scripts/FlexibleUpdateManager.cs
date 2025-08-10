@@ -24,7 +24,7 @@ namespace com.Google.Play.AppUpdate
         private static FlexibleUpdateManager _instance;
 
         private bool _updateDownloaded = false;
-        private bool _notified = false; 
+        private bool _hasTriedToChangeScene = false; 
 
         private TMP_Text _bottomBannerText;
         private CanvasGroup _bannerCanvasGroup;
@@ -32,6 +32,7 @@ namespace com.Google.Play.AppUpdate
 
         private void Awake()
         {
+            Debug.Log("[FlexibleUpdate] Awake fired");
             if (_instance != null) { Destroy(gameObject); return; }
             _instance = this;
             DontDestroyOnLoad(gameObject);
@@ -43,26 +44,40 @@ namespace com.Google.Play.AppUpdate
             {
                 Debug.Log("[FlexibleUpdate] Testing mode: not creating AppUpdateManager.");
                 TestingWithoutUpdateManagerEvent?.Invoke();
-                SafeNotifyOnce();
+                StartCoroutine(WaitThenSendEventToChangeScene());
                 return;
             }
 
             updateManager = new AppUpdateManager();
             EnsureBottomBanner();
             DetectInputSystem();
-            StartCoroutine(CheckForUpdates("startup"));
+            TryToChangeScene("startup");
         }
 
-        private IEnumerator CheckForUpdates(string reason)
+        private void TryToChangeScene(string reason)
         {
-            _notified = false;
-            Debug.Log($"[FlexibleUpdate] Check start reason={reason}");
+            Debug.Log($"[FlexibleUpdate] ENTERING CheckForUpdates, reason={reason}");
 
-            yield return new WaitForSecondsRealtime(1.0f);
+            if (_hasTriedToChangeScene)
+            {
+                Debug.LogWarning("[FlexibleUpdate] CheckForUpdates called again, but already _hasTriedToChangeScene once.");  
+                return;
+            }
 
+            _hasTriedToChangeScene = true;
+            StartCoroutine(WaitThenSendEventToChangeScene());
+            Debug.Log("[FlexibleUpdate] WaitThenSendEventToChangeScene invoked.");
+
+            if (!isTesting)
+            {
+                Debug.Log("[FlexibleUpdate] WaitThenSendEventToChangeScene - starting CheckForUpdates2().");
+                StartCoroutine(CheckForUpdates());
+            }
+        }
+
+        IEnumerator CheckForUpdates()
+        {
             var infoTask = updateManager.GetAppUpdateInfo();
-
-            SafeNotifyOnce();
 
             const float INFO_TIMEOUT = 12f;
             float t = 0f;
@@ -100,7 +115,7 @@ namespace com.Google.Play.AppUpdate
 
             Debug.Log("[FlexibleUpdate] No update available or not allowed.");
         }
-      
+
 
         private IEnumerator StartOrResumeDownload(AppUpdateInfo info, AppUpdateOptions flexible, bool isResume)
         {
@@ -146,10 +161,9 @@ namespace com.Google.Play.AppUpdate
             }
         }
 
-        private void SafeNotifyOnce()
+        IEnumerator WaitThenSendEventToChangeScene()
         {
-            if (_notified) return;
-            _notified = true;
+            yield return new WaitForSecondsRealtime(0.2f);
             OnUpdateProcessComplete?.Invoke();
         }
 
