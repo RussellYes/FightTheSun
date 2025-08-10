@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using com.Google.Play.AppUpdate;
 
 public class DataPersister : MonoBehaviour
 {
@@ -16,14 +15,10 @@ public class DataPersister : MonoBehaviour
     private void OnEnable()
     {
         MainMenuUI.NewGameEvent += StartNewGame;
-        FlexibleUpdateManager.OnUpdateProcessComplete += LoadOrInitialize;
-        FlexibleUpdateManager.TestingWithoutUpdateManagerEvent += LoadOrInitialize;
     }
     private void OnDisable()
     {
         MainMenuUI.NewGameEvent -= StartNewGame;
-        FlexibleUpdateManager.OnUpdateProcessComplete -= LoadOrInitialize;
-        FlexibleUpdateManager.TestingWithoutUpdateManagerEvent -= LoadOrInitialize;
     }
     void OnApplicationQuit()
     {
@@ -66,11 +61,7 @@ public class DataPersister : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FlexibleUpdateManager flexibleUpdateManager = FindAnyObjectByType<FlexibleUpdateManager>();
-        if (flexibleUpdateManager == null)
-        {
-            StartCoroutine(DelayedInitialization());
-        }
+        StartCoroutine(DelayedInitialization());
     }
 
     IEnumerator DelayedInitialization()

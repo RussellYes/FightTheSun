@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneMusicClips:
+  - {fileID: 8300000, guid: c67ba25677a7d7a40ade4c4bbb626c05, type: 3}
   - {fileID: 8300000, guid: e872dc136a21b8847b1fe714cf027034, type: 3}
   - {fileID: 8300000, guid: e872dc136a21b8847b1fe714cf027034, type: 3}
   - {fileID: 8300000, guid: 529d8db74ee4a2a4eb848cd334be11d2, type: 3}
