@@ -23,12 +23,12 @@ namespace com.Google.Play.AppUpdate
 
         private static FlexibleUpdateManager _instance;
 
-        private bool _checking;
         private bool _updateDownloaded = false;
         private bool _notified = false; 
 
         private TMP_Text _bottomBannerText;
-        private CanvasGroup _bannerCanvasGroup; 
+        private CanvasGroup _bannerCanvasGroup;
+        private Coroutine _fadeRoutine;
 
         private void Awake()
         {
@@ -50,16 +50,19 @@ namespace com.Google.Play.AppUpdate
             updateManager = new AppUpdateManager();
             EnsureBottomBanner();
             DetectInputSystem();
-            StartCoroutine(CheckForUpdatesImmediately());
+            StartCoroutine(CheckForUpdates("startup"));
         }
 
-        private IEnumerator CheckForUpdatesImmediately()
+        private IEnumerator CheckForUpdates(string reason)
         {
-            _checking = true;
             _notified = false;
-            Debug.Log("[FlexibleUpdate] Immediate update check on startup");
+            Debug.Log($"[FlexibleUpdate] Check start reason={reason}");
+
+            yield return new WaitForSecondsRealtime(1.0f);
 
             var infoTask = updateManager.GetAppUpdateInfo();
+
+            SafeNotifyOnce();
 
             const float INFO_TIMEOUT = 12f;
             float t = 0f;
@@ -72,17 +75,13 @@ namespace com.Google.Play.AppUpdate
             if (!infoTask.IsDone || !infoTask.IsSuccessful)
             {
                 Debug.LogWarning($"[FlexibleUpdate] GetAppUpdateInfo failed/timeout. done={infoTask.IsDone} ok={infoTask.IsSuccessful}");
-                _checking = false;
-                SafeNotifyOnce();
                 yield break;
             }
 
             var info = infoTask.GetResult();
             var flexible = AppUpdateOptions.FlexibleAppUpdateOptions();
-            Debug.Log($"[FlexibleUpdate] availability={info.UpdateAvailability} allowed={info.IsUpdateTypeAllowed(flexible)}");
-
-            // Immediately notify completion to load next scene
-            SafeNotifyOnce();
+            Debug.Log($"[FlexibleUpdate] availability={info.UpdateAvailability}");
+            Debug.Log($"[FlexibleUpdate] allowed(FLEX)={info.IsUpdateTypeAllowed(flexible)}");
 
             if (info.UpdateAvailability == UpdateAvailability.DeveloperTriggeredUpdateInProgress)
             {
@@ -100,20 +99,6 @@ namespace com.Google.Play.AppUpdate
             }
 
             Debug.Log("[FlexibleUpdate] No update available or not allowed.");
-            _checking = false;
-        }
-
-
-        private void OnApplicationFocus(bool hasFocus)
-        {
-            if (hasFocus && !_checking)
-                StartCoroutine(CheckForUpdatesImmediately());
-        }
-
-        private void OnApplicationPause(bool paused)
-        {
-            if (!paused && !_checking)
-                StartCoroutine(CheckForUpdatesImmediately());
         }
       
 
@@ -142,7 +127,6 @@ namespace com.Google.Play.AppUpdate
                 yield break;
             }
             OnDownloadedReady(); 
-            SafeNotifyOnce();   
         }
 
         private void OnDownloadedReady()
@@ -166,7 +150,6 @@ namespace com.Google.Play.AppUpdate
         {
             if (_notified) return;
             _notified = true;
-
             OnUpdateProcessComplete?.Invoke();
         }
 
@@ -233,8 +216,12 @@ namespace com.Google.Play.AppUpdate
         {
             if (_bottomBannerText == null) EnsureBottomBanner();
             _bottomBannerText.text = msg;
-            StopAllCoroutines();
-            StartCoroutine(FadeInBanner());
+            if (_fadeRoutine != null)
+            {
+                StopCoroutine(_fadeRoutine);   // stop only the previous fade
+                _fadeRoutine = null;
+            }
+            _fadeRoutine = StartCoroutine(FadeInBanner());
         }
 
         private IEnumerator FadeInBanner()
