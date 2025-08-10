@@ -24,8 +24,6 @@ namespace com.Google.Play.AppUpdate
         private static FlexibleUpdateManager _instance;
 
         private bool _checking;
-        private float _lastCheckAt = -999f;
-        private const float MinSecondsBetweenChecks = 90f;
         private bool _updateDownloaded = false;
         private bool _notified = false; 
 
@@ -52,35 +50,14 @@ namespace com.Google.Play.AppUpdate
             updateManager = new AppUpdateManager();
             EnsureBottomBanner();
             DetectInputSystem();
-            StartSafeCheck("startup");
+            StartCoroutine(CheckForUpdatesImmediately());
         }
 
-        private void OnApplicationFocus(bool hasFocus)
-        {
-            if (hasFocus) StartSafeCheck("focus");
-        }
-
-        private void OnApplicationPause(bool paused)
-        {
-            if (!paused) StartSafeCheck("resume");
-        }
-
-        private void StartSafeCheck(string reason)
-        {
-            if (_checking) return;
-            if (Time.realtimeSinceStartup - _lastCheckAt < MinSecondsBetweenChecks) return;
-            _lastCheckAt = Time.realtimeSinceStartup;
-            StartCoroutine(CheckForUpdates(reason));
-        }
-
-        private IEnumerator CheckForUpdates(string reason)
+        private IEnumerator CheckForUpdatesImmediately()
         {
             _checking = true;
-            _notified = false; 
-            Debug.Log($"[FlexibleUpdate] Check start reason={reason}");
-
-       
-            yield return new WaitForSecondsRealtime(1.0f);
+            _notified = false;
+            Debug.Log("[FlexibleUpdate] Immediate update check on startup");
 
             var infoTask = updateManager.GetAppUpdateInfo();
 
@@ -96,7 +73,7 @@ namespace com.Google.Play.AppUpdate
             {
                 Debug.LogWarning($"[FlexibleUpdate] GetAppUpdateInfo failed/timeout. done={infoTask.IsDone} ok={infoTask.IsSuccessful}");
                 _checking = false;
-                SafeNotifyOnce(); 
+                SafeNotifyOnce();
                 yield break;
             }
 
@@ -104,26 +81,41 @@ namespace com.Google.Play.AppUpdate
             var flexible = AppUpdateOptions.FlexibleAppUpdateOptions();
             Debug.Log($"[FlexibleUpdate] availability={info.UpdateAvailability} allowed={info.IsUpdateTypeAllowed(flexible)}");
 
+            // Immediately notify completion to load next scene
+            SafeNotifyOnce();
+
             if (info.UpdateAvailability == UpdateAvailability.DeveloperTriggeredUpdateInProgress)
             {
-                yield return StartOrResumeDownload(info, flexible, isResume:true);
-                _checking = false;
+                // Start download in background
+                StartCoroutine(StartOrResumeDownload(info, flexible, isResume: true));
                 yield break;
             }
 
             if (info.UpdateAvailability == UpdateAvailability.UpdateAvailable &&
                 info.IsUpdateTypeAllowed(flexible))
             {
-                yield return StartOrResumeDownload(info, flexible, isResume:false);
-                _checking = false;
+                // Start download in background
+                StartCoroutine(StartOrResumeDownload(info, flexible, isResume: false));
                 yield break;
             }
 
-
             Debug.Log("[FlexibleUpdate] No update available or not allowed.");
             _checking = false;
-            SafeNotifyOnce(); 
         }
+
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (hasFocus && !_checking)
+                StartCoroutine(CheckForUpdatesImmediately());
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            if (!paused && !_checking)
+                StartCoroutine(CheckForUpdatesImmediately());
+        }
+      
 
         private IEnumerator StartOrResumeDownload(AppUpdateInfo info, AppUpdateOptions flexible, bool isResume)
         {
@@ -137,7 +129,6 @@ namespace com.Google.Play.AppUpdate
             catch (Exception e)
             {
                 Debug.LogWarning("[FlexibleUpdate] StartUpdate exception: " + e);
-                SafeNotifyOnce();
                 yield break;
             }
 
@@ -148,11 +139,8 @@ namespace com.Google.Play.AppUpdate
             if (updateRequest.Error != AppUpdateErrorCode.NoError)
             {
                 Debug.LogWarning($"[FlexibleUpdate] Download failed: {updateRequest.Error}");
-                SafeNotifyOnce(); 
                 yield break;
             }
-
- 
             OnDownloadedReady(); 
             SafeNotifyOnce();   
         }
@@ -178,12 +166,7 @@ namespace com.Google.Play.AppUpdate
         {
             if (_notified) return;
             _notified = true;
-            StartCoroutine(InvokeUpdateCompleteEventAfterDelay(0.1f));
-        }
 
-        private IEnumerator InvokeUpdateCompleteEventAfterDelay(float delay)
-        {
-            yield return new WaitForSecondsRealtime(delay);
             OnUpdateProcessComplete?.Invoke();
         }
 
