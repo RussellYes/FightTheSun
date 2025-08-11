@@ -15,6 +15,7 @@ namespace com.Google.Play.AppUpdate
     {
         public static event Action OnUpdateProcessComplete;
         public static event Action TestingWithoutUpdateManagerEvent;
+        public static event Action FailedUpdateManagerEvent;
 
         [SerializeField] private bool isTesting = false;
 
@@ -25,6 +26,7 @@ namespace com.Google.Play.AppUpdate
 
         private bool _updateDownloaded = false;
         private bool _hasTriedToChangeScene = false; 
+        private bool _hasInternetConnection = true;
 
         private TMP_Text _bottomBannerText;
         private CanvasGroup _bannerCanvasGroup;
@@ -52,6 +54,18 @@ namespace com.Google.Play.AppUpdate
             EnsureBottomBanner();
             DetectInputSystem();
             TryToChangeScene("startup");
+        }
+
+        private void Update()
+        {
+
+            if (Application.internetReachability == NetworkReachability.NotReachable && _hasInternetConnection)
+            {
+                _hasInternetConnection = false;
+                Debug.LogWarning("[FlexibleUpdate] No internet connection.");
+                ShowBottomMessage("No internet connection");
+                FailedUpdateManagerEvent?.Invoke();
+            }
         }
 
         private void TryToChangeScene(string reason)
@@ -137,19 +151,27 @@ namespace com.Google.Play.AppUpdate
             catch (Exception e)
             {
                 Debug.LogWarning("[FlexibleUpdate] StartUpdate exception: " + e);
+                FailedUpdateManagerEvent?.Invoke();
                 yield break;
             }
 
- 
-            while (!updateRequest.IsDone)
+            while (!isTesting && !updateRequest.IsDone)
+            {
+                Debug.Log($"Download progress: {updateRequest.BytesDownloaded}/{updateRequest.TotalBytesToDownload}");
                 yield return null;
+            }
 
             if (updateRequest.Error != AppUpdateErrorCode.NoError)
             {
-                Debug.LogWarning($"[FlexibleUpdate] Download failed: {updateRequest.Error}");
-                yield break;
+                Debug.Log("Update failed with error: " + updateRequest.Error);  
+                ShowBottomMessage($"Update failed: {updateRequest.Error}");
+                yield return new WaitForSeconds(5f);
+                FailedUpdateManagerEvent?.Invoke();
             }
-            OnDownloadedReady(); 
+            else
+            {
+                OnDownloadedReady();
+            }
         }
 
         private void OnDownloadedReady()

@@ -12,12 +12,14 @@ namespace com.Google.Play.AppUpdate
             Debug.Log("UpdateScene OnEnable");
             FlexibleUpdateManager.OnUpdateProcessComplete += LoadNextScene;
             FlexibleUpdateManager.TestingWithoutUpdateManagerEvent += LoadNextScene;
+            FlexibleUpdateManager.FailedUpdateManagerEvent += LoadNextScene;
         }
 
         private void OnDisable()
         {
             FlexibleUpdateManager.OnUpdateProcessComplete -= LoadNextScene;
             FlexibleUpdateManager.TestingWithoutUpdateManagerEvent -= LoadNextScene;
+            FlexibleUpdateManager.FailedUpdateManagerEvent -= LoadNextScene;
         }
 
         private void LoadNextScene()
