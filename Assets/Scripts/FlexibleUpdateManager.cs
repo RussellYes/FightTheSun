@@ -40,11 +40,11 @@ namespace com.Google.Play.AppUpdate
 
         private void Start()
         {
+            Debug.Log("[FlexibleUpdate] Start");
             if (isTesting)
             {
                 Debug.Log("[FlexibleUpdate] Testing mode: not creating AppUpdateManager.");
                 TestingWithoutUpdateManagerEvent?.Invoke();
-                StartCoroutine(WaitThenSendEventToChangeScene());
                 return;
             }
 
@@ -65,7 +65,8 @@ namespace com.Google.Play.AppUpdate
             }
 
             _hasTriedToChangeScene = true;
-            StartCoroutine(WaitThenSendEventToChangeScene());
+            StartCoroutine(LoadSceneWithDelay());
+
             Debug.Log("[FlexibleUpdate] WaitThenSendEventToChangeScene invoked.");
 
             if (!isTesting)
@@ -73,6 +74,13 @@ namespace com.Google.Play.AppUpdate
                 Debug.Log("[FlexibleUpdate] WaitThenSendEventToChangeScene - starting CheckForUpdates2().");
                 StartCoroutine(CheckForUpdates());
             }
+        }
+
+        private IEnumerator LoadSceneWithDelay()
+        {
+            yield return new WaitForSecondsRealtime(1.0f);
+            OnUpdateProcessComplete?.Invoke();
+
         }
 
         IEnumerator CheckForUpdates()
@@ -161,11 +169,6 @@ namespace com.Google.Play.AppUpdate
             }
         }
 
-        IEnumerator WaitThenSendEventToChangeScene()
-        {
-            yield return new WaitForSecondsRealtime(0.2f);
-            OnUpdateProcessComplete?.Invoke();
-        }
 
         private void DetectInputSystem()
         {
