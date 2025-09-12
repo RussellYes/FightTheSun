@@ -8,6 +8,9 @@ public class OpeningStoryUI : MonoBehaviour
     [SerializeField] private GameObject openingStoryHolder;
     [SerializeField] private TextMeshProUGUI storyText1;
     [SerializeField] private TextMeshProUGUI storyText2;
+
+    public static event System.Action OnStoryFinished;
+
     private void Start()
     {
         openingStoryHolder.SetActive(true);
@@ -29,6 +32,7 @@ public class OpeningStoryUI : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         openingStoryHolder.SetActive(false);
+        OnStoryFinished?.Invoke();
     }
 
 }
