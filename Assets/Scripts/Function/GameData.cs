@@ -55,6 +55,11 @@ public class GameData
     public bool isMission9Unlocked;
     public bool isMission10Unlocked;
 
+// Checking for user consent to show personalized ads per GDPR (special European legislation)
+    [Header("Privacy / Consent")]
+    public bool gdprConsentSet;      // Has the user chosen?
+    public bool gdprConsentValue;    // true = personalized ads allowed
+
     // Serialized level data list (for JSON serialization)
     public List<LevelDataEntry> serializedLevelData;
 

@@ -1,33 +1,40 @@
 using UnityEngine;
 
-// This script saves and retrieves consent for personalized ads using player prefs. This is where AdsBootstrap looks.
-
+// Stores GDPR consent in GameData
 public static class ConsentStorage
 {
-    private const string PP_KEY = "gdpr_consent_value"; // "true" or "false"
-    private const string PP_HAS = "gdpr_consent_saved"; // 1 or 0
-
-    // Read saved consent (null if never set)
+    // Read saved consent (null if never chosen or save not ready)
     public static bool? Get()
     {
-        // Prefer DataPersister if your save is loaded
-        if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null)
+        var dp = DataPersister.Instance;
+        var data = (dp != null) ? dp.CurrentGameData : null;
+
+        if (data == null)
         {
-            // If you later add a field to GameData (e.g., public bool gdprConsentSet; public bool gdprConsentValue;)
-            // read it here instead of PlayerPrefs.
+            Debug.Log("ConsentStorage.Get: GameData not ready yet (DataPersister null or no CurrentGameData).");
+            return null;
         }
 
-        if (PlayerPrefs.GetInt(PP_HAS, 0) == 1)
-            return PlayerPrefs.GetString(PP_KEY, "false") == "true";
-        return null;
+        return data.gdprConsentSet ? data.gdprConsentValue : (bool?)null;
     }
 
-    // Save consent persistently (and immediately flush)
+    // Save consent persistently through your JSON SaveSystem.
     public static void Set(bool consent)
     {
-        // If you add fields to GameData later, set them here too, then call DataPersister.Instance.SaveCurrentGame();
-        PlayerPrefs.SetString(PP_KEY, consent ? "true" : "false");
-        PlayerPrefs.SetInt(PP_HAS, 1);
-        PlayerPrefs.Save();
+        var dp = DataPersister.Instance;
+        var data = (dp != null) ? dp.CurrentGameData : null;
+
+        if (data == null)
+        {
+            Debug.LogWarning("ConsentStorage.Set: GameData not ready; cannot save consent yet.");
+            return;
+        }
+
+        data.gdprConsentSet = true;
+        data.gdprConsentValue = consent;
+
+        // Write to disk using your existing save flow
+        SaveSystem.SaveGame(data);
+        Debug.Log($"ConsentStorage.Set: saved consent = {consent}");
     }
 }
