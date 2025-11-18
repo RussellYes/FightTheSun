@@ -19,11 +19,13 @@ public class MainMenuAdTrigger : MonoBehaviour
         if (adLoader != null)
         {
             Debug.Log("MainMenuAdTrigger PrewarmAds - Prewarming ad system");
+            SimpleAdLogger.Instance?.Log("PREWARM", "MainMenuAdTrigger Prewarming - ad system");
             adLoader.PrewarmAdSystem();
         }
         else
         {
             Debug.LogWarning("MainMenuAdTrigger PrewarmAds - AdLoader instance not found");
+            SimpleAdLogger.Instance?.Log("PREWARM", "MainMenuAdTrigger PrewarmAds - AdLoader instance not found");
         }
     }
 }

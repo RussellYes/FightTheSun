@@ -20,13 +20,13 @@ public class RewardedAdPlayer : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("AdsDebug RewardedAdPlayer.Awake");
+        Debug.Log("RewardedAdPlayer Awake");
         DontDestroyOnLoad(gameObject);
     }
 
     private void OnEnable()
     {
-        Debug.Log("AdsDebug RewardedAdPlayer.OnEnable subscribe");
+        Debug.Log("RewardedAdPlayer OnEnable");
         AdLoader.RewardedAdLoaded += HandleAdLoaded;
         EndConditionsUI.AdRequestLevelLostReward += OnShowAdButtonPressed;
         InvestingUI.AdRequestDividendReward += OnShowAdButtonPressed;
@@ -34,7 +34,7 @@ public class RewardedAdPlayer : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("AdsDebug RewardedAdPlayer.OnDisable unsubscribe");
+        Debug.Log("RewardedAdPlayer OnDisable");
         AdLoader.RewardedAdLoaded -= HandleAdLoaded;
         EndConditionsUI.AdRequestLevelLostReward -= OnShowAdButtonPressed;
         InvestingUI.AdRequestDividendReward -= OnShowAdButtonPressed;
@@ -43,49 +43,49 @@ public class RewardedAdPlayer : MonoBehaviour
     // === UI Hook ===
     public void OnShowAdButtonPressed()
     {
-        Debug.Log("AdsDebug RewardedAdPlayer.OnShowAdButtonPressed");
-        SimpleAdLogger.Instance?.Log("AD_BUTTON_PRESSED", $"Ready:{AdLoader.Instance?.IsRewardedReady()}");
-        FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("ad_request_attempt", "ad_ready", AdLoader.Instance?.IsRewardedReady() ?? false);
+        Debug.Log("RewardedAdPlayer OnShowAdButtonPressed");
+        SimpleAdLogger.Instance?.Log("RewardedAdPlayer OnShowAdButtonPressed - AD_BUTTON_PRESSED", $"Ready:{AdLoader.Instance?.IsRewardedReady()}");
+        FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("RewardedAdPlayer OnShowAdButtonPressed - ad_request_attempt", "ad_ready", AdLoader.Instance?.IsRewardedReady() ?? false);
 
         // ADD DIAGNOSTIC:
         var loader = AdLoader.Instance;
         if (loader == null)
         {
-            Debug.LogError("AdsDebug: AdLoader.Instance is NULL despite DontDestroyOnLoad!");
+            Debug.LogError("RewardedAdPlayer OnShowAdButtonPressed - AdLoader.Instance is NULL despite DontDestroyOnLoad!");
 
             // Check if any AdLoader exists in the scene
             var allLoaders = FindObjectsByType<AdLoader>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            Debug.Log($"AdsDebug: Found {allLoaders.Length} AdLoaders in scene");
+            Debug.Log($"RewardedAdPlayer OnShowAdButtonPressed - Found {allLoaders.Length} AdLoaders in scene");
 
             foreach (var l in allLoaders)
             {
-                Debug.Log(message: $"AdsDebug: AdLoader: {l.name}, Instance==this: {l.GetInstanceID()}");
+                Debug.Log(message: $"RewardedAdPlayer OnShowAdButtonPressed - AdLoader: {l.name}, Instance==this: {l.GetInstanceID()}");
             }
 
             // Create a new loader since none exists
-            Debug.Log("AdsDebug RewardedAdPlayer: no loader present; spawning one now");
+            Debug.Log("RewardedAdPlayer OnShowAdButtonPressed - RewardedAdPlayer: no loader present; spawning one now");
             var go = new GameObject("AdLoader_Auto");
             loader = go.AddComponent<AdLoader>();
         }
         else
         {
-            Debug.Log($"AdsDebug: AdLoader exists. Ready: {loader.IsRewardedReady()}");
+            Debug.Log($"RewardedAdPlayer OnShowAdButtonPressed - AdLoader exists. Ready: {loader.IsRewardedReady()}");
         }
 
         if (isShowingGuard)
         {
-            Debug.Log("AdsDebug RewardedAdPlayer.OnShowAdButtonPressed ignored (already showing)");
+            Debug.Log("RewardedAdPlayer OnShowAdButtonPressed - ignored (already showing)");
             return;
         }
 
         if (loader.IsRewardedReady())
         {
-            Debug.Log("AdsDebug RewardedAdPlayer: ad is ready → show");
+            Debug.Log("RewardedAdPlayer OnShowAdButtonPressed - ad is ready → show");
             BeginShow(loader);
             return;
         }
 
-        Debug.Log("AdsDebug RewardedAdPlayer: ad NOT ready → toast + RequestLoadAd");
+        Debug.Log("RewardedAdPlayer OnShowAdButtonPressed - ad NOT ready → toast + RequestLoadAd");
         StartCoroutine(ShowMagentaToast("Sorry. Ad still loading. Try again.", 3f));
         RequestLoadAd?.Invoke();
 
@@ -94,17 +94,19 @@ public class RewardedAdPlayer : MonoBehaviour
 
     private void BeginShow(AdLoader loader)
     {
+        SimpleAdLogger.Instance?.Log("RewardedAdPlayer BeginShow - ", $"Loader exists: {loader != null}, IsReady: {loader.IsRewardedReady()}");
+
         rewardReportedThisShow = false;
         adWasShowing = true;
         isShowingGuard = true;
 
         bool started = loader.TryShowAd();
-        Debug.Log($"AdsDebug RewardedAdPlayer.BeginShow TryShowAd started={started}");
+        Debug.Log($"RewardedAdPlayer BeginShow - TryShowAd started={started}");
         if (!started)
         {
             isShowingGuard = false;
             adWasShowing = false;
-            Debug.LogWarning("AdsDebug RewardedAdPlayer.BeginShow readiness lost; requesting load and showing toast");
+            Debug.LogWarning("RewardedAdPlayer BeginShow - readiness lost; requesting load and showing toast");
             StartCoroutine(ShowMagentaToast("Sorry. Ad still loading. Try again.", 3f));
             RequestLoadAd?.Invoke();
 
@@ -114,7 +116,7 @@ public class RewardedAdPlayer : MonoBehaviour
 
     private void HandleAdLoaded()
     {
-        Debug.Log("AdsDebug RewardedAdPlayer.HandleAdLoaded (ready)");
+        Debug.Log("RewardedAdPlayer HandleAdLoaded - (ready)");
         // We only show when the user taps.
     }
 
@@ -123,36 +125,36 @@ public class RewardedAdPlayer : MonoBehaviour
     {
         if (this == FindFirstObjectByType<RewardedAdPlayer>())
         {
-            Debug.Log("AdsDebug RewardedAdPlayer.OnSdkAdRewarded");
+            Debug.Log("RewardedAdPlayer OnSdkAdRewarded");
             rewardReportedThisShow = true;
         }
     }
 
     public void OnSdkAdClosed()
     {
-        Debug.Log($"AdsDebug RewardedAdPlayer.OnSdkAdClosed rewardReported={rewardReportedThisShow}");
+        Debug.Log($"RewardedAdPlayer OnSdkAdClosed - rewardReported={rewardReportedThisShow}");
         adWasShowing = false;
         isShowingGuard = false;
 
         if (rewardReportedThisShow)
         {
-            Debug.Log("AdsDebug RewardedAdPlayer -> RewardGranted");
+            Debug.Log("RewardedAdPlayer OnSdkAdClosed - RewardGranted");
             try { RewardGranted?.Invoke(); } catch (Exception e) { Debug.LogError($"AdsDebug RewardedAdPlayer RewardGranted exception {e}"); }
         }
         else
         {
-            Debug.Log("AdsDebug RewardedAdPlayer -> no reward granted");
+            Debug.Log("RewardedAdPlayer OnSdkAdClosed - no reward granted");
             ActivateGameLoseButtonsEvent?.Invoke();
 
         }
 
         // Tell loader the cycle ended and whether reward was granted.
-        try { AdClosed?.Invoke(rewardReportedThisShow); } catch (Exception e) { Debug.LogError($"AdsDebug RewardedAdPlayer AdClosed exception {e}"); }
+        try { AdClosed?.Invoke(rewardReportedThisShow); } catch (Exception e) { Debug.LogError($"RewardedAdPlayer OnSdkAdClosed - AdClosed exception {e}"); }
 
         // If reward was granted, spec says: loader is destroyed; we control respawn.
         if (rewardReportedThisShow)
         {
-            Debug.Log("AdsDebug RewardedAdPlayer requesting fresh loader after granted cycle");
+            Debug.Log("RewardedAdPlayer OnSdkAdClosed - requesting fresh loader after granted cycle");
             RequestLoadAd?.Invoke(); // this will spawn/reuse loader and start a fresh load
         }
     }
@@ -160,28 +162,28 @@ public class RewardedAdPlayer : MonoBehaviour
     // ===== App focus logging (SDK handles actual pausing) =====
     private void OnApplicationPause(bool pause)
     {
-        Debug.Log($"AdsDebug RewardedAdPlayer.OnApplicationPause pause={pause} wasShowing={adWasShowing}");
+        Debug.Log($"RewardedAdPlayer OnApplicationPause - pause={pause} wasShowing={adWasShowing}");
     }
 
     private void OnApplicationQuit()
     {
-        Debug.Log("AdsDebug RewardedAdPlayer.OnApplicationQuit");
+        Debug.Log("RewardedAdPlayer OnApplicationQuit");
     }
 
     private void OnDestroy()
     {
-        Debug.LogWarning("AdsDebug AdLoader.OnDestroy - WHY AM I BEING DESTROYED?");
+        Debug.LogWarning("RewardedAdPlayer OnDestroy - WHY AM I BEING DESTROYED?");
     }
 
     private void OnLevelWasLoaded(int level)
     {
-        Debug.Log($"AdsDebug AdLoader.OnLevelWasLoaded: level {level}, Instance: {this.GetInstanceID()}");
+        Debug.Log($"RewardedAdPlayer OnLevelWasLoaded - level {level}, Instance: {this.GetInstanceID()}");
     }
 
     // ===== Minimal magenta toast per spec =====
     private IEnumerator ShowMagentaToast(string message, float seconds)
     {
-        Debug.Log($"AdsDebug RewardedAdPlayer.ShowMagentaToast '{message}' {seconds}s");
+        Debug.Log($"RewardedAdPlayer ShowMagentaToast - '{message}' {seconds}s");
         Canvas canvas = GetComponent<Canvas>();
         if (canvas == null)
         {

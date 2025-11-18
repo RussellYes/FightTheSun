@@ -39,6 +39,7 @@ public class AdLoader : MonoBehaviour
     private void Start()
     {
         Debug.Log("AdLoader Start - Initializing LevelPlay");
+        SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader Start - Initializing SDK");
 
         initRequested = true;
 
@@ -96,9 +97,13 @@ public class AdLoader : MonoBehaviour
     private void SdkInitializationCompletedEvent(LevelPlayConfiguration config)
     {
         Debug.Log("AdLoader SdkInitializationCompletedEvent");
+        SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader SdkInitializationCompletedEvent - SDK Initialization SUCCESS");
         sdkInitialized = true;
         initRequested = false;
         CreateRewardedAdInstance();
+
+        SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader SdkInitializationCompletedEvent - Auto-loading ad after SDK init");
+        RequestLoad();
 
         // Auto-load an ad if requested
         if (loadRequested)
@@ -124,6 +129,7 @@ public class AdLoader : MonoBehaviour
         }
 
         Debug.Log("AdLoader SdkInitializationFailedEvent - creating LevelPlayRewardedAd instance");
+        SimpleAdLogger.Instance?.Log("AD_CREATE_INSTANCE", "AdLoader CreateRewardedAdInstance - Creating new rewarded ad instance");
         rewardedAd = new LevelPlayRewardedAd(rewardedAdUnitId);
 
         // Register to Rewarded Video events (IronSource pattern)
@@ -142,7 +148,6 @@ public class AdLoader : MonoBehaviour
         SimpleAdLogger.Instance?.Log("AD_LOAD_SUCCESS", $"Retry:{loadRetryCount}");
         FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("ad_load_success", "retry_count", loadRetryCount);
 
-        loadRequested = false;
         isAdLoading = false;
         loadRequested = false;
         loadRetryCount = 0;
@@ -152,20 +157,23 @@ public class AdLoader : MonoBehaviour
     private void RewardedVideoOnAdLoadFailedEvent(LevelPlayAdError error)
     {
         Debug.LogError($"AdLoader RewardedVideoOnAdLoadFailedEvent - LevelPlayAdError {error} ErrorCode: {error.ErrorCode}, ErrorMessage: {error.ErrorMessage}");
-        SimpleAdLogger.Instance?.Log("AD_LOAD_FAILED", $"Retry:{loadRetryCount}");
+        SimpleAdLogger.Instance?.Log("AD_LOAD_FAILED", $"AdLoader RewardedVideoOnAdLoadFailedEvent - ErrorCode: {error.ErrorCode}, ErrorMessage: {error.ErrorMessage}, Retry: {loadRetryCount}");
         FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("ad_load_failed", "retry_count", loadRetryCount);
 
         loadRequested = false;
+        isAdLoading = false;
 
         if (loadRetryCount < MAX_RETRIES && !isShuttingDown)
         {
             loadRetryCount++;
             Debug.Log($"AdLoader RewardedVideoOnAdLoadFailedEvent - Retrying ad load ({loadRetryCount}/{MAX_RETRIES}) in 3 seconds...");
+            SimpleAdLogger.Instance?.Log("AD_RETRY", $"AdLoader RewardedVideoOnAdLoadFailedEvent - Retry {loadRetryCount}/{MAX_RETRIES} in 3s");
             Invoke(nameof(RetryLoad), 3f);
         }
         else
         {
             loadRetryCount = 0;
+            SimpleAdLogger.Instance?.Log("AD_LOAD_GAVE_UP", "AdLoader RewardedVideoOnAdLoadFailedEvent - Max retries reached");
         }
     }
 
@@ -210,6 +218,7 @@ public class AdLoader : MonoBehaviour
     public void RequestLoad()
     {
         Debug.Log("AdLoader RequestLoad");
+        SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader RequestLoad");
 
         if (isAdLoading || (rewardedAd != null && rewardedAd.IsAdReady()))
         {
@@ -247,6 +256,7 @@ public class AdLoader : MonoBehaviour
         if (!sdkInitialized || rewardedAd == null)
         {
             Debug.Log("AdLoader TryStartQueuedLoad - SDK not ready");
+            SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader TryStartQueuedLoad - SDK not ready");
             return;
         }
         if (!loadRequested || isAdLoading)
@@ -256,6 +266,7 @@ public class AdLoader : MonoBehaviour
         }
 
         Debug.Log("AdLoader TryStartQueuedLoad - calling rewardedAd.LoadAd()");
+        SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader TryStartQueuedLoad - calling rewardedAd.LoadAd()");
         rewardedAd.LoadAd();
     }
 
