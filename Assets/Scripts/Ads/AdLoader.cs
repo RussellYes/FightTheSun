@@ -223,12 +223,14 @@ public class AdLoader : MonoBehaviour
         if (isAdLoading || (rewardedAd != null && rewardedAd.IsAdReady()))
         {
             Debug.Log("AdLoader RequestLoad - already loading or ready");
+            SimpleAdLogger.Instance?.Log("AD_LOADER", $"AdLoader RequestLoad - skipped: isAdLoading={isAdLoading}, isReady={rewardedAd?.IsAdReady()}");
             return;
         }
 
         if (initRequested && !sdkInitialized)
         {
             Debug.Log("AdLoader RequestLoad - SDK still initializing, queuing load request");
+            SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader RequestLoad - SDK still initializing, queuing load");
             loadRequested = true;
             return;
         }
@@ -236,11 +238,11 @@ public class AdLoader : MonoBehaviour
         if (!sdkInitialized)
         {
             Debug.LogError("AdLoader RequestLoad - SDK not initialized, cannot load ads");
+            SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader RequestLoad - SDK not initialized");
             return;
         }
 
         loadRequested = true;
-        isAdLoading = true;
         AdLoadStarted?.Invoke();
 
         if (rewardedAd == null)
@@ -259,15 +261,18 @@ public class AdLoader : MonoBehaviour
             SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader TryStartQueuedLoad - SDK not ready");
             return;
         }
-        if (!loadRequested || isAdLoading)
+        if (loadRequested && !isAdLoading)
         {
-            Debug.Log("AdLoader TryStartQueuedLoad – no load requested or already loading");
-            return;
+            Debug.Log("AdLoader TryStartQueuedLoad - calling rewardedAd.LoadAd()");
+            SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader TryStartQueuedLoad - calling rewardedAd.LoadAd()");
+            isAdLoading = true; // Set this BEFORE calling LoadAd
+            rewardedAd.LoadAd();
         }
-
-        Debug.Log("AdLoader TryStartQueuedLoad - calling rewardedAd.LoadAd()");
-        SimpleAdLogger.Instance?.Log("AD_LOADER", "AdLoader TryStartQueuedLoad - calling rewardedAd.LoadAd()");
-        rewardedAd.LoadAd();
+        else
+        {
+            Debug.Log($"AdLoader TryStartQueuedLoad - skipping: loadRequested={loadRequested}, isAdLoading={isAdLoading}");
+            SimpleAdLogger.Instance?.Log("AD_LOADER", $"AdLoader TryStartQueuedLoad - skipping: loadRequested={loadRequested}, isAdLoading={isAdLoading}");
+        }
     }
 
     private void RetryLoad()
