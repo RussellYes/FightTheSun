@@ -44,6 +44,7 @@ public class RewardedAdPlayer : MonoBehaviour
     public void OnShowAdButtonPressed()
     {
         Debug.Log("AdsDebug RewardedAdPlayer.OnShowAdButtonPressed");
+        SimpleAdLogger.Instance?.Log("AD_BUTTON_PRESSED", $"Ready:{AdLoader.Instance?.IsRewardedReady()}");
         FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("ad_request_attempt", "ad_ready", AdLoader.Instance?.IsRewardedReady() ?? false);
 
         // ADD DIAGNOSTIC:

@@ -139,6 +139,7 @@ public class AdLoader : MonoBehaviour
     private void RewardedVideoOnLoadedEvent(LevelPlayAdInfo adInfo)
     {
         Debug.Log($"AdLoader RewardedVideoOnLoadedEvent - adUnit={adInfo.AdUnitId}");
+        SimpleAdLogger.Instance?.Log("AD_LOAD_SUCCESS", $"Retry:{loadRetryCount}");
         FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("ad_load_success", "retry_count", loadRetryCount);
 
         loadRequested = false;
@@ -151,6 +152,7 @@ public class AdLoader : MonoBehaviour
     private void RewardedVideoOnAdLoadFailedEvent(LevelPlayAdError error)
     {
         Debug.LogError($"AdLoader RewardedVideoOnAdLoadFailedEvent - LevelPlayAdError {error} ErrorCode: {error.ErrorCode}, ErrorMessage: {error.ErrorMessage}");
+        SimpleAdLogger.Instance?.Log("AD_LOAD_FAILED", $"Retry:{loadRetryCount}");
         FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("ad_load_failed", "retry_count", loadRetryCount);
 
         loadRequested = false;
