@@ -93,7 +93,7 @@ public class AppUpdateMessage : MonoBehaviour
         string month = "Nov";
         string year = "2025";
         string message = "Check out the new stock exchange at planet 5. Daily dividends.";
-        string message2 = "December's gift: Game play will affect investments. Thank you for playing Fight The Sun.";
+        string message2 = "December's gift: Game play will affect investments.";
         titleText.text = ($"Game dev news:\n{month} {year}");
         messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
     }
