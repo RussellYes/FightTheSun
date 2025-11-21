@@ -80,11 +80,13 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI memoryScoreGainText;
     [SerializeField] private TextMeshProUGUI memoryTotalText;
 
+    [Header("Ad Rewards")]
     public Button rewardButtonFront;
     [SerializeField] private GameObject rewardButtonHolder;
     public Button saveButtonFront;
     [SerializeField] private GameObject saveButtonHolder;
-
+    [SerializeField] private GameObject adRewardRecievedHolder;
+    [SerializeField] private TextMeshProUGUI adRewardRecievedText;
 
 
     private void Awake()
@@ -95,6 +97,11 @@ public class EndConditionsUI : MonoBehaviour
         musicManager = FindAnyObjectByType<MusicManager>();
 
         HideUI();
+    }
+
+    private void Start()
+    {
+        adRewardRecievedHolder.SetActive(false);
     }
 
 
@@ -157,6 +164,7 @@ public class EndConditionsUI : MonoBehaviour
     private void EndGame(bool didWinLevel)
     {
         endConditionsUIHolder.SetActive(true);
+        adRewardRecievedHolder.SetActive(false);
 
         isWin = didWinLevel;
         if (scoreManager != null && gameManager != null)
@@ -710,6 +718,17 @@ public class EndConditionsUI : MonoBehaviour
 
         // Step 8: Revive
         Revive();
+
+
+        StartCoroutine(AdRewardRecievedMessage(doubledMemoryGain));
+    }
+
+    IEnumerator AdRewardRecievedMessage(float doubledMemoryGain)
+    {
+        adRewardRecievedHolder.SetActive(true);
+        adRewardRecievedText.text = ($"Dividend paid: ${doubledMemoryGain: 0.0}");
+        yield return new WaitForSeconds(3f);
+        adRewardRecievedHolder.SetActive(false);
     }
 
     private void Revive()

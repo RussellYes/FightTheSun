@@ -105,6 +105,8 @@ public class InvestingUI : MonoBehaviour
     private float dividendPayoutPercentageMin = 0.01f;
     private float dividendPayoutPercentageMax = 0.03f;
     private float calculatedDividend;
+    [SerializeField] private GameObject adRewardRecievedHolder;
+    [SerializeField] private TextMeshProUGUI adRewardRecievedText;
 
     [Header("SFX")]
     [SerializeField] private AudioClip[] storeOpenCloseSFX;
@@ -182,6 +184,7 @@ public class InvestingUI : MonoBehaviour
     private void Start()
     {
         storeHolder.SetActive(false);
+        adRewardRecievedHolder.SetActive(false);
         timeCheckCountdown = timeCheckTime;
     }
 
@@ -245,6 +248,7 @@ public class InvestingUI : MonoBehaviour
     {
         SingleButtonClick();
         storeHolder.SetActive(true);
+        adRewardRecievedHolder.SetActive(false);
         GetTime();
         UpdateUI();
         PlayOpenCloseSFX();
@@ -1300,15 +1304,15 @@ public class InvestingUI : MonoBehaviour
     {
         if (dailyDividendCount > 0)
         {
-            if (dailyDividendCount >= 2)
-            {
-                // Show ad for dividend reward
-                AdRequestDividendReward?.Invoke();
-            }
-            else
+            if (dailyDividendCount >= 3)
             {
                 // Free dividend without ad
                 DividendRewards();
+            }
+            else
+            {
+                // Show ad for dividend reward
+                AdRequestDividendReward?.Invoke();
             }
         }
     }
@@ -1352,6 +1356,16 @@ public class InvestingUI : MonoBehaviour
         UpdateUI();
 
         Debug.Log($"Dividend paid: ${calculatedDividend: 0.00}, dividend count: {dailyDividendCount: 0}");
+
+        StartCoroutine(AdRewardRecievedMessage()); 
+    }
+
+    IEnumerator AdRewardRecievedMessage()
+    {
+        adRewardRecievedHolder.SetActive(true);
+        adRewardRecievedText.text = ($"Dividend paid: ${calculatedDividend: 0.00}");
+        yield return new WaitForSeconds(3f);
+        adRewardRecievedHolder.SetActive(false);
     }
 
 
