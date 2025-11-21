@@ -10,7 +10,6 @@ public class MainMenuUI : MonoBehaviour
 
     public static event Action NewGameEvent;
 
-
     [Header("Planets")]
     [SerializeField] private AudioClip planetButtonSFX;
     [SerializeField] private Button playMission1Button;

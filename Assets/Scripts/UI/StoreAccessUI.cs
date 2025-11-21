@@ -56,16 +56,9 @@ public class StoreAccessUI : MonoBehaviour
         // Planet 1 is always unlocked
         if (planetNumber == 1) return true;
 
-        // Use reflection or a more sophisticated system for production
-        var gameData = DataPersister.Instance.CurrentGameData;
-        var missionUnlockedProperty = gameData.GetType().GetProperty($"isMission{planetNumber}Unlocked");
+        bool isStoreUnlocked = DataPersister.Instance.CurrentGameData.GetMissionUnlocked(planetNumber);
 
-        if (missionUnlockedProperty != null)
-        {
-            return (bool)missionUnlockedProperty.GetValue(gameData);
-        }
-
-        Debug.LogWarning($"Unlock status not found for planet {planetNumber}");
-        return false;
+        Debug.Log("StoreAccessUI IsStoreUnlocked: " + $"Store {planetNumber} unlocked: {isStoreUnlocked}");
+        return isStoreUnlocked;
     }
 }
