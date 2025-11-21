@@ -93,8 +93,9 @@ public class GameData
     public float dailyDividendCount;
 
     [Header("Time Data")]
-    public float savedDayOfTheWeek;
-    public float savedTime;
+    public float appMessageSavedMonth;
+    public float investingDayOfTheWeek;
+    public float investingSavedTime;
 
     [Header("Achievements")]
     public bool isMission1Complete;
@@ -209,8 +210,9 @@ public class GameData
         dailyDividendCount = 3;
 
         // Time Data
-        savedDayOfTheWeek = 0;
-        savedTime = 0;
+        appMessageSavedMonth = 0;
+        investingDayOfTheWeek = 0;
+        investingSavedTime = 0;
 
         // Missile Launcher
         missileDamageCost = 1000f;
@@ -434,8 +436,9 @@ public class GameData
         dailyDividendCount = 3;
 
         // Time Data
-        savedDayOfTheWeek = 0;
-        savedTime = 0;
+        appMessageSavedMonth = 0;
+        investingDayOfTheWeek = 0;
+        investingSavedTime = 0;
 
         // Missile Launcher
         missileDamageCost = 1000f;

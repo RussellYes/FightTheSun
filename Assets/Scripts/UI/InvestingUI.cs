@@ -572,8 +572,8 @@ public class InvestingUI : MonoBehaviour
     #region Time Management
     private void GetTime()
     {
-        float lastSavedDayOfTheWeek = DataPersister.Instance.CurrentGameData.savedDayOfTheWeek;
-        float lastSavedCurrentTime = DataPersister.Instance.CurrentGameData.savedTime;
+        float lastSavedDayOfTheWeek = DataPersister.Instance.CurrentGameData.investingDayOfTheWeek;
+        float lastSavedCurrentTime = DataPersister.Instance.CurrentGameData.investingSavedTime;
 
         currentDayOfTheWeek = GetCurrentDayOfWeekAsFloat();
         currentTime = GetCurrentTimeAsFloat();
@@ -593,8 +593,8 @@ public class InvestingUI : MonoBehaviour
             timeDifference = currentTime - lastSavedCurrentTime;
         }
 
-        DataPersister.Instance.CurrentGameData.savedDayOfTheWeek = currentDayOfTheWeek;
-        DataPersister.Instance.CurrentGameData.savedTime = currentTime;
+        DataPersister.Instance.CurrentGameData.investingDayOfTheWeek = currentDayOfTheWeek;
+        DataPersister.Instance.CurrentGameData.investingSavedTime = currentTime;
         DataPersister.Instance.CurrentGameData.dailyDividendCount = dailyDividendCount;
         DataPersister.Instance.SaveCurrentGame();
     }

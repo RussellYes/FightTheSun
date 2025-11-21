@@ -126,6 +126,17 @@ public class TimeManager : MonoBehaviour
         return currentTime;
     }
 
+    public string GetMonth()
+    {
+        if (!isTimeAvailable)
+        {
+            Debug.LogWarning("TimeManager GetMonth - Time not available, using device time");
+            return DateTime.UtcNow.ToString("MMM");
+        }
+
+        return currentTime.ToString("MMM"); // Returns "Jan", "Feb", etc.
+    }
+
     public string GetDayOfWeek()
     {
         return dayOfWeek;
