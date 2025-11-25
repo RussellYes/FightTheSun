@@ -752,7 +752,6 @@ public class EndConditionsUI : MonoBehaviour
 
         // Reset all resource totals
         gameData.totalMoney = capsuledLoseMoney;
-        gameData.totalTime = 0f;
         gameData.totalMetal = gameData.totalMetal * comicUnlockRawPercent;
         gameData.totalRareMetal = gameData.totalRareMetal * comicUnlockRawPercent;
         gameData.totalObstaclesDestroyed = 0;
