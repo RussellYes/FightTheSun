@@ -716,19 +716,19 @@ public class EndConditionsUI : MonoBehaviour
         // Step 7: Brief final wait
         yield return new WaitForSecondsRealtime(1f);
 
-        // Step 8: Revive
-        Revive();
-
-
+        // Ad break
         StartCoroutine(AdRewardRecievedMessage(doubledMemoryGain));
     }
 
     IEnumerator AdRewardRecievedMessage(float doubledMemoryGain)
     {
         adRewardRecievedHolder.SetActive(true);
-        adRewardRecievedText.text = ($"Dividend paid: ${doubledMemoryGain: 0.0}");
+        adRewardRecievedText.text = ($"${doubledMemoryGain: 0.0}");
         yield return new WaitForSeconds(3f);
         adRewardRecievedHolder.SetActive(false);
+
+        // Step 8: Revive
+        Revive();
     }
 
     private void Revive()
