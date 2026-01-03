@@ -1,4 +1,5 @@
 using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -65,6 +66,16 @@ public class InvestingUI : MonoBehaviour
     [SerializeField] private Button selectCompany5TradeButton;
     [SerializeField] private int companyIndex;
     [SerializeField] private TextMeshProUGUI tradingCompanyNameText;
+    [SerializeField] private Color company1Colour;
+    [SerializeField] private Color company2Colour;
+    [SerializeField] private Color company3Colour;
+    [SerializeField] private Color company4Colour;
+    [SerializeField] private Color company5Colour;
+    [SerializeField] private string company1Name;
+    [SerializeField] private string company2Name;
+    [SerializeField] private string company3Name;
+    [SerializeField] private string company4Name;
+    [SerializeField] private string company5Name;
 
     [Header("Stock Price Settings")]
     [SerializeField] private float minStockPrice = 0f;
@@ -201,6 +212,7 @@ public class InvestingUI : MonoBehaviour
 
         if (isNewDay)
         {
+            DailyCompanyLootShip();
             ShiftDaysOfTheWeek();
             isNewDay = false;
         }
@@ -271,169 +283,6 @@ public class InvestingUI : MonoBehaviour
         StopCoroutine(InitializeScrollingText());
     }
 
-    private void GreetingsWindow()
-    {
-        greetingHolder.SetActive(true);
-        DataPersister.Instance.CurrentGameData.hasOpenedInvesting = true;
-        DataPersister.Instance.SaveCurrentGame();
-        GreetingsDialogue();
-    }
-
-    private void GreetingsDialogue()
-    {
-        SingleButtonClick();
-        ClearExistingArrows();
-
-        if (greetingTextIndex == 0)
-        {
-            greetingText.text = "Welcome investor! Are you ready to make PROFITS?";
-            greetingTextIndex = 1;
-            return;
-        }
-        if (greetingTextIndex == 1)
-        {
-            greetingText.text = "I'm the CEO of GoodCorp, the greatest company at everything.";
-            greetingTextIndex = 2;
-            return;
-        }
-        if (greetingTextIndex == 2)
-        {
-            if (chartUIImage != null && arrowPrefab != null)
-            {
-                GameObject arrow = Instantiate(arrowPrefab, chartUIImage.transform);
-                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
-                if (arrowRect != null)
-                {
-                    // Position arrow at the chart
-                    Vector3 location = arrowRect.anchoredPosition;
-                    float xOffset = 0f;
-                    float yOffset = 0f;
-                    float zRotation = 225f;
-                    arrowRect.anchoredPosition = new Vector3(location.x + xOffset, location.y + yOffset, location.z);
-                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
-                    arrowRect.localScale = Vector3.one;
-
-                    // Store reference to arrow for later removal
-                    currentArrow = arrow;
-                }
-            }
-            greetingText.text = "This chart shows 1 week of company share prices";
-            greetingTextIndex = 3;
-            return;
-        }
-        if (greetingTextIndex == 3)
-        {
-            greetingText.text = "Once a day the prices change.";
-            greetingTextIndex = 4;
-            return;
-        }
-        if (greetingTextIndex == 4)
-        {
-            if (selectCompany3TradeButton != null && arrowPrefab != null)
-            {
-                GameObject arrow = Instantiate(arrowPrefab, greetingHolder.transform);
-                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
-                if (arrowRect != null)
-                {
-                    // Position arrow to the right of company 3 button
-                    Vector3 buttonPos = selectCompany3TradeButton.transform.position;
-                    float xOffset = 50f;
-                    float yOffset = 0f;
-                    float zRotation = 270f;
-                    arrowRect.position = new Vector3(buttonPos.x + xOffset, buttonPos.y + yOffset, buttonPos.z);
-                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
-                    arrowRect.localScale = Vector3.one;
-
-                    // Store reference to arrow for later removal
-                    currentArrow = arrow;
-                }
-            }
-            greetingText.text = "Choose a company.";
-            greetingTextIndex = 5;
-            return;
-        }
-        if (greetingTextIndex == 5)
-        {
-            if (tradeShareQuantityText != null && arrowPrefab != null)
-            {
-                GameObject arrow = Instantiate(arrowPrefab, greetingHolder.transform);
-                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
-                if (arrowRect != null)
-                {
-                    // Position arrow to the right of quantity text
-                    Vector3 textPos = tradeShareQuantityText.transform.position;
-                    float xOffset = 50f;
-                    float yOffset = 0f;
-                    float zRotation = 270f;
-                    arrowRect.position = new Vector3(textPos.x + xOffset, textPos.y + yOffset, textPos.z);
-                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
-                    arrowRect.localScale = Vector3.one;
-
-                    // Store reference to arrow for later removal
-                    currentArrow = arrow;
-                }
-            }
-            greetingText.text = "Select an amount of shares.";
-            greetingTextIndex = 6;
-            return;
-        }
-        if (greetingTextIndex == 6)
-        {
-            if (buyButton != null && arrowPrefab != null)
-            {
-                GameObject arrow = Instantiate(arrowPrefab, greetingHolder.transform);
-                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
-                if (arrowRect != null)
-                {
-                    // Position arrow to the right of buy button
-                    Vector3 buttonPos = buyButton.transform.position;
-                    float xOffset = 50f;
-                    float yOffset = 0f;
-                    float zRotation = 270f;
-                    arrowRect.position = new Vector3(buttonPos.x + xOffset, buttonPos.y + yOffset, buttonPos.z);
-                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
-                    arrowRect.localScale = Vector3.one;
-
-                    // Store reference to arrow for later removal
-                    currentArrow = arrow;
-                }
-            }
-            greetingText.text = "Buy and sell.";
-            greetingTextIndex = 7;
-            return;
-        }
-        if (greetingTextIndex == 7)
-        {
-            greetingText.text = "Collect up to 3% dividend money daily for owning shares.";
-            greetingTextIndex = 8;
-            return;
-        }
-
-        if (greetingTextIndex >= 8)
-        {
-            greetingHolder.SetActive(false);
-            greetingTextIndex = 0; // Reset for next time
-        }
-
-    }
-
-    private void ClearExistingArrows()
-    {
-        if (currentArrow != null)
-        {
-            Destroy(currentArrow);
-            currentArrow = null;
-        }
-
-        // Also clear any arrows that might have been created as children
-        foreach (Transform child in greetingHolder.transform)
-        {
-            if (child.name.Contains(arrowPrefab.name) || child.name.Contains("Arrow"))
-            {
-                Destroy(child.gameObject);
-            }
-        }
-    }
 
     private IEnumerator OpenStoreLerp()
     {
@@ -1412,6 +1261,7 @@ public class InvestingUI : MonoBehaviour
     }
     #endregion
 
+    #region SFX
     //******************************* SFX *******************************
 
     private void PositiveButtonClick()
@@ -1441,4 +1291,228 @@ public class InvestingUI : MonoBehaviour
             SFXManager.Instance.PlaySFX(doubleButtonSFX[randomIndex]);
         }
     }
+#endregion
+
+    #region Greetings
+
+    private void GreetingsWindow()
+    {
+        greetingHolder.SetActive(true);
+        DataPersister.Instance.CurrentGameData.hasOpenedInvesting = true;
+        DataPersister.Instance.SaveCurrentGame();
+        GreetingsDialogue();
+    }
+
+    private void GreetingsDialogue()
+    {
+        SingleButtonClick();
+        ClearExistingArrows();
+
+        if (greetingTextIndex == 0)
+        {
+            greetingText.text = "Welcome investor! Are you ready to make PROFITS?";
+            greetingTextIndex = 1;
+            return;
+        }
+        if (greetingTextIndex == 1)
+        {
+            greetingText.text = "I'm the CEO of GoodCorp, the greatest company at everything.";
+            greetingTextIndex = 2;
+            return;
+        }
+        if (greetingTextIndex == 2)
+        {
+            if (chartUIImage != null && arrowPrefab != null)
+            {
+                GameObject arrow = Instantiate(arrowPrefab, chartUIImage.transform);
+                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
+                if (arrowRect != null)
+                {
+                    // Position arrow at the chart
+                    Vector3 location = arrowRect.anchoredPosition;
+                    float xOffset = 0f;
+                    float yOffset = 0f;
+                    float zRotation = 225f;
+                    arrowRect.anchoredPosition = new Vector3(location.x + xOffset, location.y + yOffset, location.z);
+                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
+                    arrowRect.localScale = Vector3.one;
+
+                    // Store reference to arrow for later removal
+                    currentArrow = arrow;
+                }
+            }
+            greetingText.text = "This chart shows 1 week of company share prices";
+            greetingTextIndex = 3;
+            return;
+        }
+        if (greetingTextIndex == 3)
+        {
+            greetingText.text = "Once a day the prices change.";
+            greetingTextIndex = 4;
+            return;
+        }
+        if (greetingTextIndex == 4)
+        {
+            if (selectCompany3TradeButton != null && arrowPrefab != null)
+            {
+                GameObject arrow = Instantiate(arrowPrefab, greetingHolder.transform);
+                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
+                if (arrowRect != null)
+                {
+                    // Position arrow to the right of company 3 button
+                    Vector3 buttonPos = selectCompany3TradeButton.transform.position;
+                    float xOffset = 50f;
+                    float yOffset = 0f;
+                    float zRotation = 270f;
+                    arrowRect.position = new Vector3(buttonPos.x + xOffset, buttonPos.y + yOffset, buttonPos.z);
+                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
+                    arrowRect.localScale = Vector3.one;
+
+                    // Store reference to arrow for later removal
+                    currentArrow = arrow;
+                }
+            }
+            greetingText.text = "Choose a company.";
+            greetingTextIndex = 5;
+            return;
+        }
+        if (greetingTextIndex == 5)
+        {
+            if (tradeShareQuantityText != null && arrowPrefab != null)
+            {
+                GameObject arrow = Instantiate(arrowPrefab, greetingHolder.transform);
+                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
+                if (arrowRect != null)
+                {
+                    // Position arrow to the right of quantity text
+                    Vector3 textPos = tradeShareQuantityText.transform.position;
+                    float xOffset = 50f;
+                    float yOffset = 0f;
+                    float zRotation = 270f;
+                    arrowRect.position = new Vector3(textPos.x + xOffset, textPos.y + yOffset, textPos.z);
+                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
+                    arrowRect.localScale = Vector3.one;
+
+                    // Store reference to arrow for later removal
+                    currentArrow = arrow;
+                }
+            }
+            greetingText.text = "Select an amount of shares.";
+            greetingTextIndex = 6;
+            return;
+        }
+        if (greetingTextIndex == 6)
+        {
+            if (buyButton != null && arrowPrefab != null)
+            {
+                GameObject arrow = Instantiate(arrowPrefab, greetingHolder.transform);
+                RectTransform arrowRect = arrow.GetComponent<RectTransform>();
+                if (arrowRect != null)
+                {
+                    // Position arrow to the right of buy button
+                    Vector3 buttonPos = buyButton.transform.position;
+                    float xOffset = 50f;
+                    float yOffset = 0f;
+                    float zRotation = 270f;
+                    arrowRect.position = new Vector3(buttonPos.x + xOffset, buttonPos.y + yOffset, buttonPos.z);
+                    arrowRect.localRotation = Quaternion.Euler(0, 0, zRotation);
+                    arrowRect.localScale = Vector3.one;
+
+                    // Store reference to arrow for later removal
+                    currentArrow = arrow;
+                }
+            }
+            greetingText.text = "Buy and sell.";
+            greetingTextIndex = 7;
+            return;
+        }
+        if (greetingTextIndex == 7)
+        {
+            greetingText.text = "Collect up to 3% dividend money daily for owning shares.";
+            greetingTextIndex = 8;
+            return;
+        }
+
+        if (greetingTextIndex >= 8)
+        {
+            greetingHolder.SetActive(false);
+            greetingTextIndex = 0; // Reset for next time
+        }
+
+    }
+
+    private void ClearExistingArrows()
+    {
+        if (currentArrow != null)
+        {
+            Destroy(currentArrow);
+            currentArrow = null;
+        }
+
+        // Also clear any arrows that might have been created as children
+        foreach (Transform child in greetingHolder.transform)
+        {
+            if (child.name.Contains(arrowPrefab.name) || child.name.Contains("Arrow"))
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+    #endregion
+
+    #region Daily Company Loot Ship
+    private void DailyCompanyLootShip()
+    {
+        SelectRandomLootShipLevel();
+        SelectRandomLootShipCompany();
+    }
+
+    private void SelectRandomLootShipLevel()
+    {
+        // Select a random level from levels 1 to 9 (Arrays end the max number +1, so the range is 1 to 10)
+        int randomLootShipLevel = UnityEngine.Random.Range(1, 10);
+        DataPersister.Instance.CurrentGameData.randomLootShipLevel = randomLootShipLevel;
+        DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"InvestingUI SelectRandomLootShipLevel - Level: {randomLootShipLevel}");
+    }
+
+    private void SelectRandomLootShipCompany()
+    {
+        string randomLootShipCompanyName;
+        Color randomLootShipCompanyColour;
+        int randomNumber = UnityEngine.Random.Range(0, companies.Length);
+        if (randomNumber == 0) return;
+        if (randomNumber == 1)
+        {
+            randomLootShipCompanyName = company1Name;
+            randomLootShipCompanyColour = company1Colour;
+        }
+        else if (randomNumber == 2)
+        {
+            randomLootShipCompanyName = company2Name;
+            randomLootShipCompanyColour = company2Colour;
+        }
+        else if (randomNumber == 3)
+        {
+            randomLootShipCompanyName = company3Name;
+            randomLootShipCompanyColour = company3Colour;
+        }
+        else if (randomNumber == 4)
+        {
+            randomLootShipCompanyName = company4Name;
+            randomLootShipCompanyColour = company4Colour;
+        }
+        else
+        {
+            randomLootShipCompanyName = company5Name;
+            randomLootShipCompanyColour = company5Colour;
+        }
+
+        DataPersister.Instance.CurrentGameData.randomLootShipCompanyName = randomLootShipCompanyName;
+        DataPersister.Instance.CurrentGameData.randomLootShipCompanyColour = randomLootShipCompanyColour;
+        DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"InvestingUI SelectRandomCompany - Company: {randomLootShipCompanyName} and Colour: {randomLootShipCompanyColour}");
+    }
+
+    #endregion
 }

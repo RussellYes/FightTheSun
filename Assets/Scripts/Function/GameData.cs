@@ -92,6 +92,12 @@ public class GameData
     // Dividend
     public float dailyDividendCount;
 
+    [Header("Company Loot Ship")]
+    public int randomLootShipLevel;
+    public string randomLootShipCompanyName;
+    public Color randomLootShipCompanyColour;
+    public float randomLootShipPriceChange;
+
     [Header("Time Data")]
     public float appMessageSavedMonth;
     public float investingDayOfTheWeek;
@@ -208,6 +214,12 @@ public class GameData
         company5Shares = 0;
         // Dividend
         dailyDividendCount = 3;
+
+        // Company Loot Ship
+        randomLootShipLevel = 0;
+        randomLootShipCompanyName = "";
+        randomLootShipCompanyColour = Color.white;
+        randomLootShipPriceChange = 0f;
 
         // Time Data
         appMessageSavedMonth = 0;
@@ -434,6 +446,12 @@ public class GameData
         company5Shares = 0;
         // Dividend
         dailyDividendCount = 3;
+
+        // Company Loot Ship
+        randomLootShipLevel = 0;
+        randomLootShipCompanyName = "";
+        randomLootShipCompanyColour = Color.white;
+        randomLootShipPriceChange = 0f;
 
         // Time Data
         appMessageSavedMonth = 0;

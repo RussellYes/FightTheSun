@@ -64,7 +64,7 @@ public class PlayerUITexts : MonoBehaviour
             }
             else
             {
-                statText.text = $"{e.currentHull:F0}";
+                statText.text = $"{e.currentHull:F1}";
             }
         }
     }

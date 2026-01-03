@@ -90,10 +90,10 @@ public class AppUpdateMessage : MonoBehaviour
     private void DisplayMessage()
     {
         appUpdateMessageHolder.gameObject.SetActive(true);
-        string month = "Nov";
-        string year = "2025";
-        string message = "Check out the new stock exchange at planet 5. Daily dividends.";
-        string message2 = "December's gift: Game play will affect investments.";
+        string month = "Jan";
+        string year = "2026";
+        string message = "Hunt for the daily company cargo ship. Stocks will swing.";
+        string message2 = "This new year, crack open company ships to see what's inside.";
         titleText.text = ($"Game dev news:\n{month} {year}");
         messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
     }
@@ -103,4 +103,17 @@ public class AppUpdateMessage : MonoBehaviour
         appUpdateMessageHolder.gameObject.SetActive(false);
     }
 
+
+    /*
+        private void DisplayMessage()
+    {
+        appUpdateMessageHolder.gameObject.SetActive(true);
+        string month = "Nov";
+        string year = "2025";
+        string message = "Check out the new stock exchange at planet 5. Daily dividends.";
+        string message2 = "December's gift: Game play will affect investments.";
+        titleText.text = ($"Game dev news:\n{month} {year}");
+        messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
+    }
+    */
 }
