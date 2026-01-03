@@ -26,10 +26,10 @@ public class ObstacleMovement : MonoBehaviour
     [SerializeField] private bool isMissilePickUp;
     [SerializeField] private bool isShieldPickUp;
     [SerializeField] private bool isNukePickUp;
+    [SerializeField] private bool isLootShip;
 
 
     [Header("Obstacle Settings")]
-
     [SerializeField] private Obstacle obstacle;
     [SerializeField] private float obstacleSpeedMultiplier; // Speed multiplier for obstacles
     [SerializeField] private float rotationSpeedMin;
@@ -37,13 +37,21 @@ public class ObstacleMovement : MonoBehaviour
     private float rotationSpeed;
 
     [SerializeField] private Transform verticalWarning;
-
     [SerializeField] private AudioClip[] entranceSounds;
     [SerializeField] private AudioClip[] collisionSounds;
     [SerializeField] private AudioClip thunderSound;
     [SerializeField] private ParticleSystem collisionParticles;
     [SerializeField] private ParticleSystem lightningParticles;
     private float lightningTimer = 1.2f;
+
+    [Header("Loot Ship Settings")]
+    private float strafeTimer;
+    private float strafeTimerCountdown;
+    private int targetLane = 2;
+    private int laneDistance = 1;
+    private Vector3 strafeDirection;
+    private float strafeRotation = 5f;
+    private Quaternion targetRotation;
 
     private void OnEnable()
     {
@@ -62,9 +70,9 @@ public class ObstacleMovement : MonoBehaviour
         {
             Debug.LogError("PlayerStatsManager not found in the scene!");
         }
-        
 
         rotationSpeed = UnityEngine.Random.Range(rotationSpeedMin, rotationSpeedMax);
+        strafeTimerCountdown = strafeTimer;
     }
 
     private void Update()
@@ -93,6 +101,11 @@ public class ObstacleMovement : MonoBehaviour
         if (isTurbulance)
         {
             Lightning();
+        }
+
+        if (isLootShip)
+        {
+            LootShipMovement();
         }
     }
 
@@ -238,4 +251,94 @@ public class ObstacleMovement : MonoBehaviour
             health.ChangeHealth(damageAmt);
         }
     }
+
+    #region Loot Ship Movement
+
+    private void LootShipMovement()
+    {
+        if (strafeTimerCountdown <= 0)
+        {
+            SetRandomStrafeTimer();
+            SetTargetLane();
+            Strafe();
+        }
+        else if (strafeTimerCountdown > 0)
+        {
+            strafeTimerCountdown -= Time.deltaTime;
+        }
+    }
+
+    private void SetRandomStrafeTimer()
+    {
+        float minWaitTime = 3f;
+        float maxWaitTime = 10f;
+        strafeTimer = UnityEngine.Random.Range(minWaitTime, maxWaitTime);
+        strafeTimerCountdown = strafeTimer;
+    }
+
+    private void SetTargetLane()
+    {
+        // Determine if we should move left or right
+        if (UnityEngine.Random.value > 0.5f && targetLane < 4)
+        {
+            // Move right if not already at rightmost lane
+            targetLane = Mathf.Min(targetLane + 1, 4);
+            strafeDirection = Vector3.right;
+        }
+        else if (targetLane > 0)
+        {
+            // Move left if not already at leftmost lane
+            targetLane = Mathf.Max(targetLane - 1, 0);
+            strafeDirection = Vector3.left;
+        }
+        // If we're at a boundary and can't move in the random direction,
+        // move in the opposite direction instead
+        else if (targetLane == 4)
+        {
+            // At right boundary, must move left
+            targetLane = Mathf.Max(targetLane - 1, 0);
+            strafeDirection = Vector3.left;
+        }
+        else if (targetLane == 0)
+        {
+            // At left boundary, must move right
+            targetLane = Mathf.Min(targetLane + 1, 4);
+            strafeDirection = Vector3.right;
+        }
+    }
+
+    private void Strafe()
+    {
+        // Calculate the target position based on the target lane
+        Vector3 targetPosition = transform.position;
+        targetPosition.x = (targetLane - 2) * laneDistance; // Adjust x position based on lane
+                                                            // Set rotation based on strafe direction
+        if (strafeDirection == Vector3.right)
+        {
+            targetRotation = Quaternion.Euler(0, 45, 0); // Rotate right
+        }
+        else if (strafeDirection == Vector3.left)
+        {
+            targetRotation = Quaternion.Euler(0, -45, 0); // Rotate left
+        }
+
+        if (playerStatsManager.PlayerMass > 0)
+        {
+            // Calculate the speed with mass
+            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * (obstacleSpeedMultiplier * UnityEngine.Random.Range(0.9f, 1f));
+
+            // Smoothly move the player to the target position
+            transform.position = Vector3.Lerp(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+
+            // Check if the player has reached the target position
+            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            {
+                targetRotation = Quaternion.Euler(0, 0, 0); // Reset rotation to 0 degrees on Y-axis
+            }
+        }
+        // Smoothly interpolate the rotation towards the target rotation
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, strafeRotation * Time.deltaTime);
+    }
+
+    #endregion
 }

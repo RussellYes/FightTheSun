@@ -96,7 +96,7 @@ public class GameData
     public int randomLootShipLevel;
     public string randomLootShipCompanyName;
     public Color randomLootShipCompanyColour;
-    public float randomLootShipPriceChange;
+    public int investingCompanyNumber;
 
     [Header("Time Data")]
     public float appMessageSavedMonth;
@@ -219,7 +219,7 @@ public class GameData
         randomLootShipLevel = 0;
         randomLootShipCompanyName = "";
         randomLootShipCompanyColour = Color.white;
-        randomLootShipPriceChange = 0f;
+        investingCompanyNumber = 0;
 
         // Time Data
         appMessageSavedMonth = 0;
@@ -451,7 +451,7 @@ public class GameData
         randomLootShipLevel = 0;
         randomLootShipCompanyName = "";
         randomLootShipCompanyColour = Color.white;
-        randomLootShipPriceChange = 0f;
+        investingCompanyNumber = 0;
 
         // Time Data
         appMessageSavedMonth = 0;

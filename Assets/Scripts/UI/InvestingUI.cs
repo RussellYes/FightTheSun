@@ -66,16 +66,6 @@ public class InvestingUI : MonoBehaviour
     [SerializeField] private Button selectCompany5TradeButton;
     [SerializeField] private int companyIndex;
     [SerializeField] private TextMeshProUGUI tradingCompanyNameText;
-    [SerializeField] private Color company1Colour;
-    [SerializeField] private Color company2Colour;
-    [SerializeField] private Color company3Colour;
-    [SerializeField] private Color company4Colour;
-    [SerializeField] private Color company5Colour;
-    [SerializeField] private string company1Name;
-    [SerializeField] private string company2Name;
-    [SerializeField] private string company3Name;
-    [SerializeField] private string company4Name;
-    [SerializeField] private string company5Name;
 
     [Header("Stock Price Settings")]
     [SerializeField] private float minStockPrice = 0f;
@@ -1469,8 +1459,9 @@ public class InvestingUI : MonoBehaviour
 
     private void SelectRandomLootShipLevel()
     {
-        // Select a random level from levels 1 to 9 (Arrays end the max number +1, so the range is 1 to 10)
-        int randomLootShipLevel = UnityEngine.Random.Range(1, 10);
+        int minLevel = 1;
+        int maxLevelPlusOneForArray = 10;
+        int randomLootShipLevel = UnityEngine.Random.Range(minLevel, maxLevelPlusOneForArray);
         DataPersister.Instance.CurrentGameData.randomLootShipLevel = randomLootShipLevel;
         DataPersister.Instance.SaveCurrentGame();
         Debug.Log($"InvestingUI SelectRandomLootShipLevel - Level: {randomLootShipLevel}");
@@ -1478,41 +1469,56 @@ public class InvestingUI : MonoBehaviour
 
     private void SelectRandomLootShipCompany()
     {
-        string randomLootShipCompanyName;
-        Color randomLootShipCompanyColour;
+        string randomLootShipCompanyName = "";
+        Color randomLootShipCompanyColour = Color.white;
+        int companyNumber = 0;
         int randomNumber = UnityEngine.Random.Range(0, companies.Length);
-        if (randomNumber == 0) return;
-        if (randomNumber == 1)
+        if (randomNumber == 0)
         {
-            randomLootShipCompanyName = company1Name;
-            randomLootShipCompanyColour = company1Colour;
+            randomLootShipCompanyName = companies[0].companyName;
+            randomLootShipCompanyColour = companies[0].companyColor;
+            companyNumber = 0;
+        }
+        else if (randomNumber == 1)
+        {
+            randomLootShipCompanyName = companies[1].companyName;
+            randomLootShipCompanyColour = companies[1].companyColor;
+            companyNumber = 1;
         }
         else if (randomNumber == 2)
         {
-            randomLootShipCompanyName = company2Name;
-            randomLootShipCompanyColour = company2Colour;
+            randomLootShipCompanyName = companies[2].companyName;
+            randomLootShipCompanyColour = companies[2].companyColor;
+            companyNumber = 2;
         }
         else if (randomNumber == 3)
         {
-            randomLootShipCompanyName = company3Name;
-            randomLootShipCompanyColour = company3Colour;
+            randomLootShipCompanyName = companies[3].companyName;
+            randomLootShipCompanyColour = companies[3].companyColor;
+            companyNumber = 3;
         }
         else if (randomNumber == 4)
         {
-            randomLootShipCompanyName = company4Name;
-            randomLootShipCompanyColour = company4Colour;
-        }
-        else
-        {
-            randomLootShipCompanyName = company5Name;
-            randomLootShipCompanyColour = company5Colour;
+            randomLootShipCompanyName = companies[4].companyName;
+            randomLootShipCompanyColour = companies[4].companyColor;
+            companyNumber = 4;
         }
 
         DataPersister.Instance.CurrentGameData.randomLootShipCompanyName = randomLootShipCompanyName;
         DataPersister.Instance.CurrentGameData.randomLootShipCompanyColour = randomLootShipCompanyColour;
+        DataPersister.Instance.CurrentGameData.investingCompanyNumber = companyNumber;
         DataPersister.Instance.SaveCurrentGame();
         Debug.Log($"InvestingUI SelectRandomCompany - Company: {randomLootShipCompanyName} and Colour: {randomLootShipCompanyColour}");
+
+        StartCoroutine(DailyLootShipMessage());
     }
 
+    IEnumerator DailyLootShipMessage()
+    {
+        adRewardRecievedHolder.SetActive(true);
+        adRewardRecievedText.text = ($"Loot ship spotted on level {DataPersister.Instance.CurrentGameData.randomLootShipLevel}");
+        yield return new WaitForSeconds(4f);
+        adRewardRecievedHolder.SetActive(false);
+    }
     #endregion
 }

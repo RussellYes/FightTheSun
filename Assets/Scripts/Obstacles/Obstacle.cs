@@ -72,7 +72,7 @@ public class Obstacle : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Obstacle: No SpriteRenderer or obstacleSprites found.");
+            Debug.LogWarning("Obstacle: No SpriteRenderer or obstacleSprites found. (Loot ships don't use sprites.)");
         }
     }
 
@@ -99,7 +99,16 @@ public class Obstacle : MonoBehaviour
             BossDefeatedEvent?.Invoke();
             return;
         }
-
+        LootShip lootShip = GetComponent<LootShip>();
+        if (lootShip != null)
+        {
+            lootShip.CreateLoot();
+        }
+        LootShipLoot lootShipLoot = GetComponent<LootShipLoot>();
+        if (lootShipLoot != null)
+        {
+            lootShipLoot.ChangeSharePrice();
+        }
         // Destroy the obstacle GameObject
         Destroy(gameObject);
     }

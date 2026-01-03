@@ -66,7 +66,7 @@
 				{
 					"directoryIndex" : 1,
 					"id" : "swappywrapper::@7e25bd1f32ce224db4e9",
-					"jsonFile" : "target-swappywrapper-RelWithDebInfo-8946a274966b9a174914.json",
+					"jsonFile" : "target-swappywrapper-RelWithDebInfo-73780f0e0cd2f15a330f.json",
 					"name" : "swappywrapper",
 					"projectIndex" : 1
 				}
@@ -76,7 +76,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/.utmp/RelWithDebInfo/2r6k133w/armeabi-v7a",
+		"build" : "C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/.utmp/RelWithDebInfo/2r6k133w/arm64-v8a",
 		"source" : "C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp"
 	},
 	"version" : 

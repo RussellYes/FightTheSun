@@ -20,8 +20,6 @@ public class Loot : MonoBehaviour
         playerStatsManager = FindFirstObjectByType<PlayerStatsManager>();
 
         SetLootValues();
-
-
     }
 
     private void SetLootValues()

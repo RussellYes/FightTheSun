@@ -24,12 +24,14 @@ public class DialogueManagerUI : MonoBehaviour
         DialogueManager.StartDialogueEvent += FadeInEventRecieved;
         DialogueManager.HideDialogueEvent += FadeOutEventRecieved;
         DialogueManager.FlipFlopPicEvent += FlipFlopPicEventRecieved;
+        LootShipLoot.lootShipMessageEvent += FadeInEventRecieved;
     }
     private void OnDisable()
     {
         DialogueManager.StartDialogueEvent -= FadeInEventRecieved;
         DialogueManager.HideDialogueEvent -= FadeOutEventRecieved;
         DialogueManager.FlipFlopPicEvent -= FlipFlopPicEventRecieved;
+        LootShipLoot.lootShipMessageEvent -= FadeInEventRecieved;
     }
 
     private void FadeInEventRecieved(string name, string message, float dialogueTimerAmt)
