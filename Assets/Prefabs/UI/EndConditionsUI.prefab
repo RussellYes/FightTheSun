@@ -2256,6 +2256,7 @@ MonoBehaviour:
   saveButtonHolder: {fileID: 3837075825688837318}
   adRewardRecievedHolder: {fileID: 7876715203586247051}
   adRewardRecievedText: {fileID: 6348692894033647710}
+  closeAdRewardMessageButton: {fileID: 0}
 --- !u!1 &3539003254923047415
 GameObject:
   m_ObjectHideFlags: 0
@@ -5769,7 +5770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5749453598317329996
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7344,7 +7345,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Unlock
+  m_text: GO
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 827fe75048f3d5449a06418a605fd1f7, type: 2}
   m_sharedMaterial: {fileID: 5548394146267127524, guid: 827fe75048f3d5449a06418a605fd1f7, type: 2}

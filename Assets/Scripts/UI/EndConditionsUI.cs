@@ -87,6 +87,7 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private GameObject saveButtonHolder;
     [SerializeField] private GameObject adRewardRecievedHolder;
     [SerializeField] private TextMeshProUGUI adRewardRecievedText;
+    [SerializeField] private Button closeAdRewardMessageButton;
 
 
     private void Awake()
@@ -115,6 +116,7 @@ public class EndConditionsUI : MonoBehaviour
         rewardButtonFront.onClick.AddListener(() => HandleRewardRequestButton());
         RewardedAdPlayer.RewardGranted += AdReward2xThenRevive;
         RewardedAdPlayer.ActivateGameLoseButtonsEvent += HandleActivateGameLoseButtonsEvent;
+        closeAdRewardMessageButton.onClick.AddListener(() => Revive());
     }
 
     private void OnDisable()
@@ -126,6 +128,7 @@ public class EndConditionsUI : MonoBehaviour
         rewardButtonFront.onClick.RemoveListener(() => HandleRewardRequestButton());
         RewardedAdPlayer.RewardGranted -= AdReward2xThenRevive;
         RewardedAdPlayer.ActivateGameLoseButtonsEvent -= HandleActivateGameLoseButtonsEvent;
+        closeAdRewardMessageButton.onClick.RemoveListener(() => Revive());
     }
 
     private void HideUI()
@@ -482,7 +485,6 @@ public class EndConditionsUI : MonoBehaviour
         float lerpDuration = 4f;
         float elapsedTime = 0f;
         PlayTextLerpSFX();
-
         while (elapsedTime < lerpDuration)
         {
             float progress = elapsedTime / lerpDuration;
@@ -512,14 +514,13 @@ public class EndConditionsUI : MonoBehaviour
         yield return new WaitForSecondsRealtime(textAppearDelay);
 
         {
-            // Store the original memory score before adding gain (for ad reward calculations)
-            originalMemoryBeforeGain = memoryScore;
 
             // Calculate new total memory score
+            originalMemoryBeforeGain = memoryScore;
             newTotalMemoryScore = memoryScore + memoryGainScore;
             Debug.Log($"EndConditionsUI ShowLoseTextsWithDelay - newTotalMemoryScore: {newTotalMemoryScore}");
 
-            // Lerp memory total text from current memory score to new total memory score
+            // Lerp memory total text from current memory score to total memory score
             float startMemoryValue = memoryScore;
             float lerpDuration2 = 2f;
             float elapsedTime2 = 0f;
@@ -528,12 +529,8 @@ public class EndConditionsUI : MonoBehaviour
             while (elapsedTime2 < lerpDuration2)
             {
                 float progress = elapsedTime2 / lerpDuration2;
-
-                // Lerp from startMemoryValue to newTotalMemoryScore
                 float currentMemoryValue = Mathf.Lerp(startMemoryValue, newTotalMemoryScore, progress);
-
                 memoryTotalText.text = $"{Mathf.RoundToInt(currentMemoryValue)}";
-
                 elapsedTime2 += Time.unscaledDeltaTime;
                 yield return null;
             }
@@ -651,23 +648,19 @@ public class EndConditionsUI : MonoBehaviour
         float adRewardMultiplier = 2f;
         float waitForPlayerToReadDuration = 1f;
 
-        // Step 1: Display current values (they're already shown from ShowLoseTextsWithDelay)
+        // Display current values (they're already shown from ShowLoseTextsWithDelay)
         // memoryScoreGainText shows the gain, memoryTotalText shows the total
 
-        // Step 2: Calculate the doubled memory gain
-        float currentMemoryGain = memoryGainScore; // This is the gain shown on screen
+        // Calculate memory gain
+        float currentMemoryGain = memoryGainScore;
         float doubledMemoryGain = currentMemoryGain * adRewardMultiplier;
 
-        // Step 3: Brief wait to let player see current values
         yield return new WaitForSecondsRealtime(waitForPlayerToReadDuration);
 
-        // Step 4: Lerp memoryGain to the new 2xMemoryGain
+        // Lerp memoryGain to the 2xMemoryGain
         float lerpTime = 1.5f;
         float elapsedTime = 0f;
-
         PlayTextLerpSFX();
-
-        // Lerp memory gain text from current to doubled
         while (elapsedTime < lerpTime)
         {
             float progress = elapsedTime / lerpTime;
@@ -678,18 +671,14 @@ public class EndConditionsUI : MonoBehaviour
             yield return null;
         }
 
-        // Ensure final gain value
         memoryScoreGainText.text = "+" + Mathf.RoundToInt(doubledMemoryGain).ToString("0");
         StopSFX();
         PlayRandomTextSfx();
         Instantiate(textShineBar, memoryScoreGainText.transform.position, Quaternion.identity, memoryScoreGainText.transform.parent);
 
-        // Step 5: Brief wait before lerping total
         yield return new WaitForSecondsRealtime(waitForPlayerToReadDuration);
 
-        // Step 6: Lerp memoryTotal to new total (original memoryScore + doubled gain)
         float newMemoryTotal = originalMemoryBeforeGain + doubledMemoryGain;
-
         elapsedTime = 0f;
         PlayTextLerpSFX();
 
@@ -713,8 +702,8 @@ public class EndConditionsUI : MonoBehaviour
         // Update the actual memoryScore variable with the new total
         memoryScore = newMemoryTotal;
 
-        // Step 7: Brief final wait
-        yield return new WaitForSecondsRealtime(1f);
+        float pauseToLetPlayerSeeFinalValues = 1f;
+        yield return new WaitForSecondsRealtime(pauseToLetPlayerSeeFinalValues);
 
         // Ad break
         StartCoroutine(AdRewardRecievedMessage(doubledMemoryGain));
@@ -722,17 +711,18 @@ public class EndConditionsUI : MonoBehaviour
 
     IEnumerator AdRewardRecievedMessage(float doubledMemoryGain)
     {
+        Debug.Log($"EndConditionsUI AdRewardRecievedMessage - doubledMemoryGain: {doubledMemoryGain}");
         adRewardRecievedHolder.SetActive(true);
-        adRewardRecievedText.text = ($"${doubledMemoryGain: 0.0}");
+        adRewardRecievedText.text = ($"${doubledMemoryGain: 0}");
         yield return new WaitForSeconds(3f);
         adRewardRecievedHolder.SetActive(false);
 
-        // Step 8: Revive
         Revive();
     }
 
     private void Revive()
     {
+        Debug.Log("EndConditionsUI Revive");
         reviveEvent?.Invoke();
 
         var gameData = DataPersister.Instance.CurrentGameData;
