@@ -714,7 +714,7 @@ public class EndConditionsUI : MonoBehaviour
         Debug.Log($"EndConditionsUI AdRewardRecievedMessage - doubledMemoryGain: {doubledMemoryGain}");
         adRewardRecievedHolder.SetActive(true);
         adRewardRecievedText.text = ($"${doubledMemoryGain: 0}");
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSecondsRealtime(3f);
         adRewardRecievedHolder.SetActive(false);
 
         Revive();
