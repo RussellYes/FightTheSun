@@ -87,8 +87,6 @@ public class EndConditionsUI : MonoBehaviour
     [SerializeField] private GameObject saveButtonHolder;
     [SerializeField] private GameObject adRewardRecievedHolder;
     [SerializeField] private TextMeshProUGUI adRewardRecievedText;
-    [SerializeField] private Button closeAdRewardMessageButton;
-
 
     private void Awake()
     {
@@ -116,7 +114,6 @@ public class EndConditionsUI : MonoBehaviour
         rewardButtonFront.onClick.AddListener(() => HandleRewardRequestButton());
         RewardedAdPlayer.RewardGranted += AdReward2xThenRevive;
         RewardedAdPlayer.ActivateGameLoseButtonsEvent += HandleActivateGameLoseButtonsEvent;
-        closeAdRewardMessageButton.onClick.AddListener(() => Revive());
     }
 
     private void OnDisable()
@@ -128,7 +125,6 @@ public class EndConditionsUI : MonoBehaviour
         rewardButtonFront.onClick.RemoveListener(() => HandleRewardRequestButton());
         RewardedAdPlayer.RewardGranted -= AdReward2xThenRevive;
         RewardedAdPlayer.ActivateGameLoseButtonsEvent -= HandleActivateGameLoseButtonsEvent;
-        closeAdRewardMessageButton.onClick.RemoveListener(() => Revive());
     }
 
     private void HideUI()

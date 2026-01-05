@@ -29,19 +29,21 @@ public class Cockpit : MonoBehaviour
     private void OnEnable()
     {
         PlayerStatsManager.PlayerHullPercentEvent += Visual;
+        DataPersister.InitializationComplete += HandleInitializationComplete;
     }
 
     private void OnDisable()
     {
         PlayerStatsManager.PlayerHullPercentEvent -= Visual;
+        DataPersister.InitializationComplete -= HandleInitializationComplete;
     }
 
-    private void Start()
+    private void HandleInitializationComplete()
     {
         playerStatsManager = FindFirstObjectByType<PlayerStatsManager>();
         damageScript = GetComponent<Damage>();
         float damageValue = damageScript.GetDamage();
-        damageValue *= playerStatsManager.CombatSkill;
+        damageValue *= DataPersister.Instance.CurrentGameData.playerData[0].combatSkill;
         damageScript.ChangeDamage(damageValue);
 
         // Invoke the event to add mass
@@ -49,6 +51,7 @@ public class Cockpit : MonoBehaviour
         // Invoke the event to add thrust
         OnCockpitThrustChanged?.Invoke(thrust);
     }
+
     private void OnDestroy()
     {
         // Invoke the event to subtract mass

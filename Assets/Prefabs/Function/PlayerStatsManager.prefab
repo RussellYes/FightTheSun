@@ -46,8 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   playerMass: 0
-  playerThrust: 0
-  throttleUpButton: {fileID: 0}
-  throttleDownButton: {fileID: 0}
+  basePlayerThrust: 1
   playerHullMax: 0
   playerCurrentHull: 0

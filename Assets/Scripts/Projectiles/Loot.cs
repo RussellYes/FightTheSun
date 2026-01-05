@@ -33,15 +33,15 @@ public class Loot : MonoBehaviour
 
         for (int i = 0; i < lootCount; i++)
         {
-            float rollTheDice = UnityEngine.Random.Range(0, 101) + playerStatsManager.MiningSkill;
+            float rollTheDice = UnityEngine.Random.Range(0, 101) + DataPersister.Instance.CurrentGameData.playerData[0].miningSkill;
             if (rollTheDice > 95)
             {
-                rareMetal = playerStatsManager.MiningSkill / UnityEngine.Random.Range(1f, 11f);
+                rareMetal = DataPersister.Instance.CurrentGameData.playerData[0].miningSkill / UnityEngine.Random.Range(1f, 11f);
                 lootImageRenderer.sprite = rareMetalImage;
             }
             else if (rollTheDice <= 95)
             {
-                metal = playerStatsManager.MiningSkill / UnityEngine.Random.Range(1f, 6f);
+                metal = DataPersister.Instance.CurrentGameData.playerData[0].miningSkill / UnityEngine.Random.Range(1f, 6f);
                 lootImageRenderer.sprite = metalImage;
             }
         }

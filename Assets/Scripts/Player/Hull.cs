@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-// This script store and changes the hull value for a space ship.
+// This script stores and changes the hull value for a space ship.
 
 public class Hull : MonoBehaviour
 {
@@ -16,20 +16,31 @@ public class Hull : MonoBehaviour
     private float maxRepairTime = 200f;
     private float minRepairTime = 1f;
     private float repairCountdown;
+    private bool isInitialized = false;
 
-    private void Start()
+    private void OnEnable()
+    {
+        DataPersister.InitializationComplete += HandleInitializationComplete;
+    }
+    private void OnDisable()
+    {
+        DataPersister.InitializationComplete -= HandleInitializationComplete;
+    }
+
+    private void HandleInitializationComplete()
     {
         playerStatsManager = FindFirstObjectByType<PlayerStatsManager>();
-
-        // Trigger events to initialize values
         OnHullMaxChanged?.Invoke(hullMax);
-        OnCurrentHullChanged?.Invoke(hullMax); // Start with full hull
         repairCountdown = maxRepairTime;
+        isInitialized = true;
     }
 
     private void Update()
     {
-        RepairShip();
+        if (isInitialized)
+        {
+            RepairShip();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -52,7 +63,7 @@ public class Hull : MonoBehaviour
         {
             float repairValue = 1f;
             OnCurrentHullChanged?.Invoke(repairValue);
-            repairCountdown = maxRepairTime - playerStatsManager.RoboticsSkill;
+            repairCountdown = maxRepairTime - DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill;
             if (repairCountdown < minRepairTime)
             {
                 repairCountdown = minRepairTime;

@@ -27,7 +27,7 @@ public class CreateLoot : MonoBehaviour
     }
     private void Initialize()
     {
-        miningTime -= PlayerStatsManager.MiningSkill;
+        miningTime -= DataPersister.Instance.CurrentGameData.playerData[0].miningSkill;
         if (miningTime <= 0.5f)
         {
             miningTime = 0.5f;

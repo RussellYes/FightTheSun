@@ -311,61 +311,61 @@ public class ShipUpgradesUI : MonoBehaviour
         float Cube(float value) => value * value * value;
 
         // Memory costs for upgrades - using original cubed logic
-        engineeringMemoryCost = Cube(playerStatsManager.EngineeringSkill);
+        engineeringMemoryCost = Cube(DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill);
         engineeringMemoryCostText.text = engineeringMemoryCost.ToString("0.00");
 
-        pilotingMemoryCost = Cube(playerStatsManager.PilotingSkill);
+        pilotingMemoryCost = Cube(DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill);
         pilotingMemoryCostText.text = pilotingMemoryCost.ToString("0.00");
 
-        mechanicsMemoryCost = Cube(playerStatsManager.MechanicsSkill);
+        mechanicsMemoryCost = Cube(DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill);
         mechanicsMemoryCostText.text = mechanicsMemoryCost.ToString("0.00");
 
-        miningMemoryCost = Cube(playerStatsManager.MiningSkill);
+        miningMemoryCost = Cube(DataPersister.Instance.CurrentGameData.playerData[0].miningSkill);
         miningMemoryCostText.text = miningMemoryCost.ToString("0.00");
 
-        roboticsMemoryCost = Cube(playerStatsManager.RoboticsSkill);
+        roboticsMemoryCost = Cube(DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill);
         roboticsMemoryCostText.text = roboticsMemoryCost.ToString("0.00");
 
-        combatMemoryCost = Cube(playerStatsManager.CombatSkill);
+        combatMemoryCost = Cube(DataPersister.Instance.CurrentGameData.playerData[0].combatSkill);
         combatMemoryCostText.text = combatMemoryCost.ToString("0.00");
 
         // Metal costs for upgrades - using original squared logic with threshold
-        engineeringMetalCost = Squared(playerStatsManager.EngineeringSkill);
+        engineeringMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill);
         if (engineeringMetalCost < 1.5)
         {
             engineeringMetalCost = 0;
         }
         engineeringMetalCostText.text = engineeringMetalCost.ToString("0.00");
 
-        pilotingMetalCost = Squared(playerStatsManager.PilotingSkill);
+        pilotingMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill);
         if (pilotingMetalCost < 1.5)
         {
             pilotingMetalCost = 0;
         }
         pilotingMetalCostText.text = pilotingMetalCost.ToString("0.00");
 
-        mechanicsMetalCost = Squared(playerStatsManager.MechanicsSkill);
+        mechanicsMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill);
         if (mechanicsMetalCost < 1.5)
         {
             mechanicsMetalCost = 0;
         }
         mechanicsMetalCostText.text = mechanicsMetalCost.ToString("0.00");
 
-        miningMetalCost = Squared(playerStatsManager.MiningSkill);
+        miningMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].miningSkill);
         if (miningMetalCost < 1.5)
         {
             miningMetalCost = 0;
         }
         miningMetalCostText.text = miningMetalCost.ToString("0.00");
 
-        roboticsMetalCost = Squared(playerStatsManager.RoboticsSkill);
+        roboticsMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill);
         if (roboticsMetalCost < 1.5)
         {
             roboticsMetalCost = 0;
         }
         roboticsMetalCostText.text = roboticsMetalCost.ToString("0.00");
 
-        combatMetalCost = Squared(playerStatsManager.CombatSkill);
+        combatMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].combatSkill);
         if (combatMetalCost < 1.5)
         {
             combatMetalCost = 0;
@@ -373,7 +373,7 @@ public class ShipUpgradesUI : MonoBehaviour
         combatMetalCostText.text = combatMetalCost.ToString("0.00");
 
         // Rare Metal costs for upgrades - using original squared logic with threshold and division
-        engineeringRareMetalCost = Squared(playerStatsManager.EngineeringSkill);
+        engineeringRareMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill);
         if (engineeringRareMetalCost < 2)
         {
             engineeringRareMetalCost = 0;
@@ -381,7 +381,7 @@ public class ShipUpgradesUI : MonoBehaviour
         engineeringRareMetalCost = engineeringRareMetalCost / 2;
         engineeringRareMetalCostText.text = engineeringRareMetalCost.ToString("0.00");
 
-        pilotingRareMetalCost = Squared(playerStatsManager.PilotingSkill);
+        pilotingRareMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill);
         if (pilotingRareMetalCost < 2)
         {
             pilotingRareMetalCost = 0;
@@ -389,7 +389,7 @@ public class ShipUpgradesUI : MonoBehaviour
         pilotingRareMetalCost = pilotingRareMetalCost / 2;
         pilotingRareMetalCostText.text = pilotingRareMetalCost.ToString("0.00");
 
-        mechanicsRareMetalCost = Squared(playerStatsManager.MechanicsSkill);
+        mechanicsRareMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill);
         if (mechanicsRareMetalCost < 2)
         {
             mechanicsRareMetalCost = 0;
@@ -397,7 +397,7 @@ public class ShipUpgradesUI : MonoBehaviour
         mechanicsRareMetalCost = mechanicsRareMetalCost / 2;
         mechanicsRareMetalCostText.text = mechanicsRareMetalCost.ToString("0.00");
 
-        miningRareMetalCost = Squared(playerStatsManager.MiningSkill);
+        miningRareMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].miningSkill);
         if (miningRareMetalCost < 2)
         {
             miningRareMetalCost = 0;
@@ -405,7 +405,7 @@ public class ShipUpgradesUI : MonoBehaviour
         miningRareMetalCost = miningRareMetalCost / 2;
         miningRareMetalCostText.text = miningRareMetalCost.ToString("0.00");
 
-        roboticsRareMetalCost = Squared(playerStatsManager.RoboticsSkill);
+        roboticsRareMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill);
         if (roboticsRareMetalCost < 2)
         {
             roboticsRareMetalCost = 0;
@@ -413,7 +413,7 @@ public class ShipUpgradesUI : MonoBehaviour
         roboticsRareMetalCost = roboticsRareMetalCost / 2;
         roboticsRareMetalCostText.text = roboticsRareMetalCost.ToString("0.00");
 
-        combatRareMetalCost = Squared(playerStatsManager.CombatSkill);
+        combatRareMetalCost = Squared(DataPersister.Instance.CurrentGameData.playerData[0].combatSkill);
         if (combatRareMetalCost < 2)
         {
             combatRareMetalCost = 0;
@@ -422,12 +422,12 @@ public class ShipUpgradesUI : MonoBehaviour
         combatRareMetalCostText.text = combatRareMetalCost.ToString("0.00");
 
         // Current and potential skills
-        engineeringCurrentAndPotentialSkillText.text = $"{playerStatsManager.EngineeringSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(playerStatsManager.EngineeringSkill).ToString("0.00")}";
-        pilotingCurrentAndPotentialSkillText.text = $"{playerStatsManager.PilotingSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(playerStatsManager.PilotingSkill).ToString("0.00")}";
-        mechanicCurrentAndPotentialSkillText.text = $"{playerStatsManager.MechanicsSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(playerStatsManager.MechanicsSkill).ToString("0.00")}";
-        miningCurrentAndPotentialSkillText.text = $"{playerStatsManager.MiningSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(playerStatsManager.MiningSkill).ToString("0.00")}";
-        roboticsCurrentAndPotentialSkillText.text = $"{playerStatsManager.RoboticsSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(playerStatsManager.RoboticsSkill).ToString("0.00")}";
-        combatCurrentAndPotentialSkillText.text = $"{playerStatsManager.CombatSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(playerStatsManager.CombatSkill).ToString("0.00")}";
+        engineeringCurrentAndPotentialSkillText.text = $"{DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill).ToString("0.00")}";
+        pilotingCurrentAndPotentialSkillText.text = $"{DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill).ToString("0.00")}";
+        mechanicCurrentAndPotentialSkillText.text = $"{DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill).ToString("0.00")}";
+        miningCurrentAndPotentialSkillText.text = $"{DataPersister.Instance.CurrentGameData.playerData[0].miningSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(DataPersister.Instance.CurrentGameData.playerData[0].miningSkill).ToString("0.00")}";
+        roboticsCurrentAndPotentialSkillText.text = $"{DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill).ToString("0.00")}";
+        combatCurrentAndPotentialSkillText.text = $"{DataPersister.Instance.CurrentGameData.playerData[0].combatSkill.ToString("0.00")} -> {playerStatsManager.MultiplySkill(DataPersister.Instance.CurrentGameData.playerData[0].combatSkill).ToString("0.00")}";
 
         // Update button states for all skills using the helper method
         UpdateSkillButtonState(engineeringButton, engineeringButtonVisualCue, engineeringMemoryCostText, engineeringMetalCostText, engineeringRareMetalCostText,

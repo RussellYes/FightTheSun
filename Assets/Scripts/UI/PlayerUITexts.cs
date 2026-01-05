@@ -17,19 +17,19 @@ public class PlayerUITexts : MonoBehaviour
         // Subscribe to events
         if (isHealth)
         {
-            PlayerStatsManager.OnCurrentHullChanged += PlayerStatsManager_OnCurrentHullChanged;
+            PlayerStatsManager.OnCurrentHullChanged += HandleOnCurrentHullChanged;
         }
         if (isThrust)
         {
-            PlayerStatsManager.OnCurrentThrustChanged += PlayerStatsManager_OnCurrentThrustChanged;
+            PlayerStatsManager.OnCurrentThrustChanged += HandleOnCurrentThrustChanged;
         }
         if (isCheckpoint)
         {
-            PlayerStatsManager.OnCheckpointProgressChanged += PlayerStatsManager_OnCheckpointProgressChanged;
+            PlayerStatsManager.OnCheckpointProgressChanged += HandleOnCheckpointProgressChanged;
         }
         if (isClawTimer)
         {
-            MiningClaw.OnClawTimerChanged += MiningClaw_OnClawTimerChanged;
+            MiningClaw.OnClawTimerChanged += HandleOnClawTimerChanged;
         }
     }
 
@@ -38,26 +38,27 @@ public class PlayerUITexts : MonoBehaviour
         // Unsubscribe from events
         if (isHealth)
         {
-            PlayerStatsManager.OnCurrentHullChanged -= PlayerStatsManager_OnCurrentHullChanged;
+            PlayerStatsManager.OnCurrentHullChanged -= HandleOnCurrentHullChanged;
         }
         if (isThrust)
         {
-            PlayerStatsManager.OnCurrentThrustChanged -= PlayerStatsManager_OnCurrentThrustChanged;
+            PlayerStatsManager.OnCurrentThrustChanged -= HandleOnCurrentThrustChanged;
         }
         if (isCheckpoint)
         {
-            PlayerStatsManager.OnCheckpointProgressChanged -= PlayerStatsManager_OnCheckpointProgressChanged;
+            PlayerStatsManager.OnCheckpointProgressChanged -= HandleOnCheckpointProgressChanged;
         }
         if (isClawTimer)
         {
-            MiningClaw.OnClawTimerChanged -= MiningClaw_OnClawTimerChanged;
+            MiningClaw.OnClawTimerChanged -= HandleOnClawTimerChanged;
         }
     }
 
-    private void PlayerStatsManager_OnCurrentHullChanged(object sender, PlayerStatsManager.OnCurrentHullChangedEventArgs e)
+    private void HandleOnCurrentHullChanged(object sender, PlayerStatsManager.OnCurrentHullChangedEventArgs e)
     {
         if (isHealth)
         {
+           // Debug.Log($"PlayerUITexts HandleOnCurrentHullChanged - saved currentHull {DataPersister.Instance.CurrentGameData.playerCurrentHull}, currentHull: {e.currentHull}, maxHull: {e.maxHull}, progress: {e.progressNormalized}");
             if (e.progressNormalized <= 0)
             {
                 statText.text = "";
@@ -69,8 +70,9 @@ public class PlayerUITexts : MonoBehaviour
         }
     }
 
-    private void PlayerStatsManager_OnCurrentThrustChanged(object sender, PlayerStatsManager.OnCurrentThrustChangedEventArgs e)
+    private void HandleOnCurrentThrustChanged(object sender, PlayerStatsManager.OnCurrentThrustChangedEventArgs e)
     {
+        Debug.Log($"PlayerUITexts HandleOnCurrentThrustChanged - currentThrust: {e.currentThrust}, maxHull: {e.maxThrust}, progress: {e.progressNormalized}");
         if (isThrust)
         {
             if (e.progressNormalized <= 0)
@@ -84,9 +86,9 @@ public class PlayerUITexts : MonoBehaviour
         }
     }
 
-    private void PlayerStatsManager_OnCheckpointProgressChanged(object sender, PlayerStatsManager.OnCheckpointProgressChangedEventArgs e)
+    private void HandleOnCheckpointProgressChanged(object sender, PlayerStatsManager.OnCheckpointProgressChangedEventArgs e)
     {
-        Debug.Log("ProgressBarUI_PlayerStatsManager_OnCheckpointProgressChanged");
+        Debug.Log($"PlayerUITexts HandleOnCheckpointProgressChanged");
         if (isCheckpoint)
         {
             if (e.progressNormalized <= 0)
@@ -101,8 +103,9 @@ public class PlayerUITexts : MonoBehaviour
         }
     }
 
-    private void MiningClaw_OnClawTimerChanged(object sender, MiningClaw.OnClawTimerChangedEventArgs e)
+    private void HandleOnClawTimerChanged(object sender, MiningClaw.OnClawTimerChangedEventArgs e)
     {
+        Debug.Log($"PlayerUITexts HandleOnClawTimerChanged");
         if (isClawTimer)
         {
             if (e.progressNormalized <= 0)

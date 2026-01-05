@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Quaternion targetRotation;
     private float yAxisRotationSpeed = 1f;
+    private bool isInitialized = false;
 
     [Header("Player death settings")]
     private bool dead = false;
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         SwipeControls.OnSwipeUp += SpeedUp;
         SwipeControls.OnSwipeDown += SpeedDown;
         PlayerStatsManager.PlayerHullPercentEvent += PrepareDeathMovement;
+        DataPersister.InitializationComplete += HandleInitializationComplete;
 
     }
 
@@ -46,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         SwipeControls.OnSwipeUp -= SpeedUp;
         SwipeControls.OnSwipeDown -= SpeedDown;
         PlayerStatsManager.PlayerHullPercentEvent -= PrepareDeathMovement;
+        DataPersister.InitializationComplete -= HandleInitializationComplete;
     }
 
     private void Start()
@@ -67,18 +70,25 @@ public class PlayerMovement : MonoBehaviour
         playerDeathRotation = Random.Range(playerRotationSpeedMin, playerRotationSpeedMax) * randomDirection;
     }
 
+    private void HandleInitializationComplete()
+    {
+        isInitialized = true;
+    }
 
 
     void Update()
     {
-        if (!dead)
+        if (isInitialized)
         {
-            MoveToGoal();
-        }
-        if (dead)
-        {
-            DeathMovement();
-            return;
+            if (!dead)
+            {
+                MoveToGoal();
+            }
+            if (dead)
+            {
+                DeathMovement();
+                return;
+            }
         }
     }
 
@@ -91,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         if (playerStatsManager.PlayerMass > 0)
         {
             // Calculate the speed with mass
-            float calculatedSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * playerStatsManager.PilotingSkill;
+            float calculatedSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill;
 
             // Smoothly move the player to the target position
             transform.position = Vector3.Lerp(transform.position, targetPosition, calculatedSpeed * Time.deltaTime);

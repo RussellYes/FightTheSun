@@ -88,7 +88,9 @@ public class ObstacleMovement : MonoBehaviour
             // Rotate the obstacle around the Z-axis
             transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
 
-            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * (obstacleSpeedMultiplier * UnityEngine.Random.Range(0.9f, 1f));
+            float minRandomSpeedMultiplier = 0.8f;
+            float maxRandomSpeedMultiplier = 1f;            
+            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * (obstacleSpeedMultiplier * UnityEngine.Random.Range(minRandomSpeedMultiplier, maxRandomSpeedMultiplier));
             transform.Translate(Vector3.down * movementSpeed * Time.deltaTime, Space.World);
 
             // Ensure the vertical warning always faces downward (in the direction of movement)
@@ -325,7 +327,9 @@ public class ObstacleMovement : MonoBehaviour
         if (playerStatsManager.PlayerMass > 0)
         {
             // Calculate the speed with mass
-            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * (obstacleSpeedMultiplier * UnityEngine.Random.Range(0.9f, 1f));
+            float minRandomSpeedMultiplier = 0.8f;
+            float maxRandomSpeedMultiplier = 1f;
+            float movementSpeed = (playerStatsManager.PlayerThrust / playerStatsManager.PlayerMass) * (obstacleSpeedMultiplier * UnityEngine.Random.Range(minRandomSpeedMultiplier, maxRandomSpeedMultiplier));
 
             // Smoothly move the player to the target position
             transform.position = Vector3.Lerp(transform.position, targetPosition, movementSpeed * Time.deltaTime);
