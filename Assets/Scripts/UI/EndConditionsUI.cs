@@ -179,7 +179,7 @@ public class EndConditionsUI : MonoBehaviour
 
                 if (DataPersister.Instance != null && DataPersister.Instance.CurrentGameData != null && DataPersister.Instance.CurrentGameData.playerData.Count > 0)
                 {
-                    memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+                    memoryScore = DataPersister.Instance.CurrentGameData.memory;
                     Debug.Log($"Initial memory score loaded: {memoryScore}");
                 }
 
@@ -366,7 +366,7 @@ public class EndConditionsUI : MonoBehaviour
             DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
             if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
             {
-                DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
+                DataPersister.Instance.CurrentGameData.memory = memoryScore;
                 Debug.Log($"Saving memory score (old): {memoryScore}");
             }
             DataPersister.Instance.SaveCurrentGame();
@@ -381,7 +381,7 @@ public class EndConditionsUI : MonoBehaviour
             DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
             if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
             {
-                DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;
+                DataPersister.Instance.CurrentGameData.memory = memoryScore;
                 Debug.Log($"Saving memory score (old): {memoryScore}");
             }
             DataPersister.Instance.SaveCurrentGame();
@@ -434,7 +434,7 @@ public class EndConditionsUI : MonoBehaviour
             DataPersister.Instance.CurrentGameData != null &&
             DataPersister.Instance.CurrentGameData.playerData.Count > 0)
         {
-            memoryScore = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+            memoryScore = DataPersister.Instance.CurrentGameData.memory;
         }
         Debug.Log($"EndConditionsUI ShowLoseTextsWithDelay - memoryScore before calculations: {memoryScore}");
         lineText.gameObject.SetActive(true);
@@ -610,14 +610,14 @@ public class EndConditionsUI : MonoBehaviour
             {
                 DataPersister.Instance.CurrentGameData.playerData.Add(new PlayerSaveData());
             }
-            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - DataPersister memoryScore before saving: {DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore}");
+            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - DataPersister memoryScore before saving: {DataPersister.Instance.CurrentGameData.memory}");
             Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {memoryScore}");
             // Update memory score
-            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = memoryScore;        
+            DataPersister.Instance.CurrentGameData.memory = memoryScore;        
     
             // Save the game
             DataPersister.Instance.SaveCurrentGame();
-            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore}");
+            Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {DataPersister.Instance.CurrentGameData.memory}");
             Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {memoryScore}");
         }
 

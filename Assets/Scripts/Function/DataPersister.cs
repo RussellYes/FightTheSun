@@ -131,7 +131,7 @@ public class DataPersister : MonoBehaviour
             {
                 CurrentGameData.playerData.Add(new PlayerSaveData());
             }
-            CurrentGameData.playerData[0].playerMemoryScore = shipUpgrades.GetMemoryScore();
+            CurrentGameData.memory = shipUpgrades.GetMemoryScore();
         }
     }
 

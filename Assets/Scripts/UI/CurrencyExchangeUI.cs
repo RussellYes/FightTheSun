@@ -144,12 +144,12 @@ public class CurrencyExchangeUI : MonoBehaviour
 
     private void UpdateTexts()
     {
-        memoriesText.text = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore.ToString("0.0");
+        memoriesText.text = DataPersister.Instance.CurrentGameData.memory.ToString("0.0");
         moneyText.text = DataPersister.Instance.CurrentGameData.totalMoney.ToString("0");
         metalText.text = DataPersister.Instance.CurrentGameData.totalMetal.ToString("0.0");
         rareMetalText.text = DataPersister.Instance.CurrentGameData.totalRareMetal.ToString("0.0");
 
-        UpdateButtonState(memoriesForMoneyButton, memoriesForMoneyButtonVisualCue, (int)DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore, memoriesToMoneyRate);             
+        UpdateButtonState(memoriesForMoneyButton, memoriesForMoneyButtonVisualCue, (int)DataPersister.Instance.CurrentGameData.memory, memoriesToMoneyRate);             
         UpdateButtonState(moneyForMetalButton, moneyForMetalButtonVisualCue, (int)DataPersister.Instance.CurrentGameData.totalMoney, moneyToMetalRate);
         UpdateButtonState(metalForRareMetalButton, metalForRareMetalButtonVisualCue, (int)DataPersister.Instance.CurrentGameData.totalMetal, metalToRareMetalRate);
         UpdateButtonState(rareMetalForMemoryButton, rareMetalForMemoryButtonVisualCue, (int)DataPersister.Instance.CurrentGameData.totalRareMetal, rareMetalToMemoryRate);
@@ -166,9 +166,9 @@ public class CurrencyExchangeUI : MonoBehaviour
     }
     private void TradeMemoriesForMoney()
     {
-        if (DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore >= memoriesToMoneyRate)
+        if (DataPersister.Instance.CurrentGameData.memory >= memoriesToMoneyRate)
         {
-            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore -= memoriesToMoneyRate;
+            DataPersister.Instance.CurrentGameData.memory -= memoriesToMoneyRate;
             DataPersister.Instance.CurrentGameData.totalMoney += tradeAmount;
             DataPersister.Instance.SaveCurrentGame();
             UpdateTexts();
@@ -244,7 +244,7 @@ public class CurrencyExchangeUI : MonoBehaviour
         if (DataPersister.Instance.CurrentGameData.totalRareMetal >= rareMetalToMemoryRate)
         {
             DataPersister.Instance.CurrentGameData.totalRareMetal -= rareMetalToMemoryRate;
-            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore += tradeAmount;
+            DataPersister.Instance.CurrentGameData.memory += tradeAmount;
             DataPersister.Instance.SaveCurrentGame();
             // Play success SFX
             if (sFXManager != null)

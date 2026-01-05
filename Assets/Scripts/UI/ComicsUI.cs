@@ -505,10 +505,10 @@ public class ComicsUI : MonoBehaviour
         }
 
         // Check if player has enough currency
-        if (DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore >= unlockMemoryCost && DataPersister.Instance.CurrentGameData.totalMoney >= unlockMoneyCost)
+        if (DataPersister.Instance.CurrentGameData.memory >= unlockMemoryCost && DataPersister.Instance.CurrentGameData.totalMoney >= unlockMoneyCost)
         {
             // Deduct costs
-            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore -= unlockMemoryCost;
+            DataPersister.Instance.CurrentGameData.memory -= unlockMemoryCost;
             DataPersister.Instance.CurrentGameData.totalMoney -= unlockMoneyCost;
 
             // Unlock comic
@@ -561,7 +561,7 @@ public class ComicsUI : MonoBehaviour
             return;
         }
         var gameData = DataPersister.Instance.CurrentGameData;
-        memoryPlayerText.text = $"{gameData.playerData[0].playerMemoryScore:F0}";
+        memoryPlayerText.text = $"{gameData.memory:F0}";
         moneyPlayerText.text = $"{gameData.totalMoney:F0}";
     }
     private void DebugUnlockStatus(string method)

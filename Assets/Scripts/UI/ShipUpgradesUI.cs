@@ -271,7 +271,7 @@ public class ShipUpgradesUI : MonoBehaviour
 
     public float GetMemoryScore()
     {
-        return DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+        return DataPersister.Instance.CurrentGameData.memory;
     }
 
     public float GetMetalScore()
@@ -567,7 +567,7 @@ public class ShipUpgradesUI : MonoBehaviour
     }
     public void ChangeMemory(float amount)
     {
-        DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore += amount;
+        DataPersister.Instance.CurrentGameData.memory += amount;
         DataPersister.Instance.SaveCurrentGame();
     }
     public void ChangeMetal(float amount)

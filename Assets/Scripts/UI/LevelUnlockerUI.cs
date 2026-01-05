@@ -101,7 +101,7 @@ public class LevelUnlockerUI : MonoBehaviour
         levelNumber = (int)selectedLevel;
         float sunMultiplier = 1 + (DataPersister.Instance.CurrentGameData.sunCount / 100f);
         cost = unlockCost * levelNumber / sunMultiplier;
-        currentMemory = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+        currentMemory = DataPersister.Instance.CurrentGameData.memory;
     }
 
     private void UnlockLevel()
@@ -116,7 +116,7 @@ public class LevelUnlockerUI : MonoBehaviour
 
         if (cost <= currentMemory)
         {
-            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore -= cost;
+            DataPersister.Instance.CurrentGameData.memory -= cost;
             DataPersister.Instance.CurrentGameData.SetMissionUnlocked(levelNumber, true);
             DataPersister.Instance.SaveCurrentGame();
             PlayButtonSuccessSFX();

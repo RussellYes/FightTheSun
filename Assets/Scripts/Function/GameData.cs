@@ -34,6 +34,7 @@ public class GameData
 
     [Header("Score Manager Data")]
     // Persistent totals across all levels
+    public float memory;
     public float totalMoney;
     public float totalMetal;
     public float totalRareMetal;
@@ -158,6 +159,7 @@ public class GameData
         comicData = new Dictionary<float, ComicData>();
         levelData = new Dictionary<int, LevelData>();
         serializedLevelData = new List<LevelDataEntry>();
+        memory = 0;
         totalMoney = 0;
         totalMetal = 0f;
         totalRareMetal = 0f;
@@ -390,6 +392,7 @@ public class GameData
         comicData.Clear();
 
         // Reset resource totals
+        memory = 0;
         totalMoney = 0;
         totalMetal = 0f;
         totalRareMetal = 0f;

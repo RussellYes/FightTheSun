@@ -132,6 +132,7 @@ public class PlayerStatsManager : MonoBehaviour
     private void HandleInitializationComplete()
     {
         playerThrust = basePlayerThrust * throttle * DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill;
+        BackwardsCompatableMemoryScore();
     }
 
     private void Update()
@@ -382,5 +383,18 @@ public class PlayerStatsManager : MonoBehaviour
     public float MultiplySkill(float skillvalue)
     {
         return skillvalue += skillvalue * skillIncreaseAmt;
+    }
+
+    private void BackwardsCompatableMemoryScore() // Delete this obsolete method anytime after June 2026. That should be enough time for old saves to be updated.
+    {
+        if (DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore <= 0) return;
+        if (DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore > 0)
+        {
+            DataPersister.Instance.CurrentGameData.memory = DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore;
+            DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore = 0;
+            DataPersister.Instance.SaveCurrentGame();
+            Debug.Log($"PlayerStatsManager BackwardsCompatableMemoryScore - Updated memory to {DataPersister.Instance.CurrentGameData.memory} from obsolete playerMemoryScore {DataPersister.Instance.CurrentGameData.playerData[0].playerMemoryScore}");
+
+        }
     }
 }

@@ -45,7 +45,7 @@ public class LegendUI : MonoBehaviour
         GameData gameData = DataPersister.Instance.CurrentGameData;
 
         // Memory
-        memoryText.text = $"Memory {gameData.playerData[0].playerMemoryScore:F0}";
+        memoryText.text = $"Memory {gameData.memory:F0}";
 
         // Money
         moneyText.text = $"Money {gameData.totalMoney:F0}";
