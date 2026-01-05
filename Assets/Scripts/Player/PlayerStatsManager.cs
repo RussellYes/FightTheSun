@@ -101,7 +101,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Subscribe to events
         Cockpit.OnCockpitMassChanged += HandleMassChange;
         Cockpit.OnCockpitThrustChanged += HandleThrustChange;
-        DataPersister.InitializationComplete += OnDataPersisterReady;
+        DataPersister.InitializationComplete += HandleInitializationComplete;
 
         // Subscribe to Hull events
         Hull.OnHullMaxChanged += HandlePlayerHullMaxChange;
@@ -124,7 +124,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Unsubscribe from events
         Cockpit.OnCockpitMassChanged -= HandleMassChange;
         Cockpit.OnCockpitThrustChanged -= HandleThrustChange;
-        DataPersister.InitializationComplete -= OnDataPersisterReady;
+        DataPersister.InitializationComplete -= HandleInitializationComplete;
 
         // Unsubscribe from Hull events
         Hull.OnHullMaxChanged -= HandlePlayerHullMaxChange;
@@ -145,7 +145,7 @@ public class PlayerStatsManager : MonoBehaviour
     {
         ThrottleChange(-0.25f);
     }
-    private void OnDataPersisterReady()
+    private void HandleInitializationComplete()
     {
         LoadData();
     }
@@ -358,8 +358,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Check if DataPersister exists and has valid data
         if (DataPersister.Instance == null || DataPersister.Instance.CurrentGameData == null)
         {
-            Debug.Log("PlayerStatsManager - LoadData - DataPersister or CurrentGameData is null. Loading defaults.");
-            LoadDefaultStats();
+            Debug.Log("PlayerStatsManager LoadData - DataPersister or CurrentGameData is null.");
             return;
         }
 
@@ -373,10 +372,11 @@ public class PlayerStatsManager : MonoBehaviour
             miningSkill = playerData.miningSkill;
             roboticsSkill = playerData.roboticsSkill;
             combatSkill = playerData.combatSkill;
+            Debug.Log($"PlayerStatsManager LoadData - loaded engineeringSkill: {engineeringSkill}, pilotingSkill: {pilotingSkill}, mechanicsSkill: {mechanicsSkill}, miningSkill: {miningSkill}, roboticsSkill: {roboticsSkill}, combatSkill: {combatSkill}");
         }
         else
         {
-            LoadDefaultStats();
+            Debug.Log("PlayerStatsManager LoadData - Failed to load skills from DataPersister.");
         }
 
         Debug.Log($"Loaded Engineering: {engineeringSkill}");
@@ -387,54 +387,53 @@ public class PlayerStatsManager : MonoBehaviour
         Debug.Log($"Loaded Combat: {combatSkill}");
     }
 
-    private void LoadDefaultStats()
-    {
-        engineeringSkill = 1f;
-        pilotingSkill = 1f;
-        mechanicsSkill = 1f;
-        miningSkill = 1f;
-        roboticsSkill = 1f;
-        combatSkill = 1f;
-
-        Debug.Log("PlayerStatsManager - LoadDefaultStats - Using default skill values.");
-    }
-
-
     public void MultiplyEngineeringSkill()
     {
+        Debug.Log($"PlayerStatsManager MultiplyEngineeringSkill - before change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill}");
         engineeringSkill = MultiplySkill(engineeringSkill);
         DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill = engineeringSkill;
         DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"PlayerStatsManager MultiplyEngineeringSkill - after change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].engineeringSkill}");
     }
     public void MultiplyPilotingSkill()
     {
+        Debug.Log($"PlayerStatsManager MultiplyPilotingSkill - before change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill}");
         pilotingSkill = MultiplySkill(pilotingSkill);
         DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill = pilotingSkill;
         DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"PlayerStatsManager MultiplyPilotingSkill - after change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].pilotingSkill}");
     }
     public void MultiplyMechanicsSkill()
     {
+        Debug.Log($"PlayerStatsManager MultiplyMechanicsSkill - before change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill}");
         mechanicsSkill = MultiplySkill(mechanicsSkill);
         DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill = mechanicsSkill;
         DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"PlayerStatsManager MultiplyMechanicsSkill - after change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].mechanicsSkill}");
     }
     public void MultiplyMiningSkill()
     {
+        Debug.Log($"PlayerStatsManager MultiplyMiningSkill - before change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].miningSkill}");
         miningSkill = MultiplySkill(miningSkill);
         DataPersister.Instance.CurrentGameData.playerData[0].miningSkill = miningSkill;
         DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"PlayerStatsManager MultiplyMiningSkill - after change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].miningSkill}");
     }
     public void MultiplyRoboticsSkill()
     {
+        Debug.Log($"PlayerStatsManager MultiplyRoboticsSkill - before change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill}");
         roboticsSkill = MultiplySkill(roboticsSkill);
         DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill = roboticsSkill;
         DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"PlayerStatsManager MultiplyRoboticsSkill - after change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].roboticsSkill}");
     }
     public void MultiplyCombatSkill()
     {
+        Debug.Log($"PlayerStatsManager MultiplyCombatSkill - before change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].combatSkill}");
         combatSkill = MultiplySkill(combatSkill);
         DataPersister.Instance.CurrentGameData.playerData[0].combatSkill = combatSkill;
         DataPersister.Instance.SaveCurrentGame();
+        Debug.Log($"PlayerStatsManager MultiplyCombatSkill - after change Skill: {DataPersister.Instance.CurrentGameData.playerData[0].combatSkill}");
     }
 
     public float MultiplySkill(float skillvalue)

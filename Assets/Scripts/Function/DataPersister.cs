@@ -123,28 +123,6 @@ public class DataPersister : MonoBehaviour
     {
         Debug.Log("DataPersister - Updating game data");
 
-        // Update player stats if PlayerStatsManager exists
-        PlayerStatsManager playerStats = FindFirstObjectByType<PlayerStatsManager>();
-        if (playerStats != null)
-        {
-            // Ensure player data exists
-            if (CurrentGameData.playerData == null)
-            {
-                CurrentGameData.playerData = new List<PlayerSaveData>();
-            }
-            if (CurrentGameData.playerData.Count == 0)
-            {
-                CurrentGameData.playerData.Add(new PlayerSaveData());
-            }
-            // Update all skills in playerData
-            CurrentGameData.playerData[0].engineeringSkill = playerStats.EngineeringSkill;
-            CurrentGameData.playerData[0].pilotingSkill = playerStats.PilotingSkill;
-            CurrentGameData.playerData[0].mechanicsSkill = playerStats.MechanicsSkill;
-            CurrentGameData.playerData[0].miningSkill = playerStats.MiningSkill;
-            CurrentGameData.playerData[0].roboticsSkill = playerStats.RoboticsSkill;
-            CurrentGameData.playerData[0].combatSkill = playerStats.CombatSkill;
-        }
-
         ShipUpgradesUI shipUpgrades = FindFirstObjectByType<ShipUpgradesUI>();
         if (shipUpgrades != null)
         {
@@ -154,17 +132,6 @@ public class DataPersister : MonoBehaviour
                 CurrentGameData.playerData.Add(new PlayerSaveData());
             }
             CurrentGameData.playerData[0].playerMemoryScore = shipUpgrades.GetMemoryScore();
-        }
-
-        // Get reference to ScoreManager
-        ScoreManager scoreManager = FindFirstObjectByType<ScoreManager>();
-        if (scoreManager != null)
-        {
-            Debug.Log("DataPersister - ScoreManager found, game data updated");
-        }
-        else
-        {
-            Debug.Log("DataPersister - ScoreManager not found");
         }
     }
 

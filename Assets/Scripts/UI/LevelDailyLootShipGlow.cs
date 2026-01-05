@@ -4,10 +4,20 @@ public class LevelDailyLootShipGlow : MonoBehaviour
 {
     [SerializeField] private int levelNumber;
     [SerializeField] private GameObject glowObject;
+    private bool isInitialized = false;
+
+    private void OnEnable()
+    {
+        DataPersister.InitializationComplete += HandleInitializationComplete;
+    }
+    private void OnDisable()
+    {
+        DataPersister.InitializationComplete -= HandleInitializationComplete;
+    }
 
     private void Update()
     {
-        if (levelNumber == DataPersister.Instance.CurrentGameData.randomLootShipLevel)
+        if (isInitialized && levelNumber == DataPersister.Instance.CurrentGameData.randomLootShipLevel)
         {
             glowObject.SetActive(true);
         }
@@ -15,5 +25,10 @@ public class LevelDailyLootShipGlow : MonoBehaviour
         {
             glowObject.SetActive(false);
         }
+    }
+
+    private void HandleInitializationComplete()
+    {
+        isInitialized = true;
     }
 }

@@ -16,6 +16,12 @@ public class CurrencyExchangeUI : MonoBehaviour
     [SerializeField] private AudioClip[] storeOpenCloseSFX;
     [SerializeField] private float uIOpenCloseLerpTime = 1;
 
+    [Header("Trade Rates Texts")]
+    [SerializeField] private TextMeshProUGUI memoriesToMoneyRateText;
+    [SerializeField] private TextMeshProUGUI moneyToMetalRateText;
+    [SerializeField] private TextMeshProUGUI metalToRareMetalRateText;
+    [SerializeField] private TextMeshProUGUI rareMetalToMemoryRateText;
+
     [Header("Currency Displays")]
     [SerializeField] private TextMeshProUGUI memoriesText;
     [SerializeField] private TextMeshProUGUI moneyText;
@@ -76,6 +82,7 @@ public class CurrencyExchangeUI : MonoBehaviour
     {
         storeHolder.SetActive(true);
         UpdateTexts();
+        SetPriceTexts();
         playOpenCloseSFX();
         StartCoroutine(OpenStoreLerp());
     }
@@ -256,7 +263,13 @@ public class CurrencyExchangeUI : MonoBehaviour
         }
     }
 
-
+    private void SetPriceTexts()
+    {
+        memoriesToMoneyRateText.text = memoriesToMoneyRate.ToString("0");
+        moneyToMetalRateText.text = moneyToMetalRate.ToString("0");
+        metalToRareMetalRateText.text = metalToRareMetalRate.ToString("0");
+        rareMetalToMemoryRateText.text = rareMetalToMemoryRate.ToString("0");
+    }
 
 
 
