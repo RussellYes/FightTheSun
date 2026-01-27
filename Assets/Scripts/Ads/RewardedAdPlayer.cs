@@ -48,7 +48,7 @@ public class RewardedAdPlayer : MonoBehaviour
     // === UI Hook ===
     public void OnShowAdButtonPressed(string _requesterID)
     {
-        Debug.Log("RewardedAdPlayer OnShowAdButtonPressed");
+        Debug.Log($"RewardedAdPlayer OnShowAdButtonPressed - started with {_requesterID}");
         requesterID = _requesterID;
         SimpleAdLogger.Instance?.Log("RewardedAdPlayer OnShowAdButtonPressed - AD_BUTTON_PRESSED", $"Ready:{AdLoader.Instance?.IsRewardedReady()}");
         FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("RewardedAdPlayer OnShowAdButtonPressed - ad_request_attempt", "ad_ready", AdLoader.Instance?.IsRewardedReady() ?? false);
