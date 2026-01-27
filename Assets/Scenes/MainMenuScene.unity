@@ -465,8 +465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f03c1c0d2b0d584cb7c81771e00b7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appKey: 23928db7d
-  rewardedAdUnitId: ellw22gymypqk08a
+  appKey: 238ae9a7d
+  rewardedAdUnitId: 34kdh2033nj165lv
 --- !u!114 &383754070 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4893757064233727806, guid: c3331f197269f8147992f463e86bb219, type: 3}

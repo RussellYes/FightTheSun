@@ -93,6 +93,11 @@ public class GameData
     // Dividend
     public float dailyDividendCount;
 
+    [Header("Daily Rewards")]
+    public float dailyRewardDayOfTheWeek;
+    public float dailyRewardSavedTime;
+    public float dailyRewardCount;
+
     [Header("Company Loot Ship")]
     public int randomLootShipLevel;
     public string randomLootShipCompanyName;
@@ -216,6 +221,11 @@ public class GameData
         company5Shares = 0;
         // Dividend
         dailyDividendCount = 3;
+
+        // Daily Rewards
+        dailyRewardDayOfTheWeek = 0;
+        dailyRewardSavedTime = 0;
+        dailyRewardCount = 1;
 
         // Company Loot Ship
         randomLootShipLevel = 0;
@@ -449,6 +459,11 @@ public class GameData
         company5Shares = 0;
         // Dividend
         dailyDividendCount = 3;
+
+        // Daily Rewards
+        dailyRewardDayOfTheWeek = 0;
+        dailyRewardSavedTime = 0;
+        dailyRewardCount = 1;
 
         // Company Loot Ship
         randomLootShipLevel = 0;

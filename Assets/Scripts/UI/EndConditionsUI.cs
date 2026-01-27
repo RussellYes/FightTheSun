@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class EndConditionsUI : MonoBehaviour
 {
-    public static event Action AdRequestLevelLostReward;
+    public static event Action <string> AdRequestLevelLostReward;
 
     private ScoreManager scoreManager;
     private GameManager gameManager;
@@ -109,7 +109,7 @@ public class EndConditionsUI : MonoBehaviour
         Debug.Log("EndConditionsUI subscribed to EndGameEvent");
         GameManager.EndGameEvent += EndGame;
         skipComicButton.onClick.AddListener(() => {SkipComic();
-            Debug.Log("skip comic Button clicked!"); });
+        Debug.Log("skip comic Button clicked!"); });
         saveButtonFront.onClick.AddListener(() => { Revive(); });
         rewardButtonFront.onClick.AddListener(() => HandleRewardRequestButton());
         RewardedAdPlayer.RewardGranted += AdReward2xThenRevive;
@@ -632,11 +632,14 @@ public class EndConditionsUI : MonoBehaviour
     {
         saveButtonHolder.SetActive(false);
         rewardButtonHolder.SetActive(false);
-        AdRequestLevelLostReward?.Invoke();
+        AdRequestLevelLostReward?.Invoke("endLoss");
     }
-    private void AdReward2xThenRevive()
+    private void AdReward2xThenRevive(string requesterID)
     {
-        StartCoroutine(AdReward2xThenRevived());
+        if (requesterID == "endLoss")
+        {
+            StartCoroutine(AdReward2xThenRevived());
+        }
     }
 
     IEnumerator AdReward2xThenRevived()

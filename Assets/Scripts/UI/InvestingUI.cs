@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class InvestingUI : MonoBehaviour
 {
-    public static event Action AdRequestDividendReward;
+    public static event Action <string> AdRequestDividendReward;
 
     private SFXManager sFXManager;
 
@@ -1151,14 +1151,14 @@ public class InvestingUI : MonoBehaviour
             else
             {
                 // Show ad for dividend reward
-                AdRequestDividendReward?.Invoke();
+                AdRequestDividendReward?.Invoke("dividend");
             }
         }
     }
 
-    private void HandleAdRewardGranted()
+    private void HandleAdRewardGranted(string requesterID)
     {
-        if (dailyDividendCount >= 2)
+        if (requesterID == "dividend" && dailyDividendCount >= 2)
         {
             DividendRewards();
         }

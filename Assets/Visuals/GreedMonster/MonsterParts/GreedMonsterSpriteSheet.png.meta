@@ -1,0 +1,449 @@
+fileFormatVersion: 2
+guid: 8852e01284a20dc408e05a30f012c1cb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8514899294582728724
+    second: GreedMonsterSpriteSheet_0
+  - first:
+      213: 7165005846998713300
+    second: GreedMonsterSpriteSheet_1
+  - first:
+      213: -1134160524271701199
+    second: GreedMonsterSpriteSheet_2
+  - first:
+      213: -3095569372302122922
+    second: GreedMonsterSpriteSheet_3
+  - first:
+      213: 3870557636412984668
+    second: GreedMonsterSpriteSheet_4
+  - first:
+      213: 2267725333132887338
+    second: GreedMonsterSpriteSheet_5
+  - first:
+      213: 2538966881655196232
+    second: GreedMonsterSpriteSheet_6
+  - first:
+      213: -4095390965440055868
+    second: GreedMonsterSpriteSheet_7
+  - first:
+      213: 7145754535092756002
+    second: GreedMonsterSpriteSheet_8
+  - first:
+      213: -8227032825118713976
+    second: GreedMonsterSpriteSheet_9
+  - first:
+      213: -5133366756173716340
+    second: GreedMonsterSpriteSheet_10
+  - first:
+      213: 946261422680507347
+    second: GreedMonsterSpriteSheet_11
+  - first:
+      213: 2710203651882365912
+    second: GreedMonsterSpriteSheet_12
+  - first:
+      213: -5412162564824858834
+    second: GreedMonsterSpriteSheet_13
+  - first:
+      213: -3710666537186946554
+    second: GreedMonsterSpriteSheet_14
+  - first:
+      213: 2849369762926712375
+    second: GreedMonsterSpriteSheet_15
+  - first:
+      213: 5176126437603451639
+    second: GreedMonsterSpriteSheet_16
+  - first:
+      213: -5778395221759361442
+    second: GreedMonsterSpriteSheet_17
+  - first:
+      213: -8487994786927172467
+    second: GreedMonsterSpriteSheet_18
+  - first:
+      213: -6613440051723321379
+    second: GreedMonsterSpriteSheet_19
+  - first:
+      213: 778513058260253340
+    second: GreedMonsterSpriteSheet_20
+  - first:
+      213: -3674217128802252937
+    second: GreedMonsterSpriteSheet_21
+  - first:
+      213: -612829070953625862
+    second: GreedMonsterSpriteSheet_22
+  - first:
+      213: -8315857151101336063
+    second: GreedMonsterSpriteSheet_23
+  - first:
+      213: 8148220660701203228
+    second: GreedMonsterSpriteSheet_24
+  - first:
+      213: -6495310146456775422
+    second: GreedMonsterSpriteSheet_25
+  - first:
+      213: -6858744300036448788
+    second: GreedMonsterSpriteSheet_26
+  - first:
+      213: 282275312648389545
+    second: GreedMonsterSpriteSheet_27
+  - first:
+      213: -7265158511000691701
+    second: GreedMonsterSpriteSheet_28
+  - first:
+      213: -792846815648397045
+    second: GreedMonsterSpriteSheet_29
+  - first:
+      213: -2905831120980795105
+    second: GreedMonsterSpriteSheet_30
+  - first:
+      213: -7908157043971507659
+    second: GreedMonsterSpriteSheet_31
+  - first:
+      213: 3713026379018986723
+    second: GreedMonsterSpriteSheet_32
+  - first:
+      213: -4594972153362952133
+    second: GreedMonsterSpriteSheet_33
+  - first:
+      213: 4678286307881018487
+    second: GreedMonsterSpriteSheet_34
+  - first:
+      213: 2586340184648430524
+    second: GreedMonsterSpriteSheet_35
+  - first:
+      213: -6143802052631825274
+    second: GreedMonsterSpriteSheet_36
+  - first:
+      213: 6894332134195652473
+    second: GreedMonsterSpriteSheet_37
+  - first:
+      213: 7171268207867910589
+    second: GreedMonsterSpriteSheet_38
+  - first:
+      213: 7269560030347687541
+    second: GreedMonsterSpriteSheet_39
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1080
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 418e3d76bcffa2670800000000000000
+      internalID: 8514899294582728724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_1
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 1080
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d384f32bd63f6360800000000000000
+      internalID: 7165005846998713300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_2
+      rect:
+        serializedVersion: 2
+        x: 2160
+        y: 1080
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 133b3802307a240f0800000000000000
+      internalID: -1134160524271701199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 3240
+        y: 1080
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6506a529e045a05d0800000000000000
+      internalID: -3095569372302122922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5d4219c9abf6b530800000000000000
+      internalID: 3870557636412984668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 0
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a254a81fc24987f10800000000000000
+      internalID: 2267725333132887338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 2160
+        y: 0
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84a0a854de83c3320800000000000000
+      internalID: 2538966881655196232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreedMonsterSpriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 3240
+        y: 0
+        width: 1080
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c5f9908d9f3a27c0800000000000000
+      internalID: -4095390965440055868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 7124ffbc9177504488944024e6dec0d4
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":2.0},"gridSpriteSize":{"x":1080.0,"y":1080.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      GreedMonsterSpriteSheet_0: 8514899294582728724
+      GreedMonsterSpriteSheet_1: 7165005846998713300
+      GreedMonsterSpriteSheet_2: -1134160524271701199
+      GreedMonsterSpriteSheet_3: -3095569372302122922
+      GreedMonsterSpriteSheet_4: 3870557636412984668
+      GreedMonsterSpriteSheet_5: 2267725333132887338
+      GreedMonsterSpriteSheet_6: 2538966881655196232
+      GreedMonsterSpriteSheet_7: -4095390965440055868
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

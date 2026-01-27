@@ -12,11 +12,14 @@ public class RewardedAdPlayer : MonoBehaviour
     // Let loader know the cycle ended, and whether a reward was actually granted.
     public static event Action<bool> AdClosed;
     // Expose for your Rewards script
-    public static event Action RewardGranted;
+    public static event Action <string> RewardGranted;
 
     private bool rewardReportedThisShow;
     private bool adWasShowing;
     private bool isShowingGuard; // one-at-a-time guard
+
+    [Header("Russell Added Unique IDs for tracking ad requests")]
+    private string requesterID;
 
     private void Awake()
     {
@@ -30,6 +33,7 @@ public class RewardedAdPlayer : MonoBehaviour
         AdLoader.RewardedAdLoaded += HandleAdLoaded;
         EndConditionsUI.AdRequestLevelLostReward += OnShowAdButtonPressed;
         InvestingUI.AdRequestDividendReward += OnShowAdButtonPressed;
+        MainMenuDailyReward.DailyRewardButtonEvent += OnShowAdButtonPressed;
     }
 
     private void OnDisable()
@@ -38,12 +42,14 @@ public class RewardedAdPlayer : MonoBehaviour
         AdLoader.RewardedAdLoaded -= HandleAdLoaded;
         EndConditionsUI.AdRequestLevelLostReward -= OnShowAdButtonPressed;
         InvestingUI.AdRequestDividendReward -= OnShowAdButtonPressed;
+        MainMenuDailyReward.DailyRewardButtonEvent -= OnShowAdButtonPressed;
     }
 
     // === UI Hook ===
-    public void OnShowAdButtonPressed()
+    public void OnShowAdButtonPressed(string _requesterID)
     {
         Debug.Log("RewardedAdPlayer OnShowAdButtonPressed");
+        requesterID = _requesterID;
         SimpleAdLogger.Instance?.Log("RewardedAdPlayer OnShowAdButtonPressed - AD_BUTTON_PRESSED", $"Ready:{AdLoader.Instance?.IsRewardedReady()}");
         FindFirstObjectByType<AppUpdateChecker>()?.TrackAdEvent("RewardedAdPlayer OnShowAdButtonPressed - ad_request_attempt", "ad_ready", AdLoader.Instance?.IsRewardedReady() ?? false);
 
@@ -139,13 +145,12 @@ public class RewardedAdPlayer : MonoBehaviour
         if (rewardReportedThisShow)
         {
             Debug.Log("RewardedAdPlayer OnSdkAdClosed - RewardGranted");
-            try { RewardGranted?.Invoke(); } catch (Exception e) { Debug.LogError($"AdsDebug RewardedAdPlayer RewardGranted exception {e}"); }
+            try { RewardGranted?.Invoke(requesterID); } catch (Exception e) { Debug.LogError($"AdsDebug RewardedAdPlayer RewardGranted exception {e}"); }
         }
         else
         {
             Debug.Log("RewardedAdPlayer OnSdkAdClosed - no reward granted");
             ActivateGameLoseButtonsEvent?.Invoke();
-
         }
 
         // Tell loader the cycle ended and whether reward was granted.
