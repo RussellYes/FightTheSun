@@ -181,6 +181,16 @@ public class EndConditionsUI : MonoBehaviour
                 {
                     memoryScore = DataPersister.Instance.CurrentGameData.memory;
                     Debug.Log($"Initial memory score loaded: {memoryScore}");
+                    if (memoryScore <= 0)
+                    {
+                        memoryScore = 0;
+                        Debug.LogWarning($"Memory score was negative, set to 0: {memoryScore}");
+                    }
+                    if (memoryScore > 999999)
+                    {
+                        memoryScore = 999999;
+                        Debug.LogWarning($"Memory score was above cap, set to 999999: {memoryScore}");
+                    }
                 }
 
                 // Update the money text
@@ -366,6 +376,16 @@ public class EndConditionsUI : MonoBehaviour
             DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
             if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
             {
+                if (memoryScore <= 0)
+                {
+                    memoryScore = 0;
+                    Debug.LogWarning($"Memory score was negative, set to 0: {memoryScore}");
+                }
+                if (memoryScore > 999999)
+                {
+                    memoryScore = 999999;
+                    Debug.LogWarning($"Memory score was above cap, set to 999999: {memoryScore}");
+                }
                 DataPersister.Instance.CurrentGameData.memory = memoryScore;
                 Debug.Log($"Saving memory score (old): {memoryScore}");
             }
@@ -381,6 +401,16 @@ public class EndConditionsUI : MonoBehaviour
             DataPersister.Instance.CurrentGameData.totalTime += gameManager.LevelTime;
             if (DataPersister.Instance.CurrentGameData.playerData.Count > 0)
             {
+                if (memoryScore <= 0)
+                {
+                    memoryScore = 0;
+                    Debug.LogWarning($"Memory score was negative, set to 0: {memoryScore}");
+                }
+                if (memoryScore > 999999)
+                {
+                    memoryScore = 999999;
+                    Debug.LogWarning($"Memory score was above cap, set to 999999: {memoryScore}");
+                }
                 DataPersister.Instance.CurrentGameData.memory = memoryScore;
                 Debug.Log($"Saving memory score (old): {memoryScore}");
             }
@@ -435,6 +465,16 @@ public class EndConditionsUI : MonoBehaviour
             DataPersister.Instance.CurrentGameData.playerData.Count > 0)
         {
             memoryScore = DataPersister.Instance.CurrentGameData.memory;
+            if (memoryScore <= 0)
+            {
+                memoryScore = 0;
+                Debug.LogWarning($"Memory score was negative, set to 0: {memoryScore}");
+            }
+            if (memoryScore > 999999)
+            {
+                memoryScore = 999999;
+                Debug.LogWarning($"Memory score was above cap, set to 999999: {memoryScore}");
+            }
         }
         Debug.Log($"EndConditionsUI ShowLoseTextsWithDelay - memoryScore before calculations: {memoryScore}");
         lineText.gameObject.SetActive(true);
@@ -613,6 +653,16 @@ public class EndConditionsUI : MonoBehaviour
             Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - DataPersister memoryScore before saving: {DataPersister.Instance.CurrentGameData.memory}");
             Debug.Log($"EndConditionsUI SavingScreenBeforeChangingScene - memoryScore before saving: {memoryScore}");
             // Update memory score
+            if (memoryScore <= 0)
+            {
+                memoryScore = 0;
+                Debug.LogWarning($"Memory score was negative, set to 0: {memoryScore}");
+            }
+            if (memoryScore > 999999)
+            {
+                memoryScore = 999999;
+                Debug.LogWarning($"Memory score was above cap, set to 999999: {memoryScore}");
+            }
             DataPersister.Instance.CurrentGameData.memory = memoryScore;        
     
             // Save the game

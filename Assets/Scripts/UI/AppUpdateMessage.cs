@@ -90,10 +90,10 @@ public class AppUpdateMessage : MonoBehaviour
     private void DisplayMessage()
     {
         appUpdateMessageHolder.gameObject.SetActive(true);
-        string month = "Jan";
+        string month = "Mar";
         string year = "2026";
-        string message = "Hunt for the daily company cargo ship. Stocks will swing.";
-        string message2 = "This new year, crack open company ships to see what's inside.";
+        string message = "Game balancing.";
+        string message2 = "Enjoy the game more with the level difficulty that's fair, and bug fixes for more fun.";
         titleText.text = ($"Game dev news:\n{month} {year}");
         messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
     }
@@ -105,7 +105,29 @@ public class AppUpdateMessage : MonoBehaviour
 
 
     /*
-        private void DisplayMessage()
+    private void DisplayMessage()
+    {
+        appUpdateMessageHolder.gameObject.SetActive(true);
+        string month = "Feb";
+        string year = "2026";
+        string message = "Monserously big rewards that are refreshed for a daily boost of in game money.";
+        string message2 = "Click on the orange GreedMonster for rewards. Thank you to the 3000 new players this month.";
+        titleText.text = ($"Game dev news:\n{month} {year}");
+        messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
+    }
+     
+    private void DisplayMessage()
+    {
+        appUpdateMessageHolder.gameObject.SetActive(true);
+        string month = "Jan";
+        string year = "2026";
+        string message = "Hunt for the daily company cargo ship. Stocks will swing.";
+        string message2 = "This new year, crack open company ships to see what's inside.";
+        titleText.text = ($"Game dev news:\n{month} {year}");
+        messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
+    }
+      
+    private void DisplayMessage()
     {
         appUpdateMessageHolder.gameObject.SetActive(true);
         string month = "Nov";

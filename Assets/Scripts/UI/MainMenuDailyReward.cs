@@ -65,6 +65,10 @@ public class MainMenuDailyReward : MonoBehaviour
             closeUICountdown = closeUITimer;
             GetTime();
             float baseRewardAmount = UnityEngine.Random.Range(1000, 1500);
+            if (dailyRewardCount <= 0)
+            {
+                dailyRewardCount = 1;
+            }
             float rewardAmount = baseRewardAmount / dailyRewardCount;
             messageText.text = $"Daily Rewards {dailyRewardCount}";
             rewardText.text = $"{rewardAmount}";
@@ -95,8 +99,8 @@ public class MainMenuDailyReward : MonoBehaviour
 
         if (isNewDay)
         {
-            Debug.Log($"MainMenuDailyReward GetTime - New day detected! Resetting daily reward count from {dailyRewardCount} to 0");
-            dailyRewardCount = 0;
+            Debug.Log($"MainMenuDailyReward GetTime - New day detected! Resetting daily reward count from {dailyRewardCount} to 1");
+            dailyRewardCount = 1;
         }
 
         DataPersister.Instance.CurrentGameData.dailyRewardDayOfTheWeek = currentDayOfTheWeek;

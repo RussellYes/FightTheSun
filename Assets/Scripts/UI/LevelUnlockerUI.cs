@@ -102,6 +102,16 @@ public class LevelUnlockerUI : MonoBehaviour
         float sunMultiplier = 1 + (DataPersister.Instance.CurrentGameData.sunCount / 100f);
         cost = unlockCost * levelNumber / sunMultiplier;
         currentMemory = DataPersister.Instance.CurrentGameData.memory;
+        if (currentMemory <= 0)
+        {
+            currentMemory = 0;
+            Debug.LogWarning($"Memory score was negative, set to 0: {currentMemory}");
+        }
+        if (currentMemory > 999999)
+        {
+            currentMemory = 999999;
+            Debug.LogWarning($"Memory score was above cap, set to 999999: {currentMemory}");
+        }
     }
 
     private void UnlockLevel()
