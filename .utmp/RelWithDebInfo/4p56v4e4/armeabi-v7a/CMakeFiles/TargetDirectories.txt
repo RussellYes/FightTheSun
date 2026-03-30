@@ -1,5 +1,0 @@
-C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/.utmp/RelWithDebInfo/4p56v4e4/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/.utmp/RelWithDebInfo/4p56v4e4/armeabi-v7a/CMakeFiles/rebuild_cache.dir
-C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/.utmp/RelWithDebInfo/4p56v4e4/armeabi-v7a/FramePacing/CMakeFiles/swappywrapper.dir
-C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/.utmp/RelWithDebInfo/4p56v4e4/armeabi-v7a/FramePacing/CMakeFiles/edit_cache.dir
-C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/.utmp/RelWithDebInfo/4p56v4e4/armeabi-v7a/FramePacing/CMakeFiles/rebuild_cache.dir

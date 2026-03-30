@@ -1,5 +1,3 @@
 # ninja log v5
-4	190	7912562608938026	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	80cf842d99f4c0f7
-191	380	7912562610743346	C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2r6k133w/obj/armeabi-v7a/libswappywrapper.so	b3b68765086f34e3
-3	180	7912607969628645	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	80cf842d99f4c0f7
-181	358	7912607971314247	C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2r6k133w/obj/armeabi-v7a/libswappywrapper.so	b3b68765086f34e3
+2	592	7939012791943003	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	3aa674519968dedb
+595	1344	7939012799514846	C:/IBelongHere/UnityGames/FightTheSun/FightTheSunGame/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2r6k133w/obj/armeabi-v7a/libswappywrapper.so	2ca68ad72406984f

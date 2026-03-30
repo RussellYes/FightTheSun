@@ -1,6 +1,6 @@
-using Firebase.Extensions;
-using Firebase.RemoteConfig;
-using Firebase.Analytics;
+//using Firebase.Extensions;
+//using Firebase.RemoteConfig;
+//using Firebase.Analytics;
 using UnityEngine;
 
 public class AppUpdateChecker : MonoBehaviour
@@ -14,7 +14,7 @@ public class AppUpdateChecker : MonoBehaviour
         Debug.Log($"FightTheSun current app version code: {currentAppVersionCode}");
 
         // Now, fetch the Remote Config value
-        FirebaseRemoteConfig.DefaultInstance.FetchAndActivateAsync().ContinueWithOnMainThread(task =>
+       /* FirebaseRemoteConfig.DefaultInstance.FetchAndActivateAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -32,7 +32,7 @@ public class AppUpdateChecker : MonoBehaviour
                 Debug.LogError($"Remote Config fetch failed: {task.Exception}");
                 // Handle error: perhaps log it or show a message to the user
             }
-        });
+        }); */
     }
 
     private long GetAndroidVersionCode()
@@ -79,7 +79,7 @@ public class AppUpdateChecker : MonoBehaviour
 
     public void TrackAdEvent(string eventName, string parameterName = null, object parameterValue = null)
     {
-        try
+       /* try
         {
             if (parameterName != null && parameterValue != null)
             {
@@ -95,7 +95,7 @@ public class AppUpdateChecker : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError($"Firebase analytics error: {e.Message}");
-        }
+        }*/
     }
 }
 

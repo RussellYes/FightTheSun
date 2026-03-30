@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Google.Play.AppUpdate;
+//using Google.Play.AppUpdate;
 using System.Collections;
 using System;
 

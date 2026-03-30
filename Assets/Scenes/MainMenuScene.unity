@@ -593,12 +593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da4cb4bf40a6547beef91ebe3cbee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressBar: {fileID: 0}
-  statusText: {fileID: 0}
-  restartPopup: {fileID: 0}
-  readyText: {fileID: 0}
-  yesButton: {fileID: 0}
-  noButton: {fileID: 0}
 --- !u!4 &517308411
 Transform:
   m_ObjectHideFlags: 0
@@ -3446,6 +3440,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8064323715618468832, guid: c3331f197269f8147992f463e86bb219, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196100707110484360, guid: c3331f197269f8147992f463e86bb219, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8309429614906140310, guid: c3331f197269f8147992f463e86bb219, type: 3}

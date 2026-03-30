@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;  
 using TMPro;
-using Google.Play.AppUpdate;
+//using Google.Play.AppUpdate;
 using System.Collections;
 
-namespace com.google.play.appupdate
-{
+//namespace com.google.play.appupdate
+//{
     public class FlexibleUpdateManager : MonoBehaviour
-    {
+    {/*
         [Header("Progress UI")]
         [SerializeField] private Slider progressBar;
         [SerializeField] private TMP_Text statusText;
@@ -180,7 +180,7 @@ namespace com.google.play.appupdate
                 restartPopup.SetActive(false);
                 FlexibleUpdateManager.UpdateCheckComplete = true;   
             });
-        }
+        }*/
 
     }
-}
+//}
