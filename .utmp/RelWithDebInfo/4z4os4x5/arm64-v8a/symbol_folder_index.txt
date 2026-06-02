@@ -1,0 +1,1 @@
+C:\Users\thein\UnityProjects\FightTheSun\FightTheSunGame\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\4z4os4x5\obj\arm64-v8a

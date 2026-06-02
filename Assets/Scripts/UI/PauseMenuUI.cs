@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameManager;
@@ -12,7 +12,11 @@ public class PauseMenuUI : MonoBehaviour
 {
     public static PauseMenuUI Instance; // Singleton instance
 
+    public static event Action PauseEvent;
+    public static event Action UnpauseEvent;
+
     [SerializeField] private GameObject pauseMenuUIHolder;
+    [SerializeField] private Button pauseButton;
     [SerializeField] private Button homeButton;
     [SerializeField] private Button playButton;
     [SerializeField] private AudioClip[] buttonSFX;
@@ -71,27 +75,19 @@ public class PauseMenuUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.pauseMenuUIEvent += OnPauseEvent;
-
         hasBeenPausedOnce = false;
         isPaused = false;
 
-        homeButton.onClick.AddListener(() => {
-            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
-            Loader.Load(Loader.Scene.MainMenuScene);
-            Debug.Log("PauseMenuUI OnEnable - Loading Scene");
-        });
-
-        playButton.onClick.AddListener(() =>
-        {
-            HandlePlayButton();
-        });
+        pauseButton.onClick.AddListener(() => { OnPause(); });
+        homeButton.onClick.AddListener(() => { HandleHomeButton(); });
+        playButton.onClick.AddListener(() => {HandlePlayButton(); });
     }
 
     private void OnDisable()
     {
-        GameManager.pauseMenuUIEvent -= OnPauseEvent;
+        pauseButton.onClick.RemoveAllListeners();
         homeButton.onClick.RemoveAllListeners();
+        playButton.onClick.RemoveAllListeners();
         musicVolumeSlider.onValueChanged.RemoveAllListeners();
         sFXVolumeSlider.onValueChanged.RemoveAllListeners();
     }
@@ -132,13 +128,11 @@ public class PauseMenuUI : MonoBehaviour
         }
     }
 
-    private void OnPauseEvent(bool pause)
+    public void OnPause()
     {
-        Debug.Log($"PauseMenuUI OnPauseEvent - pause: {pause}, hasBeenPausedOnce: {hasBeenPausedOnce}, isPaused: {isPaused}, called from: {System.Environment.StackTrace}");
-        if (pause)
+        if (isPaused == true)
         {
             hasBeenPausedOnce = true;
-            OnPause();
         }
         else
         {
@@ -152,10 +146,9 @@ public class PauseMenuUI : MonoBehaviour
                 pauseMenuUIHolder.SetActive(false);
             }
         }
-    }
-    public void OnPause()
-    {
+
         Debug.Log($"PauseMenuUI OnPause - Original music: {MusicManager.Instance.GetCurrentClip()?.name ?? "null"}");
+        PauseEvent?.Invoke();
         pauseMenuUIHolder.SetActive(true);
 
         isPaused = true; // Game is paused
@@ -198,6 +191,7 @@ public class PauseMenuUI : MonoBehaviour
     {
         Debug.Log($"PauseMenuUI OnUnpause - isPaused: {isPaused}, originalMusicClip: {originalMusicClip?.name ?? "null"}, currentMusic: {MusicManager.Instance.GetCurrentClip()?.name ?? "null"}");
         pauseMenuUIHolder.SetActive(false);
+        UnpauseEvent?.Invoke();
 
         // Restore the original music clip that was playing before pause
         if (isPaused && originalMusicClip != null)
@@ -211,6 +205,13 @@ public class PauseMenuUI : MonoBehaviour
         SFXManager.Instance.MuteSFX(false);
 
         isPaused = false;
+    }
+
+    private void HandleHomeButton()
+    {
+        Debug.Log("PauseMenuUI HandleHomeButton - Loading Scene");
+        SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
+        Loader.Load(Loader.Scene.MainMenuScene);
     }
 
     public AudioClip GetOriginalMusicClip()

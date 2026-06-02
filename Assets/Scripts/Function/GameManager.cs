@@ -23,9 +23,6 @@ public class GameManager : MonoBehaviour
     public static event SpawningAction StopSpawning;
     public static event SpawningAction StartSpawning;
     public static event Action<bool> pauseMenuUIEvent;
-
-    [SerializeField] private Button pauseButton;
-    [SerializeField] private Button unpauseButton;
     [SerializeField] private AudioClip[] buttonSFX;
 
     private bool initialized = false;
@@ -66,17 +63,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        pauseButton.onClick.AddListener(() => {
-            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
-            HandlePaused();
-        });
-        unpauseButton.onClick.AddListener(() => {
-            SFXManager.PlaySFX(buttonSFX[UnityEngine.Random.Range(0, buttonSFX.Length)]);
-            HandleUnpaused();
-        });
-
-
     }
 
     private void Start()
@@ -92,6 +78,8 @@ public class GameManager : MonoBehaviour
         DataPersister.InitializationComplete += Initialize;
         Boss.StartSpawnersEvent += StartSpawners;
         Boss.StopSpawnersEvent += StopSpawners;
+        PauseMenuUI.PauseEvent += HandlePaused;
+        PauseMenuUI.UnpauseEvent += HandleUnpaused;
     }
 
     private void OnDisable()
@@ -99,6 +87,8 @@ public class GameManager : MonoBehaviour
         DataPersister.InitializationComplete -= Initialize;
         Boss.StartSpawnersEvent -= StartSpawners;
         Boss.StopSpawnersEvent -= StopSpawners;
+        PauseMenuUI.PauseEvent -= HandlePaused;
+        PauseMenuUI.UnpauseEvent -= HandleUnpaused;
     }
 
     private void Initialize()
@@ -262,9 +252,6 @@ public class GameManager : MonoBehaviour
         MusicManager.Instance.MuteMusic(true);
         SFXManager.Instance.MuteSFX(true);
 
-        // Show the pause menu
-        pauseMenuUIEvent?.Invoke(true);
-
         // Pause the game time
         Time.timeScale = 0;
 
@@ -289,9 +276,6 @@ public class GameManager : MonoBehaviour
 
         MusicManager.Instance.MuteMusic(false);
         SFXManager.Instance.MuteSFX(false);
-
-        // Show the pause menu
-        pauseMenuUIEvent?.Invoke(false);
 
         // Pause the game time
         Time.timeScale = 1;

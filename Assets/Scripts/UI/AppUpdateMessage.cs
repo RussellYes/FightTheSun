@@ -90,10 +90,10 @@ public class AppUpdateMessage : MonoBehaviour
     private void DisplayMessage()
     {
         appUpdateMessageHolder.gameObject.SetActive(true);
-        string month = "Apr";
+        string month = "June";
         string year = "2026";
-        string message = "April fools?";
-        string message2 = "This month level 4 has special collectables. What could they be?";
+        string message = "Bug fixes";
+        string message2 = "This month several bugs were fixed such as some phones with the pause menu always open. Happy playing.";
         titleText.text = ($"Game dev news:\n{month} {year}");
         messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
     }
@@ -105,6 +105,17 @@ public class AppUpdateMessage : MonoBehaviour
 
 
     /*
+        private void DisplayMessage()
+    {
+        appUpdateMessageHolder.gameObject.SetActive(true);
+        string month = "Apr";
+        string year = "2026";
+        string message = "April fools?";
+        string message2 = "This month level 4 has special collectables. What could they be?";
+        titleText.text = ($"Game dev news:\n{month} {year}");
+        messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
+    } 
+     
     private void DisplayMessage()
     {
         appUpdateMessageHolder.gameObject.SetActive(true);
