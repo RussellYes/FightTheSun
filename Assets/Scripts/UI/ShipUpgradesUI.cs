@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -9,6 +10,8 @@ public class ShipUpgradesUI : MonoBehaviour
 {
     private PlayerStatsManager playerStatsManager;
     private SFXManager sFXManager;
+
+    public static event Action UpdateStatsUIEvent;
 
     [SerializeField] private GameObject shipUpgradeHolder;
     [SerializeField] private GameObject upgradeButtonHolder;
@@ -165,6 +168,8 @@ public class ShipUpgradesUI : MonoBehaviour
 
     IEnumerator OpenShipUpgradeMenu()
     {
+        UpdateStatsUIEvent?.Invoke();
+
         shipUpgradeHolder.SetActive(true);
 
         //Play SFX

@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class InvestingUI : MonoBehaviour
 {
     public static event Action <string> AdRequestDividendReward;
+    public static event Action UpdateStatsUIEvent;
 
     private SFXManager sFXManager;
 
@@ -271,6 +272,7 @@ public class InvestingUI : MonoBehaviour
         PlayOpenCloseSFX();
         StartCoroutine(CloseStoreLerp());
         StopCoroutine(InitializeScrollingText());
+        UpdateStatsUIEvent?.Invoke();
     }
 
 

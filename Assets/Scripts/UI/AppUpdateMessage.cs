@@ -90,10 +90,10 @@ public class AppUpdateMessage : MonoBehaviour
     private void DisplayMessage()
     {
         appUpdateMessageHolder.gameObject.SetActive(true);
-        string month = "June";
+        string month = "August";
         string year = "2026";
-        string message = "Bug fixes";
-        string message2 = "This month several bugs were fixed such as some phones with the pause menu always open. Happy playing.";
+        string message = "SDK Updates";
+        string message2 = "Unity and Google SDK updates patched an error preventing apps from updating in June and July. Happy playing.";
         titleText.text = ($"Game dev news:\n{month} {year}");
         messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
     }
@@ -105,6 +105,18 @@ public class AppUpdateMessage : MonoBehaviour
 
 
     /*
+      
+        private void DisplayMessage()
+    {
+        appUpdateMessageHolder.gameObject.SetActive(true);
+        string month = "June";
+        string year = "2026";
+        string message = "Bug fixes";
+        string message2 = "This month several bugs were fixed such as some phones with the pause menu always open. Happy playing.";
+        titleText.text = ($"Game dev news:\n{month} {year}");
+        messageText.text = ($"   {message}\n   {message2}\n   Thank you for playing Fight The Sun.");
+    }
+    
         private void DisplayMessage()
     {
         appUpdateMessageHolder.gameObject.SetActive(true);

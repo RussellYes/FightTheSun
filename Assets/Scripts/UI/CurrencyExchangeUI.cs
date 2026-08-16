@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -5,8 +6,9 @@ using UnityEngine.UI;
 
 public class CurrencyExchangeUI : MonoBehaviour
 {
-
     private SFXManager sFXManager;
+
+    public static event Action UpdateStatsUIEvent;
 
     [Header("UI References")]
     [SerializeField] private Button openStoreButton;
@@ -114,6 +116,8 @@ public class CurrencyExchangeUI : MonoBehaviour
     }
     IEnumerator CloseStoreLerp()
     {
+        UpdateStatsUIEvent?.Invoke();
+
         // lerp storeButtonHolder's position from its original position to +2000 y over UIOpenCloseLerpTime seconds.
         RectTransform rectTransform = storeButtonHolder.GetComponent<RectTransform>();
         Vector3 originalPosition = rectTransform.localPosition;
@@ -134,7 +138,7 @@ public class CurrencyExchangeUI : MonoBehaviour
 
     private void playOpenCloseSFX()
     {
-        AudioClip sFX = storeOpenCloseSFX[Random.Range(0, storeOpenCloseSFX.Length)];
+        AudioClip sFX = storeOpenCloseSFX[UnityEngine.Random.Range(0, storeOpenCloseSFX.Length)];
 
         if (sFXManager != null)
         {

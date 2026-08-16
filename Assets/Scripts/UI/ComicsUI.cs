@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ using UnityEngine.VFX;
 public class ComicsUI : MonoBehaviour
 {
     private SFXManager sFXManager;
+
+    public static event Action UpdateStatsUIEvent;
 
     [Header("Menu Controls")]
     [SerializeField] private GameObject comicMenuHolder;
@@ -202,6 +205,8 @@ public class ComicsUI : MonoBehaviour
 
     IEnumerator CloseComicMenu()
     {
+        UpdateStatsUIEvent?.Invoke();
+
         //Play SFX
         if (sFXManager != null && comicMenuOpenCloseSFX.Length > 0)
         {

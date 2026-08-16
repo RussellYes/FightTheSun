@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine.UI;
 public class MiningUpgradeUI : MonoBehaviour
 {
     private SFXManager sFXManager;
+
+    public static event Action UpdateStatsUIEvent;
+
 
     [Header("UI References")]
     [SerializeField] private Button openStoreButton;
@@ -65,6 +69,7 @@ public class MiningUpgradeUI : MonoBehaviour
         storeHolder.SetActive(false);
         PlayOpenCloseSFX();
         StartCoroutine(CloseStoreLerp());
+        UpdateStatsUIEvent?.Invoke();
     }
 
     IEnumerator OpenStoreLerp()
@@ -107,7 +112,7 @@ public class MiningUpgradeUI : MonoBehaviour
 
     private void PlayOpenCloseSFX()
     {
-        AudioClip sFX = storeOpenCloseSFX[Random.Range(0, storeOpenCloseSFX.Length)];
+        AudioClip sFX = storeOpenCloseSFX[UnityEngine.Random.Range(0, storeOpenCloseSFX.Length)];
 
         if (sFXManager != null)
         {
